@@ -10,7 +10,15 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Member {
-	
 	private String userId;
+	private String userPwd;
+	private String nickname;
+	private String phone;
+	private int age;
+	private String gender;
+	private String profieImg;
+	private String enrollDate;
+	private String kakaoLogin;
+	private String status;
 
 }
