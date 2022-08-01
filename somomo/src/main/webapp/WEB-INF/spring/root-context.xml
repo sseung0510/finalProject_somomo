@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- 
+		*root-context.xml
+		서버 구동과 동시에 web.xml파일을 거쳐서 바로 로딩되는 문서 == preloading
+		=> 서버구동과 동시에 바로 셋팅(bean으로 등록)해야하는 내용들을 작성하면 됨
+	 -->
+	
+	<!-- DB연결 설정 3단계 -->	
+	<!-- 1단계. DB연결을 위한 도구 설정 -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
+		<!-- 어느 DB에 접속할건지 지정 -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="somomo" />
+		<property name="password" value="somomo" />
+	</bean>
+	<!-- 
+		객체가 필요할 때마다 내부적으로 실행되는 코드
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+		dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		dataSource.setUsername("spring");
+		dataSource.setPassword("spring");
+	 -->
+	
+	<!-- 2단계. Mybatis Spring에서 제공하는 SQL명령을 실행을 위한 도구 등록 -->	
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<!-- Mybatis설정파일의 위치를 설정(src/main/resources)하여 설정값들을 가져오겠다 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		
+		<!-- 어떤 디비에 연결할건지 연결을 위한 도구를 참조설정 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 
+		객체가 필요할 때마다 내부적으로 이 코드가 실행됨
+		SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+		sqlSessionFactory.setConfigLocation("classpath:mybatis-config.xml");
+		sqlSessionFactory.setDataSource(dataSource);
+	 -->
+	
+	<!-- 3단계. SQL구문 실행을 위한 템플릿을 제공하는 도구 등록 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<!-- sQL명령어 실행을 위한 도구에 대한 참조 설정 -->
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	
+	<!-- 
+		객체가 필요할 때마다 내부적으로 이 코드가 실행됨
+		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory)
+	 -->	
+	
+	<!-- 
+		property : setter주입
+		constructor-arg : 생성자 주입
+	 -->
+	
+	<!-- 파일 업로드 관련 빈 등록 -->
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>
+		
+</beans>

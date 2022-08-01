@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<typeAliases>
+
+	</typeAliases>
+	<!-- 유의사항 : 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야함 -->
+	
+	
+	
+	<!-- 
+		environments dataSource에 기술했던 DB연결정보 -> root-context.xml에 기술할 것
+		=> DB등록정보는 서버 연동과 동시에 이루어져야하기 때문에
+		서버켜짐과 동시에 바로 읽혀지는 파일인  root-context.xml문서에 기술할 예정
+	 -->
+
+
+	<mappers>
+
+	</mappers>
+	<!-- 유의사항 : 미리 등록해두려면 해당 mapper파일이 진짜 존재하고 있어야함 (namespace까지) -->
+	
+
+</configuration>
