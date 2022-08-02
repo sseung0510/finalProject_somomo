@@ -16,7 +16,7 @@
 		<typeAlias type="com.kh.somomo.feed.model.vo.FeedLikes" alias="feedLikes" />
 		<typeAlias type="com.kh.somomo.feed.model.vo.FeedReply" alias="feedReply" />
 		
-		<typeAlias type="com.kh.somomo.group.model.vo.Group" alias="group" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupRoom" alias="groupRoom" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupAttachment" alias="groupAttachment" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupBoard" alias="groupBoard" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupCalendar" alias="groupCalendar" />

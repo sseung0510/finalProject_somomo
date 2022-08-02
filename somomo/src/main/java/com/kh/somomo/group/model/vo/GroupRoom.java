@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Group {
+public class GroupRoom {
 
 	// 테이블 : GROUP (그룹방)
 	private int groupNo;

@@ -15,6 +15,7 @@ public class GroupJoinApply {
 	private int applyNo;
 	private int groupNo;
 	private String userId;
-	private String comment;
+	private String greeting;
+	private String applyDate;
 	private String status;
 }

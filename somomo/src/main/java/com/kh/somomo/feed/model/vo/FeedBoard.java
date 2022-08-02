@@ -21,8 +21,8 @@ public class FeedBoard {
 	private int count;
 	private String boardDate;
 	private String meetPlace;
-	private String longitude;
 	private String latitude;
+	private String longitude;
 	private String meetDate;
 	private String meetTotal;
 	private String meetGender;

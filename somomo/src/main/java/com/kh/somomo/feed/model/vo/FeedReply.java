@@ -16,8 +16,8 @@ public class FeedReply {
 	private int boardNo;
 	private String replyWriter;
 	private String replyContent;
-	private int group; // 이부분 rGroup 으로 하면 롬복 사용시 에러 발생할 수 있어 필드명 살짝 수정합니다.
-	private int depth; // 이부분 rGroup 으로 하면 롬복 사용시 에러 발생할 수 있어 필드명 살짝 수정합니다.
+	private int rgroup; // 이부분 rGroup 으로 하면 롬복 사용시 에러 발생할 수 있어 필드명 살짝 수정합니다.
+	private int rdepth; // 이부분 rGroup 으로 하면 롬복 사용시 에러 발생할 수 있어 필드명 살짝 수정합니다.
 	private String replyDate;
 	private String status;
 }
