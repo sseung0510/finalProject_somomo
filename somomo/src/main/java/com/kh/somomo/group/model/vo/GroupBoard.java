@@ -15,6 +15,7 @@ public class GroupBoard {
 	private int boardNo;
 	private int groupNo;
 	private String boardWriter;
+	private String calendarNo;
 	private String boardTitle;
 	private String boardContent;
 	private String createDate;

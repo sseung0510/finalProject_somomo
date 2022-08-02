@@ -14,6 +14,7 @@ public class GroupRoom {
 	// 테이블 : GROUP (그룹방)
 	private int groupNo;
 	private int regionNo;
+	private int categoryNo;
 	private String groupName;
 	private String groupImg;
 	private String groupDetail;

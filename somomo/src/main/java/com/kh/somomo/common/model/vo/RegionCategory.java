@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LocalCategory {
+public class RegionCategory {
 
 	// 테이블 : LOCAL_CATEGORY (지역카테고리)
 	private int regionNo;
