@@ -80,7 +80,7 @@
 
                 <ul class="logout-mode">
                     <li>
-                        <a href="#">
+                        <a href="logout.me">
                             <i class="uil uil-signout"></i>
                             <span class="link-name">Logout</span>
                         </a>
@@ -119,7 +119,7 @@
                     <ul class="profile-link">
                         <li><a href=""><i class="uil uil-user-circle"></i> 프로필</a></li>
                         <li><a href=""><i class="uil uil-setting"></i> Settings</a></li>
-                        <li><a href=""><i class="uil uil-signout"></i> 로그아웃</a></li>
+                        <li><a href="logout.me"><i class="uil uil-signout"></i> 로그아웃</a></li>
                     </ul>
                 </i>
             </div>

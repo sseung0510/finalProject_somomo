@@ -15,6 +15,7 @@ public class Member {
 	private String nickname;
 	private String phone;
 	private int age;
+	private String email;
 	private String gender;
 	private String profieImg;
 	private String enrollDate;
