@@ -43,7 +43,7 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("main");
 		} else {
-			mv.setViewName("member/memberenrollForm");
+			mv.setViewName("member/memberEnrollForm");
 		}
 		return mv;
 	}
