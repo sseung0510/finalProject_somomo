@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: chohanwool
 Build-Jdk: 11.0.15
+=======
+Built-By: ￬ﾜﾤ￬ﾞﾐ￬ﾛﾐ
+Build-Jdk: 1.8.0_302
+>>>>>>> fcf8a7af94c248884c9fe541ea895e5904e3d6b9
 Created-By: Maven Integration for Eclipse
 
