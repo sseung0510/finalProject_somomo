@@ -1,0 +1,165 @@
+/* ===== 구글 폰트 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito",sans-serif;
+}
+
+:root{
+     /*====== 색상 미리 설정 ========  */
+     /*====== 색상 추가하고 싶으면 여기에 추가하고 쓰자 ======= */
+
+    --blue-color: #0E4BF1;
+    --white-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --grey-color : #dfdfdf;
+    --border-color: #e6e5e5;
+    --toggle-color: #DDD;
+    --title-icon-color: #fff;
+    --community-text-color: #030303;
+    --theme-color : #FEC8C6;
+    
+    /* ====== 트랜지션 ====== */
+    --tran-07: all 0.7s ease;
+    --tran-05: all 0.5s ease;
+    --tran-03: all 0.3s ease;
+    --tran-02: all 0.2s ease;
+}
+
+body{
+    min-height: 100vh;
+}
+
+ul{
+    list-style:none;
+    padding-left:0px;
+}
+
+a {
+    text-decoration: none;
+}
+a { text-decoration: none; color: black; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:focus { text-decoration: none; }
+a:hover, a:active { text-decoration: none; }
+
+button:hover{
+    cursor: pointer;
+}
+/* 여기까지 default.css 나 style.css 로 빼고 아래는 페이지마다 각 적용하는 느낌 */
+
+main{
+    /* background-color: #F7F8F9; */
+    background-color: white;
+}
+
+section{
+    height: 100vh;
+    margin: 0 20%;
+    padding-top: 60px;
+    /* background-color: #F7F8F9;  */
+    background-color: white;
+}
+
+#groupName{
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid var(--black-light-color);
+    font-size: 30px;
+    /* background-color: #F7F8F9;  */
+    background-color: white;
+    outline: none;
+}
+
+#groupName:hover{
+    border-bottom: 1px solid black;
+}
+
+.img-sheet{
+    display: flex;
+    margin-top: 30px;
+
+}
+
+.main-img img{
+    width: 300px;
+    height: 225px;
+    border-radius: 10px;
+}
+
+.img-list{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    justify-content: space-between;
+}
+
+.img-list .list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.list img{
+    width: 120px;
+    height: 100px;
+    margin: 0 6px;
+    border-radius: 10px;
+}
+
+.groupDesc-sheet{
+    margin-top: 30px;
+}
+
+.groupDesc-sheet textarea{
+    border-radius: 10px;
+    width: 100%;
+    height: 100px;
+    resize: none;
+    outline: none;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.groupType-sheet{
+    margin-top: 30px;
+}
+
+.groupType-sheet .content{
+    display: flex;
+    flex-direction: row;
+}
+
+.groupType-sheet .head{
+    margin-bottom: 10px;
+}
+
+.content-row{
+    width: 33%;
+    margin: 0px 10px;
+}
+
+.content-row div{
+    margin: 3px 0;
+}
+
+.button-area{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.button-area button{
+    margin: 0 10px;
+    width: 130px;
+    height: 40px;
+    background-color: white;
+    border: 1px solid var(--black-light-color);
+    cursor: pointer;
+}
+
