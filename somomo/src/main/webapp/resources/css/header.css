@@ -1,0 +1,218 @@
+/* ===== 구글 폰트 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito",sans-serif;
+}
+
+:root{
+     /*====== 색상 미리 설정 ========  */
+     /*====== 색상 추가하고 싶으면 여기에 추가하고 쓰자 ======= */
+
+    --blue-color: #0E4BF1;
+    --white-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --grey-color : #dfdfdf;
+    --border-color: #e6e5e5;
+    --toggle-color: #DDD;
+    --title-icon-color: #fff;
+    --community-text-color: #030303;
+    --theme-color : #FEC8C6;
+    
+    /* ====== 트랜지션 ====== */
+    --tran-07: all 0.7s ease;
+    --tran-05: all 0.5s ease;
+    --tran-03: all 0.3s ease;
+    --tran-02: all 0.2s ease;
+}
+
+body{
+    min-height: 100vh;
+}
+
+ul{
+    list-style:none;
+    padding-left:0px;
+}
+
+a {
+    text-decoration: none;
+}
+a { text-decoration: none; color: black; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:focus { text-decoration: none; }
+a:hover, a:active { text-decoration: none; }
+
+button:hover{
+    cursor: pointer;
+}
+/* 여기까지 default.css 나 style.css 로 빼고 아래는 페이지마다 각 적용하는 느낌 */
+
+
+/* ======================= 헤더 CSS ==================== */
+.wrapper{
+    position: sticky;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--white-color);
+}
+
+header{
+    /* width: 100%; */
+    display: flex;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    margin: 0 10%;
+}
+
+header .logo-name{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+header .logo-image{
+    display: flex;
+    justify-content: center;
+    min-width: 45px;
+}
+header .logo-image img{
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+header .logo-name .logo_name{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-left: 14px;
+}
+
+.top{
+    margin-left: 130px;
+    width: 500px;
+}
+
+.search-box{
+    position: relative;
+    height: 45px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 30px;
+    
+}
+.search-box input{
+    position: absolute;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    padding: 0 25px 0 50px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 400;
+    outline: none;
+}
+.search-box i{
+    position: absolute;
+    left: 15px;
+    font-size: 22px;
+    z-index: 10;
+    top: 25%;
+    color: var(--black-light-color);
+}
+
+.menu-list{
+    display: flex;
+    position: relative;
+    left: 100px;
+    align-items: center;
+}
+
+.menu-list i{
+    font-size: 30px;
+    margin: 0 15px;
+}
+
+/* ----- 왼쪽 사이드 바 ------ */
+nav{
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    margin-left: 10%;
+    border-right: 1px solid var(--border-color);
+}
+
+nav>div{
+    padding: 10px;
+}
+
+.nav-col h2{
+    margin-bottom: 5px;
+    color: var(--black-light-color);
+}
+
+.nav-col-group{
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    color: var(--black-light-color);
+}
+
+.nav-col-group:hover{
+    background-color: var(--theme-color);
+    cursor: pointer;
+    color: white;
+}
+
+.create-newGroup{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--theme-color);
+}
+
+.create-newGroup a{
+    color: white;
+}
+.create-newGroup:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.horizontal{
+    margin: 10px 0;
+    background-color: var(--border-color);
+    height: 1px;
+}
+
+.nav-col img{
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.nav-col div{
+    display: flex;
+    align-items: center;
+}
+
+.nav-col div:hover{
+    background-color: var(--theme-color);
+    border-radius: 10px;
+    color: white;
+    transition: var(--tran-02);
+}
+
+.nav-col div span{
+    margin-left: 10px;
+}

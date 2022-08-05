@@ -281,15 +281,11 @@ nav.close ~ .main-content .top{
     width: 45%;
     padding: 70px 14px 0 14px;
     transition: var(--tran-05);
-
 }
 
 nav.close ~ .main-content .main-feed{
     width: 50%;
 }
-
-
-
 
 
 
