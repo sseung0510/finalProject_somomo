@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: ￬ﾜﾤ￬ﾞﾐ￬ﾛﾐ
-Build-Jdk: 1.8.0_302
+Built-By: chohanwool
+Build-Jdk: 11.0.15
 Created-By: Maven Integration for Eclipse
 
