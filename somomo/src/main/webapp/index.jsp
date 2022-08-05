@@ -11,6 +11,6 @@
 		<title>소모모 - 소소한 모임 모여라!</title>
 	</head>
 	<body>
-		<jsp:include page="WEB-INF/views/main.jsp"></jsp:include>
+		<jsp:include page="WEB-INF/views/member/login.jsp"></jsp:include>
 	</body>
 </html>
