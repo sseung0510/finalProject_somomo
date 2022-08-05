@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.kh.somomo.chat.model.vo.Chat" alias="chat" />
+		<typeAlias type="com.kh.somomo.chat.model.vo.ChatMember" alias="chatMember" />
+		<typeAlias type="com.kh.somomo.chat.model.vo.ChatRoom" alias="chatRoom" />
+		
+		<typeAlias type="com.kh.somomo.feed.model.vo.FeedAttachment" alias="feedAttachment" />
+		<typeAlias type="com.kh.somomo.feed.model.vo.FeedBoard" alias="feedBoard" />
+		<typeAlias type="com.kh.somomo.feed.model.vo.FeedLikes" alias="feedLikes" />
+		<typeAlias type="com.kh.somomo.feed.model.vo.FeedReply" alias="feedReply" />
+		
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupRoom" alias="groupRoom" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupAttachment" alias="groupAttachment" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupBoard" alias="groupBoard" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupCalendar" alias="groupCalendar" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupJoinApply" alias="groupJoinApply" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupLikes" alias="groupLikes" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupMember" alias="groupMember" />
+		<typeAlias type="com.kh.somomo.group.model.vo.GroupReply" alias="groupReply" />
+		
+		<typeAlias type="com.kh.somomo.member.model.vo.Member" alias="member" />
+	</typeAliases>
+	<!-- 유의사항 : 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야함 -->
+	
+	
+	
+	<!-- 
+		environments dataSource에 기술했던 DB연결정보 -> root-context.xml에 기술할 것
+		=> DB등록정보는 서버 연동과 동시에 이루어져야하기 때문에
+		서버켜짐과 동시에 바로 읽혀지는 파일인  root-context.xml문서에 기술할 예정
+	 -->
+
+
+	<mappers>
+ 		<mapper resource="/mappers/member-mapper.xml"/>
+	 	<mapper resource="/mappers/chat-mapper.xml"/>
+	 	<mapper resource="/mappers/feed-mapper.xml"/>
+	 	<mapper resource="/mappers/group-mapper.xml"/>
+	</mappers>
+	<!-- 유의사항 : 미리 등록해두려면 해당 mapper파일이 진짜 존재하고 있어야함 (namespace까지) -->
+	
+
+</configuration>

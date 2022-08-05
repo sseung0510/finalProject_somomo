@@ -1,0 +1,376 @@
+@charset "UTF-8";
+/* ===== 구글 폰트 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito",sans-serif;
+}
+
+:root{
+     /*====== 색상 미리 설정 ========  */
+     /*====== 색상 추가하고 싶으면 여기에 추가하고 쓰자 ======= */
+
+    --blue-color: #0E4BF1;
+    --white-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --grey-color : #dfdfdf;
+    --border-color: #e6e5e5;
+    --toggle-color: #DDD;
+    --title-icon-color: #fff;
+    --community-text-color: #030303;
+    
+    /* ====== 트랜지션 ====== */
+    --tran-07: all 0.7s ease;
+    --tran-05: all 0.5s ease;
+    --tran-03: all 0.3s ease;
+    --tran-02: all 0.2s ease;
+}
+
+body{
+    min-height: 100vh;
+}
+
+ul{
+    list-style:none;
+    padding-left:0px;
+}
+
+a {
+    text-decoration: none;
+}
+   
+
+
+/* ======================= 왼쪽 사이드 바 CSS ==================== */
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    border-right: 1px solid var(--border-color);
+    transition: var(--tran-05);
+    margin-left: 10%;
+}
+
+/* 자바스크립트에서 close 클래스 추가해 주므로 close 추가적용했을 때 CSS 꾸미기*/
+
+nav.close{
+    width: 73px;
+}
+nav .logo-name{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+nav .logo-image{
+    display: flex;
+    justify-content: center;
+    min-width: 45px;
+}
+nav .logo-image img{
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+nav .logo-name .logo_name{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-left: 14px;
+    transition: var(--tran-05);
+}
+nav.close .logo_name{
+    opacity: 0;
+    pointer-events: none;
+}
+
+nav .menu-items{
+    margin-top: 40px;
+    height: calc(100% - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.menu-items li{
+    list-style: none;
+}
+.menu-items li a{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    position: relative;
+}
+
+.menu-items .community {
+    border-top: 1px solid var(--border-color);
+}
+
+.menu-items li a i{
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color);
+}
+.menu-items li a .link-name{
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--black-light-color);    
+    transition: var(--tran-05);
+}
+nav.close li a .link-name{
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+.menu-items li img {
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color);
+}
+
+.menu-items li a .community-name{
+    margin-left: 25px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--community-text-color);    
+    transition: var(--tran-05);
+    font-family: "Roboto","Arial",sans-serif;
+}
+
+
+
+/* ====== 왼쪽 사이드 바 아이콘 HOVER ====== */
+
+
+.nav-links li a:hover i,
+.nav-links li a:hover .link-name{
+    color: var(--blue-color);
+}
+
+.menu-items .logout-mode{
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ================================ 왼쪽 사이드 바 끝 ===================== */
+
+
+/* ================================ 메인 컨텐츠 =========================== */
+
+.main-content{
+    margin: 0 10%;
+    position: relative;
+    left: 250px;
+    background-color: var(--white-color);
+    min-height: 100vh;
+    width: calc(100% - 250px);
+    padding: 10px 14px;
+    transition: var(--tran-05);
+}
+nav.close ~ .main-content{
+    left: 73px;
+    width: calc(100% - 73px);
+}
+
+/* ==================== 상단 바 =================== */
+
+
+.main-content .top{
+    margin-left: 11%;
+    position: fixed;
+    top: 0;
+    left: 250px;
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    transition: var(--tran-05);
+    z-index: 10;
+}
+
+nav.close ~ .main-content .top{
+    left: 73px;
+    width: 43%;
+}
+
+.main-content .top .sidebar-toggle{
+    font-size: 26px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.top .user-icon {
+    font-size: 26px;
+    color: var(--text-color);
+    cursor: pointer;
+
+}
+.main-content .top .search-box{
+    position: relative;
+    height: 45px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 30px;
+    
+}
+.top .search-box input{
+    position: absolute;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    padding: 0 25px 0 50px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 400;
+    outline: none;
+}
+.top .search-box i{
+    position: absolute;
+    left: 15px;
+    font-size: 22px;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-55%);
+    color: var(--black-light-color);
+}
+
+
+.top img{
+    width: 40px;
+}
+
+/* ==================== 상단 바  끝=================== */
+
+
+
+
+
+
+
+
+
+
+/* ===================== 메인 피드 ==================*/
+.main-content .main-feed {
+    margin: 0 5%;
+    position: relative;
+    background-color: var(--white-color);
+    min-height: 100vh;
+    width: 45%;
+    padding: 70px 14px 0 14px;
+    transition: var(--tran-05);
+}
+
+nav.close ~ .main-content .main-feed{
+    width: 50%;
+}
+
+
+
+
+/* ===================== 메인 피드 끝 ==================*/
+
+
+
+
+
+
+/* ================오른쪽 사이드 바================= */
+
+.right-sidebar {
+    position: fixed;
+    top: 0;
+    right : 0;
+    height: 100%;
+    width: 450px;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    transition: var(--tran-05);
+    margin-right: 10%;
+}
+
+.right-top {
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    margin: 0 20%;
+}
+
+.right-sidebar .right-top i {
+    font-size: 30px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.profile {
+    position: relative;
+}
+
+.profile .profile-link{
+    position: absolute;
+   
+    right: 0;
+    background-color: var(--white-color);
+    padding: 10px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: var( --tran-03);
+}
+
+.profile .profile-link.show{
+    opacity: 1;
+    pointer-events: visible;
+    top: 100%;
+}
+
+.profile .profile-link li{
+    font-style:normal;
+}
+
+.profile .profile-link a{
+    padding: 10px 16px;
+    display: flex;
+    grid-gap: 10px;
+    font-size: 14px;
+    color: var(--text-color);
+    align-items: center;
+    transition: var( --tran-03);
+}
+
+.profile .profile-link a:hover{
+    background-color: var(--grey-color);
+}
+
+
+/* ================오른쪽 사이드 바 끝================= */
