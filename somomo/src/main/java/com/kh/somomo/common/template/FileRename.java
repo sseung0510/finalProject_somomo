@@ -12,9 +12,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileRename {
 
-	// 파일 원본명, 수정명 반환
+	/*
+	 * **** 파일 원본명, 수정명(경로+파일수정명) 반환 ****
+	 * 필요 변수 : 저장할 파일, 세션, 파일경로명(/resources/이후에 들어갈 이름)
+	 * 
+	 * 원본 파일명 star.jpg 이고 파일경로명으로 somomoUpFiles 보내줬을 경우
+	 * ex) HashMap<String, String> result = FileRename.saveFile(upfile, session, "somomoUpFiles");
+	 * 
+	 * 반환 값 : [originName=star.jpg, changeName=resources/somomoUpFiles/somomo_20220803111150_12345.jpg]
+	 * result.get("originName") // star.jpg
+	 * result.get("changeName") // resources/somomoUpFiles/somomo_20220803111150_12345.jpg
+	 */
 	public static HashMap<String, String> saveFile(MultipartFile upfile, HttpSession session, String filePathName) {
-		
+
 		HashMap<String, String> map = new HashMap<>();
 		
 		// 파일 수정명 샘플
