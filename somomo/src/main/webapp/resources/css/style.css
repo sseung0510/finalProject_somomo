@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* ===== 구글 폰트 ===== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 *{
@@ -21,6 +20,7 @@
     --toggle-color: #DDD;
     --title-icon-color: #fff;
     --community-text-color: #030303;
+    --theme-color : #FEC8C6;
     
     /* ====== 트랜지션 ====== */
     --tran-07: all 0.7s ease;
@@ -41,7 +41,15 @@ ul{
 a {
     text-decoration: none;
 }
-   
+a { text-decoration: none; color: black; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:focus { text-decoration: none; }
+a:hover, a:active { text-decoration: none; }
+
+button:hover{
+    cursor: pointer;
+}
 
 
 /* ======================= 왼쪽 사이드 바 CSS ==================== */
@@ -147,12 +155,14 @@ nav.close li a .link-name{
 }
 
 .menu-items li a .community-name{
-    margin-left: 25px;
+    position: fixed;
+    margin-left: 57px;
     font-size: 16px;
     font-weight: 400;
     color: var(--community-text-color);    
     transition: var(--tran-05);
     font-family: "Roboto","Arial",sans-serif;
+   
 }
 
 
@@ -181,13 +191,13 @@ nav.close li a .link-name{
     left: 250px;
     background-color: var(--white-color);
     min-height: 100vh;
-    width: calc(100% - 250px);
     padding: 10px 14px;
+    width: 55%;
     transition: var(--tran-05);
 }
 nav.close ~ .main-content{
     left: 73px;
-    width: calc(100% - 73px);
+    width: 70%;
 }
 
 /* ==================== 상단 바 =================== */
@@ -210,7 +220,8 @@ nav.close ~ .main-content{
 
 nav.close ~ .main-content .top{
     left: 73px;
-    width: 43%;
+    width: 53%;
+    margin-right: 0;
 }
 
 .main-content .top .sidebar-toggle{
@@ -228,7 +239,7 @@ nav.close ~ .main-content .top{
 .main-content .top .search-box{
     position: relative;
     height: 45px;
-    max-width: 600px;
+    max-width: 800px;
     width: 100%;
     margin: 0 30px;
     
@@ -274,18 +285,43 @@ nav.close ~ .main-content .top{
 
 /* ===================== 메인 피드 ==================*/
 .main-content .main-feed {
-    margin: 0 5%;
+    margin: 50px 5% 0 8%;
     position: relative;
-    background-color: var(--white-color);
     min-height: 100vh;
-    width: 45%;
-    padding: 70px 14px 0 14px;
+    width: 65%;
+    padding-top: 70px;
     transition: var(--tran-05);
+    z-index: 5;
 }
 
 nav.close ~ .main-content .main-feed{
-    width: 50%;
+    width: 70%;
+    margin-left: 5%;
 }
+
+.write-post-contatiner{
+    width: 100%;
+    background: #fff;
+    border-radius: 6px;
+    padding: 20px;
+    columns:#626262;
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, .1);
+
+}
+
+.feed-profile {
+    display: flex;
+    align-items: center;
+
+}
+
+.feed-profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
 
 
 
@@ -304,7 +340,7 @@ nav.close ~ .main-content .main-feed{
     top: 0;
     right : 0;
     height: 100%;
-    width: 450px;
+    width: 400px;
     padding: 10px 14px;
     background-color: var(--white-color);
     transition: var(--tran-05);
@@ -332,11 +368,11 @@ nav.close ~ .main-content .main-feed{
 
 .profile {
     position: relative;
+    cursor: pointer;
 }
 
 .profile .profile-link{
     position: absolute;
-   
     right: 0;
     background-color: var(--white-color);
     padding: 10px 0;
@@ -345,13 +381,13 @@ nav.close ~ .main-content .main-feed{
     width: 160px;
     opacity: 0;
     pointer-events: none;
-    transition: var( --tran-03);
 }
 
 .profile .profile-link.show{
     opacity: 1;
     pointer-events: visible;
     top: 100%;
+    transition: var( --tran-03);
 }
 
 .profile .profile-link li{
@@ -372,5 +408,98 @@ nav.close ~ .main-content .main-feed{
     background-color: var(--grey-color);
 }
 
-
 /* ================오른쪽 사이드 바 끝================= */
+
+
+
+
+
+
+/* ============== 미디어 쿼리 ======================== */
+
+@media only screen and (max-width: 600px) {
+    nav{
+        margin: 0;
+        width: 100%;
+       
+    }
+
+    nav.close {
+        width: 100%;
+        z-index: 10;
+    }
+
+    nav.close li a .link-name {
+        opacity: 1;
+        pointer-events: none;
+    }
+
+    .main-content {
+       left: 0;
+       margin: 0;
+       padding: 0;
+       width: 100%;
+    }
+
+    nav.close ~ .main-content .top {
+        
+        position: fixed;
+        left: 73px;
+        width: 88%;
+        margin-right: 0;
+    }
+
+    nav.close ~ .main-content {
+        left: 73px;
+        width: 88%;
+    }
+    
+    .main-content .top {
+        top: 0;
+        left: 0;
+        margin: 0;
+        width: 100%;
+        position: fixed;
+     }
+
+     .main-content .main-feed {
+        margin: 0px;
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        padding-top: 70px;
+        transition: var(--tran-05);
+        z-index: 5;
+    }
+    
+
+    nav.close~ .main-content .top .search-box {
+        position: relative;
+        height: 45px;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 30px;
+        display: none;
+    }
+
+ 
+
+
+    nav.close ~ .main-content .main-feed {
+        width: 95%;
+        margin-left: 0%;
+        display: none;
+    }
+
+    .right-sidebar {
+        display: none;
+    }
+  }
+
+
+  @media only screen and (max-width: 964px) {
+
+    .right-sidebar {
+        display: none;
+    }    
+  }

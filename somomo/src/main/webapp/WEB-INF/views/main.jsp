@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <!----------- CSS --------------->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css?version=1.0.0">
         <!----------- 아이콘 CSS 링크 ------->
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
         <!----------- 아이콘 CSS 링크 version 2------->
@@ -21,7 +21,7 @@
                 <div class="logo-image">
                     <img src="${pageContext.request.contextPath}/resources/img/web_logo.jpg" alt="peach">
                 </div>
-
+ 
                 <span class="logo_name">SoMoMo</span>
             </div>
 
