@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+  	<resultMap type="member" id="memberResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="USER_PWD" property="userPwd"/>
+		<result column="NICKNAME" property="nickname"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<result column="AGE" property="age"/>
+		<result column="GENDER" property="gender"/>
+		<result column="PROFILE_IMG" property="profileImg"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="KAKAO_LOGIN" property="kakaoLogin"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+
+	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
+		SELECT
+			   USER_ID,
+			   USER_PWD,
+			   NICKNAME,
+			   PHONE,
+		 	   AGE,
+		 	   EMAIL,
+			   GENDER,
+			   PROFILE_IMG,
+			   ENROLL_DATE,
+			   KAKAO_LOGIN,
+			   STATUS
+		  FROM MEMBER 
+		 WHERE USER_ID = #{userId}
+	</select>
+	
+	<insert id="insertMember" parameterType="member">
+		INSERT
+		  INTO MEMBER
+		  	  	(
+		  	  	USER_ID,
+				USER_PWD,
+				NICKNAME,
+				PHONE,
+				EMAIL,
+				AGE,
+				GENDER
+		  	  	)
+		VALUES
+			   (
+			   #{userId},
+			   #{userPwd},
+			   #{nickname},
+			   #{phone},
+			   #{email},
+			   #{age},
+			   #{gender}
+			   )
+	</insert>
+	
+	<select id="idCheck" resultType="_int"> 
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE USER_ID = #{checkId}
+	</select>	
+
+	<select id="NickNameCheck" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE NICKNAME = #{nickname}
+	</select>
+</mapper>

@@ -28,22 +28,22 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		
 		/*
-		System.out.println(loginUser);
-		if(loginUser != null) {
-			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("common/mainFeed");
-		}else {
-			mv.setViewName("member/memberenrollForm");
-		}
-		return mv;
-		*/
+	      System.out.println(loginUser);
+	      if(loginUser != null) {
+	         session.setAttribute("loginUser", loginUser);
+	         mv.setViewName("common/mainFeed");
+	      }else {
+	         mv.setViewName("member/memberenrollForm");
+	      }
+	      return mv;
+	      */
 		Member loginUser = memberService.loginMember(m);
 		//System.out.println(loginUser);
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("main");
 		} else {
-			mv.setViewName("member/memberenrollForm");
+			mv.setViewName("member/memberEnrollForm");
 		}
 		return mv;
 	}

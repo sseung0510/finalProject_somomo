@@ -1,0 +1,869 @@
+/* ===== 구글 폰트 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito",sans-serif;
+}
+
+:root{
+     /*====== 색상 미리 설정 ========  */
+     /*====== 색상 추가하고 싶으면 여기에 추가하고 쓰자 ======= */
+
+    --blue-color: #0E4BF1;
+    --white-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --grey-color : #dfdfdf;
+    --border-color: #e6e5e5;
+    --toggle-color: #DDD;
+    --title-icon-color: #fff;
+    --community-text-color: #030303;
+    --theme-color : #FEC8C6;
+    
+    /* ====== 트랜지션 ====== */
+    --tran-07: all 0.7s ease;
+    --tran-05: all 0.5s ease;
+    --tran-03: all 0.3s ease;
+    --tran-02: all 0.2s ease;
+}
+
+body{
+    min-height: 100vh;
+}
+
+ul{
+    list-style:none;
+    padding-left:0px;
+}
+
+a {
+    text-decoration: none;
+}
+a { text-decoration: none; color: black; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:focus { text-decoration: none; }
+a:hover, a:active { text-decoration: none; }
+
+button:hover{
+    cursor: pointer;
+}
+/* 여기까지 default.css 나 style.css 로 빼고 아래는 페이지마다 각 적용하는 느낌 */
+
+
+/* ======================= 헤더 CSS ==================== */
+.wrapper{
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1;
+}
+
+header{
+    display: flex;
+    width: 100%;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    margin: 0 10%;
+    
+}
+
+header .logo-name{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+header .logo-image{
+    display: flex;
+    justify-content: center;
+    min-width: 45px;
+}
+header .logo-image img{
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+header .logo-name .logo_name{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-left: 14px;
+}
+
+.top{
+    margin-left: 130px;
+    width: 500px;
+}
+
+.search-box{
+    position: relative;
+    height: 45px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 30px;
+    
+}
+.search-box input{
+    position: absolute;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    padding: 0 25px 0 50px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 400;
+    outline: none;
+}
+.search-box i{
+    position: absolute;
+    left: 15px;
+    font-size: 22px;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-55%);
+    color: var(--black-light-color);
+}
+
+.menu-list{
+    display: flex;
+    position: relative;
+    left: 100px;
+    align-items: center;
+}
+
+.menu-list li{
+    margin: 0 10px;
+    font-size: 15px;
+}
+
+.menu-list i{
+    font-size: 30px;
+    margin: 0 15px;
+}
+
+/* ======================= 메인컨텐츠 헤더 CSS ==================== */
+
+
+.main-section{
+    margin: 0 10%;
+    height: 110vh;
+    background-color: #f2f2f2;
+    display: flex;
+    
+}
+.main-header-container{
+    position: fixed;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    background-color: #e9dbdb;
+    z-index: 10;
+}
+
+.main-header {
+    top: 0;
+    width: 50%;
+    background-color: #e9dbdb;
+    margin: auto;
+    height: 100%;
+}
+
+.main-header .main-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 15%;
+}
+
+
+/* ============== 헤더 Hover CSS ============= */
+
+
+.main-header-bar li{
+  list-style: none;
+  margin: 0 12px;
+}
+.main-header-bar li a{
+  position: relative;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 0;
+  text-decoration: none;
+}
+.main-header-bar li a:before{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--white-color);
+  border-radius: 12px;
+  transition: all 0.4s ease;
+
+}
+.main-header-bar li a:hover{
+    color: var(--white-color);
+  }
+
+.main-header-bar li a:hover:before{
+    width: 100%;
+  }
+  .main-header-bar li.forward a:before{
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease;
+  }
+  .main-header-bar li.forward a:hover:before{
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+
+/* ======================= 메인컨텐츠 왼쪽 CSS ==================== */
+
+.main-left {
+    width: 22%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: 10px;
+    margin-top: 40px;
+    position: fixed;
+}
+
+
+.group-profile {
+    position: relative;
+    width: 100%;
+    border-radius: 25px;
+    padding: 20px 30px 30px 30px;
+    background: var(--white-color);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    overflow: hidden;
+  }
+  .group-profile .main-images{
+    position: relative;
+    height: 210px;
+  }
+  .group-profile .main-images img{
+    position: absolute;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    top: -5px;
+    opacity: 5;
+    transition: opacity 0.5s ease;
+  }
+  .group-profile .profile-details .group-name{
+    font-size: 24px;
+    font-weight: 500;
+    color: #161616;
+  }
+  .group-profile .profile-details p{
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    text-align: justify;
+  }
+  .group-profile .color-price .color-option{
+    display: flex;
+    align-items: center;
+  }
+  .profile-member{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .profile-member .profile-member-number {
+    font-size: 10px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 8px;
+  }
+
+  .profile-member .profile-member-setting {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 8px;
+  }
+  
+
+  .group-profile .profile-button{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    border-radius: 25px;
+    margin-top: 30px;
+    overflow: hidden;
+  }
+  .group-profile .profile-button .button-layer{
+    position: absolute;
+    height: 100%;
+    width: 300%;
+    left: -100%;
+    background: rgb(248, 248, 248);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: var(--tran-05);
+    border-radius: 25px;
+  }
+  .group-profile .profile-button button{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgb(22, 21, 21);
+  }
+
+  
+/* ====================== 글쓰기 Modal =================== */
+
+
+.main-middle .popup-outer{
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+  transform: scale(1.2);
+  transition: opacity 0.2s 0s ease-in-out,  
+              transform 0.2s 0s ease-in-out;
+}
+.main-middle.active .popup-outer{
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.main-middle .popup-box{
+  position: relative;
+  background: var(--white-color);
+  border-radius: 12px;
+  width: 35%;
+  height: 67%;
+}
+.popup-box .close{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 24px;
+  color: #b4b4b4;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.popup-box .close:hover{
+  color: #333;
+}
+
+#editor {
+  padding: 16px 24px;
+  min-height: 350px;
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+}
+
+
+.write-form-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: 59px;
+}
+
+.write-form-header .write-form-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+}
+
+.popup-box .textarea{
+  padding: 10px;
+}
+
+.popup-box textarea{
+  min-height: 140px;
+  width: 100%;
+  resize: none;
+  outline: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 10px 10px 10px 14px;
+  font-weight: 400;
+  background: var(--white-color);
+}
+
+
+.toolbarList input {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    cursor: pointer;
+    opacity: 0!important;
+}
+
+.editor-placeholder {
+  font-size: 13px;
+  color: var(--black-light-color);
+}
+
+.toolbarList {
+  display: flex;
+}
+
+
+.toolbarList li {
+  padding: 10px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.popup-box .button{
+  display: flex;
+  justify-content: flex-end;
+}
+.popup-box .button button{
+  margin-top: 20px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+  min-width: 90px;
+  height: 34px;
+  margin-left: 2px;
+  border-radius: 6px;
+  line-height: 34px;
+  background: #474e60;
+  color: #DDD;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+#img-selector {
+  display: none;
+}
+
+#editor img {
+  width: 100%;
+  height: 400px;
+}
+
+
+
+
+/* ======================= 메인컨텐츠 중앙 CSS =================== */
+
+
+
+.main-middle{
+    width: 54%;
+    height: 100%;
+    margin-top: 45px;
+    margin-left: 28%;
+    margin-right: 0.5%;
+    background: var(--white-color);
+    padding: 20px;
+}
+
+.main-middle .write-form {
+    width: 100%;
+    background: var(--white-color);
+    border-radius: 6px;
+    padding: 20px;
+    columns:#626262;
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, .1);
+}
+
+/* ================ 관리가 첫 방 만들 때 CSS ================= */
+
+.empty-content{
+  width: 101%;
+  height: 100%;
+  background: var(--white-color);
+}
+
+
+.group-board{
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  margin-top: 20px;
+}
+
+.group-board i {
+position : absolute;
+font-size: 40px;
+left: 10px;
+top: 3px;
+}
+
+.board-text {
+  margin-top: 30px;
+  text-align: center;
+}
+.board-text h3 {
+  margin-bottom: 5px;
+}
+
+/* =================== 그룹 셋팅 CSS  ================= */
+
+.setting {
+  background: var(--white-color);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji";
+}
+.setting-title {
+    position: relative;
+    display: flex;
+    height: 61px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    border-bottom: 1px solid #f0f2f4;
+}
+
+.setting-title .setting-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: 55px;
+  padding: 10px 0;
+  border-top: 1px solid #f0f2f4;
+  text-align: left;
+  align-items: center;
+  justify-content: space-around;
+  
+}
+
+
+.setting-container .setting-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+}
+
+.setting-container .itemContent .label {
+  font-size: 14px;
+  font-weight: 400;
+  display: block;
+}
+
+.setting-container .itemContent .label-data {
+  font-size: 11px;
+}
+
+.itemSide {
+  position: relative;
+  min-width: 92px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.itemSide a {
+  border: solid 1px #e2e2e2;
+  background: #fafafa;
+  padding: 5px;
+}
+
+.delete a{
+  color: red;
+}
+
+
+
+
+
+/* ================== 게시글 CSS ================= */
+
+.feed-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.feed-profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.feed-profile .form-icon {
+  position: absolute;
+  right: 30%;
+}
+
+.postCount {
+  overflow: hidden;
+  padding: 15px 0 10px;
+  margin-top: 17px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.likeCountBtn img{
+  width: 15px;
+  height: 15px;
+}
+
+.likeCountBtn {
+  margin-right: 10px;
+}
+
+.commentCountBtn, .likeCountBtn {
+  font-size: 14px;
+}
+
+
+.postCountRight {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+
+.feed-profile .form-icon i {
+  position: relative;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+
+
+
+.commentBox .commnetWrap {
+  position: relative;
+  min-height: 67px;
+  padding: 14px 40px 14px 44px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.commnetWrap .writeInfo {
+  display: flex;
+  text-align: left;
+  overflow: hidden;
+  max-height: 18.59px;
+  font-size: 13px;
+  white-space: normal;
+  max-width: 90%;
+  padding-right: 3px;
+  font-weight: 600;
+  color: #333;
+}
+
+
+
+.commnetWrap  .writeInfo>.upProfile {
+  position: absolute;
+  left: 22px;
+  top: 15px;
+}
+
+.upProfile {
+  margin-left: -20px;
+}
+
+.upProfile .upProfileImg img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+
+.commentBox .text {
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.commentBox .twiceComment {
+  display: flex;
+  position: relative;
+  vertical-align: top;
+  margin-top: 5px;
+}
+
+.reply-replyBtn {
+  margin-left: 10px;
+}
+
+
+
+
+/* ================= 피드 DropDown ================ */
+
+.feed {
+  position: relative;
+  cursor: pointer;
+}
+
+.feed .feed-link{
+  position: absolute;
+  right: 0;
+  background-color: var(--white-color);
+  padding: 10px 0;
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+  border-radius: 10px;
+  width: 130px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.feed .feed-link.show{
+  opacity: 1;
+  pointer-events: visible;
+  top: 100%;
+  transition: var( --tran-03);
+}
+
+.feed .feed-link li{
+  font-style:normal;
+}
+
+.feed .feed-link a{
+  padding: 10px 16px;
+  display: flex;
+  grid-gap: 10px;
+  font-size: 14px;
+  color: var(--text-color);
+  align-items: center;
+  transition: var( --tran-03);
+}
+
+.feed .feed-link a:hover{
+  background-color: var(--grey-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================= 메인컨텐프 오른쪽 CSS =================== */
+
+.main-right {
+    width: 25%;
+    height: 100%;
+    background-color: #ffffff;
+    margin-top: 45px;
+}
+
+
+
+.banner {
+  position: fixed;  
+  width: 18%;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  background: var(--white-color);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  min-height: auto!important;
+}
+  
+.banner .tit {
+  height: 34px;
+  padding-left: 14px;
+  padding-right: 14px;
+  line-height: 35px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid var(--grey-color) ;
+}
+
+
+.member-profile img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.member-detail{
+  margin-left: 10px;
+}
+
+
+.banner .memberWrap {
+  position: absolute;
+  top: 18px;
+  right: 14px;
+  font-size: 12px;
+}
+.banner .memberWrap a{
+  color: rgb(245, 145, 161);
+}
+
+
+.member-list{
+  margin: 10px 0;
+}
+
+.member-profile li a{
+  display: flex;
+}
+
+.text{
+    font-size: 14px;
+    display: block;
+}
+
+.member-grade {
+  font-size: 12px;
+}
