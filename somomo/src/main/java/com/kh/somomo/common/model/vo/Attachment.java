@@ -1,4 +1,4 @@
-package com.kh.somomo.feed.model.vo;
+package com.kh.somomo.common.model.vo;
 
 import lombok.Getter;
 
@@ -10,9 +10,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FeedAttachment {
+public class Attachment {
 
-	// 테이블 : FEED_ATTACHMENT (피드첨부파일)
+	// 테이블 : FEED_ATTACHMENT, GROUP_ATTACHMENT (피드,그룹 첨부파일)
 	private int fileNo;
 	private int boardNo;
 	private String originName;

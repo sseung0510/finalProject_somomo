@@ -11,19 +11,18 @@
 		<typeAlias type="com.kh.somomo.chat.model.vo.ChatMember" alias="chatMember" />
 		<typeAlias type="com.kh.somomo.chat.model.vo.ChatRoom" alias="chatRoom" />
 		
-		<typeAlias type="com.kh.somomo.feed.model.vo.FeedAttachment" alias="feedAttachment" />
+		<typeAlias type="com.kh.somomo.common.model.vo.RegionCategory" alias="regionCategory" />
+		<typeAlias type="com.kh.somomo.common.model.vo.Attachment" alias="attachment" />
+		<typeAlias type="com.kh.somomo.common.model.vo.Likes" alias="likes" />
+		<typeAlias type="com.kh.somomo.common.model.vo.Reply" alias="reply" />
+		
 		<typeAlias type="com.kh.somomo.feed.model.vo.FeedBoard" alias="feedBoard" />
-		<typeAlias type="com.kh.somomo.feed.model.vo.FeedLikes" alias="feedLikes" />
-		<typeAlias type="com.kh.somomo.feed.model.vo.FeedReply" alias="feedReply" />
 		
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupRoom" alias="groupRoom" />
-		<typeAlias type="com.kh.somomo.group.model.vo.GroupAttachment" alias="groupAttachment" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupBoard" alias="groupBoard" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupCalendar" alias="groupCalendar" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupJoinApply" alias="groupJoinApply" />
-		<typeAlias type="com.kh.somomo.group.model.vo.GroupLikes" alias="groupLikes" />
 		<typeAlias type="com.kh.somomo.group.model.vo.GroupMember" alias="groupMember" />
-		<typeAlias type="com.kh.somomo.group.model.vo.GroupReply" alias="groupReply" />
 		
 		<typeAlias type="com.kh.somomo.member.model.vo.Member" alias="member" />
 	</typeAliases>

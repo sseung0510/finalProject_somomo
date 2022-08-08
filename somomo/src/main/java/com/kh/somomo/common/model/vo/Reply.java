@@ -1,4 +1,4 @@
-package com.kh.somomo.feed.model.vo;
+package com.kh.somomo.common.model.vo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @ToString
-public class FeedReply {
+public class Reply {
 	
-	// 테이블 : FEED_REPLY (피드댓글)
+	// 테이블 : FEED_REPLY, GROUP_REPLY (피드, 그룹 게시글 댓글)
 	private int replyNo;
 	private int boardNo;
 	private String replyWriter;
