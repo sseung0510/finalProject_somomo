@@ -41,7 +41,7 @@ public class MemberController {
 		//System.out.println(loginUser);
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:main.fd");
+			mv.setViewName("main");
 		} else {
 			mv.setViewName("member/memberEnrollForm");
 		}
