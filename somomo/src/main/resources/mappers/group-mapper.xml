@@ -1,5 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
-  
+  <resultMap id="groupResultSet" type="groupRoom">
+		<result column="GROUP_NO" property="groupNo"/>
+		<result column="REGION_NO" property="regionNo"/>
+		<result column="REGION_NAME" property="regionNo"/>
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="CATEGORY_NAME" property="categoryNo"/>
+		<result column="GROUP_NAME" property="groupName"/>
+		<result column="GROUP_IMG" property="groupImg"/>
+		<result column="GROUP_DETAIL" property="groupDetail"/>
+		<result column="GROUP_TYPE" property="groupType"/>
+		<result column="GROUP_DATE" property="groupDate"/>
+		<result column="MEMBER_COUNT" property="memberCount"/>
+		<result column="USER_RANK" property="userRank"/>
+	</resultMap>
+	
+	<resultMap id="memberResultSet" type="groupMember">
+		<result column="GROUP_NO" property="groupNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="USER_RANK" property="userRank"/>
+		<result column="NICKNAME" property="nickname"/> 
+	</resultMap>
+	
+	<select id="selectList" resultMap="groupResultSet">
+		SELECT 
+		       R.GROUP_NO, 
+		       REGION_NAME, 
+		       CATEGORY_NAME, 
+		       GROUP_NAME, 
+		       GROUP_IMG, 
+		       GROUP_DETAIL , 
+		       DECODE(GROUP_TYPE, 'A', '공개', '비공개') GROUP_TYPE, 
+		       GROUP_DATE, 
+		       COUNT(M.GROUP_NO) MEMBER_COUNT
+		  FROM 
+		       GROUP_ROOM R
+		  LEFT 
+		  JOIN 
+		       REGION_CATEGORY USING(REGION_NO)
+		  LEFT 
+		  JOIN 
+		       GROUP_CATEGORY USING(CATEGORY_NO)
+		  LEFT 
+		  JOIN 
+		       GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
+		 GROUP 
+		    BY 
+		       R.GROUP_NO, 
+		       REGION_NAME, 
+		       CATEGORY_NAME, 
+		       GROUP_DETAIL,
+		       GROUP_NAME, 
+		       GROUP_IMG, 
+		       GROUP_TYPE, 
+		       GROUP_DATE
+		 ORDER 
+		    BY GROUP_NO DESC
+	</select>
+	
+	<select id="myGroupList" parameterType="string" resultMap="groupResultSet">
+		SELECT 
+		       GROUP_NO, 
+		       GROUP_IMG, 
+		       GROUP_NAME
+		  FROM 
+		       GROUP_ROOM
+		  JOIN 
+		       GROUP_MEMBER USING(GROUP_NO)
+		 WHERE 
+		       USER_RANK = 'A'
+		   AND 
+		       USER_ID = #{userId}
+		 ORDER 
+		    BY 
+		       GROUP_NO DESC
+	</select>
+	
+	
+	<select id="myJoinList" parameterType="string" resultMap="groupResultSet">
+		SELECT 
+		       GROUP_NO, 
+		       GROUP_IMG, 
+		       GROUP_NAME 
+		  FROM 
+		       GROUP_ROOM
+  		  JOIN 
+  		       GROUP_MEMBER USING(GROUP_NO)
+ 	     WHERE 
+ 	           USER_RANK = 'M'
+   		   AND 
+   		       USER_ID = #{userId}
+ 		 ORDER 
+ 		    BY 
+ 		       GROUP_NO DESC
+	</select>
+	
+	<insert id="insertGroup" parameterType="groupRoom">
+		INSERT 
+			INTO GROUP_ROOM
+				(
+				GROUP_NO,
+				REGION_NO,
+				CATEGORY_NO,
+				GROUP_NAME,
+				GROUP_IMG,
+				GROUP_DETAIL,
+				GROUP_TYPE,
+				GROUP_DATE
+				)
+			VALUES
+				(
+				SEQ_GNO.NEXTVAL,
+				#{regionNo},
+				#{categoryNo},
+				#{groupName},
+				#{groupImg},
+				#{groupDetail},
+				#{groupType},
+				SYSDATE
+				)
+	
+	</insert>
+	
+	<insert id="insertGroupMember" parameterType="groupMember">
+		INSERT 
+			INTO GROUP_MEMBER
+				(
+				GROUP_NO,
+				USER_ID,
+				USER_RANK
+				)
+			VALUES
+				(
+				SEQ_GNO.CURRVAL,
+				#{userId},
+				#{userRank}
+				)
+	</insert>
+	
+	<insert id="insertCalendar">
+		INSERT
+		  INTO
+		       GROUP_CALENDAR
+		VALUES
+			   (
+			   SEQ_GCDNO.NEXTVAL,
+			   SEQ_GNO.CURRVAL
+			   )		 
+	</insert>
+
+	<select id="getGroupNo" resultType="int">
+		SELECT 
+		       LAST_NUMBER - 1
+	      FROM 
+	           USER_SEQUENCES
+	     WHERE 
+	           SEQUENCE_NAME = 'SEQ_GNO'
+	</select>
+	
+	<select id="selectGroup" parameterType="_int" resultMap="groupResultSet">
+		SELECT 
+		       R.GROUP_NO, 
+		       REGION_NO, 
+		       CATEGORY_NO, 
+		       GROUP_NAME,
+		       GROUP_DETAIL, 
+		       GROUP_IMG, 
+		       GROUP_TYPE, 
+		       GROUP_DATE, 
+		       COUNT(M.GROUP_NO) MEMBER_COUNT
+  		  FROM 
+  		       GROUP_ROOM R
+  		  LEFT 
+  		       JOIN GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
+  	     WHERE 
+  	           R.GROUP_NO = #{groupNo}
+ 		 GROUP 
+ 		    BY 
+ 		       R.GROUP_NO, 
+ 		       REGION_NO, 
+ 		       CATEGORY_NO, 
+ 		       GROUP_NAME, 
+ 		       GROUP_DETAIL, 
+ 		       GROUP_IMG, 
+ 		       GROUP_TYPE, 
+ 		       GROUP_DATE
+	</select>
+
+	<select id="selectMemberList" parameterType="_int" resultMap="memberResultSet">
+		SELECT 
+			   USER_ID, 
+			   NICKNAME, 
+			   DECODE(USER_RANK, 'A', '관리자', '일반회원') AS "USER_RANK"
+  		  FROM 
+  		  	   GROUP_MEMBER
+  	 	  JOIN 
+  	 	  	   MEMBER USING(USER_ID)
+ 		 WHERE 
+ 		 	   GROUP_NO = #{groupNo}
+ 	     ORDER 
+ 	        BY 
+ 	           USER_RANK ASC
+	</select>
 </mapper>

@@ -60,6 +60,7 @@ button:hover{
     top: 0;
     border-bottom: 1px solid var(--border-color);
     background-color: var(--white-color);
+    z-index: 99;
 }
 
 header{

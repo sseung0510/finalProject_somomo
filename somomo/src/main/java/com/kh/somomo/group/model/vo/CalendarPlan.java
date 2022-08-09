@@ -9,10 +9,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GroupCalendar {
+public class CalendarPlan {
 
-	// 테이블 : GROUP_CALENDAR (그룹방캘린더)
+	private int planNo;
 	private int calendarNo;
-	private int groupNo;
-	
+	private String write;
+	private String title;
+	private String memo;
+	private String startDate;
+	private String endDate;
 }

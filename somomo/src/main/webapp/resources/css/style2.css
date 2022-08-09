@@ -819,13 +819,12 @@ top: 3px;
   
 .banner .tit {
   height: 34px;
-  padding-left: 14px;
+  padding-left: 10px;
   padding-right: 14px;
   line-height: 35px;
   font-size: 13px;
   font-weight: 600;
   color: #333;
-  border-bottom: 1px solid var(--grey-color) ;
 }
 
 
@@ -839,11 +838,14 @@ top: 3px;
   margin-left: 10px;
 }
 
+.member-banner{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--grey-color) ;
+}
 
 .banner .memberWrap {
-  position: absolute;
-  top: 18px;
-  right: 14px;
   font-size: 12px;
 }
 .banner .memberWrap a{

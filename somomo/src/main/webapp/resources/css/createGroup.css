@@ -61,7 +61,8 @@ section{
     height: 100vh;
     margin: 0 20%;
     padding-top: 60px;
-    /* background-color: #F7F8F9;  */
+    min-width: 900px;
+    max-width: 900px;
     background-color: white;
 }
 

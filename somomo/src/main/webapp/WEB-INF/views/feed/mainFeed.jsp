@@ -153,7 +153,7 @@
 				<br><br><br><br>
 				
 				<li>
-					<a href="#" class="community">
+					<a href="list.gr" class="community">
 						<i class="uil uil-comments"></i>
 						<span class="link-name">Community</span>
 					</a>

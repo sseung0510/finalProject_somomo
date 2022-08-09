@@ -15,4 +15,5 @@ public class GroupMember {
 	private int groupNo;
 	private String userId;
 	private String userRank;
+	private String nickname; // 추가함
 }
