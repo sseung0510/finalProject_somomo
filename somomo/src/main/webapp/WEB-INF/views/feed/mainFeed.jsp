@@ -126,7 +126,7 @@
 		<div class="menu-items">
 			<ul class="nav-links">
 				<li>
-					<a href="list.fd">
+					<a href="main.fd">
 						<i class="uil uil-estate"></i>
 						<span class="link-name">HOME</span>
 					</a>
@@ -227,12 +227,17 @@
         
         <script>
 	    	$(function(){
-	    		selectFeedList();
+	    		
+	    		let currentPage = ${pi.currentPage} ;
+	    		//let currentPage = 1 ;
+	    		
+	    		selectFeedList(currentPage);
 	    		
 	    		// 무한스크롤 이벤트 처리
-				//let currentPage = ${pi.currentPage} ;
-				let currentPage = 1 ;
 				$(window).on('scroll', function(){
+					if(${pi.maxPage eq 0}){
+						return; // 등록된 게시글이 없을 경우 종료
+					}
 					
 					// 현재 스크롤바 위치 값 (맨 위로 올릴 경우 $(window).scrollTop(0))
 					// 스크롤 위치에 따라 변하는 값
@@ -246,15 +251,16 @@
 					let documentHeight = $(document).height();
 					
 					// 스크롤이 바닥에 닿았을 때
-					let isBottom = scrollTop + windowHeight >= documentHeight;
+					let isBottom = scrollTop + windowHeight + 5 >= documentHeight;
+					//console.log('바닥인가?' + isBottom);
 					if(isBottom){
 						// 현재가 마지막 페이지일 경우
 						if(currentPage == ${pi.maxPage}){
+							console.log('종료');
 							return; // 종료
 						}
 						
 						currentPage++; // 다음 페이지 요청
-						console.log("현재 페이지:" + currentPage);
 						
 						// 다음페이지 가져오기
 						selectFeedList(currentPage);
@@ -265,12 +271,14 @@
         
         	function selectFeedList(currentPage){
         		
+        		console.log("요청페이지:" + currentPage);
+        		
         		$.ajax({
         			url : 'list.fd',
         			method : 'POST',
         			data : {
         				userId : '${loginUser.userId}',
-        				currentPage : currentPage
+        				cpage : currentPage
         			},
         			success : function(data){
         				
