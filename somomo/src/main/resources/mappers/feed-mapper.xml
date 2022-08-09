@@ -115,7 +115,7 @@
 		 WHERE
 		       BOARD_NO BETWEEN #{min} AND #{max}
 		 ORDER
-		    BY BOARD_NO DESC
+		    BY BOARD_NO DESC, FILE_NO ASC
     </select>
 	
 	<select id="selectRegionList" resultMap="regionCategoryResultSet">
