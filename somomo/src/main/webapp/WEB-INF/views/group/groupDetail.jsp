@@ -97,9 +97,7 @@
                         <!-- 방장인경우에만 그룹 설정 버튼 활성화 -->
                         <i class="uil uil-cog"></i>그룹 설정</span>
                     </a>
-                    <form method="post" id="postForm">
-                        <input type="hidden" name="groupNo" value="${gr.groupNo}"/>
-                    </form>
+                   
                 </div>
                 <div class="profile-button">
                     <div class="button-layer"></div>
@@ -117,33 +115,35 @@
         <div class="main-middle">
 		<!-- 그룹방 정보 -->
             <!---------------------- 게시글 모달 창 --------------------->
-            <div class="popup-outer">
-                <div class="popup-box">
-                    <i id="close" class='bx bx-x close'></i>
-                    <div class="write-form-header">
-                        <h1 class="write-form-title">글쓰기</h1>
-                    </div>
-                    <div class="textarea">
-                        <!-- contenteditable 사용하기 -->
-                        <div id="editor" contenteditable="true">
-                        <p class="editor-placeholder">새로운 소식을 남겨보세요
-                            <br> 공개그룹에 남긴 글은 누구나 볼 수 있습니다
-                        </p> 
+             <div id = "writePopup" class="popup-outer ">
+                    <div class="popup-box">
+                      <i id="close" class='bx bx-x close'></i>
+                        <div class="write-form-header">
+                           <h1 class="write-form-title">글쓰기</h1>
                         </div>
-                    </div>
-    
-                    <ul class="toolbarList">
-                        <li><input id="img-selector" type="file" accept="image/*"><i class="uil uil-image-download" id="btn-image"></i></li>
-                        <li><i class="uil uil-paperclip"></i></li>
-                        <li><i class="uil uil-map-marker"></i></li>
-                        <li><i class="uil uil-clipboard-notes"></i></li>
-                    </ul>
-    
-                    <div class="button">
-                        <button id="close" class="send">게시</button>
+                        <div class="textarea">
+                            <!-- contenteditable 사용하기 -->
+                            <div id="editor" contenteditable="true">
+
+                            <p class="editor-placeholder">새로운 소식을 남겨보세요
+                                <br> 공개그룹에 남긴 글은 누구나 볼 수 있습니다
+                            </p> 
+                            </div>
+                        </div>
+
+                        <ul class="toolbarList">
+                            <li><input id="img-selector" type="file" accept="image/*"><i class="uil uil-image-download" id="btn-image"></i></li>
+                            <li><i class="uil uil-paperclip"></i></li>
+                            <li><i class="uil uil-map-marker"></i></li>
+                            <li><i class="uil uil-clipboard-notes"></i></li>
+                        </ul>
+
+                        <div class="button">
+                            <button id="submit" class="send">게시</button>
+                        </div>
+                       
                     </div>
                 </div>
-            </div>
             <c:choose>
                 <c:when test="${not empty fList}">
                     <div class="feed-profile">
@@ -263,6 +263,11 @@
             </div>
         </div>
     </div>
+    
+    
+     <form method="post" id="postForm">
+             <input type="hidden" name="groupNo" value="${gr.groupNo}"/>
+      </form>
 
     <script src="resources/js/GroupDetail.js"></script>
 </body>

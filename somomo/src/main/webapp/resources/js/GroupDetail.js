@@ -5,22 +5,50 @@ const container = document.querySelector(".main-middle"),
       writeBtn = document.querySelector(".profile-button button");
       cancelBtn = document.querySelectorAll("#close");
       
+var writePopup = function(){
+    
+    var hide = ()=>{
+        this.popup.removeClass("active");
+    }
+
+    this.popup = $("#writePopup")
+    this.content = $("#writePopup textarea")
+    this.submitButton = $("#writePopup #submit")
+    this.submitButton.click(()=>{
+        
+        // TODO: ajax로 데이터 주고 받자!!!!
+
+
+        hide();
+        $("#writePopup #editor").empty();
+    });
+
+    this.closeButton = $("#writePopup #close")
+    this.closeButton.click(()=>{
+
+        hide();
+        $("#writePopup #editor").empty();
+    })
+
+
+
+    this.show = ()=>{
+        this.popup.addClass("active");
+    }
+   
+}
+
 // 글쓰기 버튼 클릭했을 떄 active 클래스 추가
 writeBtn.addEventListener("click", ()=>{
-    container.classList.add("active");
+    var w = new writePopup();
+    w.show();
 })
 
-// id 속성이 close인거 클릭하면 닫히게 하기
-cancelBtn.forEach(e => {
-    e.addEventListener("click", () =>{
-        container.classList.remove("active");
-    })
-});
 
 
 
 // 피드 DROPDOWN
-
+/*
 const feed = document.querySelector('.feed');
 const dropdownFeed = feed.querySelector('.feed-link');
 
@@ -41,7 +69,7 @@ window.addEventListener('click', function(e){
     }
 })
 
-
+*/
 
 // 글쓰기 Modal 창에서 focus 되는 순간 <p> 태그 없애주기
 

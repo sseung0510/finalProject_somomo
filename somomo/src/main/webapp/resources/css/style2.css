@@ -356,6 +356,16 @@ header .logo-name .logo_name{
   transition: opacity 0.2s 0s ease-in-out,  
               transform 0.2s 0s ease-in-out;
 }
+
+#writePopup {
+  opacity: 0;
+}
+#writePopup.active{
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
 .main-middle.active .popup-outer{
   opacity: 1;
   pointer-events: auto;
@@ -819,12 +829,13 @@ top: 3px;
   
 .banner .tit {
   height: 34px;
-  padding-left: 10px;
+  padding-left: 14px;
   padding-right: 14px;
   line-height: 35px;
   font-size: 13px;
   font-weight: 600;
   color: #333;
+  border-bottom: 1px solid var(--grey-color) ;
 }
 
 
@@ -838,14 +849,11 @@ top: 3px;
   margin-left: 10px;
 }
 
-.member-banner{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid var(--grey-color) ;
-}
 
 .banner .memberWrap {
+  position: absolute;
+  top: 18px;
+  right: 14px;
   font-size: 12px;
 }
 .banner .memberWrap a{
