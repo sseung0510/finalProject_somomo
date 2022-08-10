@@ -84,16 +84,16 @@ button.learn-more .circle {
   position : absolute;
   font-size: 25px;
   z-index: 10;
-  top: 6px;
-  left: 6px;
+  top: 2.5px;
+  left: 8px;
   transition: 0.8s;
 }
 
 .learn-more:hover i {
   position : absolute;
   font-size: 25px;
-  top: 5px;
-  left: 6px;
+  top: 2.5px;
+  left: 8px;
   z-index: 10;
   transform: rotate(-90deg);
   transition: 0.8s;

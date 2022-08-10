@@ -16,10 +16,15 @@
     <!----------- 아이콘 CSS 링크 version 2------->
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <title>소모모</title> 
 </head>
 <body>
+
+ 
+	
 
     <!--------------------- 헤더 ------------------------>
     <div class="wrapper">
@@ -73,32 +78,25 @@
         </div>
 
         <!-------------------- 메인 컨텐츠 헤더 끝--------------------->
-        <div class="main-left">
-            <div class="group-profile">
-                <div class="main-images">
-                    <a href=""><img src="${gr.groupImg}"></a>
-                </div>
-                <div class="profile-details">
-                    <span class="group-name"><strong>${gr.groupName}</strong></span>
-                    <p>${gr.groupDetail}</p>
-                
-                </div>
-                <div class="profile-member">      
-                    <span class="profile-member-number">멤버: ${gr.memberCount}명</span>
-
-                    <a href=""><span class="profile-member-setting">
-                        <i class="uil uil-cog"></i>그룹 설정</span>     
-                    </a>
-                </div>
-                <div class="profile-button">
-                    <div class="button-layer"></div>
-                    <button>글쓰기</button>
-                </div>
-            </div>    
-        </div>
+        
+        
+        <!-------------------- 왼쪽 사이드 바--------------------->
+       <jsp:include page="groupDetailCommon/leftSidebar.jsp"/>
+       
+       
+       
 
         <!------------------ 그룹 설정 ---------------------->
         <div class="main-middle">
+       
+		 	 <!---------------------- 글쓰기 Modal 창 --------------------->
+           
+		
+		 	 <jsp:include page="groupDetailCommon/modal.jsp"/>
+       
+		 	 
+		 	 
+		 	 
             <div class="setting">
                 <div class="setting-title">
                     <h3>그룹 설정</h3>
@@ -142,74 +140,21 @@
 
             </div>
             
-            <!---------------------- Modal 창 --------------------->
-            <div class="popup-outer">
-                <div class="popup-box">
-                    <i id="close" class='bx bx-x close'></i>
-                    <div class="write-form-header">
-                        <h1 class="write-form-title">글쓰기</h1>
-                    </div>
-                    <div class="textarea">
-                        <textarea rows="15" id="content" placeholder="새로운 소식을 남겨보세요"></textarea>
-                    </div>
-
-                    <ul class="toolbarList">
-                        <li><input type="file"><i class='bx bx-photo-album'></i></li>
-                    </ul>
-
-                    <div class="button">
-                        <button id="close" class="send">게시</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!------------------ 메인 컨텐츠 오른쪽 -------------->
-
-        <div class="main-right">
-            <div class="banner">
-                <div class="member-banner">
-                    <h2 class="tit">멤버</h2>
-                    <div class="memberWrap">
-                        <a href="">모두보기</a>
-                    </div>
-                </div>
-
-                <div class="member-list">
-                    <ul class="member-profile">
-                        <li><a>
-                            <span><img src="../src/img/study.png"></span>
-                            <span class="member-detail">
-                                <strong class="text">몽키스패너</strong>
-                                <span class="member-grade">관리자</span>
-                            </span>
-                        </a></li>
-                    </ul>
-                </div>
-
-                <div class="member-list">
-                    <ul class="member-profile">
-                        <li><a>
-                            <span><img src="../src/img/study.png"></span>
-                            <span class="member-detail">
-                                <strong class="text">자바의 신</strong>
-                                <span class="member-grade">일반 회원</span>
-                            </span>
-                        </a></li>
-                    </ul>
-                </div>
-                <div class="member-list">
-                    <ul class="member-profile">
-                        <li><a>
-                            <span><img src="../src/img/study.png"></span>
-                            <span class="member-detail">
-                                <strong class="text">몽키스패너</strong>
-                                <span class="member-grade">일반 회원</span>
-                            </span>
-                        </a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            
+		
+		
+		
+		
+		
+		
+		
     </div>
+    
+     <!---------------------- 오른쪽 사이드 바 --------------------->
+		<jsp:include page="groupDetailCommon/rightSidebar.jsp"/>
+    
+   </div>
+    
+    
 </body>
 </html>

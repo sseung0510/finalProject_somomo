@@ -22,6 +22,10 @@
 </head>
 <body>
 
+
+
+
+
 <!--------------------- 헤더 ------------------------>
 
     <div class="wrapper">
@@ -81,30 +85,11 @@
         </div>
           <!-------------------- 메인 컨텐츠 헤더 끝--------------------->
 
-		<!-- 그룹방 정보 -->
-        <div class="main-left">
-            <div class="group-profile">
-                <div class="main-images">
-                    <a href=""><img src="${gr.groupImg }"></a>
-                </div>
-                <div class="profile-details">
-                    <span class="group-name"><strong>${gr.groupName}</strong></span>
-                    <p>${gr.groupDetail}</p>
-                </div>
-                <div class="profile-member">      
-                    <span class="profile-member-number">멤버: ${gr.memberCount}명</span>
-                    <a onclick="postFormSubmit();"><span class="profile-member-setting">
-                        <!-- 방장인경우에만 그룹 설정 버튼 활성화 -->
-                        <i class="uil uil-cog"></i>그룹 설정</span>
-                    </a>
-                   
-                </div>
-                <div class="profile-button">
-                    <div class="button-layer"></div>
-                    <button >글쓰기</button>
-                </div>
-            </div>
-        </div>
+
+ 			<!-------------------- 왼쪽 사이드 바--------------------->
+		<jsp:include page="groupDetailCommon/leftSidebar.jsp"/>
+		
+		
 		
 		<script>
 			function postFormSubmit(){
@@ -113,37 +98,14 @@
 		</script>
 
         <div class="main-middle">
-		<!-- 그룹방 정보 -->
-            <!---------------------- 게시글 모달 창 --------------------->
-             <div id = "writePopup" class="popup-outer ">
-                    <div class="popup-box">
-                      <i id="close" class='bx bx-x close'></i>
-                        <div class="write-form-header">
-                           <h1 class="write-form-title">글쓰기</h1>
-                        </div>
-                        <div class="textarea">
-                            <!-- contenteditable 사용하기 -->
-                            <div id="editor" contenteditable="true">
-
-                            <p class="editor-placeholder">새로운 소식을 남겨보세요
-                                <br> 공개그룹에 남긴 글은 누구나 볼 수 있습니다
-                            </p> 
-                            </div>
-                        </div>
-
-                        <ul class="toolbarList">
-                            <li><input id="img-selector" type="file" accept="image/*"><i class="uil uil-image-download" id="btn-image"></i></li>
-                            <li><i class="uil uil-paperclip"></i></li>
-                            <li><i class="uil uil-map-marker"></i></li>
-                            <li><i class="uil uil-clipboard-notes"></i></li>
-                        </ul>
-
-                        <div class="button">
-                            <button id="submit" class="send">게시</button>
-                        </div>
-                       
-                    </div>
-                </div>
+        
+        
+		  <!---------------------- 글쓰기 Modal 창 --------------------->
+             
+             <jsp:include page="groupDetailCommon/modal.jsp"/>
+		
+           
+             
             <c:choose>
                 <c:when test="${not empty fList}">
                     <div class="feed-profile">
@@ -219,49 +181,16 @@
                 </c:otherwise>
             </c:choose>
         </div>
+        
+        
+        
+        <!---------------------- 오른쪽 사이드 바 --------------------->
+        <jsp:include page="groupDetailCommon/rightSidebar.jsp"/>
+        
+        
+        
+        
 
-        <!------------------ 메인 컨텐츠 오른쪽 -------------->
-        <div class="main-right">
-            <div class="banner">
-            	<div class="member-banner">
-                	<h2 class="tit">관리자</h2>
-           		</div>
-				<c:forEach var="gm" items="${mList}">
-					<c:if test="${gm.userRank eq '관리자' }">
-		                <div class="member-list">
-		                    <ul class="member-profile">
-		                        <li><a>
-		                            <span><img src="../src/img/study.png"></span>
-		                            <span class="member-detail">
-		                                <strong class="text">${gm.nickname}</strong>
-		                            </span>
-		                        </a></li>
-		                    </ul>
-		                </div>                		
-					</c:if>
-				</c:forEach>
-				<div class="member-banner">
-                    <h2 class="tit">멤버</h2>
-                    <div class="memberWrap">
-                        <a href="">모두보기</a>
-                    </div>
-                </div>
-                <c:forEach var="gm" items="${mList}">
-					<c:if test="${gm.userRank eq '일반회원' }">
-		                <div class="member-list">
-		                    <ul class="member-profile">
-		                        <li><a>
-		                            <span><img src="../src/img/study.png"></span>
-		                            <span class="member-detail">
-		                                <strong class="text">${gm.nickname}</strong>
-		                            </span>
-		                        </a></li>
-		                    </ul>
-		                </div>                		
-					</c:if>
-				</c:forEach>
-            </div>
-        </div>
     </div>
     
     
