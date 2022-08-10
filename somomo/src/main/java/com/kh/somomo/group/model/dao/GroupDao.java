@@ -19,10 +19,6 @@ public class GroupDao {
 	public ArrayList<GroupRoom> myGroupList(SqlSessionTemplate sqlSession, String userId) {
 		return (ArrayList)sqlSession.selectList("groupMapper.myGroupList", userId);
 	}
-	
-	public ArrayList<GroupRoom> myJoinList(SqlSessionTemplate sqlSession, String userId) {
-		return (ArrayList)sqlSession.selectList("groupMapper.myJoinList", userId);
-	}
 
 	public int insertGroup(SqlSessionTemplate sqlSession, GroupRoom gr) {
 		return sqlSession.insert("groupMapper.insertGroup", gr);
@@ -47,5 +43,4 @@ public class GroupDao {
 	public ArrayList<GroupMember> selectMemberList(SqlSessionTemplate sqlSession, int groupNo) {
 		return (ArrayList)sqlSession.selectList("groupMapper.selectMemberList", groupNo);
 	}
-	
 }

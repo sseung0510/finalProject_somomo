@@ -60,40 +60,13 @@
 	</select>
 	
 	<select id="myGroupList" parameterType="string" resultMap="groupResultSet">
-		SELECT 
-		       GROUP_NO, 
-		       GROUP_IMG, 
-		       GROUP_NAME
-		  FROM 
-		       GROUP_ROOM
-		  JOIN 
-		       GROUP_MEMBER USING(GROUP_NO)
-		 WHERE 
-		       USER_RANK = 'A'
-		   AND 
-		       USER_ID = #{userId}
-		 ORDER 
-		    BY 
-		       GROUP_NO DESC
-	</select>
-	
-	
-	<select id="myJoinList" parameterType="string" resultMap="groupResultSet">
-		SELECT 
-		       GROUP_NO, 
-		       GROUP_IMG, 
-		       GROUP_NAME 
-		  FROM 
-		       GROUP_ROOM
-  		  JOIN 
-  		       GROUP_MEMBER USING(GROUP_NO)
- 	     WHERE 
- 	           USER_RANK = 'M'
-   		   AND 
-   		       USER_ID = #{userId}
+		SELECT GROUP_NO, GROUP_IMG, GROUP_NAME, USER_RANK
+  		  FROM GROUP_ROOM
+  		  JOIN GROUP_MEMBER USING(GROUP_NO)
+ 		 WHERE USER_ID = #{userId}
+ 		 GROUP BY GROUP_NO, GROUP_IMG, GROUP_NAME, USER_RANK
  		 ORDER 
- 		    BY 
- 		       GROUP_NO DESC
+    	    BY GROUP_NO DESC
 	</select>
 	
 	<insert id="insertGroup" parameterType="groupRoom">

@@ -19,7 +19,6 @@ nav{
 
 nav>div{
     padding: 10px;
-    
 }
 
 .nav-col h2{
@@ -33,26 +32,95 @@ nav>div{
   font-weight: 400;
 }
 
-
-
-
 .nav-col-group{
     border-radius: 10px;
     padding: 10px;
     margin: 5px 0;
     color: var(--black-light-color);
+    width: 100%;
+    margin: 10px 0;
 }
 
-.create-newGroup{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: rgb(255, 240, 239);
+.group-under {
+  top: 10px;
+}
+
+/* ======================새 그룹 만들기 CSS====================== */
+.create-newGroup {
+  width: 100%;
+  margin-top: 30px;
 }
 
 
+.learn-more {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: 16px;
+}
+
+button.learn-more {
+  width: 200px;
+  height: auto;
+  position: relative;
+}
+button.learn-more .circle {
+  transition: all 0.45s ;
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  background: var(--theme-color);
+  border-radius: 24px;
+}
+
+.learn-more i {
+  position : absolute;
+  font-size: 25px;
+  z-index: 10;
+  top: 6px;
+  left: 6px;
+  transition: 0.8s;
+}
+
+.learn-more:hover i {
+  position : absolute;
+  font-size: 25px;
+  top: 5px;
+  left: 6px;
+  z-index: 10;
+  transform: rotate(-90deg);
+  transition: 0.8s;
+  color: #fff;
+}
+
+button.learn-more .button-text {
+  transition: all 0.45s ;
+  position: absolute;
+  top: -3px;
+  left: 10px;
+  right: 0;
+  bottom: 0;
+  padding: 10px 0;
+  margin: 0 0 0 1;
+  color: #282936;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+}
+
+button:hover .circle {
+  width: 100%;
+}
+button:hover .button-text {
+  color: #fff;
+}
 
 .horizontal{
     margin: 10px 0;
@@ -86,9 +154,38 @@ nav>div{
 .nav-col-group:hover{
   background-color: rgb(255, 240, 239); 
   transition: var(--tran-02);
+  cursor: pointer;
 }
 
+.nav-group-list{
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  margin: 5px 0;
+  color: var(--black-light-color);
+}
 
+.nav-group-list:hover{
+  background-color: rgb(255, 240, 239); 
+  transition: var(--tran-02);
+  cursor: pointer;
+}
+
+.adminGroup {
+  max-height: 160px;
+  width: 240px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column; 
+}
+
+.memberGroup {
+  max-height: 160px;
+  width: 240px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
 
 /* ------------------------------------------------- */
 .content{

@@ -34,9 +34,8 @@ public class GroupController {
 		
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
 		
-		mv.addObject("list", groupService.selectList())
-		  .addObject("myGroupList", groupService.myGroupList(userId))
-		  .addObject("myJoinList", groupService.myJoinList(userId))
+		mv.addObject("list", groupService.selectList())				  // 전체 그룹방 목록
+		  .addObject("myGroupList", groupService.myGroupList(userId)) // 내가 가입/관리하고있는 그룹방 목록 
 		  .setViewName("group/community");
 		
 		return mv;

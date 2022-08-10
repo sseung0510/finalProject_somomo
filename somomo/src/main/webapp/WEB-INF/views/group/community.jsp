@@ -10,7 +10,7 @@
     
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.0">
-    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.1.2">
+    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.1.9">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -24,7 +24,7 @@
             <header>
                 <div class="logo-name">
                     <div class="logo-image">
-                        <a href="index.html"><img src="resources/img/web_logo.jpg" alt=""></a>
+                        <a href="main.fd"><img src="resources/img/web_logo.jpg" alt=""></a>
                     </div>
                     <span class="logo_name">SoMoMo</span>
                 </div>
@@ -60,34 +60,66 @@
                     <span>찾아보기</span>
                 </div>
     
-                <div class="create-newGroup"><a href="insertForm.gr">새 그룹 만들기</a></div>
+                <div class="create-newGroup">
+                    <a href="insertForm.gr">
+                        <button class="learn-more">
+                            <i class="uil uil-plus"></i>
+                            <span class="circle"></span>
+                            <span class="button-text">새그룹 만들기</span>
+                        </button>
+                    </a>
+                </div>
+
                 <div class="horizontal"></div>
+
             </div>
 
             <div class="nav-col">
-                <h2>관리중인그룹</h2>
-                <c:forEach var="gl" items="${myGroupList}">
-                    <div class="nav-col-group">
-                        <input type="hidden" value="${gl.groupNo}">
-                        <img src="${gl.groupImg}" alt="">
-                        <span>${gl.groupName}</span>
-                    </div>
-                </c:forEach>
+                <h2 class="m1">관리중인그룹</h2>
+                <div class="adminGroup"></div>
                 
-                <!--...............아 진짜 똑같아서 바꾸고 싶다................ -->
                 <div class="horizontal"></div>
 
                 <h2>가입한 그룹</h2>
-                <c:forEach var="jl" items="${myJoinList}">
-                    <div class="nav-col-group">
-                        <input type="hidden" value="${jl.groupNo}">
-                        <img src="${jl.groupImg}" alt="">
-                        <span>${jl.groupName}</span>
-                    </div>
-                </c:forEach>
+                <div class="memberGroup"></div>                
             </div>
         </nav>
 		
+		<c:forEach var="g" items="${myGroupList}">
+			<script>
+                var result = '<div class="nav-group-list">'
+                                + '<input type="hidden" value="${g.groupNo}">'
+                                + '<img src="${g.groupImg}" alt="">'
+                                + '<span class="admingroup-name">${g.groupName}</span>'
+                            + '</div>';
+
+                if('${g.userRank}' == 'A'){
+                    $('.adminGroup').append(result);
+                } 
+                else{
+                    $('.memberGroup').append(result);
+                }
+            </script>
+		</c:forEach>
+		
+        <script>
+            
+            $('.adminGroup').css({'disply':'flex', 'flex-direction':'column', 'width':'100%'})
+            $('.memberGroup').css({'disply':'flex', 'flex-direction':'column', 'width':'100%'})
+            
+            var guide = "";
+
+            if($('.adminGroup').html() == ""){
+                guide = "<span>현재 관리중인 그룹이 없습니다.</span>";
+                $('.adminGroup').append(guide);
+            }
+            
+            if($('.memberGroup').html() == ""){
+                guide = "<span>가입한 그룹이 없습니다.</span>";
+                $('.memberGroup').append(guide);
+            }
+        </script>
+
         <main class="content">
             
             <div class="list-outer">
@@ -137,14 +169,16 @@
 
             location.href = "groupDetail.gr?groupNo=" + groupNo;
         })
-
-        $('.nav-col-group').click(function(){
-            const groupNo = $(this).children().eq(0).val();
-
-            location.href = "groupDetail.gr?groupNo=" + groupNo;
-        })
     </script>
 
+    <script>
+        $('.nav-group-list').click(function(){
+            const groupNo = $(this).children().eq(0).val();
+            
+            location.href = "groupDetail.gr?groupNo=" + groupNo;
+        })
+
+    </script>
 
     </body>
 </html>
