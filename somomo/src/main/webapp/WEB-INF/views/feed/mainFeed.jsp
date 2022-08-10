@@ -132,7 +132,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="chat">
 						<i class="uil uil-comment"></i>
 						<span class="link-name">CHAT</span>
 					</a>
