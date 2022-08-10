@@ -84,16 +84,16 @@ button.learn-more .circle {
   position : absolute;
   font-size: 25px;
   z-index: 10;
-  top: 2.5px;
-  left: 8px;
+  top: 6px;
+  left: 6px;
   transition: 0.8s;
 }
 
 .learn-more:hover i {
   position : absolute;
   font-size: 25px;
-  top: 2.5px;
-  left: 8px;
+  top: 5px;
+  left: 6px;
   z-index: 10;
   transform: rotate(-90deg);
   transition: 0.8s;
@@ -262,10 +262,6 @@ button:hover .button-text {
     padding: 20px 20px 0px 20px;
   }
 
-  .group-foot{
-    padding: 0 20px;
-  }
-  
   .tag {
     background: #cccccc;
     border-radius: 50px;
@@ -310,6 +306,7 @@ button:hover .button-text {
     align-items: center;
     height: 40px;
     width: 100%;
+    padding: 0 20px;
 }
 
 .group-btn button{
@@ -317,6 +314,7 @@ button:hover .button-text {
     height: 30px;
     border: none;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .group-btn button:hover{

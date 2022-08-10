@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="resources/css/header.css?ver=1.0.0">
-    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.1.9">
+    <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
+    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.2.3">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -113,8 +113,7 @@
                 guide = "<span>현재 관리중인 그룹이 없습니다.</span>";
                 $('.adminGroup').append(guide);
             }
-            
-            if($('.memberGroup').html() == ""){
+            else if($('.memberGroup').html() == ""){
                 guide = "<span>가입한 그룹이 없습니다.</span>";
                 $('.memberGroup').append(guide);
             }
@@ -136,18 +135,20 @@
 
                     <c:forEach var="g" items="${list}">
                         <div class="group">
-                            <input type="hidden" value="${g.groupNo}">
-                            <div class="group-header">
-                                <img src="${g.groupImg}" alt="rover" />
-                            </div>
-                            <div class="group-body">
-                                <span class="tag tag-development">${g.categoryNo}</span>
-                                <h4>
-                                    ${g.groupName}
-                                </h4>
-                                <div class="group-info">
-                                    <span class="group-member">멤버 ${g.memberCount}명</span>
-                                    <span>${g.groupType}</span>
+                            <div class="group-main">
+                                <input type="hidden" value="${g.groupNo}">
+                                <div class="group-header">
+                                    <img src="${g.groupImg}" alt="rover" />
+                                </div>
+                                <div class="group-body">
+                                    <span class="tag tag-development">${g.categoryNo}</span>
+                                    <h4>
+                                        ${g.groupName}
+                                    </h4>
+                                    <div class="group-info">
+                                        <span class="group-member">멤버 ${g.memberCount}명</span>
+                                        <span>${g.groupType}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="group-foot">
@@ -164,7 +165,7 @@
     </section>
     
     <script>
-        $('.group').click(function(){
+        $('.group-main').click(function(){
             const groupNo = $(this).children().eq(0).val();
 
             location.href = "groupDetail.gr?groupNo=" + groupNo;
@@ -177,7 +178,10 @@
             
             location.href = "groupDetail.gr?groupNo=" + groupNo;
         })
+    </script>
 
+    <script>
+        
     </script>
 
     </body>

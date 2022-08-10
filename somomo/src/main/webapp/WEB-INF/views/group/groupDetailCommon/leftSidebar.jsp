@@ -13,7 +13,7 @@
         <div class="main-left">
             <div class="group-profile">
                 <div class="main-images">
-                    <a href=""><img src="${gr.groupImg }"></a>
+                    <img src="${gr.groupImg }">
                 </div>
                 <div class="profile-details">
                     <span class="group-name"><strong>${gr.groupName}</strong></span>
