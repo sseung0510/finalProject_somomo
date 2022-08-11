@@ -21,6 +21,7 @@ DROP TABLE GROUP_MEMBER;
 DROP TABLE GROUP_ROOM;
 DROP TABLE GROUP_CATEGORY;
 
+
 DROP TABLE FEED_REPLY;
 DROP TABLE FEED_ATTACHMENT;
 DROP TABLE FEED_LIKES;
@@ -28,6 +29,8 @@ DROP TABLE FEED_BOARD;
 
 DROP TABLE REGION_CATEGORY;
 DROP TABLE MEMBER;
+DROP TABLE CERT;
+
 
 DROP SEQUENCE SEQ_CRNO; -- CHAT_ROOM
 DROP SEQUENCE SEQ_CNO;  -- CHAT
@@ -488,5 +491,18 @@ COMMENT ON COLUMN CHAT.CHAT_WRITER IS '채팅작성자';
 COMMENT ON COLUMN CHAT.CHAT_CONTENT IS '채팅내용';
 COMMENT ON COLUMN CHAT.CHAT_DATE IS '작성일';
 
+
+--------------------------------------------------
+--------------     CERT 	----------------------
+--------------------------------------------------
+CREATE TABLE CERT(
+    WHO VARCHAR2(30),
+    SECRET VARCHAR2(6),
+    WHEN DATE NOT NULL,
+    PRIMARY KEY(WHO, SECRET)
+);
+
 --------------------------------------------------------------------------------
+
+
 COMMIT;
