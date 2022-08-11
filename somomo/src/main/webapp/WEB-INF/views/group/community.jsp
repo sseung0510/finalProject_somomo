@@ -10,13 +10,16 @@
     
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
-    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.2.3">
+    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.3.3">
+    <link rel="stylesheet" href="resources/css/applyModal.css?ver=1.0.2">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
     <!----------- 아이콘 CSS 링크 version 2------->
-    <title>그룹리스트</title> 
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>그룹리스트</title> 
 </head>
 <body>
     <div class="wrapper">
@@ -113,7 +116,7 @@
                 guide = "<span>현재 관리중인 그룹이 없습니다.</span>";
                 $('.adminGroup').append(guide);
             }
-            else if($('.memberGroup').html() == ""){
+            if($('.memberGroup').html() == ""){
                 guide = "<span>가입한 그룹이 없습니다.</span>";
                 $('.memberGroup').append(guide);
             }
@@ -136,13 +139,13 @@
                     <c:forEach var="g" items="${list}">
                         <div class="group">
                             <div class="group-main">
-                                <input type="hidden" value="${g.groupNo}">
+                                <input class="groupNo" type="hidden" value="${g.groupNo}">
                                 <div class="group-header">
                                     <img src="${g.groupImg}" alt="rover" />
                                 </div>
                                 <div class="group-body">
                                     <span class="tag tag-development">${g.categoryNo}</span>
-                                    <h4>
+                                    <h4 class="groupName">
                                         ${g.groupName}
                                     </h4>
                                     <div class="group-info">
@@ -151,38 +154,111 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            
                             <div class="group-foot">
                                 <div class="group-btn">
-                                    <button>그룹 가입</button>
+                                    <button class="apply">그룹 가입</button>
+                                </div>
+                            </div>
+                            
+                            
+                            <div id="applyModal" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <input type="hidden" class="md-groupNo" type="text" name="groupNo">
+                                    <input type="hidden" name="userId" class="md-userId" value="${loginUser.userId}">
+                    
+                                    <div class="modal-header">
+                                        <div class="header-title">
+                                            <div class="header-title__groupName"></div>
+                                            <span>간단한 자기소개를 입력해주세요.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal-body">
+                                        <textarea name="greeting" class="greeting" placeholder="여기에 작성하세요."></textarea>
+                                    </div>
+                                    <div class="modal-foot">
+                                        <button type="button" class="close">취소</button>
+                                        <button class="disabled" onclick="apply();">가입하기</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
                 </div>
             </div>
-            
         </main>
     </section>
+
+    <script>
+
+        // modal창 관련
+        $(function(){
+            const modal = $('#applyModal');
     
+            // 아예 g를 넘겨 받는 법은? => 객체를 넘겨 받아야한다. => 어떻게....??
+            $('.apply').click(function(){
+                
+                // 그룹방 번호
+                const gno = $(this).parents('.group-foot').siblings('.group-main').children('.groupNo').val();
+                
+                // 그룹방 제목
+                const gname = $(this).parents('.group-foot').siblings('.group-main').children('.group-body').children('.groupName').text().trim()
+                
+                $('.md-groupNo').val(gno);
+                $('.header-title__groupName').text(gname);
+    
+                modal.fadeIn(300);
+                $('body').css({'overflow': 'hidden', 'height' : '100%'});
+                
+            })
+
+            // 취소버튼 눌렀을때 모달 창 닫아주기
+            $('.close').click(function(){
+                modal.fadeOut(300);
+            })
+        })
+
+        function apply(){
+
+            const modal = $('#applyModal');
+            
+            const $groupNo = $('.md-groupNo').val();
+            //console.log($('.md-groupNo').val());
+
+            const $greeting = $('.greeting').val();
+            // console.log($('.greeting').val());
+
+            const $userId = "${loginUser.userId}";
+            //console.log($userId);
+
+            $.ajax({
+                url : "apply.gr",
+                data : {groupNo : $groupNo, userId : $userId, greeting : $greeting},
+                type : "post",
+                success : function(result){
+                    console.log(result);
+
+                    modal.hide();
+                    
+                }, error : function(){
+                    console.log("통신 실패!");
+                }
+            })
+        }
+    </script>
+
     <script>
         $('.group-main').click(function(){
-            const groupNo = $(this).children().eq(0).val();
-
-            location.href = "groupDetail.gr?groupNo=" + groupNo;
+            location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
         })
-    </script>
-
-    <script>
-        $('.nav-group-list').click(function(){
-            const groupNo = $(this).children().eq(0).val();
-            
-            location.href = "groupDetail.gr?groupNo=" + groupNo;
-        })
-    </script>
-
-    <script>
         
+        $('.nav-group-list').click(function(){
+            location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
+        })
     </script>
 
-    </body>
+</body>
 </html>

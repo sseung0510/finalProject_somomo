@@ -10,13 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.somomo.group.model.service.GroupService;
+import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 import com.kh.somomo.member.model.vo.Member;
+
+import oracle.net.aso.m;
 
 import static com.kh.somomo.common.template.FileRename.*;
 
@@ -72,7 +76,7 @@ public class GroupController {
 		int groupNo = groupService.getGroupNo();     // 상세페이지로 이동하기위해 식별값인 groupNo를 조회해서 가져옴
 		
 		if(result*result2*result3 > 0) {
-			return "redirect:groupDetail.gr?groupNo=" + groupNo; // 쿼리스트링으로 전달
+			return "redirect:detail.gr?gno=" + groupNo; // 쿼리스트링으로 전달
 		}else { 
 			model.addAttribute("errorMsg","그룹방 추가 실패");
 			return "common/errorPage";
@@ -80,14 +84,14 @@ public class GroupController {
 	}
 	
 	// 그룹방 상세 보기
-	@RequestMapping("groupDetail.gr")
-	public ModelAndView groupDetail(int groupNo, ModelAndView mv) {
+	@RequestMapping("detail.gr")
+	public ModelAndView groupDetail(int gno, ModelAndView mv) {
 		
-		GroupRoom gr = groupService.selectGroup(groupNo); 	     // 특정 그룹방에대한 정보를 담음
-		ArrayList<GroupMember> mList = groupService.selectMemberList(groupNo); // 가입된 회원리스트
+		GroupRoom gr = groupService.selectGroup(gno); 	     			   // 특정 그룹방에대한 정보를 담음
+		ArrayList<GroupMember> mList = groupService.selectMemberList(gno); // 가입된 회원리스트
 		
 		if (gr != null) {
-			mv.addObject("gr", gr).addObject("mList", mList).setViewName("group/groupDetail");
+			mv.addObject("g", gr).addObject("mList", mList).setViewName("group/groupDetail");
 		} else {
 			mv.addObject("errorMsg", "그딴 그룹방은 없는디요??").setViewName("common/errorPage");
 		}
@@ -95,11 +99,62 @@ public class GroupController {
 	}
 	
 	@RequestMapping("setting.gr")
-	public String setting(int groupNo, Model model) {
+	public ModelAndView setting(int groupNo, ModelAndView mv) {
 		
-		model.addAttribute("gr", groupService.selectGroup(groupNo));
+		mv.addObject("mList", groupService.selectMemberList(groupNo))
+		  .addObject("g", groupService.selectGroup(groupNo))
+		  .setViewName("group/groupSetting");
 		
-		return "group/groupSetting";
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 이거는 임시 입니다.
+	@RequestMapping("apply.gr")
+	@ResponseBody
+	public String applyGroup(GroupJoinApply applyInfo) {
+		
+		System.out.println(applyInfo);
+		
+		int result = groupService.applyGroup(applyInfo);
+		
+		if(result > 0) { // 그룹 가입 신청 완료
+			return "NNNNY";
+		} else {
+			return "NNNNN";
+		}
+	}
+	
+
+	@RequestMapping("type")
+	public ModelAndView updateType(int groupNo, ModelAndView mv){
+		
+		System.out.println(groupNo);
+		
+		mv.addObject("mList", groupService.selectMemberList(groupNo))
+		  .addObject("g", groupService.selectGroup(groupNo))
+		  .setViewName("group/groupDetailCommon/type");
+		
+		return mv;
 	}
 }
 

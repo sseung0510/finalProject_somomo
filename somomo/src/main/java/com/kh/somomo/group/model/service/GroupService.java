@@ -3,6 +3,7 @@ package com.kh.somomo.group.model.service;
 import java.util.ArrayList;
 
 import com.kh.somomo.group.model.vo.GroupBoard;
+import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 
@@ -32,5 +33,9 @@ public interface GroupService {
 	
 	// 그룹방 멤버 리스트
 	ArrayList<GroupMember> selectMemberList(int groupNo);
+	
+	// ------
+	// 그룹 가입 신청
+	int applyGroup(GroupJoinApply applyInfo);
 
 }

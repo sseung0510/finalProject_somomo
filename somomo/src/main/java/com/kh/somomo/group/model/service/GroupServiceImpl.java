@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.somomo.group.model.dao.GroupDao;
+import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 
@@ -57,6 +58,11 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public ArrayList<GroupMember> selectMemberList(int groupNo) {
 		return groupDao.selectMemberList(sqlSession, groupNo);
+	}
+
+	@Override
+	public int applyGroup(GroupJoinApply applyInfo) {
+		return groupDao.applyGroup(sqlSession, applyInfo);
 	}
 
 	

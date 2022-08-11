@@ -189,7 +189,7 @@
                         <div class="content">
                             <div class="content-row">
                                 <div class="content-row__btn">
-                                    <input name="groupType" value="" type="radio" id="private">
+                                    <input name="groupType" value="C" type="radio" id="private">
                                     <label for="private">비공개 그룹</label>
                                 </div>
                                 <div class="content-row__desc">그룹과 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</div>
@@ -197,14 +197,14 @@
                             <div class="content-row">
                                 <div class="content-row__btn">
                                     <input name="groupType" value="B" type="radio" id="public">
-                                    <label for="public">그룹명 공개 밴드</label> 
+                                    <label for="public">그룹명 공개 그룹</label> 
                                 </div>
                                 <div class="content-row__desc">누구나 그룹을 검색으로 찾아 그룹 소개를 볼 수 있지만, 게시글은 멤버만 볼 수 있습니다.</div>
                             </div>
                             <div class="content-row">
                                 <div class="content-row__btn">
                                     <input name="groupType" value="A" type="radio" id="public-toAll">
-                                    <label for="public-toAll">공개 밴드</label>
+                                    <label for="public-toAll">공개 그룹</label>
                                 </div>
                                 <div class="content-row__desc">누구나 그룹을 검색해 찾을 수 있고, 그룹 소개와 게시글을 볼 수 있습니다.</div>
                             </div>

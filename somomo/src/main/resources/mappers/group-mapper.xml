@@ -20,7 +20,8 @@
 		<result column="GROUP_NO" property="groupNo"/>
 		<result column="USER_ID" property="userId"/>
 		<result column="USER_RANK" property="userRank"/>
-		<result column="NICKNAME" property="nickname"/> 
+		<result column="NICKNAME" property="nickname"/>
+		<result column="PROFILE_IMG" property="profileImg"/> 
 	</resultMap>
 	
 	<select id="selectList" resultMap="groupResultSet">
@@ -135,37 +136,32 @@
 	<select id="selectGroup" parameterType="_int" resultMap="groupResultSet">
 		SELECT 
 		       R.GROUP_NO, 
-		       REGION_NO, 
-		       CATEGORY_NO, 
-		       GROUP_NAME,
+		       GROUP_NAME, 
 		       GROUP_DETAIL, 
 		       GROUP_IMG, 
 		       GROUP_TYPE, 
-		       GROUP_DATE, 
 		       COUNT(M.GROUP_NO) MEMBER_COUNT
   		  FROM 
-  		       GROUP_ROOM R
+  		  	   GROUP_ROOM R
   		  LEFT 
-  		       JOIN GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
-  	     WHERE 
-  	           R.GROUP_NO = #{groupNo}
+  		  JOIN 
+  		       GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
+ 	     WHERE R.GROUP_NO = #{groupNo}
  		 GROUP 
- 		    BY 
- 		       R.GROUP_NO, 
- 		       REGION_NO, 
- 		       CATEGORY_NO, 
- 		       GROUP_NAME, 
- 		       GROUP_DETAIL, 
- 		       GROUP_IMG, 
- 		       GROUP_TYPE, 
- 		       GROUP_DATE
+    	    BY 
+    	       R.GROUP_NO, 
+    	       GROUP_NAME, 
+    	       GROUP_DETAIL, 
+    	       GROUP_IMG, 
+    	       GROUP_TYPE
 	</select>
 
 	<select id="selectMemberList" parameterType="_int" resultMap="memberResultSet">
 		SELECT 
 			   USER_ID, 
 			   NICKNAME, 
-			   DECODE(USER_RANK, 'A', '관리자', '일반회원') AS "USER_RANK"
+			   DECODE(USER_RANK, 'A', '관리자', '일반회원') AS "USER_RANK",
+			   PROFILE_IMG
   		  FROM 
   		  	   GROUP_MEMBER
   	 	  JOIN 

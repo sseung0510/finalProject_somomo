@@ -1,0 +1,73 @@
+/* ======================= 메인컨텐프 오른쪽 CSS =================== */
+
+.main-right {
+    width: 25%;
+    height: 100%;
+    background-color: #ffffff;
+    margin-top: 40px;
+}
+
+
+
+.banner {
+  position: fixed;
+  right: 140px;  
+  width: 18%;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  background: var(--white-color);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  min-height: auto!important;
+}
+  
+.banner .tit {
+  height: 34px;
+  padding-left: 14px;
+  padding-right: 14px;
+  line-height: 35px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid var(--grey-color) ;
+}
+
+
+.member-profile img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.member-detail{
+  margin-left: 10px;
+}
+
+
+.banner .memberWrap {
+  position: absolute;
+  top: 18px;
+  right: 14px;
+  font-size: 12px;
+}
+.banner .memberWrap a{
+  color: rgb(245, 145, 161);
+}
+
+
+.member-list{
+  margin: 10px 0;
+}
+
+.member-profile li a{
+  display: flex;
+}
+
+.text{
+    font-size: 14px;
+    display: block;
+}
+
+.member-grade {
+  font-size: 12px;
+}

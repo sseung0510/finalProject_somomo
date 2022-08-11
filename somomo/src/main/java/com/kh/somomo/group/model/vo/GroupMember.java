@@ -16,4 +16,5 @@ public class GroupMember {
 	private String userId;
 	private String userRank;
 	private String nickname; // 추가함
+	private String profileImg;
 }

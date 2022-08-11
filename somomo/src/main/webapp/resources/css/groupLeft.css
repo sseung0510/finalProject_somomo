@@ -1,0 +1,107 @@
+.main-left {
+    width: 20%;
+    height: 100%;
+    background-color: var(--white-color);
+    /* padding: 10px; */
+    margin-top: 40px;
+    /* position: fixed; */
+}
+
+.profile-outer{
+  width: 100%;
+}
+
+.group-profile {
+    position: fixed; 
+    min-width: 300px; 
+    left: 100px;
+    top: 130px;
+    border-radius: 25px;
+    padding: 20px 30px 30px 30px;
+    background: var(--white-color);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    overflow: hidden;
+  }
+  .group-profile .main-images{
+    position: relative;
+    height: 210px;
+  }
+  .group-profile .main-images img{
+    position: absolute;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    top: -5px;
+    opacity: 5;
+    transition: opacity 0.5s ease;
+  }
+  .group-profile .profile-details .group-name{
+    font-size: 24px;
+    font-weight: 500;
+    color: #161616;
+  }
+  .group-profile .profile-details p{
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    text-align: justify;
+  }
+  .group-profile .color-price .color-option{
+    display: flex;
+    align-items: center;
+  }
+  .profile-member{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .profile-member .profile-member-number {
+    font-size: 10px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 8px;
+  }
+
+  .profile-member .profile-member-setting {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 8px;
+  }
+  
+
+  .group-profile .profile-button{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    border-radius: 25px;
+    margin-top: 30px;
+    overflow: hidden;
+  }
+  .group-profile .profile-button .button-layer{
+    position: absolute;
+    height: 100%;
+    width: 300%;
+    left: -100%;
+    background: rgb(248, 248, 248);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: var(--tran-05);
+    border-radius: 25px;
+  }
+  .group-profile .profile-button button{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgb(22, 21, 21);
+  }
