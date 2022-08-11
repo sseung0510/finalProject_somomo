@@ -157,7 +157,9 @@ header{
 /* ======================= 메인컨텐츠 헤더 CSS ==================== */
 
 .main-header {
-    width: 100%;
+	display: flex;
+	justify-content : center;
+    width: 80%;
     border-bottom: 1px solid var(--border-color);
     background-color: #e9dbdb;
     margin: auto;
@@ -165,6 +167,7 @@ header{
 }
 
 .main-header .main-header-bar {
+	width : 67%;
     display: flex;
     justify-content: space-between;
     align-items: center;

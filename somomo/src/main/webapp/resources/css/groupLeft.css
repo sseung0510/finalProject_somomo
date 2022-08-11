@@ -3,7 +3,7 @@
     height: 100%;
     background-color: var(--white-color);
     /* padding: 10px; */
-    margin-top: 40px;
+   	margin-left : 10%;
     /* position: fixed; */
 }
 
@@ -13,9 +13,8 @@
 
 .group-profile {
     position: fixed; 
-    min-width: 300px; 
-    left: 100px;
-    top: 130px;
+    width: 20%;
+    left: 10%;
     border-radius: 25px;
     padding: 20px 30px 30px 30px;
     background: var(--white-color);
