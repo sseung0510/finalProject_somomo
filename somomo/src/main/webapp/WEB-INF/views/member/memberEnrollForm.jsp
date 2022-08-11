@@ -48,11 +48,12 @@
 		height:30px;
 		margin-bottom:2px;
 	}
-	.telCheck{
+	.emailCheck, .checkNick, .idCheck{
 		width:280px;
 		height:30px;
 		margin-bottom:10px;
 	}
+	
 	.age_gender{
 		width:100px;
 		height:30px;
@@ -62,7 +63,7 @@
 		height:35px;
 	}
 	
-	#telBtn1, #telBtn2{
+	#emailBtn1, #emailBtn2, #checkNick, #checkId{
 		width:65px;
 		height:30px;
 		background-color:#FCD9D7;
@@ -106,77 +107,78 @@
 	
 	
 	<form action="insert.me" method="post" id="enrollForm">
-             <table class="form-group">
-             	<tr>
-             		<td colspan="2">
-	             		<div>* 아이디</div>
-	             		<input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="userId" onkeyup="checkSu();" required>
-	             		<div id="checkResult" class="colorSubmit" style="font-size:12px">4-12자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능</div>
-             		</td>
-             	</tr>
-             	<tr>
-             		<td colspan="2">
-	             		<div>* 비밀번호</div>
-	                    <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" onkeyup="RegPwdCheck(); checkSu();" required>
-	             		<div id="regPwd" class="colorSubmit" style="font-size:12px">4-10자의 대소문자와 숫자와 특수문자 입력</div>
-             		</td>
-             	</tr>
-             	<tr>
-             		<td colspan="2">
-	             		<div>* 비밀번호 확인</div>
-	             	    <input type="password" class="form-control" id="checkPwd" placeholder="Please Enter Password" onkeyup="CheckPwd(); checkSu();" required>
-	             	    <div id="samePwd" class="colorSubmit" style="font-size:12px">4-10자의 대소문자와 숫자와 특수문자 입력</div>
-             		</td>
-             	</tr>
-             	<tr>
-             		<td colspan="2">
-	             		<div>* 닉네임</div>
-	                    <input type="text" class="form-control" id="nickname" placeholder="Please Enter NickName" name="nickname" onkeyup="checkSu();" required> <br>
-               	        <div id="nickNameResult" class="colorSubmit" style="font-size:12px">4-12자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능</div>
-             		</td>
-             	</tr>
-             	<tr>
-             		<td colspan="2">
-	             		<div>* 이메일</div>
-	                    <input type="text" class="form-control" id="email" placeholder="Please Enter Email" name="email" onkeyup="checkEmail(); checkSu();" required> <br>
-	                    <div id="regEmail" class="colorSubmit" style="font-size:12px">이메일형식에 맞춰서 입력</div>
-             		</td>
-             	</tr>
-             	<tr>
-             		<td colspan="2">
-	             		<div>* 연락처</div>
-	                    <input type="text" class="telCheck" id="phone" placeholder="Please Enter Tel" name="phone" required maxlength="13" oninput="autoHyphen2(this)"> 
-	                   	<input type="button" id="telBtn1" value="인증"><br>
-	                   	<input type="text" class="telCheck" id="phone2" placeholder="인증번호 입력" disabled required> 
-	                   	<div class="point successPhoneChk colorSubmit" style="font-size:12px" onkeyup="checkSu();">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</div>
-	                   	<input type="hidden"  id="telBtn2" class="phoneDoubleChk"/>
-	                   	<div></div> 
-                   	</td>
-             	</tr>
-             	<tr>
-	             	<td>* 나이</td>
-	             	<td>* 성별</td>
-             	</tr>
-             	<tr>
-             		<td>
-         		    	<input type="number" class="age_gender" id="age" placeholder="나이" name="age" min="15" max="50" required>
-             		</td>
-	             	<td>
-	             		<select name="gender" class="gender">
-	                    	<option value="F">여성</option>
-	                    	<option value="M">남성</option>
-                    	</select>
-	             	</td>
-             	</tr>
-             	
-             </table>
-             
-             <div class="btns" align="center">
-                    <button type="submit" class="enrollSubmit" disabled="disabled">회원가입</button>
-                    <button type="reset">초기화</button>
-             </div>
-             
-            </form>
+		<input type="hidden" value="resources/img/member/profile_img.png" id="profileImg" name="profileImg">
+		<table class="form-group">
+			<tr>
+				<td colspan="2">
+					<div>* 아이디</div>
+					<input type="text" class="idCheck" id="userId" placeholder="Please Enter ID" name="userId" required>
+					<input type="button" id="checkId" value="중복확인" onclick="idCheck();"> <br>
+					<div id="checkResult" class="colorSubmit" style="font-size:12px">4-12자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>* 닉네임</div>
+					<input type="text" class="checkNick" id="nickname" placeholder="Please Enter NickName" name="nickname" required>
+					<input type="button" id="checkNick" value="중복확인" onclick="nickCheck();"> <br>
+					<div id="nickNameResult" class="colorSubmit" style="font-size:12px">4-12자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>* 비밀번호</div>
+					<input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" onkeyup="RegPwdCheck();" required>
+					<div id="regPwd" class="colorSubmit" style="font-size:12px">4-10자의 대소문자와 숫자와 특수문자 입력</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>* 비밀번호 확인</div>
+					<input type="password" class="form-control" id="checkPwd" placeholder="Please Enter Password" onkeyup="CheckPwd();" required>
+					<div id="samePwd" class="colorSubmit" style="font-size:12px">4-10자의 대소문자와 숫자와 특수문자 입력</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>* 연락처</div>
+					<input type="text" class="form-control" id="phone" placeholder="Please Enter Tel" name="phone" required maxlength="13" oninput="autoHyphen2(this)"> 
+					<div></div> 
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>* 이메일</div>
+					<input type="text" class="emailCheck" id="email" placeholder="Please Enter Email" name="email" onkeyup="checkEmail();"  required>
+					<input type="button" id="emailBtn1" value="인증" onclick="sendEmail();"><br>
+					<input type="text" class="emailCheck" id="email2" placeholder="인증번호 입력" disabled required> 
+					<div id="regEmail" class="colorSubmit" style="font-size:12px">이메일형식에 맞춰서 입력</div>
+				</td>
+			</tr>
+			<tr>
+				<td>* 나이</td>
+				<td>* 성별</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="number" class="age_gender" id="age" placeholder="나이" name="age" min="15" max="50" required>
+				</td>
+				<td>
+					<select name="gender" class="gender">
+						<option value="F">여성</option>
+						<option value="M">남성</option>
+					</select>
+				</td>
+			</tr>
+			
+		</table>
+ 
+		<div class="btns" align="center">
+			<button type="submit" class="enrollSubmit" onclick="enroll()">회원가입</button>
+			<button type="reset">초기화</button>
+		</div>
+ 
+	</form>
             
 	</div>
 	
@@ -198,15 +200,17 @@
 				else{// 사용가능한 비밀번호
 					$('#regPwd').show();
 					$('#regPwd').css('color','yellowgreen').text('사용가능한 비밀번호입니다.');
+					var Ok1 = "Y";
+					return Ok1;
 				}
 			}
 			else{// 값이 비어 있을때
 				$('#regPwd').show();
 				$('#regPwd').css('color','black').text('4-10자의 대소문자와 숫자와 특수문자 입력');
 			}
-			return false;
 			
 		}
+		
 		//비밀번호 확인
 		function CheckPwd(){
 			if(regExpPwd.test($userPwd.val())){ // 비밀번호 사용가능일 경우
@@ -217,6 +221,8 @@
 				else{ // 비밀번호가 일치할 경우
 					$('#samePwd').show();
 					$('#samePwd').css('color','yellowgreen').text('비밀번호가 일치합니다.');
+					var O2 = "Y";
+					return O2;
 				}
 			} 
 			else{
@@ -238,7 +244,9 @@
 				}
 				else{// 사용가능한 이메일
 					$('#regEmail').show();
-					$('#regEmail').css('color','yellowgreen').text('사용가능한 이메일입니다.');
+					$('#regEmail').css('color','green').text('사용가능한 이메일입니다.');
+					var O3 = "Y";
+					return O3;
 				}
 			}
 			else{// 값이 비어 있을때
@@ -248,33 +256,32 @@
 		}
 		
 		// 아이디 중복체크
-		$(function(){
+		function idCheck(){
 			const $idInput = $('#enrollForm input[name=userId]');
-
-			$idInput.keyup(function(){
-				if($idInput.val().length >= 5){
-					$.ajax({
-						url:'idCheck.me',
-						data : {checkId:$idInput.val()},
-						success:function(result){
-							if(result == 'NNNNN'){ //사용불가능
-								$('#checkResult').show();
-								$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
-							}
-							else{ // 사용가능
-								$('#checkResult').show();
-								$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디 입니다.');
-							}
-						}, error : function(){
-							console.log("아이디 중복체크용 ajax통신 실패");
-						}
-					});				
+			var O4;
+			if($idInput.val().length >= 5){
+			$.ajax({
+				url:'idCheck.me',
+				data : {checkId:$idInput.val()},
+				async : false,
+				success:function(result){
+						console.log(result);
+					if(result == 'NNNNN'){ //사용불가능
+						$('#checkResult').show();
+						$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
+					}
+					else{ // 사용가능
+						$('#checkResult').show();
+						$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디 입니다.');
+						O4 = result;
+					}
+				}, error : function(){
+					console.log("아이디 중복체크용 ajax통신 실패");
 				}
-				else{
-					$('#checkResult').hide();
-				}
-			});
-		})
+			});				
+			return O4;
+			}
+		}
 		
 		const autoHyphen2 = (target) => {
 			 target.value = target.value
@@ -283,137 +290,122 @@
 		}
 		
 		// 닉네임
-		$(function(){
+		function nickCheck(){
 			const $nickNameInput = $('#enrollForm input[name=nickname]');
+			var O5;
 			
-			$nickNameInput.keyup(function(){
-				if($nickNameInput.val().length>=2){
-					$.ajax({
-						url:'nickNameCheck.me',
-						data : {checkNickName:$nickNameInput.val()},
-						success:function(result){
-							if(result == 'NNNNN'){ //사용불가능
-								$('#nickNameResult').show();
-								$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
-							}
-							else{ // 사용가능
-								$('#nickNameResult').show();
-								$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
-							}
-						}, error : function(){
-							console.log("아이디 중복체크용 ajax통신 실패");
-						}
-					});				
-				}
-				else{
-					$('#nickNameResult').hide();
-				}
-			})
-			
-			
-		})
-		// 문자인증 관련(숫자)
-		var code2 = "";
-		$("#telBtn1").click(function(){
-			alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-			var phone = $("#phone").val();
-			console.log(phone);
+			if($nickNameInput.val().length >= 2){
 			$.ajax({
-		        url:"phoneCheck?phone=" + phone,
-		        cache : false,
-		        success:function(data){
-		        	if(data == "error"){
-		        		alert("휴대폰 번호가 올바르지 않습니다.")
-						$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
-						$(".successPhoneChk").css("color","orangered");
-						$("#phone").attr("autofocus",true);
-		        	}else{	        		
-		        		$("#phone2").attr("disabled",false);
-		        		$("#phoneChk2").css("display","inline-block");
-		        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
-		        		$(".successPhoneChk").css("color","yellowgreen");
-		        		$("#phone").attr("readonly",true);
-		        		code2 = data;
-		        	}
-		        }
-		    });
-		});
-		
-		//휴대폰 인증번호 대조
-		$("#phoneChk2").click(function(){
-			if($("#phone2").val() == code2){
-				$(".successPhoneChk").text("인증번호가 일치합니다.");
-				$(".successPhoneChk").css("color","yellowgreen");
-				$("#phoneDoubleChk").val("true");
-				$("#phone2").attr("disabled",true);
-			}else{
-				$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
-				$(".successPhoneChk").css("color","orangered");
-				$("#phoneDoubleChk").val("false");
-				$(this).attr("autofocus",true);
+				url:'nickNameCheck.me',
+				data : {checkNickName:$nickNameInput.val()},
+				async : false,
+				success:function(result){
+					if(result == 'NNNNN'){ //사용불가능
+						$('#nickNameResult').show();
+						$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
+					}
+					else{ // 사용가능
+						$('#nickNameResult').show();
+						$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
+						O5 = result;
+					}
+				}, error : function(){
+					console.log("아이디 중복체크용 ajax통신 실패");
+				}
+			});		
+			return O5;
 			}
-		});
+		}
+		
+		// 인증메일 보내기
+		function sendEmail(){
+			
+			const email = $('#email').val();
+			
+			$.ajax({
+				url:'sendEmail.me',
+				data : {email : email},
+				success:function(num){
+					//console.log(num);
+					if(num != null){
+						alert("인증번호를 발송했습니다.");
+						$('.emailCheck').removeAttr("disabled");
+					}
+				}, error : function(){
+					console.log("이메일전송 실패");
+				}
+			});
+		}
+	
+		// 인증번호 입력
+		function sendCheck(){
+			const checkEmail = $('#email2').val();
+			var O6="";
+			$.ajax({
+				url:'checkEmail.me',
+				data:{ secret : checkEmail},
+				async : false,
+				success:function(result){
+					//console.log(result);
+					if(result=='NNNNY'){
+						$('#regEmail').show();
+						$('#regEmail').css('color','yellowgreen').text('이메일 인증 성공했습니다.');
+						console.log(result);
+						O6 = result;
+					}else{
+						$('#regEmail').show();
+						$('#regEmail').css('color','orangered').text('인증번호가 일치하지 않습니다.');
+						alert("인증번호가 일치하지 않았습니다. 다시 인증해주세요")
+						O6=result;
+					}
+					
+				}, error: function(){
+					console.log("인증 실패");
+				}
+			});
+			return O6;
+		}
+		
 		// 키업
 		// 시점
-		
-		
+		<%--
 		function checkSu(){
 			//console.log(($('.colorSubmit').css('color')=='rgb(154, 205, 50)'));
-			
+			var success="";
+			success = sendCheck();
 			//변수만들기 6번
 			var count = 0;
 			$.each($('.colorSubmit'), function(index, items){
-				
+				console.log(index);
 				if($(items).css('color')=='rgb(154, 205, 50)'){
 					count+=1;
-					if(count>=5){
+					console.log(count);
+					if(count==4 && success=="Y"){
 						$(':submit').removeAttr("disabled");
 					}
+				}else{
+					count-1;
 				}
 			})
-						
+		}
+		--%>
+		
+		function enroll() {
+			if($('.age_gender').val()==""){
+				alert("나이를 설정해주세요");
+				return;
+			}
+			var success = "";
+			success = idCheck() + nickCheck() + RegPwdCheck() + CheckPwd() + checkEmail() + sendCheck();
+			// console.log(success);
+			if(success == 'NNNNYNNNNYYYYNNNNY'){
+				$(".enrollSubmit").attr('type',"submit");
+			}else{
+				$(".enrollSubmit").attr('type',"button");
+			}
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

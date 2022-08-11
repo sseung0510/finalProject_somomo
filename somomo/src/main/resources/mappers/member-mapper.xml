@@ -30,6 +30,7 @@
 			   STATUS
 		  FROM MEMBER 
 		 WHERE USER_ID = #{userId}
+		   AND STATUS='Y'
 	</select>
 	
 	<insert id="insertMember" parameterType="member">
@@ -42,7 +43,8 @@
 				PHONE,
 				EMAIL,
 				AGE,
-				GENDER
+				GENDER,
+				PROFILE_IMG
 		  	  	)
 		VALUES
 			   (
@@ -52,7 +54,8 @@
 			   #{phone},
 			   #{email},
 			   #{age},
-			   #{gender}
+			   #{gender},
+			   #{profileImg}
 			   )
 	</insert>
 	
@@ -67,4 +70,86 @@
 		  FROM MEMBER
 		 WHERE NICKNAME = #{nickname}
 	</select>
+	
+	
+	<select id="selectMyPage" resultMap="memberResultSet" parameterType="string">
+		SELECT 
+			   USER_ID,
+			   USER_PWD,
+			   NICKNAME,
+			   PHONE,
+		 	   AGE,
+		 	   EMAIL,
+			   GENDER,
+			   PROFILE_IMG,
+			   ENROLL_DATE,
+			   KAKAO_LOGIN,
+			   STATUS
+		  FROM MEMBER
+		 WHERE USER_ID=#{userId}
+		   AND STATUS='Y'
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		UPDATE
+			   MEMBER
+		   SET
+		   	   NICKNAME = #{nickname},
+		   	   PHONE = #{phone},
+			   EMAIL = #{email},
+			   PROFILE_IMG = #{profileImg}
+		 WHERE 
+		 	   USER_ID=#{userId}
+	       AND STATUS='Y'
+	</update>
+	
+	<update id="deleteMember" parameterType="string">
+		UPDATE
+			   MEMBER
+		   SET
+		   	  STATUS='N'
+		 WHERE 
+		 	   USER_ID=#{userId}
+	       AND STATUS='Y'
+	</update>
+	
+	<select id="oldUserPwd" resultType="_int" parameterType="member">
+		SELECT COUNT(*) FROM MEMBER 
+	     WHERE USER_ID = #{userId}
+	</select>
+	
+	<update id="updatePwd" parameterType="member">
+		UPDATE
+			   MEMBER
+		   SET
+		       USER_PWD = #{userPwd}
+		 WHERE
+			   USER_ID = #{userId}
+	</update>
+	
+	<insert id="regist" parameterType="cert">
+		INSERT INTO CERT(WHO, SECRET, WHEN)
+		VALUES (#{who},#{secret},sysdate)
+	</insert>
+	
+	<select id="validate" resultType="cert" parameterType="cert">
+		SELECT 
+			   WHO,
+			   SECRET,
+			   WHEN
+		  FROM
+		  	   CERT
+		 WHERE WHO = #{who}
+		   AND SECRET = #{secret}
+		   AND WHEN BETWEEN SYSDATE - 3/24/60 AND SYSDATE
+	</select>
+	
+	<delete id="remove" parameterType="cert">
+		DELETE CERT
+		 WHERE WHO = #{who} 
+		   AND SECRET = #{secret}
+	</delete>
+	
+	
+	
 </mapper>
