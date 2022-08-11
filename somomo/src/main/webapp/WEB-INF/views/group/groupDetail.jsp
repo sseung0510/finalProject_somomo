@@ -38,7 +38,7 @@
         <div class="main-middle">
             <!---------------------- 글쓰기 Modal 창 --------------------->
             <jsp:include page="groupDetailCommon/modal.jsp"/>
-
+		<div class="group-feed">
             <div class="feed-profile">
                 <img src="../src/img/kh.jpeg">
                 <div>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-
+		</div>
 
         </div>
 

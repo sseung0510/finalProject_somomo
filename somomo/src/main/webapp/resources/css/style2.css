@@ -179,6 +179,12 @@ body{
   
 }
 
+.group-feed{
+    padding: 3%;
+    box-shadow: 4px 4px 40px rgb(0, 0, 0, .1);
+    margin-top: -15px;
+}
+
 .main-middle .write-form {
   width: 100%;
   background: var(--white-color);
