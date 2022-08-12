@@ -23,7 +23,7 @@
 		<result column="COUNT_REPLY" property="countReply" />
 		<result column="COUNT_MEMBER" property="countMember" />
 		<result column="LIKE_CHECK" property="likeCheck" />
-		
+		<result column="COUNT_LIKE" property="countLike" />
 	</resultMap>
 	
 	<resultMap id="regionCategoryResultSet" type="regionCategory">
@@ -310,13 +310,35 @@
 		       MEET_GENDER,
 		       MEET_AGE,
 		       REGION_NAME,
-		       NICKNAME
+		       NICKNAME,
+		       COUNT_MEMBER,
+		       NVL(COUNT_LIKE, 0) AS COUNT_LIKE
 		  FROM
 		       FEED_BOARD F
 		  JOIN 
 		       REGION_CATEGORY USING (REGION_NO)
 		  JOIN 
 		       MEMBER ON (BOARD_WRITER = USER_ID)
+     LEFT JOIN
+               CHAT_ROOM USING(BOARD_NO)
+     LEFT JOIN
+               (SELECT 
+                       COUNT(*) AS COUNT_MEMBER,
+                       ROOM_NO
+                  FROM 
+                       CHAT_MEMBER
+                 GROUP
+                    BY ROOM_NO) USING (ROOM_NO)
+     LEFT JOIN
+               (SELECT
+                       COUNT(*) COUNT_LIKE,
+                       BOARD_NO
+                  FROM
+                       FEED_LIKES
+                 GROUP 
+                    BY BOARD_NO
+                HAVING
+                       BOARD_NO = #{boardNo}) USING (BOARD_NO)                       
 		 WHERE 
 		       BOARD_NO = #{boardNo}
 		   AND 
@@ -331,6 +353,14 @@
 		 WHERE 
 		       BOARD_NO = #{boardNo}
 	</update>
+	
+	<delete id="deleteAllAttachment" parameterType="_int">
+		DELETE
+		  FROM
+		       FEED_ATTACHMENT
+		 WHERE
+		       BOARD_NO = #{boardNo}
+	</delete>
 	
 	<insert id="insertLike" parameterType="likes">
 		INSERT 

@@ -1,5 +1,6 @@
 package com.kh.somomo.feed.controller;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ import com.kh.somomo.common.template.Pagination;
 import com.kh.somomo.common.template.Time;
 import com.kh.somomo.feed.model.service.FeedService;
 import com.kh.somomo.feed.model.vo.FeedBoard;
-import com.kh.somomo.feed.model.vo.UserFeedInfo;
 
 @Controller
 public class FeedController {
@@ -182,11 +182,21 @@ public class FeedController {
 	}
 	
 	@RequestMapping("delete.fd")
-	public String deleteFeedBoard(int bno, HttpSession session, Model model) {
+	public String deleteFeedBoard(int boardNo, HttpSession session, Model model) {
 		
-		int result = feedService.deleteBoard(bno);
-		//TODO 일반글 + 첨부파일 존재했을 경우 attachment도 삭제 필요
-		if(result > 0) {
+		
+		int result = feedService.deleteBoard(boardNo);
+		
+		// 글 삭제 성공했을 경우
+		if(result > 0) { 
+			ArrayList<Attachment> atList = feedService.selectAttachmentList(boardNo);
+			// 첨부파일 존재했을 경우
+			if(!atList.isEmpty()) {
+				feedService.deleteAllAttachment(boardNo); // DB에서 삭제
+				for(Attachment at : atList) {
+					new File(session.getServletContext().getRealPath(at.getChangeName())).delete(); // 실제 파일 삭제
+				}
+			}
 			session.setAttribute("alertMsg", "게시글 삭제 성공");
 			return "redirect:main.fd";
 		} else {

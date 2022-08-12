@@ -83,6 +83,10 @@ public class FeedDao {
 		return sqlSession.update("feedMapper.deleteBoard", boardNo);
 	}
 
+	public int deleteAllAttachment(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.delete("feedMapper.deleteAllAttachment", boardNo);
+	}
+	
 	public int insertLike(SqlSessionTemplate sqlSession, Likes like) {
 		return sqlSession.insert("feedMapper.insertLike", like);
 	}

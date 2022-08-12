@@ -102,6 +102,11 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
+	public int deleteAllAttachment(int boardNo) {
+		return feedDao.deleteAllAttachment(sqlSession, boardNo);
+	}
+	
+	@Override
 	public int insertNewAttachment(ArrayList<Attachment> atList) {
 		return 0;
 	}

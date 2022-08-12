@@ -6,39 +6,35 @@
 <head>
     <meta charset="UTF-8">
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!----------- 아이콘 CSS 링크 version 2------->
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     
+	<!-- jquery -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 	
 	<!-- Bootstrap-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-	      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-	<!-- jquery -->
- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <title>메인 페이지</title>
     
 	<style>
-		/* 제일 상단의 일반글/모임모집 작성 버튼 영역 */
-		.fd-enroll-btn-area {
-	       padding: 10px;
-	       text-align:center;
-	   	}
-		
 		/**************** 게시글 부분 ********************/
 		/* 글 테두리*/
 		.fd-board {
-			border: 1px solid rgb(158, 156, 156);
-			box-shadow: 0 1px 0 0 lightgray;
-		    border-radius:5px;
-		    padding: 10px;
-		    margin-top:10px;
+		    width: 100%;
+		    background: #fff;
+		    border-radius: 6px;
+		    padding: 20px;
+		    columns:#626262;
+		    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);
+		    margin:10px;
 		}
 		
 		/* 글 상단의 일반글/모임모집 부분*/
@@ -153,7 +149,7 @@
 				<br><br><br><br>
 				
 				<li>
-					<a href="list.gr" class="community">
+					<a href="#" class="community">
 						<i class="uil uil-comments"></i>
 						<span class="link-name">Community</span>
 					</a>
@@ -221,7 +217,7 @@
 		</div>
         
         <form action="" method="post" id="postForm">
-        	<input type="hidden" name="bno" value="">
+        	<input type="hidden" name="boardNo" value="">
         </form>
         
         
@@ -285,7 +281,6 @@
         				// 응답된 문자열은 html형식(feed/ajaxFeedList.jsp에 응답내용 있음)
 						$('.fd-board-area').append(data);
 
-						isLoading=false;
 						// 게시글 내용 클릭 시 상세페이지로 이동
 		            	$('.fd-board-contents').click(function(){
 		            		//let bno = $(this).closest('div[class="fd-board"]').find('input[name="boardNo"]').val();
@@ -293,11 +288,20 @@
 		            		location.href = "detail.fd?bno=" + bno;
 		            	});
 						
+						// 일반글 수정
+						$('.updateGeneralBoard').click(function(){
+							updateBoard(this);
+							//console.log("누름");
+							//let bno = $(this).closest('div[class="fd-board"]').find('input[name="boardNo"]').val();
+							
+							//$('#enrollBoardModal').modal('toggle');
+						});
+						
 						// 게시글 삭제
 						$('.checkDelete').click(function(){
 			        		if(confirm("삭제하시겠습니까?")){
 			    				let bno = $(this).closest('div[class="fd-board"]').find('input[name="boardNo"]').val();
-			    				$('#postForm input[name="bno"]').val(bno);
+			    				$('#postForm input[name="boardNo"]').val(bno);
 			    				$('#postForm').attr('action', 'delete.fd').submit();
 			    			}
 						});
@@ -310,7 +314,6 @@
        				}
         		});
 			}
- 
         	
         	function changeLike(likeImg){
         		
@@ -381,9 +384,8 @@
         	
 
         </script>
-        <script>
+        
 
-        </script>
             
 	    <!--------------------- Modal 창 --------------------->
 	            
@@ -411,10 +413,10 @@
 							</select>
 							
 							<div class="mdm"><b>제목</b></div>
-							<input type="text" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required></textarea>
+							<input type="text" id="title" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required>
 							
 							<div class="mdm"><b>내용</b></div>
-							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
+							<textarea name="boardContent" id="content" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
 							
 							<div class="mdm file-area">
 								<input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
@@ -440,6 +442,11 @@
 			}
 		</script>
 		
+		
+
+		
+		
+		
 	    <!------- 모임모집글 작성 모달 ------->
 		<div class="modal fade" id="enrollMeetBoardModal">
 			<div class="modal-dialog modal-dialog-centered">
@@ -464,7 +471,7 @@
 							</select>
 							
 							<div class="mdm"><b>제목</b></div>
-							<input type="text" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required></textarea>
+							<input type="text" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required>
 							
 							<div class="mdm"><b>내용</b></div>
 							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
@@ -474,7 +481,7 @@
 							<input type="datetime-local" id="dateTimeLocal" name="meetDate" class="form-control" required>
 							
 							<div class="mdm"><b>모임장소</b></div>
-							<input type="text" name="meetPlace" class="form-control" placeholder="장소입력" required></textarea>
+							<input type="text" name="meetPlace" class="form-control" placeholder="장소입력" required>
 	
 							<div class="mdm"><b>모임인원</b></div>
 							<input type="number" name="meetTotal" min="2" max="10" class="form-control" style="width:120px;" value="2">

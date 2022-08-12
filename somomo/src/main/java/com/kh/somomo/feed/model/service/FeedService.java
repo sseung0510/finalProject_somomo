@@ -53,6 +53,8 @@ public interface FeedService {
 	int deleteAttachment(ArrayList<Attachment> atList);
 	// 게시글 삭제
 	int deleteBoard(int boardNo);
+	// 기존 첨부파일 전체 삭제
+	int deleteAllAttachment(int boardNo);
 
 	//------- 댓글 서비스 -------//
 	// 댓글 목록 조회
