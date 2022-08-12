@@ -497,8 +497,8 @@
                         <div class="another-user-message-wrap-1">
                             <div class="another-user-nickname">귀여운어피치</div>
                             <div class="another-user-message-wrap-2">
-                                <div class="chat-message">네</div>
-                                <div class="chat-message-time">오후 10:08</div>
+                                <div class="another-user-chat-message">네</div>
+                                <div class="another-user-chat-message-time">오후 10:08</div>
                             </div>
                         </div>
                     </div>
