@@ -14,5 +14,6 @@ public class ChatRoom {
 	// 테이블 : CHAT_ROOM (채팅방)
 	private int roomNo;
 	private int boardNo;
-	private int roomDate;
+	private String roomName;
+	private String roomDate;
 }
