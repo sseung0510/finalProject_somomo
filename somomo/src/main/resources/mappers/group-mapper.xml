@@ -24,6 +24,41 @@
 		<result column="PROFILE_IMG" property="profileImg"/> 
 	</resultMap>
 	
+	<resultMap id="groupCategoryResultSet" type="groupCategory">
+		<result column="CATEGORY_NO" property="categoryNo" />
+		<result column="CATEGORY_NAME" property="categoryName" />
+	</resultMap>
+	
+	<resultMap id="regionCategoryResultSet" type="regionCategory">
+		<result column="REGION_NO" property="regionNo" />
+		<result column="REGION_NAME" property="regionName" />
+	</resultMap>
+	
+	
+	<select id="selectGroupListCount" resultType="_int">
+		SELECT 
+		       COUNT(*) 
+		  FROM 
+		       GROUP_ROOM 
+	</select>
+	
+	<select id="selectRegionCategoryList" resultMap="regionCategoryResultSet">
+		SELECT 
+			   REGION_NO,
+			   REGION_NAME
+		  FROM 
+		       REGION_CATEGORY
+	</select>
+	
+	
+	<select id="selectGroupCategoryList" resultMap="groupCategoryResultSet">
+		SELECT 
+			   CATEGORY_NO,
+			   CATEGORY_NAME
+		  FROM 
+		       GROUP_CATEGORY
+	</select>
+	
 	<select id="selectList" resultMap="groupResultSet">
 		SELECT 
 		       R.GROUP_NO, 
@@ -136,24 +171,30 @@
 	<select id="selectGroup" parameterType="_int" resultMap="groupResultSet">
 		SELECT 
 		       R.GROUP_NO, 
-		       GROUP_NAME, 
+		       REGION_NO, 
+		       CATEGORY_NO, 
+		       GROUP_NAME,
 		       GROUP_DETAIL, 
 		       GROUP_IMG, 
 		       GROUP_TYPE, 
+		       GROUP_DATE, 
 		       COUNT(M.GROUP_NO) MEMBER_COUNT
   		  FROM 
-  		  	   GROUP_ROOM R
+  		       GROUP_ROOM R
   		  LEFT 
-  		  JOIN 
-  		       GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
- 	     WHERE R.GROUP_NO = #{groupNo}
+  		       JOIN GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
+  	     WHERE 
+  	           R.GROUP_NO = #{groupNo}
  		 GROUP 
-    	    BY 
-    	       R.GROUP_NO, 
-    	       GROUP_NAME, 
-    	       GROUP_DETAIL, 
-    	       GROUP_IMG, 
-    	       GROUP_TYPE
+ 		    BY 
+ 		       R.GROUP_NO, 
+ 		       REGION_NO, 
+ 		       CATEGORY_NO, 
+ 		       GROUP_NAME, 
+ 		       GROUP_DETAIL, 
+ 		       GROUP_IMG, 
+ 		       GROUP_TYPE, 
+ 		       GROUP_DATE
 	</select>
 
 	<select id="selectMemberList" parameterType="_int" resultMap="memberResultSet">

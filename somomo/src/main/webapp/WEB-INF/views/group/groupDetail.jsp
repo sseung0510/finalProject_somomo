@@ -38,67 +38,81 @@
         <div class="main-middle">
             <!---------------------- 글쓰기 Modal 창 --------------------->
             <jsp:include page="groupDetailCommon/modal.jsp"/>
-		<div class="group-feed">
-            <div class="feed-profile">
-                <img src="../src/img/kh.jpeg">
-                <div>
-                    <p>Test</p>
-                    <small>지금 막</small>
-                </div>
-                <div class="form-icon">
-                    <i class='bx bx-dots-vertical-rounded feed'>
-                        <ul class="feed-link">
-                            <li><a href=""> 글 수정</a></li>
-                            <li><a href="">삭제하기</a></li>
-                            <li><a href="">공지로 등록</a></li>
-                        </ul>
-                    </i>
-                </div>
-            </div>
 
-            <div class="feed-content">
-                8월 2일 로즈애플입니다  <br>
-                🏖 8/7~8/9 휴무 <br>
-                    👉 가락공판장 휴가에 맞춰 저희도 쉬어갑니다 <br>
-                    👉 휴가 갈 생각에 벌써부터 설래 설램  <br>
-                📢 오늘의특가 <br>
-            </div>
-
-            <div class="postCount">
-                <div class="postCountLeft">
-                    <span class="likeCountBtn"><img src="../src/img/redheart.png">좋아요
-                        <span class="likeCount">2</span>
-                    </span>
-                
-                    <span class="commentCountBtn">댓글
-                        <span class="commentCount">2</span>
-                        <i class="uil uil-angle-up"></i>
-                    </span>
-                </div>
-                <div class="postCountRight">
-                    <i class="uil uil-heart"></i>
-                </div>
-            </div>
-
-            <div class="commentBox">
-                <div class="commnetWrap">
-                    <div class="writeInfo">몽키스패너
-                        <a class="upProfile">
-                            <span class="upProfileImg">
-                                <img src="../src/img/food.jpeg">
-                            </span>
-                        </a>
-                    </div>
-                    <div class="text">몽키스패너 특가로 구매했어요!!!
-                        <div class="twiceComment">
-                            <time class="time">8월 2일 오후 5:20</time>
-                            <div class="reply-replyBtn">답글쓰기</div>
+            <c:choose>
+                <c:when test="${not empty fList}">
+                    <div class="feed-profile">
+                        <img src="../src/img/kh.jpeg">
+                        <div>
+                            <p>Test</p>
+                            <small>지금 막</small>
+                        </div>
+                        <div class="form-icon">
+                            <i class='bx bx-dots-vertical-rounded feed'>
+                                <ul class="feed-link">
+                                    <li><a href=""> 글 수정</a></li>
+                                    <li><a href="">삭제하기</a></li>
+                                    <li><a href="">공지로 등록</a></li>
+                                </ul>
+                            </i>
                         </div>
                     </div>
-                </div>
-            </div>
-		</div>
 
+                    <div class="feed-content">
+                        8월 2일 로즈애플입니다  <br>
+                        🏖 8/7~8/9 휴무 <br>
+                            👉 가락공판장 휴가에 맞춰 저희도 쉬어갑니다 <br>
+                            👉 휴가 갈 생각에 벌써부터 설래 설램  <br>
+                        📢 오늘의특가 <br>
+                    </div>
+
+                    <div class="postCount">
+                        <div class="postCountLeft">
+                            <span class="likeCountBtn"><img src="../src/img/redheart.png">좋아요
+                                <span class="likeCount">2</span>
+                            </span>
+                        
+                            <span class="commentCountBtn">댓글
+                                <span class="commentCount">2</span>
+                                <i class="uil uil-angle-up"></i>
+                            </span>
+                        </div>
+                        <div class="postCountRight">
+                            <i class="uil uil-heart"></i>
+                        </div>
+                    </div>
+
+                    <div class="commentBox">
+                        <div class="commnetWrap">
+                            <div class="writeInfo">몽키스패너
+                                <a class="upProfile">
+                                    <span class="upProfileImg">
+                                        <img src="../src/img/food.jpeg">
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="text">몽키스패너 특가로 구매했어요!!!
+                                <div class="twiceComment">
+                                    <time class="time">8월 2일 오후 5:20</time>
+                                    <div class="reply-replyBtn">답글쓰기</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="empty-content">
+                        <div class="group-board">
+                            <i class="uil uil-clipboard-alt"></i>
+                        </div>
+                        <div class="board-text">
+                            <h3>그룹게시판</h3>
+                            <small>첫 게시글을 작성해보세요  <br>
+                            나와 멤버가 쓴 글이 여기에 표시됩니다.</small>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
 
         <div class="main-right">
@@ -107,7 +121,7 @@
 
     </div>
     
-    <form id="settingForm">
+    <form id="settingForm" method="post">
     	<input type="hidden" name="groupNo" value="${g.groupNo}">
     </form>
     

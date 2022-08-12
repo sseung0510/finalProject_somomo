@@ -59,7 +59,7 @@
 			            <li class="setting-item">
 			                <div class="itemContent">
 			                    <span class="label">그룹 공개</span>
-			                    <span class="label-data">공개</span>
+			                    <span class="label-data">${g.groupType}</span>
 			                </div>
 			                <div class="itemSide">
 			                    <a onclick="postForm(2);">
@@ -89,6 +89,24 @@
         </div>
 
     </div>
+    
+    <!-- 세팅페이지에서 각각의 POST요청을 처리해주는 form태그와 script -->
+    <form id="postForm">
+    	<input type="hidden" value="${g.groupNo}" name="groupNo"/>
+    </form>
+    
+    <script>
+		function postForm(num){
+			switch(num){
+				case 1: $('#postForm').attr('action', 'updateForm.gr').submit();
+				break;
+				case 2: $('#postForm').attr('action', 'grouptType.gr').submit();
+				break;
+				case 3: $('#postForm').attr('action', 'delete.gr').submit();
+				break;
+			}
+		}
+	</script>
     
     
     <script src="resources/js/GroupDetail.js"></script>

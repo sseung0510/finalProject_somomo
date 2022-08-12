@@ -23,6 +23,7 @@
 	      <typeAlias type="com.kh.somomo.group.model.vo.GroupCalendar" alias="groupCalendar" />
 	      <typeAlias type="com.kh.somomo.group.model.vo.GroupJoinApply" alias="groupJoinApply" />
 	      <typeAlias type="com.kh.somomo.group.model.vo.GroupMember" alias="groupMember" />
+	      <typeAlias type="com.kh.somomo.group.model.vo.GroupCategory" alias="groupCategory"/>
 
 		  <typeAlias type="com.kh.somomo.member.model.vo.CertVo" alias="cert"/>
 	      <typeAlias type="com.kh.somomo.member.model.vo.Member" alias="member" />

@@ -111,6 +111,8 @@ section{
     height: 100px;
     margin: 0 6px;
     border-radius: 10px;
+    opacity: 0.5;
+    box-shadow: ;
 }
 
 .groupDesc-sheet{
@@ -164,3 +166,13 @@ section{
     cursor: pointer;
 }
 
+.selectedImg{
+    opacity: 0.5;
+
+}
+
+.middle{
+    position: relative;
+    bottom: 50%;
+    left: 20%;
+}

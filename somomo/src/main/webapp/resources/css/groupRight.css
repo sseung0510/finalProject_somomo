@@ -4,13 +4,14 @@
     width: 25%;
     height: 100%;
     background-color: #ffffff;
+    margin-top: 40px;
 }
 
 
 
 .banner {
   position: fixed;
-  right: 10%;  
+  right: 140px;  
   width: 18%;
   padding: 10px;
   border-radius: 10px 10px 0 0;

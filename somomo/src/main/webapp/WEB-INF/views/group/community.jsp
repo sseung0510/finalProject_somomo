@@ -17,8 +17,7 @@
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
     <!----------- 아이콘 CSS 링크 version 2------->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
     <title>그룹리스트</title> 
 </head>
 <body>
@@ -88,15 +87,15 @@
             </div>
         </nav>
 		
-		<c:forEach var="g" items="${myGroupList}">
+		<c:forEach var="mg" items="${myGroupList}">
 			<script>
                 var result = '<div class="nav-group-list">'
-                                + '<input type="hidden" value="${g.groupNo}">'
-                                + '<img src="${g.groupImg}" alt="">'
-                                + '<span class="admingroup-name">${g.groupName}</span>'
+                                + '<input type="hidden" value="${mg.groupNo}">'
+                                + '<img src="${mg.groupImg}" alt="">'
+                                + '<span class="admingroup-name">${mg.groupName}</span>'
                             + '</div>';
 
-                if('${g.userRank}' == 'A'){
+                if('${mg.userRank}' == 'A'){
                     $('.adminGroup').append(result);
                 } 
                 else{
@@ -116,149 +115,111 @@
                 guide = "<span>현재 관리중인 그룹이 없습니다.</span>";
                 $('.adminGroup').append(guide);
             }
-            if($('.memberGroup').html() == ""){
+            else if($('.memberGroup').html() == ""){
                 guide = "<span>가입한 그룹이 없습니다.</span>";
                 $('.memberGroup').append(guide);
             }
         </script>
-
+		
+		
+		<!-- 메인  (그룹방 리스트) -->
         <main class="content">
-            
             <div class="list-outer">
                 <div class="tag-group">
                     <ul class="tag-body">
-                        <li class="category-list">그룹 전체</li>
-                        <li class="category-list">#개발</li>
-                        <li class="category-list">#여행</li>
-                        <li class="category-list">#운동</li>
+                        <li class="all-category-list">그룹 전체</li>
+                        <c:forEach var="gc" items="${cList}">
+                        <li class="category-list" value="${gc.categoryName}">#${gc.categoryName}</li>
+                        </c:forEach>
                     </ul>
                 </div>
-
                 <div class="group-outer">
-
-                    <c:forEach var="g" items="${list}">
-                        <div class="group">
-                            <div class="group-main">
-                                <input class="groupNo" type="hidden" value="${g.groupNo}">
-                                <div class="group-header">
-                                    <img src="${g.groupImg}" alt="rover" />
-                                </div>
-                                <div class="group-body">
-                                    <span class="tag tag-development">${g.categoryNo}</span>
-                                    <h4 class="groupName">
-                                        ${g.groupName}
-                                    </h4>
-                                    <div class="group-info">
-                                        <span class="group-member">멤버 ${g.memberCount}명</span>
-                                        <span>${g.groupType}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="group-foot">
-                                <div class="group-btn">
-                                    <button class="apply">그룹 가입</button>
-                                </div>
-                            </div>
-                            
-                            
-                            <div id="applyModal" class="modal">
-                                <!-- Modal content -->
-                                <div class="modal-content">
-                                    <input type="hidden" class="md-groupNo" type="text" name="groupNo">
-                                    <input type="hidden" name="userId" class="md-userId" value="${loginUser.userId}">
-                    
-                                    <div class="modal-header">
-                                        <div class="header-title">
-                                            <div class="header-title__groupName"></div>
-                                            <span>간단한 자기소개를 입력해주세요.</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="modal-body">
-                                        <textarea name="greeting" class="greeting" placeholder="여기에 작성하세요."></textarea>
-                                    </div>
-                                    <div class="modal-foot">
-                                        <button type="button" class="close">취소</button>
-                                        <button class="disabled" onclick="apply();">가입하기</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
+                
                 </div>
             </div>
         </main>
-    </section>
-
+    
+    
+    
+    
     <script>
-
-        // modal창 관련
-        $(function(){
-            const modal = $('#applyModal');
-    
-            // 아예 g를 넘겨 받는 법은? => 객체를 넘겨 받아야한다. => 어떻게....??
-            $('.apply').click(function(){
-                
-                // 그룹방 번호
-                const gno = $(this).parents('.group-foot').siblings('.group-main').children('.groupNo').val();
-                
-                // 그룹방 제목
-                const gname = $(this).parents('.group-foot').siblings('.group-main').children('.group-body').children('.groupName').text().trim()
-                
-                $('.md-groupNo').val(gno);
-                $('.header-title__groupName').text(gname);
-    
-                modal.fadeIn(300);
-                $('body').css({'overflow': 'hidden', 'height' : '100%'});
-                
-            })
-
-            // 취소버튼 눌렀을때 모달 창 닫아주기
-            $('.close').click(function(){
-                modal.fadeOut(300);
-            })
-        })
-
-        function apply(){
-
-            const modal = $('#applyModal');
-            
-            const $groupNo = $('.md-groupNo').val();
-            //console.log($('.md-groupNo').val());
-
-            const $greeting = $('.greeting').val();
-            // console.log($('.greeting').val());
-
-            const $userId = "${loginUser.userId}";
-            //console.log($userId);
-
-            $.ajax({
-                url : "apply.gr",
-                data : {groupNo : $groupNo, userId : $userId, greeting : $greeting},
-                type : "post",
-                success : function(result){
-                    console.log(result);
-
-                    modal.hide();
-                    
-                }, error : function(){
-                    console.log("통신 실패!");
-                }
-            })
-        }
+    	<!--무한스크롤 페이징-->
+	    $(function(){
+			let currentPage = ${pi.currentPage};
+			console.log('시작:'+currentPage);
+			selectGroupList(currentPage);
+			
+			//스크롤 할 때마다 호출되는 함수
+			$(window).on('scroll', function(){
+				if(${pi.maxPage eq 0}){
+					return; //등록된 게시글이 없을 경우 종료
+				}
+				//위로 스크롤된 길이
+				let scrollTop = $(window).scrollTop();
+				//웹 브라우저 창의 높이
+				let windowHeight = $(window).height();
+				//문서 전체의 높이
+				let documentHeight = $(document).height();
+				//바닥까지 스크롤
+				let isBottom = scrollTop + windowHeight  >= documentHeight;
+				
+				if(isBottom){
+					if(currentPage == ${pi.maxPage}){
+						return; //마지막 페이지라면 끝
+					}
+					
+					currentPage ++;//요청 페이지 번호 1증가
+					
+					selectGroupList(currentPage);
+				
+				}
+	    	});
+	    });
+	    
+	    <!-- 그룹 리스트 ajax -->
+	    function selectGroupList(currentPage){
+	    	
+	    	console.log('요청'+currentPage);
+	    	
+	    	$.ajax({
+	    		url:'list.gr',
+	    		method:'POST',
+	    		data : {
+    				userId : '${loginUser.userId}',
+    				cpage : currentPage
+    			},
+    			success : function(result){
+    				
+    				$('.group-outer').append(result);
+    				
+    				
+	    			//카테고리 클릭시 카테고리별 리스트 ??????? 고민중
+   					/*$('.tag-group ul li').click(function(){
+   						
+	    				//클릭하는 li의 catgoryNo와 게시물의 categoryNo가 같다면  ????
+	    				if('${g.categoryNo}' == $(this).val()){ 
+	    					$('.group-outer *').remove();
+		    				$('.group-outer').append(result);
+	    				}
+	    				
+   					})*/
+   					
+    					
+    				//관리자면 게시글 삭제 가능
+    				
+    			}
+	    	});
+	    }
+	    
     </script>
-
+    
     <script>
-        $('.group-main').click(function(){
-            location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
-        })
-        
+    	
         $('.nav-group-list').click(function(){
             location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
         })
     </script>
 
-</body>
+	</section>
+    </body>
 </html>
