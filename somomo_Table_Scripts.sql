@@ -77,10 +77,10 @@ COMMENT ON COLUMN MEMBER.KAKAO_LOGIN IS '카카오계정';
 COMMENT ON COLUMN MEMBER.STATUS IS '상태';
 
 INSERT INTO MEMBER 
-VALUES ('admin', '$2a$10$0ZZFnmV2fxN1JNAg1BSsx.kcLqQXMK6apchthmGiCETVsYG0DdAya', '관리자', '01000000000', 'admin@email.com', 0, 'F', NULL, DEFAULT, DEFAULT, DEFAULT);
+VALUES ('admin', '$2a$10$0ZZFnmV2fxN1JNAg1BSsx.kcLqQXMK6apchthmGiCETVsYG0DdAya', '관리자', '01000000000', 'admin@email.com', 0, 'F', 'resources/img/member/profile_img.png', DEFAULT, DEFAULT, DEFAULT);
 
 INSERT INTO MEMBER 
-VALUES ('user01', '$2a$10$CKY0j.HOti0nase1N3zWgu1TWQyV16N.v1mballOcVVWGy5aeWjBC', '유저1', '01011111111', 'user01@email.com', 20, 'M', NULL, DEFAULT, DEFAULT, DEFAULT);
+VALUES ('user01', '$2a$10$CKY0j.HOti0nase1N3zWgu1TWQyV16N.v1mballOcVVWGy5aeWjBC', '유저1', '01011111111', 'user01@email.com', 20, 'M', 'resources/img/member/profile_img.png', DEFAULT, DEFAULT, DEFAULT);
 --------------------------------------------------
 --------------    REGION_CATEGORY	--------------
 --------------------------------------------------
@@ -251,7 +251,7 @@ CREATE TABLE GROUP_ROOM(
     GROUP_NAME VARCHAR2(300) NOT NULL,
     GROUP_IMG VARCHAR2(100),
     GROUP_DETAIL VARCHAR2(4000) NOT NULL,
-    GROUP_TYPE VARCHAR2(1) DEFAULT 'A' CHECK(GROUP_TYPE IN('A', 'B')),
+    GROUP_TYPE VARCHAR2(1) DEFAULT 'A' CHECK(GROUP_TYPE IN('A', 'B', 'C')),
     GROUP_DATE DATE DEFAULT SYSDATE,
     FOREIGN KEY(REGION_NO) REFERENCES REGION_CATEGORY ON DELETE CASCADE,
     FOREIGN KEY(CATEGORY_NO) REFERENCES GROUP_CATEGORY ON DELETE CASCADE
