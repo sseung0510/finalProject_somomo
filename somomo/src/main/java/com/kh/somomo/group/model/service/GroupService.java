@@ -46,6 +46,13 @@ public interface GroupService {
 	// 그룹방 멤버 리스트
 	ArrayList<GroupMember> selectMemberList(int groupNo);
 	
+	// ----------- 그룹방 설정 변경 및 삭제 --------- //
+	int updateGroup(GroupRoom g);
+	
+	int deleteGroup(int groupNo);
+	
+	int updateType(GroupRoom g);
+	
 	// ------
 	// 그룹 가입 신청
 	//int applyGroup(GroupJoinApply applyInfo);

@@ -63,4 +63,16 @@ public class GroupDao {
 		return (ArrayList)sqlSession.selectList("groupMapper.selectMemberList", groupNo);
 	}
 
+	public int updateGroup(SqlSessionTemplate sqlSession, GroupRoom g) {
+		return sqlSession.update("groupMapper.updateGroup", g);
+	}
+
+	public int deleteGroup(SqlSessionTemplate sqlSession, int groupNo) {
+		return sqlSession.delete("groupMapper.deleteGroup", groupNo);
+	}
+
+	public int updateType(SqlSessionTemplate sqlSession, GroupRoom g) {
+		return sqlSession.update("groupMapper.updateType", g);
+	}
+
 }

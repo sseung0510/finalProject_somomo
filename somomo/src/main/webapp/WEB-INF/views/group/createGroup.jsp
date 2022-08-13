@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.0">
-    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.0.0">
+    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.0.5">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -23,7 +23,7 @@
         <header>
             <div class="logo-name">
                 <div class="logo-image">
-                    <a href="index.html"><img src="resources/img/logo.jpg" alt=""></a>
+                    <a href="main.fd"><img src="resources/img/web_logo.jpg" alt=""></a>
                 </div>
                 <span class="logo_name">SoMoMo</span>
             </div>
@@ -49,10 +49,10 @@
         <section>
             <div>
                 <form action="insert.gr" enctype="multipart/form-data" method="post">
-                	<input type="hidden" name="userId" value="${loginUser.userId}">
-                	<input type="hidden" name="userRank" value="A">
-                    <div class="category-sheet">
+                    <input type="hidden" name="userId" value="${loginUser.userId}">
+                    <input type="hidden" name="userRank" value="A">
 
+                    <div class="category-sheet">
                         <label for="regionNo">지역 선택</label>
                         <select name="regionNo" id="regionNo">
                             <c:forEach var="r" items="${rList}">
@@ -83,14 +83,6 @@
                             </span>
                         </div>
                         
-                        <script>
-                            function setDefaultImg(){
-                                $("input[name=groupImg]").val($("#groupImg").attr('src')) // 경로
-                                // alert($("input[name=groupImg]").val());  // 출력
-                            }
-                        </script>
-                        
-                        
                         <div class="img-list">
                             <div class="head">
                                 <h3>그룹을 대표할 사진을 선택하세요</h3>
@@ -98,69 +90,38 @@
                             <ul class="list">
                                 <li><img id="userImg" src="resources/img/addImg.png" alt=""></li><!-- 이친구는 사용자가 등록 할 수 있는 사진 -->
                                 <!-- 아래 사진들은 사이트에서 기본적으로 제공해주는 사진들 -->
-                                <li><img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img1.jpeg" alt="" ></li>
-                                <li><img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img2.jpeg" alt="" ></li>
-                                <li><img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img3.jpeg" alt="" ></li>
-                                <li><img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img4.jpeg" alt="" ></li>
-                                <li><img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img5.jpeg" alt="" ></li>
-                                <li><img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img6.jpeg" alt="" ></li>
-                                <li><img class="defaultImg" src="resources/img/web_logo.jpg" alt="" ></li>
+                                <li>
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img1.jpeg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img2.jpeg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img3.jpeg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img4.jpeg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <img id="me" class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img5.jpeg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img6.jpeg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <img class="defaultImg" src="resources/img/web_logo.jpg" alt="" >
+                                    <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <input type="file" name="upfile" id="upfile" onchange="loadImg(this);">
-                    <script>
-                        // 페이지가 로드되면 랜덤으로 그룹이미지 지정
-                        const groupImg = $('#groupImg');
-                        const defaultImgs = $('.defaultImg');
-
-                        $(function(){
-                            
-                            // 이미지의 경로를 담아줄 arr 생성
-                            let imgArr = [];
-
-                            // forEach를 사용해서 imgArr 배열에 기본이미지의 src push
-                            defaultImgs.each(function(){
-                                imgArr.push($(this).attr('src'));
-                            })
-
-                            // 배열에서 난수를 발생시키고 배열의 길이만큼 곱한뒤 floor처리로 소수점아래 버려줌 => 랜덤 src 생성
-                            const randomImgSrc = imgArr[Math.floor(Math.random()*imgArr.length)];
-                            
-                            // 그룹이미지 미리보기 영역의 src속성의 값으로 생성한 랜덤 src 추가
-                            groupImg.attr('src', randomImgSrc);
-                        })
-                        
-
-                        // 페이지가 로드된 이후 사용자가 제공되는 이미지중 다른 이미지를 선택할시에 미리보기 보여줌
-                        $('.defaultImg').click(function(){
-                            const imgSrc = $(this).attr('src');
-                            $('#groupImg').attr('src', imgSrc);
-
-                            // 만약 사용자가 upfile을 지정한 이후(input에 사진의 정보가 있을때) 라면 input 비워주기
-                            $('#upfile').val('');
-                        })
-
-                        // 사용자가 선택한 사진 미리보기 영역에 출력
-                        function loadImg(inputFile){
-                            
-                            if(inputFile.files.length == 1){
-                                const reader =new FileReader();
-
-                                reader.readAsDataURL(inputFile.files[0]);
-
-                                reader.onload = function(e){
-                                    groupImg.attr('src', e.target.result);
-                                }
-                            }
-                        }
-
-                        // Input태그는 숨겨준다
-                        $('#upfile').hide();
-                        $('#userImg').click(function(){
-                            $('#upfile').click();
-                        })
-                    </script>
 
                     <div class="groupDesc-sheet">
                         <textarea name="groupDetail" id="groupDetail" placeholder="생성하신 그룹에 관한 간단한 설명을 적어주세요" required></textarea>
@@ -194,11 +155,7 @@
                                 <div class="content-row__desc">누구나 그룹을 검색해 찾을 수 있고, 그룹 소개와 게시글을 볼 수 있습니다.</div>
                             </div>
                         </div>
-
-                        <script>
-                            // 기본으로 공개 그룹으로 설정
-                            $('#public-toAll').prop('checked', true);
-                        </script>
+                        
                     </div>
 
                     <div class="button-area">
@@ -212,6 +169,108 @@
         </section>
 
     </main>
+
+    <script>
+        // 그룹 공개 타입 : Default == A(공개)
+        $('#public-toAll').prop('checked', true);
+
+        // 사용자가 업로드 할 수 있는 input은 숨김
+        $('#upfile').hide();
+        $('#userImg').click(function(){
+            $('#upfile').click();
+        })
+
+        // groupImg : 미리보기 이미지, defaultImgs : 사이트에서 제공하는 기본 이미지들 
+        const groupImg = $('#groupImg');
+        const defaultImgs = $('.defaultImg');
+
+        $(function(){ 
+            // 이미지의 경로를 담아줄 arr 생성
+            let imgArr = [];
+
+            // each를 사용해서 기본 이미지의 src값들을 뽑아 배열에 push : ImgArr 배열에 각각 담김
+            defaultImgs.each(function(){
+                imgArr.push($(this).attr('src'));
+            })
+
+            //랜덤 이미지를 뽑기위한 Math.random : 랜덤한 수를 발생시켜 imgArr의 인덱스에 접근
+            const randomImgSrc = imgArr[Math.floor(Math.random()*imgArr.length)];
+            
+            // 그룹이미지 미리보기 영역의 src속성의 값으로 randomImgSrc의 값을 대입
+            groupImg.attr('src', randomImgSrc);
+
+            // 선택된 기본 이미지 focus
+            defaultImgs.each(function(){
+                if($(this).attr('src') == $('#groupImg').attr('src')){
+                    $(this).siblings().removeClass('display-none');
+                }
+            })
+
+        })
+
+        // 페이지가 로드된 이후 제공되는 이미지중 다른 이미지를 선택 할 시에 미리보기 보여줌
+        defaultImgs.click(function(){
+            const imgSrc = $(this).attr('src');
+            $('#groupImg').attr('src', imgSrc);
+
+            $(this).siblings().removeClass('display-none');
+
+            defaultImgs.each(function(){
+                if($(this).attr('src') != $('#groupImg').attr('src')){
+                    $(this).siblings().addClass('display-none');
+                }
+            })
+
+            // 만약 사용자가 upfile을 지정한 이후(input에 사진의 정보가 있을때) 라면 input 비워주기
+            $('#upfile').val('');
+        })
+
+        // 사용자가 선택한 사진 미리보기 영역에 출력
+        function loadImg(inputFile){
+            
+            if(inputFile.files.length == 1){
+                const reader =new FileReader();
+
+                reader.readAsDataURL(inputFile.files[0]);
+
+                reader.onload = function(e){
+                    groupImg.attr('src', e.target.result);
+                }
+            }
+        }
+
+        const img = document.getElementById('groupImg');
+
+        observer = new MutationObserver((changes) => {
+            changes.forEach(change => {
+                if(change.attributeName.includes('src')){
+                    
+                    defaultImgs.each(function(){
+                        if($(this).attr('src') != $('#groupImg').attr('src')){
+                            $(this).siblings().addClass('display-none');
+                        }
+                    })
+
+                }
+            });
+        });
+        observer.observe(img, {attributes : true});
+    </script>
+
+    <script>
+        function setDefaultImg(){
+            $("input[name=groupImg]").val($("#groupImg").attr('src')) // 경로
+        }
+
+        // 함수로 따로 뺐는데 안됨..
+        function showImgSelected(){
+            defaultImgs.each(function(){
+                if($(this).attr('src') != $('#groupImg').attr('src')){
+                    $(this).siblings().addClass('display-none');
+                }
+            })
+        }
+    </script>
 
 </body>
 </html>

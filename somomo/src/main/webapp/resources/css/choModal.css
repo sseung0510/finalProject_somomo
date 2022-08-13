@@ -1,7 +1,7 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 99; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -88,4 +88,24 @@
 .disabled{
     background-color: #888;
     color: white;
+}
+
+/* 세팅창 모달 */
+
+.modal-content-setting{
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px; /* Could be more or less, depending on screen size */
+    height: 600px;
+    border-radius: 20px;
+}
+
+.content{
+    display: flex;
+}
+
+.content-row{
+    margin: 10px 0;
 }

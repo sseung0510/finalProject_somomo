@@ -78,6 +78,21 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.selectMemberList(sqlSession, groupNo);
 	}
 
+	@Override
+	public int updateGroup(GroupRoom g) {
+		return groupDao.updateGroup(sqlSession, g);
+	}
+
+	@Override
+	public int deleteGroup(int groupNo) {
+		return groupDao.deleteGroup(sqlSession, groupNo);
+	}
+
+	@Override
+	public int updateType(GroupRoom g) {
+		return groupDao.updateType(sqlSession, g);
+	}
+
 	
 	
 }

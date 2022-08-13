@@ -173,18 +173,19 @@
 		       R.GROUP_NO, 
 		       REGION_NO, 
 		       CATEGORY_NO, 
-		       GROUP_NAME,
+		       GROUP_NAME, 
 		       GROUP_DETAIL, 
 		       GROUP_IMG, 
-		       GROUP_TYPE, 
+		       DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개')GROUP_TYPE, 
 		       GROUP_DATE, 
 		       COUNT(M.GROUP_NO) MEMBER_COUNT
   		  FROM 
   		       GROUP_ROOM R
-  		  LEFT 
-  		       JOIN GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
-  	     WHERE 
-  	           R.GROUP_NO = #{groupNo}
+  	      LEFT 
+  	      JOIN 
+  	           GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
+ 		 WHERE 
+ 		       R.GROUP_NO = #{groupNo}
  		 GROUP 
  		    BY 
  		       R.GROUP_NO, 
@@ -192,7 +193,7 @@
  		       CATEGORY_NO, 
  		       GROUP_NAME, 
  		       GROUP_DETAIL, 
- 		       GROUP_IMG, 
+ 		       GROUP_IMG,
  		       GROUP_TYPE, 
  		       GROUP_DATE
 	</select>
@@ -213,4 +214,33 @@
  	        BY 
  	           USER_RANK ASC
 	</select>
+	
+	<update id="updateGroup" parameterType="groupRoom">
+		UPDATE 
+       		   GROUP_ROOM
+   	 	   SET 
+       		   REGION_NO = #{regionNo},
+       		   CATEGORY_NO = #{categoryNo},
+       		   GROUP_NAME = #{groupName},
+       		   GROUP_DETAIL = #{groupDetail},
+       		   GROUP_IMG = #{groupImg}
+ 		 WHERE
+       		   GROUP_NO = #{groupNo}
+	</update>
+	
+	<update id="updateType" parameterType="groupRoom">
+		UPDATE
+		       GROUP_ROOM
+		   SET
+		       GROUP_TYPE = #{groupType}
+		 WHERE 
+		       GROUP_NO = #{groupNo}
+	</update>
+	
+	<delete id="deleteGroup" parameterType="_int">
+		DELETE
+		       GROUP_ROOM
+		 WHERE
+		       GROUP_NO = ${groupNo}
+	</delete>
 </mapper>

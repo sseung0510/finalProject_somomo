@@ -3,12 +3,14 @@ package com.kh.somomo.group.controller;
 
 import static com.kh.somomo.common.template.FileRename.saveFile;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.template.Pagination;
@@ -106,8 +109,6 @@ public class GroupController {
 		GroupRoom gr = groupService.selectGroup(gno); 	     			   // 특정 그룹방에대한 정보를 담음
 		ArrayList<GroupMember> mList = groupService.selectMemberList(gno); // 가입된 회원리스트
 		
-		System.out.println(groupService.selectMemberList(gno));
-		
 		if (gr != null) {
 			mv.addObject("g", gr)
 			  .addObject("mList", mList)
@@ -133,26 +134,108 @@ public class GroupController {
 	@RequestMapping("updateForm.gr")
 	public String updateGroup(int groupNo, Model model) {
 		
-		model.addAttribute("g", groupService.selectGroup(groupNo));
+		model.addAttribute("g", groupService.selectGroup(groupNo))
+			 .addAttribute("rList",groupService.selectRegionCategoryList())
+			 .addAttribute("cList", groupService.selectGroupCategoryList());;
 		
 		return "group/updateGroup";
 	}
 	
-	@RequestMapping("grouptType.gr")
-	public String changeType() {
+	@RequestMapping("update.gr")
+	public String updateGroup(GroupRoom g, MultipartFile reupfile, String originFile, HttpSession session) {
+		// 설정 변경에서 변경 가능한 정보들 : 지역/그룹 카테고리, 그룹명, 그룹 설명, 그룹사진
 		
+		// g.groupImg에는 들어있는 값 :
+		// 	- 사이트 제공하는 기본 이미지 선택했을때는 해당 경로가..
+		//  - 업로드 파일을 이용해 전송됐을때는 빈값...
+		// originFile에는 이전에 사용중이던 대표이미지의 경로가 넘어옴
 		
-		return "main";
+		// 수정 전 사용하던 그룹 대표 이미지가 사이트에서 제공하던 사진이였는지, 사용자가 직접 업로드한 사진이였는지 확인하는 메소드
+		// true : 사이트에서 제공하는 사진, false : 사용자가 업로드한 파일
+		boolean checkImg = checkDefaultImg(session, originFile); 
+		
+		// 새로운 업로드 파일이 있는지 확인
+		if(!reupfile.getOriginalFilename().equals("")) {
+			
+			// 새로운 업로드 파일이 존재함 -> 기존의 사진이 사이트에서 제공한 기본 사진 이였는지 사용자가 업로드했던 사진인지 확인
+			if(!checkImg) {
+				// 사용자가 등록했던 사진 찾아서 삭제
+				new File(session.getServletContext().getRealPath(originFile)).delete();
+			} 
+			// g.groupImg 필드에 새롭게 업로드된 파일경로 설정
+			HashMap<String, String> map = saveFile(reupfile, session, "img/group/userGroupImg");
+			g.setGroupImg(map.get("changeName"));	
+			
+		} else {
+			// 새롭게 업로드된 파일이 없음 -> 그룹이미지가 변경 되었는지 확인해야됨
+			// 사용자 지정 이미지의 경우 checkImg에 의해 걸러지기 때문에 사진을 따로 변경하지 않았을때는 지워주면 안됨
+			if(!g.getGroupImg().equals(originFile)) {
+				
+				// 그룹이미지 정보가 변경됨 : 이경우에는 사용자가 업로드했던 파일을 내리고 사이트 제공 이미지를 재 선택함
+				if (!checkImg) {
+					// 사용자가 등록했던 사진은 삭제 해준다.
+					new File(session.getServletContext().getRealPath(originFile)).delete();
+				}				
+			}
+		}
+		
+		int result = groupService.updateGroup(g);
+		
+		return "redirect:setting.gr?groupNo=" + g.getGroupNo();
 	}
+	
+	@RequestMapping("updateType.gr")
+	public String updateType(GroupRoom g) {
+		
+		int result = groupService.updateType(g);
+		
+		return "redirect:setting.gr?groupNo=" + g.getGroupNo();
+	}
+	
 	
 	@RequestMapping("delete.gr")
-	public String deleteGroup() {
+	public String deleteGroup(int groupNo, HttpSession session) {
 		
+		GroupRoom g = groupService.selectGroup(groupNo);
 		
-		return "main";
+		boolean checkImg = checkDefaultImg(session, g.getGroupImg());
+		
+		if(!checkImg) {
+			// 사용자가 등록한 사진은 찾아서 삭제 해줌
+			new File(session.getServletContext().getRealPath(g.getGroupImg())).delete();
+		}
+		
+		int result = groupService.deleteGroup(groupNo);
+		
+		return "redirect:groupRoom.gr";
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	public boolean checkDefaultImg(HttpSession session, String originFile) {
+		
+		String IMG_DRIECTORY = session.getServletContext().getRealPath("/resources/img/group/defaultGroupImg");
+		
+		String checkImg = originFile.substring(36);
+		
+		File dir = new File(IMG_DRIECTORY);
+		
+		String[] defaultImgs = dir.list();
+		
+		for(String img : defaultImgs) {
+			if (img.equals(checkImg)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 	

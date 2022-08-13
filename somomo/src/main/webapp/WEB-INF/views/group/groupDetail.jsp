@@ -121,6 +121,7 @@
 
     </div>
     
+    <!-- 세팅페이지로 넘어감 : 그룹방 번호 숨겨주기 위해 post로 보냈습니다.-->
     <form id="settingForm" method="post">
     	<input type="hidden" name="groupNo" value="${g.groupNo}">
     </form>

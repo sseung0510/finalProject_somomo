@@ -80,6 +80,7 @@
             // 취소버튼 눌렀을때 모달 창 닫아주기
             $('.close').click(function(){
                 modal.fadeOut(300);
+                $('body').css({'overflow':'auto'});
             })
         })
 
@@ -93,7 +94,7 @@
             const $greeting = $('.greeting').val();
             // console.log($('.greeting').val());
 
-            const $userId = "${loginUser.userId}";
+            const $userId = '${loginUser.userId}';
             //console.log($userId);
 
             $.ajax({
@@ -111,6 +112,7 @@
             })
         }
         
+        // 각 그룹방 리스트들을 누르면 해당 방으로 이동
         $('.group-main').click(function(){
             location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
         })

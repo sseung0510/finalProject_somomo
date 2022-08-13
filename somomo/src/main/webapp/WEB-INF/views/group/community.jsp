@@ -7,11 +7,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
     <link rel="stylesheet" href="resources/css/groupList.css?ver=1.3.3">
-    <link rel="stylesheet" href="resources/css/applyModal.css?ver=1.0.2">
+    <link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.4">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -121,7 +120,6 @@
             }
         </script>
 		
-		
 		<!-- 메인  (그룹방 리스트) -->
         <main class="content">
             <div class="list-outer">
@@ -138,9 +136,6 @@
                 </div>
             </div>
         </main>
-    
-    
-    
     
     <script>
     	<!--무한스크롤 페이징-->
@@ -173,48 +168,48 @@
 					selectGroupList(currentPage);
 				
 				}
-	    	});
-	    });
-	    
-	    <!-- 그룹 리스트 ajax -->
-	    function selectGroupList(currentPage){
-	    	
-	    	console.log('요청'+currentPage);
-	    	
-	    	$.ajax({
-	    		url:'list.gr',
-	    		method:'POST',
-	    		data : {
-    				userId : '${loginUser.userId}',
-    				cpage : currentPage
-    			},
-    			success : function(result){
-    				
-    				$('.group-outer').append(result);
-    				
-    				
-	    			//카테고리 클릭시 카테고리별 리스트 ??????? 고민중
-   					/*$('.tag-group ul li').click(function(){
-   						
-	    				//클릭하는 li의 catgoryNo와 게시물의 categoryNo가 같다면  ????
-	    				if('${g.categoryNo}' == $(this).val()){ 
-	    					$('.group-outer *').remove();
-		    				$('.group-outer').append(result);
-	    				}
-	    				
-   					})*/
-   					
-    					
-    				//관리자면 게시글 삭제 가능
-    				
-    			}
-	    	});
-	    }
-	    
+            });
+        });
+        
+        <!-- 그룹 리스트 ajax -->
+        function selectGroupList(currentPage){
+            
+            console.log('요청'+currentPage);
+            
+            $.ajax({
+                url:'list.gr',
+                method:'POST',
+                data : {
+                    userId : '${loginUser.userId}',
+                    cpage : currentPage
+                },
+                success : function(result){
+                    
+                    $('.group-outer').append(result);
+                    
+                    
+                    //카테고리 클릭시 카테고리별 리스트 ??????? 고민중
+                    /*$('.tag-group ul li').click(function(){
+                        
+                        //클릭하는 li의 catgoryNo와 게시물의 categoryNo가 같다면  ????
+                        if('${g.categoryNo}' == $(this).val()){ 
+                            $('.group-outer *').remove();
+                            $('.group-outer').append(result);
+                        }
+                        
+                    })*/
+                    
+                        
+                    //관리자면 게시글 삭제 가능
+                    
+                }
+            });
+        }
+        
     </script>
     
     <script>
-    	
+        // 목록에 나오는 리스트 누르면 해당 그룹방으로 갈 수 있음
         $('.nav-group-list').click(function(){
             location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
         })
