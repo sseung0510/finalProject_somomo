@@ -51,8 +51,8 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertMeetBoard", fb);
 	}
 
-	public int insertChatRoom(SqlSessionTemplate sqlSession) {
-		return sqlSession.insert("feedMapper.insertChatRoom");
+	public int insertChatRoom(SqlSessionTemplate sqlSession, String boardTitle) {
+		return sqlSession.insert("feedMapper.insertChatRoom", boardTitle);
 	}
 
 	public int insertChatMember(SqlSessionTemplate sqlSession, String boardWriter) {

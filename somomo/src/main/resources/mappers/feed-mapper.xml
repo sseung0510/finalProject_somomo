@@ -168,22 +168,24 @@
 		       )
 	</insert>
 	
-	<insert id="insertChatRoom">
+	<insert id="insertChatRoom" parameterType="String">
 		INSERT 
 		  INTO 
 		       CHAT_ROOM
 		       (
 		       ROOM_NO,
-		       BOARD_NO
+		       BOARD_NO,
+		       ROOM_NAME
 		       )
 		VALUES 
 		       (
 		       SEQ_CRNO.NEXTVAL,
-		       SEQ_FBNO.CURRVAL
+		       SEQ_FBNO.CURRVAL,
+		       #{boardTitle}
 		       )
 	</insert>
 	
-	<insert id="insertChatMember">
+	<insert id="insertChatMember" parameterType="String">
 		INSERT 
 		  INTO 
 		       CHAT_MEMBER
