@@ -123,8 +123,26 @@ public class MemberServiceImpl implements MemberService{
 	public boolean validate(CertVo certVo) {
 		return memberDao.validate(sqlSession, certVo);
 	}
-	
-	
+
+	@Override
+	public Member searchId(Member m) {
+		return memberDao.searchId(sqlSession, m);
+	}
+	/*
+	@Override
+	public int searchPwd(HashMap<String, String> map) {
+		return memberDao.searchPwd(sqlSession, map);
+	}
+	*/
+	@Override
+	public int searchPwd(Member m) {
+		return memberDao.searchPwd(sqlSession, m);
+	}
+
+	@Override
+	public int changeUpPwd(HashMap<String, Object> map) {
+		return memberDao.changeUpPwd(sqlSession, map);
+	}
 	
 	
 	

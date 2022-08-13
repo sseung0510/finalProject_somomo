@@ -7,8 +7,10 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script><!-- 스위트얼럿 -->
 
 <style>
+
 	body{
 		width : 100%;
 		height : 100%;
@@ -108,7 +110,8 @@
 </style>
 </head>
 <body>
-
+	
+	
 	<div class="form">
 		
 		<div class="logo-name">
@@ -129,7 +132,7 @@
 		</div>
 		<br><br><br>
 		
-		<a href="#" class="searchMem">로그인/비밀번호 찾기</a>
+		<a href="searchMem.me" class="searchMem">로그인/비밀번호 찾기</a>
 		
 		
 		
@@ -150,10 +153,11 @@
 		<a href="enrollForm.me">계정이 없으신가요? 가입하기</a>
 	</div>
 	
-	
-	
-	
-	
+	<c:if test="${!empty alertMsg }">
+		<script>
+			alert("${alertMsg}");
+		</script>
+	</c:if>
 
 </body>
 </html>

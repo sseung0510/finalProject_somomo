@@ -1,5 +1,6 @@
 package com.kh.somomo.member.model.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.kh.somomo.member.model.vo.CertVo;
@@ -18,7 +19,7 @@ public interface MemberService {
 	
 	// 닉네임 중복체크
 	int NickNameCheck(String checkNickName);
-
+	
 	/*
 	// sms문자인증
 	void certifiedPhoneNumber(String userPhoneNumber, int randomNumber);
@@ -44,5 +45,11 @@ public interface MemberService {
 
 	// 인증번호 확인
 	boolean validate(CertVo certVo);
+
+	Member searchId(Member m);
+
+	int searchPwd(Member m);
+
+	int changeUpPwd(HashMap<String, Object> map);
 	
 }

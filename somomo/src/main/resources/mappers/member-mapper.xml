@@ -15,6 +15,7 @@
 		<result column="STATUS" property="status"/>
 	</resultMap>
 
+	<!-- 멤버로그인 -->
 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
 		SELECT
 			   USER_ID,
@@ -33,6 +34,7 @@
 		   AND STATUS='Y'
 	</select>
 	
+	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="member">
 		INSERT
 		  INTO MEMBER
@@ -59,19 +61,21 @@
 			   )
 	</insert>
 	
+	<!-- 아이디 중복체크 -->
 	<select id="idCheck" resultType="_int"> 
 		SELECT COUNT(*)
 		  FROM MEMBER
 		 WHERE USER_ID = #{checkId}
 	</select>	
 
+	<!-- 닉네임 중복체크 -->
 	<select id="NickNameCheck" resultType="_int">
 		SELECT COUNT(*)
 		  FROM MEMBER
 		 WHERE NICKNAME = #{nickname}
 	</select>
 	
-	
+	<!-- 마이페이지 -->
 	<select id="selectMyPage" resultMap="memberResultSet" parameterType="string">
 		SELECT 
 			   USER_ID,
@@ -90,6 +94,7 @@
 		   AND STATUS='Y'
 	</select>
 	
+	<!-- 회원정보 업데이트 -->
 	<update id="updateMember" parameterType="member">
 		UPDATE
 			   MEMBER
@@ -103,6 +108,7 @@
 	       AND STATUS='Y'
 	</update>
 	
+	<!-- 회원탈퇴 -->
 	<update id="deleteMember" parameterType="string">
 		UPDATE
 			   MEMBER
@@ -113,11 +119,13 @@
 	       AND STATUS='Y'
 	</update>
 	
+	<!-- 비밀번호 변경 전 확인 -->
 	<select id="oldUserPwd" resultType="_int" parameterType="member">
 		SELECT COUNT(*) FROM MEMBER 
 	     WHERE USER_ID = #{userId}
 	</select>
 	
+	<!-- 비밀번호 변경 -->
 	<update id="updatePwd" parameterType="member">
 		UPDATE
 			   MEMBER
@@ -127,11 +135,13 @@
 			   USER_ID = #{userId}
 	</update>
 	
+	<!-- 이메일 인증 -->
 	<insert id="regist" parameterType="cert">
 		INSERT INTO CERT(WHO, SECRET, WHEN)
 		VALUES (#{who},#{secret},sysdate)
 	</insert>
 	
+	<!-- 이메일 인증 -->
 	<select id="validate" resultType="cert" parameterType="cert">
 		SELECT 
 			   WHO,
@@ -144,11 +154,40 @@
 		   AND WHEN BETWEEN SYSDATE - 3/24/60 AND SYSDATE
 	</select>
 	
+	<!-- 인증확인 시 삭제 -->
 	<delete id="remove" parameterType="cert">
 		DELETE CERT
 		 WHERE WHO = #{who} 
 		   AND SECRET = #{secret}
 	</delete>
+	
+	<!-- 아이디 찾기 -->
+	<select id="searchId" resultMap="memberResultSet" parameterType="member">
+		SELECT USER_ID
+		  FROM MEMBER
+		 WHERE PHONE = #{phone}
+		   AND EMAIL = #{email}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="searchPwd" resultType="_int" parameterType="member">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE USER_ID=#{userId}
+		   AND EMAIL = #{email}
+	</select>
+	
+	<!-- 비밀번호 찾기 시 임시비밀번호 -->
+	<update id="changeUpPwd">
+		UPDATE
+			   MEMBER
+		   SET
+		       USER_PWD = #{memberPw}
+		 WHERE
+			   USER_ID = #{m.userId}
+		   AND EMAIL = #{m.email}
+	</update>
+	
 	
 	
 	

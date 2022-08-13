@@ -1,5 +1,6 @@
 package com.kh.somomo.member.model.dao;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -58,8 +59,22 @@ public class MemberDao {
 		}
 		return result != null;
 	}
-	
-	
+
+	public Member searchId(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.searchId", m);
+	}
+	/*
+	public int searchPwd(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.searchPwd", map);
+	}
+	*/
+	public int searchPwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.searchPwd", m);
+	}
+
+	public int changeUpPwd(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("memberMapper.changeUpPwd", map);
+	}
 	
 	
 	

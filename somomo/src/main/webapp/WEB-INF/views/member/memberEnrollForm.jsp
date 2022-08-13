@@ -19,7 +19,7 @@
 	.form{
 		background-color : white;
 		border : 1px solid lightgrey; 
-		height : 890px;
+		height : 910px;
 		width : 400px;
 		position:absolute;
 		left:50%;
@@ -114,7 +114,7 @@
 					<div>* 아이디</div>
 					<input type="text" class="idCheck" id="userId" placeholder="Please Enter ID" name="userId" required>
 					<input type="button" id="checkId" value="중복확인" onclick="idCheck();"> <br>
-					<div id="checkResult" class="colorSubmit" style="font-size:12px">4-12자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능</div>
+					<div id="checkResult" class="colorSubmit" style="font-size:12px">대소문자와 숫자로 이루어진 4~15자의 아이디를 입력해주세요</div>
 				</td>
 			</tr>
 			<tr>
@@ -122,28 +122,28 @@
 					<div>* 닉네임</div>
 					<input type="text" class="checkNick" id="nickname" placeholder="Please Enter NickName" name="nickname" required>
 					<input type="button" id="checkNick" value="중복확인" onclick="nickCheck();"> <br>
-					<div id="nickNameResult" class="colorSubmit" style="font-size:12px">4-12자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능</div>
+					<div id="nickNameResult" class="colorSubmit" style="font-size:12px">2글자 이상인 닉네임을 입력해주세요</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<div>* 비밀번호</div>
 					<input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" onkeyup="RegPwdCheck();" required>
-					<div id="regPwd" class="colorSubmit" style="font-size:12px">4-10자의 대소문자와 숫자와 특수문자 입력</div>
+					<div id="regPwd" class="colorSubmit" style="font-size:12px">영문자와 숫자로 이루어진 5~16글자 비밀번호를 입력해주세요</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<div>* 비밀번호 확인</div>
 					<input type="password" class="form-control" id="checkPwd" placeholder="Please Enter Password" onkeyup="CheckPwd();" required>
-					<div id="samePwd" class="colorSubmit" style="font-size:12px">4-10자의 대소문자와 숫자와 특수문자 입력</div>
+					<div id="samePwd" class="colorSubmit" style="font-size:12px">위와 동일한 비밀번호를 입력해주세요</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<div>* 연락처</div>
 					<input type="text" class="form-control" id="phone" placeholder="Please Enter Tel" name="phone" required maxlength="13" oninput="autoHyphen2(this)"> 
-					<div></div> 
+					<div style="font-size:12px">본인명의의 연락처를 입력해주세요</div> 
 				</td>
 			</tr>
 			<tr>
@@ -152,7 +152,7 @@
 					<input type="text" class="emailCheck" id="email" placeholder="Please Enter Email" name="email" onkeyup="checkEmail();"  required>
 					<input type="button" id="emailBtn1" value="인증" onclick="sendEmail();"><br>
 					<input type="text" class="emailCheck" id="email2" placeholder="인증번호 입력" disabled required> 
-					<div id="regEmail" class="colorSubmit" style="font-size:12px">이메일형식에 맞춰서 입력</div>
+					<div id="regEmail" class="colorSubmit" style="font-size:12px">이메일형식에 맞춰서 입력해주세요</div>
 				</td>
 			</tr>
 			<tr>
@@ -184,9 +184,9 @@
 	
 	<script>
 		//비밀번호 유휴성검사
-		//비밀번호 조건체크(최소 4 자, 최대10자, 하나 이상의 대문자, 하나의 소문자, 하나의 숫자 및 하나의 특수 문자)
+		//비밀번호 조건체크(숫자와 영문자 조합으로 8~16자리를 사용해야 합니다.)
 		const $userPwd = $('#enrollForm input[name=userPwd]');
-		const regExpPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$/;
+		const regExpPwd = /^[a-zA-Z0-9]{5,16}$/;
 		
 		function RegPwdCheck(){
 			
@@ -206,7 +206,7 @@
 			}
 			else{// 값이 비어 있을때
 				$('#regPwd').show();
-				$('#regPwd').css('color','black').text('4-10자의 대소문자와 숫자와 특수문자 입력');
+				$('#regPwd').css('color','black').text('영문자와 숫자로 이루어진 5~16글자 비밀번호를 입력해주세요');
 			}
 			
 		}
@@ -227,7 +227,7 @@
 			} 
 			else{
 				$('#samePwd').show();
-				$('#samePwd').css('color','black').text('4-10자의 대소문자와 숫자와 특수문자 입력');
+				$('#samePwd').css('color','black').text('영문자와 숫자로 이루어진 5~16글자 비밀번호를 입력해주세요');
 			}
 		}
 		
@@ -255,32 +255,36 @@
 			}
 		}
 		
+		const regExpId = /^[a-zA-Z0-9]{4,15}$/;
 		// 아이디 중복체크
 		function idCheck(){
 			const $idInput = $('#enrollForm input[name=userId]');
 			var O4;
-			if($idInput.val().length >= 5){
-			$.ajax({
-				url:'idCheck.me',
-				data : {checkId:$idInput.val()},
-				async : false,
-				success:function(result){
-						console.log(result);
-					if(result == 'NNNNN'){ //사용불가능
-						$('#checkResult').show();
-						$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
+			if(regExpId.test($idInput.val())){
+				$.ajax({
+					url:'idCheck.me',
+					data : {checkId:$idInput.val()},
+					async : false,
+					success:function(result){
+							console.log(result);
+						if(result == 'NNNNN'){ //사용불가능
+							$('#checkResult').show();
+							$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
+						}
+						else{ // 사용가능
+							$('#checkResult').show();
+							$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디 입니다.');
+							O4 = result;
+						}
+					}, error : function(){
+						console.log("아이디 중복체크용 ajax통신 실패");
 					}
-					else{ // 사용가능
-						$('#checkResult').show();
-						$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디 입니다.');
-						O4 = result;
-					}
-				}, error : function(){
-					console.log("아이디 중복체크용 ajax통신 실패");
-				}
-			});				
-			return O4;
+				});				
+			}else{
+				$('#checkResult').show();
+				$('#checkResult').css('color', 'orangered').text('대소문자와 숫자로 이루어진 4~15자의 아이디를 입력해주세요');
 			}
+			return O4;
 		}
 		
 		const autoHyphen2 = (target) => {
@@ -316,7 +320,7 @@
 			return O5;
 			}
 		}
-		
+		                                                              
 		// 인증메일 보내기
 		function sendEmail(){
 			
@@ -395,6 +399,7 @@
 				alert("나이를 설정해주세요");
 				return;
 			}
+			
 			var success = "";
 			success = idCheck() + nickCheck() + RegPwdCheck() + CheckPwd() + checkEmail() + sendCheck();
 			// console.log(success);
@@ -407,7 +412,11 @@
 		
 	</script>
 
-
+	<c:if test="${!empty alertMsg }">
+		<script>
+			alert("${alertMsg}");
+		</script>
+	</c:if>
 
 </body>
 </html>

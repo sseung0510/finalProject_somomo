@@ -4,6 +4,7 @@ import static com.kh.somomo.common.template.FileRename.saveFile;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -13,12 +14,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,11 +56,12 @@ public class MemberController {
 		//System.out.println(loginUser);
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:main.fd");
+			mv.setViewName("feed/mainFeed");
 			session.setAttribute("alertMsg", "로그인성공");
 
 		} else {
-			mv.setViewName("member/memberEnrollForm");
+			mv.addObject("alertMsg", "가입되지 않은 회원이거나 탈퇴한 회원입니다");
+			mv.setViewName("member/login");
 		}
 		return mv;
 	}
@@ -90,11 +91,12 @@ public class MemberController {
 			session.setAttribute("alertMsg", "성공적으로 회원가입이 되었습니다");
 			return "redirect:/";
 		} else {
-			return "main";
+			model.addAttribute("alertMsg", "회원가입에 실패했습니다. 다시 진행해주세요");
+			return "member/memberEnrollForm";
 		}
 	}
 	@ResponseBody
-	@RequestMapping(value="idCheck.me")
+	@RequestMapping("idCheck.me")
 	public String idCheck(String checkId) {
 		/*
 		int result = memberService.idCheck(checkId);
@@ -271,9 +273,94 @@ public class MemberController {
 		return "member/searchId_pwd";
 	}
 	
+	@ResponseBody
+	@RequestMapping("searchId.me")
+	public String searchId(Member m, HttpServletRequest request) throws MessagingException {
+		
+		Member searchId = memberService.searchId(m);
+		
+		//System.out.println(searchId);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");		
+		
+		helper.setTo(m.getEmail());
+		helper.setSubject("소모모 ");
+		helper.setText("아이디 찾기 : " + searchId.getUserId());
+		
+		sender.send(message);
+		
+		String search = searchId.getUserId();
+		
+		return search;
+	}
+	/*
+	@ResponseBody
+	@RequestMapping("searchPwd.me")
+	public String searchPwd(String userId, String email) {
+		
+		HashMap<String, String> map = new HashMap();
+		map.put("userId", userId);
+		map.put("email", email);
+		
+		int searchPwd = memberService.searchPwd(map);
+		System.out.println(searchPwd);
+		return searchPwd > 0 ? "Y" : "N";
+	}
+	*/
 	
+	@ResponseBody
+	@RequestMapping("searchPwd.me")
+	public String searchPwd(Member m, HttpServletRequest request) throws MessagingException {
+		
+		
+		int searchPwd = memberService.searchPwd(m);
+		//System.out.println(searchPwd);
+		if(searchPwd>0) {
+			String memberkey = this.randomCode();
+			String memberPw = BCrypt.hashpw(memberkey,BCrypt.gensalt());
+			//System.out.println(memberkey);
+			//System.out.println(memberPw);
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("m", m);
+				map.put("memberPw", memberPw);
+			//System.out.println(map);
+			int changeUpPwd = memberService.changeUpPwd(map);
+			
+			if(changeUpPwd > 0) {
+				
+				MimeMessage message = sender.createMimeMessage();
+				MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");		
+				
+				helper.setTo(m.getEmail());
+				helper.setSubject("소모모의 임시 비밀번호 입니다");
+				helper.setText("<h1>임시 비밀번호 발급</h1>"
+							   +"<br/>"+m.getUserId()+"님"
+							   +"<br/>비밀번호 찾기를 통한 임시 비밀번호입니다."
+							   +"<br/>임시비밀번호 : "+ memberkey
+							   +"<br/>반드시 로그인 후 비밀번호 변경을 해주세요."
+							   +"<a href='http://localhost:8888/spring'>"
+							   +"소모모 로그인 페이지</a>", true);
+				
+				sender.send(message);
+			}
+			
+		}
+		return searchPwd > 0 ? "Y" : "N";
+	}
 	
-	
-	
+	public String randomCode() {
+		 int leftLimit = 48; // numeral '0'
+		    int rightLimit = 122; // letter 'z'
+		    int targetStringLength = 10;
+		    Random random = new Random();
+		    String generatedString = random.ints(leftLimit, rightLimit + 1)
+		                                   .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+		                                   .limit(targetStringLength)
+		                                   .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+		                                   .toString();
+		    
+		    return generatedString;
+	}
+
 
 }
