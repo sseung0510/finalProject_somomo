@@ -148,7 +148,7 @@
 		
 		<div class="searchIdForm" style="position: relative; left: 22px; top: 25px;">
 		<div>아이디 찾기</div>
-			<input type="tel" class="inPhone" id="phone" placeholder="가입 시 인증한 연락처" name="phone" required>
+			<input type="tel" class="inPhone" id="phone" placeholder="가입 시 인증한 연락처" name="phone" oninput="autoHyphen2(this)" required>
 			<input type="email" class="inEmail" id="email" placeholder="가입 시 인증한 이메일" name="email" required>
 			<button class="searchBtn" onclick="searchId()">아이디 찾기</button>
 		</div>
@@ -169,6 +169,13 @@
 	</div>
 		
 	<script>
+		const autoHyphen2 = (target) => {
+			 target.value = target.value
+			   .replace(/[^0-9]/g, '')
+			  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+	
+		
 		var $inputEmail = $('.inEmail');
 		var $inputId = $('.ID');
 		var $inputPwdEmail = $('.emailNum');

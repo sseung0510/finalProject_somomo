@@ -56,7 +56,7 @@ public class MemberController {
 		//System.out.println(loginUser);
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("feed/mainFeed");
+			mv.setViewName("redirect:main.fd");
 			session.setAttribute("alertMsg", "로그인성공");
 
 		} else {
