@@ -238,6 +238,12 @@ public class GroupController {
 	}
 	
 	
+	@RequestMapping("calendar.gr")
+	public String calendarForm() {	
+		return "group/groupCalendar";
+	}
+	
+	
 	
 	
 	

@@ -153,11 +153,12 @@
 		<a href="enrollForm.me">계정이 없으신가요? 가입하기</a>
 	</div>
 	
+	<!-- 로그인 안할 시 로그인 성공 메시지 뜨는 현상을 잠시 주석처리  
 	<c:if test="${!empty alertMsg }">
 		<script>
 			alert("${alertMsg}");
 		</script>
 	</c:if>
-
+	-->
 </body>
 </html>

@@ -45,7 +45,7 @@
                                 <a href=""><span class="header-name">사진첩</span></a>
                             </li>
                             <li class="forward">
-                                <a href=""><span class="header-name">일정</span></a>
+                                <a href="calendar.gr"><span class="header-name">일정</span></a>
                             </li>
                             <li class="forward">
                                 <a href=""><span class="header-name">멤버</span></a>

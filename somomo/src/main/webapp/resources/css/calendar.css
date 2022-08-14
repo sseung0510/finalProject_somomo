@@ -1,0 +1,403 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css);
+
+
+
+body {
+
+  padding: 0;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#calendar {
+  width: 39%;
+  position: fixed;
+  margin-top: 20px;
+  
+}
+
+.fc-daygrid-day-number{
+  font-size: 13px;
+}
+
+.main-middle {
+  padding : 0px;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  padding: 0px 3%;
+  margin-bottom: 1.5em;
+}
+
+.fc-toolbar-chunk .fc-button-group{
+  font-size: 10px;
+}
+
+/* 상단 바 버튼 CSS */
+.fc .fc-button-primary {
+  background: white!important;
+  color: black!important;
+}
+
+.fc .fc-button-primary:disabled {
+  color: rgb(0, 0, 0)!important;
+  background-color: #ffffff!important;
+  border-color: #2C3E50;
+  border-color: var(--fc-button-border-color, #2C3E50);
+}
+
+.fc-direction-ltr .fc-toolbar>*>:not(:first-child) {
+  font-size: 11px;
+  margin-left: .75em;
+  color: black;
+}
+
+.fc .fc-button-primary:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus {
+ border: 2px solid #FEC8C6!important;
+ box-shadow: none!important;
+}
+
+.fc .fc-button:focus {
+  outline: 0px;
+  border: 2px solid #FEC8C6!important;
+  box-shadow: none!important;
+}
+
+
+
+
+/* =============모달 CSS ==================*/
+
+
+.event-popup-outer {
+  display: none;
+}
+
+
+
+.event-popup-outer.lyWrap {
+  z-index: 10000;
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  background: rgba(0,0,0,.75);
+  overflow: auto;
+
+}
+
+
+.lyWrap .event-popup-box {
+  height: 600px;
+  position: relative;
+  width: 480px;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 34%), 0 10px 10px 0 rgb(0 0 0 / 6%);
+  align-self: flex-start;
+}
+
+.lyWrap .eventHeader {
+  display: block;
+  position: relative;
+  padding: 0 30px;
+  border-bottom: 1px solid #d9d9d9!important;
+  text-align: center;
+  margin: 0;
+}
+
+.lyWrap .eventHeader .title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  overflow-wrap: break-word;
+  padding: 12px 0 11px;
+}
+
+.lyWrap .eventBody {
+  position: relative;
+  z-index: 10;
+}
+
+.lyWrap .eventContentWrap {
+  padding: 0 20px;
+  margin-top: 20px!important;
+}
+
+.eventContentWrap .textInputArea-2 {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.eventContentWrap .textInputArea input{
+  width: 100%;
+  border: 1px solid #ebebeb;
+  padding: 6px;
+}
+
+input:focus, textarea:focus {
+  outline: 1px solid #777;
+}
+
+.eventContentWrap .textInputArea-2 textarea{
+  margin-top: 10px;
+  resize:none;
+  width: 100%;
+  border: 1px solid #ebebeb;
+  padding: 6px;
+  height: 100px;
+}
+
+
+
+
+/* X 버튼 CSS */
+.lyWrap .event-popup-box #event-close{
+  z-index: 1;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  color: #b4b4b4;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.lyWrap .event-popup-box #event-close:hover{
+  color: #333;
+}
+
+.flexList i {
+  position:absolute;
+  left: 240px;
+}
+
+
+/* 날싸 설정 CSS */
+
+.flatpickr-calenda{
+  font-size : 11px!important;
+}
+
+.infoWrap {
+  width: 100%;
+  height: 290px;
+  border-bottom: 1px solid #d9d9d9!important;
+}
+
+
+.lyWrap .eventContentWrap .flexList {
+  display: flex;
+  align-items: center;
+}
+
+.labelText {
+    flex: 0 0 auto;
+    width: 70px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+}
+
+.flexList input {
+  padding: 7px;
+  margin : 9px;
+  border: 1px solid #ebebeb;
+}
+
+
+
+.allDay-check {
+  position: relative;
+  width: 100px;
+  display: flex;
+  float: right;
+}
+
+
+.allDay-check span {
+  margin-top: 2px;
+  margin-left: 15px;
+}
+
+
+/* allDay 버튼 CSS */
+
+.allDay-check {
+  position: relative;
+}
+
+.allDay-check label {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 20px;
+}
+
+.allDay-check label:after {
+  border: 2px solid #fff;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 5px;
+  left: 3px;
+  opacity: 0;
+  position: absolute;
+  top: 4px;
+  transform: rotate(-45deg);
+  width: 12px;
+}
+
+.allDay-check input[type="checkbox"] {
+  visibility: hidden;
+}
+
+.allDay-check input[type="checkbox"]:checked + label {
+  background-color: #66bb6a;
+  border-color: #66bb6a;
+}
+
+.allDay-check input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+
+#startTimePicker {
+  opacity: 1;
+}
+
+
+.colorSelect{
+  clear: both;
+  margin-top: 40px;
+  width: 100%;
+  height: 40px;
+}
+
+.colorSelect h2 {
+  font-size: 14px;
+}
+.uCheck {
+  position: relative;
+  display: inline-block;
+}
+
+.uCheck .checkInput {
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.textColorList {
+  
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    margin-top: 15px;
+}
+
+.colorList {
+  
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin-top: 15px;
+}
+
+.uCheck .fakeCheck {
+  display: block;
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.checkInput:checked+.fakeCheck {
+  border-width: 2px;
+  border-style: solid;
+  background-color: #fff!important;
+}
+
+.checkInput:checked+.fakeCheck:after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin: -7.5px 0 0 -7.5px;
+  border-radius: 50%;
+  content: "";
+}
+
+.uCheck .skin1, .uCheck .skin1::after {
+ background-color: black;
+}
+
+.uCheck .skin2, .uCheck .skin2::after {
+  background-color: gainsboro;
+ }
+
+ .uCheck .skin3, .uCheck .skin3::after {
+  background-color: burlywood;
+ }
+ .uCheck .skin4, .uCheck .skin4::after {
+  background-color: khaki;
+ }
+
+ .uCheck .skin5, .uCheck .skin5::after {
+  background-color: red;
+ }
+
+
+ .uCheck .b-skin1, .uCheck .b-skin1::after {
+  background-color: black;
+ }
+ 
+ .uCheck .b-skin2, .uCheck .b-skin2::after {
+   background-color: pink;
+  }
+ 
+  .uCheck .b-skin3, .uCheck .b-skin3::after {
+   background-color: turquoise;
+  }
+ 
+  .uCheck .b-skin4, .uCheck .b-skin4::after {
+   background-color: gold
+  }
+ 
+  .uCheck .b-skin5, .uCheck .b-skin5::after {
+   background-color:red;
+  }
+ 
+
+/* 버튼 CSS */
+
+.buttonWrap {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonWrap button {
+  padding: 8px;
+  width: 90px;
+  background: #474e60;
+  color: white;
+}
