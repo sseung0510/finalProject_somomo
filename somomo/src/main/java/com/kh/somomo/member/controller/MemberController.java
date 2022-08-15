@@ -58,6 +58,7 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:main.fd");
 			session.setAttribute("alertMsg", "로그인성공");
+
 		} else {
 			mv.addObject("alertMsg", "가입되지 않은 회원이거나 탈퇴한 회원입니다");
 			mv.setViewName("member/login");
@@ -171,6 +172,9 @@ public class MemberController {
 				
 				return "member/login";
 			}
+			
+			
+			
 		}else {
 			session.setAttribute("errorMsg", "회원탈퇴에 실패했습니다");
 			return "main";

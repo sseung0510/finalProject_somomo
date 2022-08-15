@@ -134,7 +134,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="myPage.me?userId=${loginUser.userId}">
 						<i class="uil uil-user"></i>
 						<span class="link-name">My Page</span>
 					</a>
