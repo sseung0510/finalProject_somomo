@@ -6,7 +6,7 @@
 <head>
    <meta charset="UTF-8">
    <!----------- CSS --------------->
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.3">
    <!----------- 아이콘 CSS 링크 ------->
    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
    <!----------- 아이콘 CSS 링크 version 2------->
@@ -263,6 +263,59 @@
                 </ul>
             </i>
         </div>
+		<div class="right-main">
+			<div class="main-outer">
+				<div class="likes">
+					<div class="like-header"><h2>Likes</h2></div>
+					<div class="like-list">
+						<div class="like-list-img"><img src="resources/img/member/profile_img.png" alt=""></div>
+						<div class="like-list-content">
+							<div class="like-list-title">제목이 들어올 예정.........</div>
+							<div class="like-list-btn"><img class="likeY" src="resources/img/heart-on.png"></div>
+						</div>
+					</div>
+					<div class="like-list">
+						<div class="like-list-img"><img src="resources/img/member/profile_img.png" alt=""></div>
+						<div class="like-list-content">
+							<div class="like-list-title">제목이 들어올 예정.........</div>
+							<div class="like-list-btn"><img class="likeY" src="resources/img/heart-on.png"></div>
+						</div>
+					</div>
+					<div class="like-list">
+						<div class="like-list-img"><img src="resources/img/member/profile_img.png" alt=""></div>
+						<div class="like-list-content">
+							<div class="like-list-title">제목이 들어올 예정.........</div>
+							<div class="like-list-btn"><img class="likeY" src="resources/img/heart-on.png"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="favorites">
+					<div class="favorite-header"><h2>Favorites</h2></div>
+					<div class="favorite-list">
+						<div class="favorite-list-img"><img src="resources/img/member/profile_img.png" alt=""></div>
+						<div class="favorite-list-content">
+							<div class="favorite-list-title">글자가 이게 최대에요 여기서 벗어나면 이렇게 두줄이 된당.....</div>
+							<div class="favorite-list-btn"><img class="likeY" src="resources/img/star-on.png"></div>
+						</div>
+					</div>
+					<div class="favorite-list">
+						<div class="favorite-list-img"><img src="resources/img/member/profile_img.png" alt=""></div>
+						<div class="favorite-list-content">
+							<div class="favorite-list-title">모임명......</div>
+							<div class="favorite-list-btn"><img class="likeY" src="resources/img/star-on.png"></div>
+						</div>
+					</div>
+					<div class="favorite-list">
+						<div class="favorite-list-img"><img src="resources/img/member/profile_img.png" alt=""></div>
+						<div class="favorite-list-content">
+							<div class="favorite-list-title">모임명......</div>
+							<div class="favorite-list-btn"><img class="likeY" src="resources/img/star-on.png"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     </div>
     <!-- 오른쪽 사이드 바 끝-->
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
