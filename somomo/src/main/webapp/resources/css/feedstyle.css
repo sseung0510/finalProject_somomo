@@ -389,7 +389,49 @@ nav.close ~ .main-content .main-feed{
 
 
 
+/* ================= 피드 DropDown (수정/삭제/신고)================ */
 
+.feed {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .feed .feed-link{
+    position: absolute;
+    right: 0;
+    background-color: var(--white-color);
+    padding: 10px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 130px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .feed .feed-link.show{
+    opacity: 1;
+    pointer-events: visible;
+    top: 100%;
+    transition: var( --tran-03);
+  }
+  
+  .feed .feed-link li{
+    font-style:normal;
+  }
+  
+  .feed .feed-link a{
+    padding: 10px 16px;
+    display: flex;
+    grid-gap: 10px;
+    font-size: 14px;
+    color: var(--text-color);
+    align-items: center;
+    transition: var( --tran-03);
+  }
+  
+  .feed .feed-link a:hover{
+    background-color: var(--grey-color);
+  }
 
 
 /* ===================== 메인 피드 끝 ==================*/
@@ -474,53 +516,6 @@ nav.close ~ .main-content .main-feed{
     background-color: var(--grey-color);
 }
 
-/* 승희 여기서부터 보면 됨!! */
-
-.right-main{
-    display: flex;
-    position: relative;
-    top: 20px;
-    left: 15%;
-    margin-left: 20px;
-    border: 1px solid black;
-}
-
-.main-outer{
-    display: flex;
-    flex-direction: column;
-    
-}
-
-.likes, .favorites{
-    padding: 10px;
-    border: 1px solid pink;
-    margin: 10px 0;
-    width: 340px;
-}
-
-.like-list, .favorite-list{
-    display: flex;
-    align-items: center;
-}
-
-.like-list-img img, .favorite-list-img img{
-    width: 50px;
-    height: 50px;
-}
-
-.like-list-img, .favorite-list-img{
-    width: 20%;
-}
-
-.like-list-content, .favorite-list-content{
-    width: 80%;
-}
-
-.favorite-list-content{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 /* ================오른쪽 사이드 바 끝================= */
 
 

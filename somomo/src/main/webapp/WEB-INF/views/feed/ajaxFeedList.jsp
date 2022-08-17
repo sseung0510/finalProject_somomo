@@ -21,19 +21,17 @@
 						<%------- 작성자 프로필, 날짜, 수정/삭제버튼  ---------%>
 						<table class="fd-board-writer-date">
 							<tr>
-								<td rowspan="2" class="profileImg-area"><img class="profileImg" src="resources/img/test1.jpg" style="width:100%;"></td>
-								<td>${f.nickname}</td>
-								<td align="right">
-									<div class="dropdown">
-										<i class='bx bx-dots-vertical-rounded dropdown-toggle' data-toggle="dropdown">
-											<div class="dropdown-menu">
-												<a class="dropdown-item" href="#">수정</a>
-												<a class="dropdown-item checkDelete">삭제</a>
-												<a class="dropdown-item" href="#">신고(미정)</a>
-											</div>
-										</i>
-									</div>
+								<td rowspan="2" class="profileImg-area">
+									<c:choose>
+										<c:when test="${f.profileImg ne null}">
+											<img class="profileImg" src="${f.profileImg}" style="width:100%;">
+										</c:when>
+										<c:otherwise>
+											<img class="profileImg" src="resources/img/member/profile_img.png" style="width:100%;">
+										</c:otherwise>
+									</c:choose>
 								</td>
+								<td>${f.nickname}</td>
 							</tr>
 							<tr><td class="fd-board-date">${f.boardDate}</td></tr>
 						</table>
@@ -86,19 +84,17 @@
 		           		</div>
 			        	<table class="fd-board-writer-date">
 							<tr>
-								<td rowspan="2" class="profileImg-area"><img class="profileImg" src="resources/img/test1.jpg" style="width:100%;"></td>
-								<td>${f.nickname}</td>
-								<td align="right">
-									<div class="dropdown">
-										<i class='bx bx-dots-vertical-rounded dropdown-toggle' data-toggle="dropdown">
-											<div class="dropdown-menu">
-												<a class="dropdown-item" href="#">수정</a>
-												<a class="dropdown-item checkDelete">삭제</a>
-												<a class="dropdown-item" href="#">신고(미정)</a>
-											</div>
-										</i>
-									</div>
+								<td rowspan="2" class="profileImg-area">
+									<c:choose>
+										<c:when test="${f.profileImg ne null}">
+											<img class="profileImg" src="${f.profileImg}" style="width:100%;">
+										</c:when>
+										<c:otherwise>
+											<img class="profileImg" src="resources/img/member/profile_img.png" style="width:100%;">
+										</c:otherwise>
+									</c:choose>
 								</td>
+								<td>${f.nickname}</td>
 							</tr>
 							<tr><td class="fd-board-date">${f.boardDate}</td></tr>
 						</table>
@@ -106,7 +102,7 @@
 							<div class="title">
 								<c:choose>
 									<c:when test="${f.countMember lt f.meetTotal}">
-										<b>모집중&nbsp;</b>
+										<b style="color:orange;">모집중&nbsp;</b>
 									</c:when>
 									<c:otherwise>
 										<b>모집마감&nbsp;</b>

@@ -39,15 +39,17 @@ public class FeedBoard {
 	
 	// MEMBER테이블과 JOIN해서 받아온 값
 	private String nickname; // 작성자 닉네임
+	private String profileImg; // 작성자 프로필사진
 	
 	// REPLY테이블과 JOIN해서 받아온 값
 	private int countReply; // 댓글 수
 	
 	// CHAT_ROOM, CHAT_MEMBER테이블과 JOIN해서 받아온 값
 	private int countMember; // (채팅)참여자 수
+	private int roomNo; // 채팅방 번호
 	
 	// FEED_LIKES테이블과 JOIN해서 받아온 값
 	private String likeCheck; // 좋아요 클릭 여부
-	
+	private int countLike; // 좋아요 개수
 	
 }

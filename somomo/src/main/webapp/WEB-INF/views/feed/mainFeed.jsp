@@ -21,7 +21,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-
     <title>메인 페이지</title>
     
 	<style>
@@ -83,6 +82,8 @@
 			height:50px;
 		}
 		
+		
+		
 		/* 글 내용 부분 각 margin + 모달창*/
 		.fdm, .mdm {margin-top:10px;}
 		
@@ -94,100 +95,27 @@
 		.likeBtn:hover {cursor:pointer;}
 		
 		/* 버튼 색 (다른 페이지와 통일 필요) */
-		.btnPink {
-			color: white;
+		.btnPink{
+			display:block;
+			width:100%;
+			margin-top: 10px;
+			padding: 10px;
 			background-color: rgb(250,188,186);
+			border: 1px solid rgb(250,188,186);
+			border-radius: 20px;
+			color: white;
+			font-size: 18px;
 			font-weight: bold;
 		}
-		.btnPink:hover {
-			color:white;
-		    background-color: #FEC8C6;
-			font-weight: bold;
-		}
+		.btnPink:hover{
+     		background-color: #FEC8C6;
+     		border: 1px solid #FEC8C6;
+   		}
 	</style>
 </head>
 <body>
 	<!--------------------- 왼쪽 사이드 바 ------------------------>
-
-    <!-- nav 태그에 나중에 자바스크립트로 close 클래스 추가해준다 (열고닫고 할 수 있게) -->
-	<nav>
-		<div class="logo-name">
-			<div class="logo-image">
-				<img src="${pageContext.request.contextPath}/resources/img/web_logo.jpg" alt="peach">
-			</div>
-			
-			<span class="logo_name">SoMoMo</span>
-		</div>
-		
-		<div class="menu-items">
-			<ul class="nav-links">
-				<li>
-					<a href="main.fd">
-						<i class="uil uil-estate"></i>
-						<span class="link-name">HOME</span>
-					</a>
-				</li>
-				<li>
-					<a href="chat">
-						<i class="uil uil-comment"></i>
-						<span class="link-name">CHAT</span>
-					</a>
-				</li>
-				<li>
-					<a href="myPage.me?userId=${loginUser.userId}">
-						<i class="uil uil-user"></i>
-						<span class="link-name">My Page</span>
-					</a>
-				</li>
-				
-				<div class="fd-enroll-btn-area">
-					<button type="button" data-toggle="modal" data-target="#enrollBoardModal" class="btn btn-block btnPink">일반글 작성</button>
-           			<button type="button" data-toggle="modal" data-target="#enrollMeetBoardModal" class="btn btn-block btnPink">모임모집글 작성</button>
-           		</div>
-           		
-				<!-- 나중에 margin으로 조절-->
-				<br><br><br><br>
-				
-				<li>
-					<a href="groupRoom.gr" class="community">
-						<i class="uil uil-comments"></i>
-						<span class="link-name">Community</span>
-					</a>
-				</li>
-				
-				<!-- 커뮤니티 이름 나타내기 -->
-				<li>
-					<a href="#" class="">
-						<img src="${pageContext.request.contextPath}/resources/img/test1.jpg">
-						<span class="community-name">서핑</span>
-					</a>
-				</li>
-				
-				<li>
-					<a href="#" class="">
-						<img src="${pageContext.request.contextPath}/resources/img/test2.jpg">
-						<span class="community-name">유적 탐사</span>
-					</a>
-				</li>
-				
-				<li>
-					<a href="#" class="">
-						<img src="${pageContext.request.contextPath}/resources/img/test3.jpg">
-						<span class="community-name">자동차</span>
-					</a>
-				</li>
-			</ul>
-		
-			<ul class="logout-mode">
-				<li>
-					<a href="logout.me">
-						<i class="uil uil-signout"></i>
-						<span class="link-name">Logout</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+	<jsp:include page="feedCommon/feed_leftSidebar.jsp" />
 	<!--------------------- 왼쪽 사이드 바 끝 ------------------------>
 
 	<!----------- 헤더 , 메인 컨텐츠 ---------->
@@ -207,6 +135,26 @@
 
 		<!------ 메인 피드----------->
         <div class="main-feed">
+        
+             <!----------------------------- 버튼 ------------------------------------->
+			<div class="edit-navigation">
+				<div class="menuToggle">
+					<i class="uil uil-edit"></i>
+					<div class="menu">
+						<ul>
+							<li><button type="button" data-toggle="modal" data-target="#enrollBoardModal" class="btn btn-primary">일반글</button></li>
+							<li><button type="button" data-toggle="modal" data-target="#enrollMeetBoardModal" class="btn btn-primary">모임모집</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<script>
+				// 글쓰기 버튼 Toggle javascript
+				const menu = document.querySelector('.menuToggle');
+				menu.addEventListener('click', function() {
+					menu.classList.toggle('active');
+				});
+       		</script>
            	
 			<!-----------글 목록 띄워지는 공간----------->
            	<div class="fd-board-area">
@@ -277,25 +225,15 @@
         				cpage : currentPage
         			},
         			success : function(data){
-        				
         				// 응답된 문자열은 html형식(feed/ajaxFeedList.jsp에 응답내용 있음)
 						$('.fd-board-area').append(data);
 
 						// 게시글 내용 클릭 시 상세페이지로 이동
 		            	$('.fd-board-contents').click(function(){
 		            		//let bno = $(this).closest('div[class="fd-board"]').find('input[name="boardNo"]').val();
-		            		let bno = $(this).parent().find('input[name="boardNo"]').val();
-		            		location.href = "detail.fd?bno=" + bno;
+		            		let boardNo = $(this).parent().find('input[name="boardNo"]').val();
+		            		location.href = "detail.fd?boardNo=" + boardNo;
 		            	});
-						
-						// 일반글 수정
-						$('.updateGeneralBoard').click(function(){
-							updateBoard(this);
-							//console.log("누름");
-							//let bno = $(this).closest('div[class="fd-board"]').find('input[name="boardNo"]').val();
-							
-							//$('#enrollBoardModal').modal('toggle');
-						});
 						
 						// 게시글 삭제
 						$('.checkDelete').click(function(){
@@ -314,13 +252,12 @@
        				}
         		});
 			}
+ 
         	
         	function changeLike(likeImg){
         		
         		let bno = $(likeImg).data('bno');
         		let boardType = $(likeImg).data('btype');
-        		
-        		console.log('글번호:' + bno);
 
 				// 기존에 좋아요 안 눌렀을 경우 => 좋아요 등록
         		if($(likeImg).children('img').hasClass('likeN')){ 
@@ -384,8 +321,6 @@
         	
 
         </script>
-        
-
             
 	    <!--------------------- Modal 창 --------------------->
 	            
@@ -400,7 +335,7 @@
 					</div>
 								
 					<div class="modal-body">
-						<form action="insert.fd" method="post" enctype="multipart/form-data">
+						<form action="insertG.fd" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="boardWriter" value="${loginUser.userId}">
 							<input type="hidden" name="boardType" value="G">
 									
@@ -413,10 +348,10 @@
 							</select>
 							
 							<div class="mdm"><b>제목</b></div>
-							<input type="text" id="title" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required>
+							<input type="text" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required></textarea>
 							
 							<div class="mdm"><b>내용</b></div>
-							<textarea name="boardContent" id="content" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
+							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
 							
 							<div class="mdm file-area">
 								<input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
@@ -426,7 +361,7 @@
 							</div>
 							
 							<div style="margin-top:10px;">
-								<button type="submit" class="btn btn-block btnPink">글작성</button>
+								<button type="submit" class="btnPink">글작성</button>
 							</div>
 						</form>
 					</div>				
@@ -442,11 +377,6 @@
 			}
 		</script>
 		
-		
-
-		
-		
-		
 	    <!------- 모임모집글 작성 모달 ------->
 		<div class="modal fade" id="enrollMeetBoardModal">
 			<div class="modal-dialog modal-dialog-centered">
@@ -458,7 +388,7 @@
 					</div>
 								
 					<div class="modal-body">
-						<form action="insert.fd" method="post" enctype="multipart/form-data">
+						<form action="insertM.fd" method="post">
 							<input type="hidden" name="boardWriter" value="${loginUser.userId}">
 							<input type="hidden" name="boardType" value="M">
 									
@@ -471,7 +401,7 @@
 							</select>
 							
 							<div class="mdm"><b>제목</b></div>
-							<input type="text" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required>
+							<input type="text" name="boardTitle" class="form-control" maxlength="50" placeholder="제목을 입력해주세요" required></textarea>
 							
 							<div class="mdm"><b>내용</b></div>
 							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
@@ -481,7 +411,7 @@
 							<input type="datetime-local" id="dateTimeLocal" name="meetDate" class="form-control" required>
 							
 							<div class="mdm"><b>모임장소</b></div>
-							<input type="text" name="meetPlace" class="form-control" placeholder="장소입력" required>
+							<input type="text" name="meetPlace" class="form-control" placeholder="장소입력" required></textarea>
 	
 							<div class="mdm"><b>모임인원</b></div>
 							<input type="number" name="meetTotal" min="2" max="10" class="form-control" style="width:120px;" value="2">
@@ -510,7 +440,7 @@
 							</div>
 							
 							<div style="margin-top:10px;">
-								<button type="submit" class="btn btn-block btnPink">글작성</button>
+								<button type="submit" class="btnPink">글작성</button>
 							</div>
 						</form>
 					</div>				
@@ -559,19 +489,9 @@
 
     <!------ 오른쪽 사이드 바 --------->
     <div class="right-sidebar">
-        <div class="right-top">
-            <i class="uil uil-bell"></i>
-            <i class="uil uil-comment-dots"></i>
-            <i class="uil uil-user-circle profile">
-                <ul class="profile-link">
-                    <li><a href=""><i class="uil uil-user-circle"></i> 프로필</a></li>
-                    <li><a href=""><i class="uil uil-setting"></i> Settings</a></li>
-                    <li><a href=""><i class="uil uil-signout"></i> 로그아웃</a></li>
-                </ul>
-            </i>
-        </div>
+		<jsp:include page="feedCommon/feed_rightSidebar.jsp" />
     </div>
     <!-- 오른쪽 사이드 바 끝-->
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 </body>
 </html>

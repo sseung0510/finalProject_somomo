@@ -3,6 +3,7 @@ package com.kh.somomo.feed.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.somomo.chat.model.vo.ChatMember;
 import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
@@ -43,10 +44,17 @@ public interface FeedService {
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 	// 모임모집글 조회
 	FeedBoard selectMeetBoard(int boardNo);
+	// 채팅 멤버 확인
+	int checkChatMember(ChatMember cm);
+	// 채팅 공석 확인
+	boolean checkChatMemberSpace(int boardNo, int roomNo);
+	// 채팅방 멤버 추가
+	int insertChatMember(ChatMember cm);
 	
 	//------- 게시글 수정/삭제 서비스 -------//
 	// 게시글 내용 수정
-	int updateBoard(FeedBoard fb);
+	int updateGeneralBoard(FeedBoard fb);
+	int updateMeetBoard(FeedBoard fb);
 	// 새 첨부파일 추가
 	int insertNewAttachment(ArrayList<Attachment> atList);
 	// 기존 첨부파일 삭제
@@ -61,15 +69,25 @@ public interface FeedService {
 	ArrayList<Reply> selectReplyList(int boardNo);
 	// 댓글 작성
 	int insertReply(Reply reply);
+	// 답글(대댓글) 작성
+	int insertReReply(Reply reply);
 	// 댓글 수정
 	int updateReply(Reply reply);
+	// 대댓글 존재 여부 확인
+	boolean checkHasRereply(int replyNo);
 	// 댓글 삭제
 	int deleteReply(int replyNo);
+	// 댓글 내용 삭제 (답글 존재하는 댓글일 경우)
+	int deleteReplyContent(int replyNo);
 	
 	//------- 좋아요 서비스 -------//
 	// 좋아요 등록
 	int insertLike(Likes like);
 	// 좋아요 삭제
 	int deleteLike(Likes like);
+	// 좋아요 확인
+	int checkLike(Likes like);
+	// 좋아요 개수 확인
+	int countLike(int boardNo);
 	
 }
