@@ -143,9 +143,14 @@ public class MemberServiceImpl implements MemberService{
 	public int changeUpPwd(HashMap<String, Object> map) {
 		return memberDao.changeUpPwd(sqlSession, map);
 	}
+
 	
 	
-	
-	
+	// 카카오 회원 추가
+	@Override
+	public int insertKakaoMember(Member m) {
+		return memberDao.insertKakaoMember(sqlSession, m);
+	}
+
 	
 }

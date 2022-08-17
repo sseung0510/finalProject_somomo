@@ -189,6 +189,30 @@
 	</update>
 	
 	
-	
-	
+	<!-- 카카오 회원 추가 -->
+	<insert id="insertKakaoMember" parameterType="member">
+		INSERT
+		  INTO MEMBER
+		  	  	(
+		  	  	USER_ID,
+				NICKNAME,
+				PHONE,
+				EMAIL,
+				AGE,
+				GENDER,
+				PROFILE_IMG,
+				KAKAO_LOGIN
+		  	  	)
+		VALUES
+			   (
+			   #{userId},
+			   #{nickname},
+			   #{phone},
+			   #{email},
+			   #{age},
+			   #{gender},
+			   #{profileImg},
+			   'Y'
+			   )
+	</insert>
 </mapper>

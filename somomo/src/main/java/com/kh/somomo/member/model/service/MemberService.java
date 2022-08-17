@@ -52,4 +52,7 @@ public interface MemberService {
 
 	int changeUpPwd(HashMap<String, Object> map);
 	
+	
+	// 카카오 회원 추가
+	int insertKakaoMember(Member m);
 }
