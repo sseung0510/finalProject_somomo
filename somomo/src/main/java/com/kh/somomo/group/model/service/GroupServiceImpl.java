@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
 import com.kh.somomo.group.model.dao.GroupDao;
+import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
@@ -92,6 +94,25 @@ public class GroupServiceImpl implements GroupService{
 	public int updateType(GroupRoom g) {
 		return groupDao.updateType(sqlSession, g);
 	}
+
+	@Override
+	public GroupCalendar selectCalendar(int groupNo) {
+		return groupDao.selectCalendar(sqlSession, groupNo);
+	}
+
+	@Override
+	public int insertCalendarEvent(CalendarPlan gp) {
+
+		return groupDao.insertCalendarEvent(sqlSession, gp);
+	}
+
+	@Override
+	public ArrayList<CalendarPlan> selectCalendarEventList(int calendarNo) {
+		return groupDao.selectCalendarEventList(sqlSession, calendarNo);
+	}
+
+
+		
 
 	
 	

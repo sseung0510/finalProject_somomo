@@ -1,6 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
+  $(function () {
+  				
+  				var CalendarNo = $('input[name=calendarNo').val();
+                var request = $.ajax({
+                    url: "selectCalendarEvents.gr", 
+                    data : {
+                    
+                    "CalendarNo" : CalendarNo
+                    
+                    },
+                    
+                });
   
-  
+  request.done(function (data) {
+                    console.log(data); // log 로 데이터 찍어주기.
+                    
+                 
+			
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -47,21 +63,24 @@ document.addEventListener('DOMContentLoaded', function() {
       },
 
       eventClick: function(arg) {
-        if (confirm('정말 삭제하시겠습니까?')) {
-          arg.event.remove()
-        }
+      	console.log(arg.event.title);
+      	console.log(arg.event.start);
+
       },
-    events: [      
-            {
-              title: '그룹방 개설★',
-              start: currentDate(),
-              color : 'pink',
-              textColor : 'black'
-            }
-          ]
+    events: data
+    
+    
   });
   calendar.render();
 });
+
+ request.fail(function( jqXHR, textStatus ) {
+                    alert( "정보 불러오는데 실패~ " + textStatus );
+                });
+            });
+ 
+        });
+
 
 // 버튼 눌렀을 때 모달창 띄워주기
 function eventPopup(){

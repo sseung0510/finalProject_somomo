@@ -7,22 +7,30 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Update;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.template.Pagination;
 import com.kh.somomo.group.model.service.GroupService;
+import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 import com.kh.somomo.member.model.vo.Member;
@@ -76,7 +84,7 @@ public class GroupController {
 	 * - 성공적으로 그룹방 개설이 되면 상세페이지로 이동함
 	 */
 	@RequestMapping("insert.gr")
-	public String insertGroup(GroupRoom gr, GroupMember gm, MultipartFile upfile, Model model, HttpSession session){
+	public String insertGroup(GroupRoom gr, GroupMember gm, GroupCalendar gc, MultipartFile upfile, Model model, HttpSession session){
 		
 		// 사용자가 자기 사진을 추가
 		// 기존의 profileImg에 등록된 사진을 변경해준다. 
@@ -107,11 +115,13 @@ public class GroupController {
 	public ModelAndView groupDetail(int gno, ModelAndView mv) {
 		
 		GroupRoom gr = groupService.selectGroup(gno); 	     			   // 특정 그룹방에대한 정보를 담음
+		GroupCalendar gc = groupService.selectCalendar(gno);
 		ArrayList<GroupMember> mList = groupService.selectMemberList(gno); // 가입된 회원리스트
-		
+	
 		if (gr != null) {
 			mv.addObject("g", gr)
 			  .addObject("mList", mList)
+			  .addObject("c", gc)
 			  .setViewName("group/groupDetail");
 		} else {
 			mv.addObject("errorMsg", "그딴 그룹방은 없는디요??").setViewName("common/errorPage");
@@ -236,17 +246,80 @@ public class GroupController {
 		}
 		return false;
 	}
-	
+
 	
 	@RequestMapping("calendar.gr")
-	public String calendarForm() {	
+	public String calendarForm(@RequestParam("groupNo") int groupNo, Model model) {	
+		
+		model.addAttribute("c", groupService.selectCalendar(groupNo));
+	
+		
 		return "group/groupCalendar";
+		
+	
+
+	}
+	
+	
+	@RequestMapping("insertCalendarEvent.gr")
+	public String insertCalendarEvent(CalendarPlan gp, HttpSession session, RedirectAttributes redirectAttributes) {
+
+		if(gp.getStartTime() !=null && gp.getEndTime() !=null) {
+			String startTime = gp.getStartDate() +"\s" + gp.getStartTime() ;
+			String endTime = gp.getEndDate() +"\s" + gp.getEndTime();
+			 
+			gp.setStartTime(startTime);
+			gp.setEndTime(endTime);
+		}
+		int groupNo = groupService.getGroupNo();
+
+		int result = groupService.insertCalendarEvent(gp);
+		redirectAttributes.addAttribute("groupNo", groupNo);
+		return "redirect:/calendar.gr";
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "selectCalendarEvents.gr", produces="application/json; charset=UTF-8")
+	public List<Map<String, Object>> calendarEventList(@RequestParam(value = "CalendarNo") String CalendarNo) {
+		
+//		System.out.println(CalendarNo);
+		int cNo = Integer.parseInt(CalendarNo);
+		
+		List<CalendarPlan> eventList = groupService.selectCalendarEventList(cNo);
+		
+
+		JSONObject jsonObj = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+ 
+        HashMap<String, Object> hash = new HashMap<>();
+        
+      
+        for (int i = 0; i < eventList.size(); i++) {
+            hash.put("title", eventList.get(i).getTitle());
+            
+            if(eventList.get(i).getStartTime() !=null) {
+	            hash.put("start", eventList.get(i).getStartTime());
+	            hash.put("end", eventList.get(i).getEndTime());
+            }
+            else {
+            	hash.put("start", eventList.get(i).getStartDate());
+	            hash.put("end", eventList.get(i).getEndDate());
+            }
+            hash.put("color", eventList.get(i).getColor());
+            hash.put("textColor",eventList.get(i).getTextColor());
+            hash.put("allDay", eventList.get(i).isAllDay());
+ 
+            jsonObj = new JSONObject(hash);
+            jsonArray.add(jsonObj);
+        }
+
+        return jsonArray;
 	}
 	
 	
 	
-	
-	
+
 	
 	
 	

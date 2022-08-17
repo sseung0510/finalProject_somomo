@@ -9,7 +9,7 @@ FullCalendar.globalLocales.push(function () {
       today: '오늘',
       month: '월',
       week: '주',
-      day: '',
+      day: '일',
       list: '일정목록',
     },
     weekText: '주',

@@ -126,9 +126,24 @@
     	<input type="hidden" name="groupNo" value="${g.groupNo}">
     </form>
     
+    <!-- 일정페이지로 넘어감 : 그룹방 번호 숨겨주기 위해 post로 보냈습니다.-->
+    
+    
+     <form id="calendarForm" method="post">
+    	<input type="hidden" name="groupNo" value="${g.groupNo}">
+     </form>
+    
+    
     <script>
     	function settingForm(){
     		$('#settingForm').attr('action', 'setting.gr').submit();
+    	}
+    </script>
+    
+    
+    <script>
+    	function calendarForm(){
+    		$('#calendarForm').attr('action', 'calendar.gr').submit();
     	}
     </script>
     

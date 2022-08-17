@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
+import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
@@ -74,5 +76,23 @@ public class GroupDao {
 	public int updateType(SqlSessionTemplate sqlSession, GroupRoom g) {
 		return sqlSession.update("groupMapper.updateType", g);
 	}
+
+	public GroupCalendar selectCalendar(SqlSessionTemplate sqlSession, int groupNo) {
+		return sqlSession.selectOne("groupMapper.selectGroupCalendar", groupNo);
+	}
+
+	public int insertCalendarEvent(SqlSessionTemplate sqlSession, CalendarPlan gp) {
+		
+		return sqlSession.insert("groupMapper.insertCalendarEvent", gp);
+	}
+
+	
+	public ArrayList<CalendarPlan> selectCalendarEventList(SqlSessionTemplate sqlSession, int calendarNo) {
+		
+		return (ArrayList)sqlSession.selectList("groupMapper.selectCalendarEventList", calendarNo);
+	}
+
+	
+
 
 }

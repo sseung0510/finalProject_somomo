@@ -38,8 +38,10 @@
     <title>소모모</title> 
 </head>
 <body>
+
 <!--------------------- 헤더 ------------------------>
 	<jsp:include page="groupDetailCommon/groupHeader.jsp"/>
+	
     <!--------------------- 헤더 ------------------------>
 
     <!----------------------- 메인 컨텐츠 ------------------------------>
@@ -57,14 +59,17 @@
 			
 			  <!------------------ 캘린더 설정 ---------------------->
 
-            <div id='calendar'>
+            <div id='calendar' style="margin-left : 30px">
                
                 
             </div>
 
-
+			
             <!-------------- 캘린더 모달 창 ------------->
-        <form action="">
+        <form action="insertCalendarEvent.gr" method="post" id="calendarEventForm">
+        	<input type="hidden" name="groupNo" value="${c.groupNo}">
+        	<input type="hidden" name="calendarNo" value="${c.calendarNo}">
+        	<input type="hidden" name="userId" value="${loginUser.userId}">
             <div class="event-popup-outer" id="eventwritePopup">
                 <div class="event-popup-box" id="eventpopupBox">
                     <i id="event-close" class='bx bx-x close'></i>
@@ -75,30 +80,30 @@
                     <div class="eventBody" id="eventBody">
                         <div class="eventContentWrap">
                             <div class="textInputArea">
-                                <input type="text" placeholder="일정제목" >
+                                <input type="text" name="title" placeholder="일정제목" >
                             </div>
                             <div class="textInputArea-2">
-                                <textarea 
+                                <textarea name="memo"
                                 placeholder="일정설명"
                                 maxlength="1500" ></textarea>
                             </div>
                             <div class="infoWrap">
                                 <div class="flexList">
                                     <div class="labelText">시작&nbsp&nbsp&nbsp:</div>
-                                    <input type="text" id="startDate" placeholder="날짜설정" class="input" >
+                                    <input type="text" id="startDate" placeholder="날짜설정" class="input" name="startDate">
                                     <i class="uil uil-calendar-alt"></i>
-                                    <input type="text" id="startTimePicker" placeholder="시간설정">
+                                    <input type="text" id="startTimePicker" placeholder="시간설정" name="startTime">
                                 </div>
 
                                 <div class="flexList">
                                     <div class="labelText">종료&nbsp&nbsp&nbsp:</div>
-                                    <input type="text" id="endDate" placeholder="날짜설정" class="input">
+                                    <input type="text" id="endDate" placeholder="날짜설정" class="input" name="endDate">
                                     <i class="uil uil-calendar-alt"></i>
-                                    <input type="text" id="endTimePicker" placeholder="시간설정">
+                                    <input type="text" id="endTimePicker" placeholder="시간설정" name="endTime">
                                 </div>
 
                                 <div class="allDay-check">
-                                    <input type="checkbox" id="checkbox"/>
+                                    <input type="checkbox" id="checkbox" name="allDay"/>
                                     <label for="checkbox"></label>
                                     <span>하루종일</span>
                                 </div>
@@ -108,31 +113,31 @@
                                     <ul class="textColorList">
                                         <li class="item skin1">
                                             <label for="textColorskin1" class="uCheck">
-                                                <input name="textColor" value="skin1" type="radio" id="textColorskin1" class="checkInput">
+                                                <input name="textColor" value="black" type="radio" id="textColorskin1" class="checkInput">
                                                 <span class="fakeCheck skin1"></span>
                                             </label>
                                         </li>
                                         <li class="item skin2">
                                             <label for="textColorskin2" class="uCheck">
-                                                <input name="textColor" value="skin2" type="radio" id="textColorskin2" class="checkInput">
+                                                <input name="textColor" value="gainsboro" type="radio" id="textColorskin2" class="checkInput">
                                                 <span class="fakeCheck skin2"></span>
                                             </label>
                                         </li>
                                         <li class="item skin3">
                                             <label for="textColorskin3" class="uCheck">
-                                                <input name="textColor" value="skin3" type="radio" id="textColorskin3" class="checkInput">
+                                                <input name="textColor" value="burlywood" type="radio" id="textColorskin3" class="checkInput">
                                                 <span class="fakeCheck skin3"></span>
                                             </label>
                                         </li>
                                         <li class="item skin4">
                                             <label for="textColorskin4" class="uCheck">
-                                                <input name="textColor" value="skin4" type="radio" id="textColorskin4" class="checkInput">
+                                                <input name="textColor" value="khaki" type="radio" id="textColorskin4" class="checkInput">
                                                 <span class="fakeCheck skin4"></span>
                                             </label>
                                         </li>
                                         <li class="item skin5">
                                             <label for="textColorskin5" class="uCheck">
-                                                <input name="textColor" value="skin5" type="radio" id="textColorskin5" class="checkInput">
+                                                <input name="textColor" value="red" type="radio" id="textColorskin5" class="checkInput">
                                                 <span class="fakeCheck skin5"></span>
                                             </label>
                                         </li>
@@ -145,31 +150,31 @@
                                     <ul class="colorList">
                                         <li class="item skin1">
                                             <label for="colorskin1" class="uCheck">
-                                                <input name="color" value="skin1" type="radio" id="colorskin1" class="checkInput">
+                                                <input name="color" value="black" type="radio" id="colorskin1" class="checkInput" >
                                                 <span class="fakeCheck b-skin1"></span>
                                             </label>
                                         </li>
                                         <li class="item skin2">
                                             <label for="colorskin2" class="uCheck">
-                                                <input name="color" value="skin2" type="radio" id="colorskin2" class="checkInput">
+                                                <input name="color" value="pink" type="radio" id="colorskin2" class="checkInput">
                                                 <span class="fakeCheck b-skin2"></span>
                                             </label>
                                         </li>
                                         <li class="item skin3">
                                             <label for="colorskin3" class="uCheck">
-                                                <input name="color" value="skin3" type="radio" id="colorskin3" class="checkInput">
+                                                <input name="color" value="turquoise" type="radio" id="colorskin3" class="checkInput">
                                                 <span class="fakeCheck b-skin3"></span>
                                             </label>
                                         </li>
                                         <li class="item skin4">
                                             <label for="colorskin4" class="uCheck">
-                                                <input name="color" value="skin4" type="radio" id="colorskin4" class="checkInput">
+                                                <input name="color" value="gold" type="radio" id="colorskin4" class="checkInput">
                                                 <span class="fakeCheck b-skin4"></span>
                                             </label>
                                         </li>
                                         <li class="item skin5">
                                             <label for="colorskin5" class="uCheck">
-                                                <input name="color" value="skin5" type="radio" id="colorskin5" class="checkInput">
+                                                <input name="color" value="red" type="radio" id="colorskin5" class="checkInput">
                                                 <span class="fakeCheck b-skin5"></span>
                                             </label>
                                         </li>
@@ -180,7 +185,7 @@
 
                             </div>
                             <div class="buttonWrap">
-                                <button>완료</button>
+                                <button type="submit">완료</button>
                             </div>
                         </div>
                     </div>
@@ -194,6 +199,7 @@
         <div class="main-right">
             <jsp:include page="groupDetailCommon/rightSidebar.jsp"/>
         </div>
+		
 
     </div>
     

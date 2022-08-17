@@ -24,9 +24,14 @@
 	      <typeAlias type="com.kh.somomo.group.model.vo.GroupJoinApply" alias="groupJoinApply" />
 	      <typeAlias type="com.kh.somomo.group.model.vo.GroupMember" alias="groupMember" />
 	      <typeAlias type="com.kh.somomo.group.model.vo.GroupCategory" alias="groupCategory"/>
-
+		  <typeAlias type="com.kh.somomo.group.model.vo.CalendarPlan" alias="CalendarPlan" />
+			
+			
 		  <typeAlias type="com.kh.somomo.member.model.vo.CertVo" alias="cert"/>
 	      <typeAlias type="com.kh.somomo.member.model.vo.Member" alias="member" />
+	      
+	      
+	      
    	</typeAliases>
 	<!-- 유의사항 : 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야함 -->
 	

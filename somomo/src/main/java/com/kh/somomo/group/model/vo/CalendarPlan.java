@@ -13,12 +13,14 @@ public class CalendarPlan {
 
 	private int planNo;
 	private int calendarNo;
-	private String writer;
+	private String userId;
 	private String title;
 	private String memo;
 	private String startDate;
+	private String startTime;
 	private String endDate;
+	private String endTime;
 	private String color;
 	private String textColor;
-	private boolean allDay;
+	private boolean allDay = false;
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
+import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
@@ -43,6 +45,8 @@ public interface GroupService {
 	// 그룹방
 	GroupRoom selectGroup(int groupNo);
 	
+	GroupCalendar selectCalendar(int groupNo);
+	
 	// 그룹방 멤버 리스트
 	ArrayList<GroupMember> selectMemberList(int groupNo);
 	
@@ -52,6 +56,20 @@ public interface GroupService {
 	int deleteGroup(int groupNo);
 	
 	int updateType(GroupRoom g);
+
+	
+	
+	// 캘린더 이벤트 추가 
+	
+	int insertCalendarEvent(CalendarPlan gp);
+
+	ArrayList<CalendarPlan> selectCalendarEventList(int calendarNo);
+
+	
+
+	
+
+	
 	
 	// ------
 	// 그룹 가입 신청

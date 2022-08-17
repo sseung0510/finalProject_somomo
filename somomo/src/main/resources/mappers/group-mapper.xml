@@ -35,6 +35,30 @@
 	</resultMap>
 	
 	
+	<resultMap id="groupCalendarResultSet" type="GroupCalendar">
+		<result column="CALENDAR_NO" property="calendarNo" />
+		<result column="GROUP_NO" property="groupNo" />
+	</resultMap>
+	
+	<resultMap id="groupCalendarEventResultSet" type="CalendarPlan">
+		<result column="PLAN_NO" property="planNo" />
+		<result column="CALENDAR_NO" property="calendarNo" />
+		<result column="USER_ID" property="userId" />
+		<result column="TITLE" property="title" />
+		<result column="MEMO" property="memo" />
+		<result column="START_DATE" property="startDate" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_DATE" property="endDate" />
+		<result column="END_TIME" property="endTime" />
+		<result column="COLOR" property="color" />
+		<result column="TEXT_COLOR" property="textColor" />
+		<result column="ALLDAY" property="allDay" />
+		
+	</resultMap>
+	
+	
+	
+	
 	<select id="selectGroupListCount" resultType="_int">
 		SELECT 
 		       COUNT(*) 
@@ -243,4 +267,76 @@
 		 WHERE
 		       GROUP_NO = ${groupNo}
 	</delete>
+	
+	
+	
+	
+	<select id="selectGroupCalendar" parameterType="_int" resultMap="groupCalendarResultSet">
+		SELECT 
+			   CALENDAR_NO,
+			   GROUP_NO
+		  FROM 
+		       GROUP_CALENDAR
+		  WHERE 
+		       GROUP_NO = #{groupNo}
+	</select>
+	
+	
+	<insert id="insertCalendarEvent" parameterType="CalendarPlan">
+		INSERT 
+			INTO CALENDAR_PLAN
+				(
+				PLAN_NO,
+				CALENDAR_NO,
+				USERID,
+				TITLE,
+				MEMO,
+				START_DATE,
+				START_TIME, 
+				END_DATE,
+				END_TIME, 
+				COLOR,
+				TEXT_COLOR,
+				ALLDAY
+				)
+			VALUES
+				(
+
+				SEQ_PNO.NEXTVAL,
+				#{calendarNo},
+				#{userId},
+				#{title},
+				#{memo},
+				#{startDate},
+				#{startTime},
+				#{endDate},
+				#{endTime},
+				#{color},
+				#{textColor},
+				#{allDay}
+				)
+	</insert>
+	
+	
+	
+	<select id="selectCalendarEventList" resultMap="groupCalendarEventResultSet">
+		SELECT 
+		       	USERID,
+				TITLE,
+				MEMO,
+				START_DATE,
+				START_TIME, 
+				END_DATE,
+				END_TIME, 
+				COLOR,
+				TEXT_COLOR,
+				ALLDAY
+		  FROM 
+		       CALENDAR_PLAN
+		  WHERE
+		  	   CALENDAR_NO = #{calendarNo}
+	</select>
+	
+	
+	
 </mapper>
