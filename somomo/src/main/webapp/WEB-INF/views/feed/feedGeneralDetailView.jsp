@@ -6,8 +6,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 	<!----------- 아이콘 CSS 링크 version 2------->
@@ -41,9 +42,23 @@
 
 		/* 글 상단의 일반글/모임모집 부분*/
 		/* 일반글 태그 (General) */
+		
+		.fd-board-top {
+			margin-bottom : 10px;
+		}
 		.fd-board-top a {
+			padding: 2px;
 			text-decoration: none;
 			color: black;
+		}
+		
+		.fd-board-nickname {
+		    margin-left: 5px;
+		}
+		
+		.fd-board-date {
+		
+    		font-size: 14px;
 		}
 		/* 일반글 태그 (General) */
            .btnBoardTypeG{
@@ -121,6 +136,7 @@
         }
 
         .reply-input-area > textarea {
+        	padding : 10px;
             width: 78%;
             height: 40px;
             font-size: 12px;
@@ -150,7 +166,7 @@
         .reply-content-area .replyWrap {
 		  position: relative;
 		  min-height: 67px;
-		  padding: 14px 10px 14px 44px;
+		  padding: 14px 10px 14px 48px;
 		  border-top: 1px solid #f0f0f0;
 		}
 		
@@ -193,12 +209,9 @@
 		  display: flex;
 		  position: relative;
 		  vertical-align: top;
-		  margin-top: 5px;
+		  margin-top: 3px;
 		}
 		
-		.reply-btn-area {
-			margin-top:50x;
-		}
 		
 		.rBtn {
 			font-weight: bold;
@@ -260,7 +273,7 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td>${fb.nickname}</td>
+							<td><div class="fd-board-nickname"><strong>${fb.nickname}</strong></div></td>
 							<c:if test="${loginUser.userId eq fb.boardWriter}">
 								<td align="right">
 									<div class="form-icon">
@@ -274,7 +287,7 @@
 								</td>
 							</c:if>
 						</tr>
-						<tr><td class="fd-board-date">${fb.boardDate}</td></tr>
+						<tr><td class="fd-board-date"><div class="fd-board-nickname">${fb.boardDate}</div></td></tr>
 					</table>
 					<div class="fd-board-contents fdm">
 						<div class="title">

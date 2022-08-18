@@ -27,6 +27,12 @@
     <script src="resources/js/calendar.main.js"></script>
     
     
+    
+    <!-- Momoent 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
+    
     <!-- DatePicker -->
 
     
@@ -63,10 +69,51 @@
                
                 
             </div>
+            
+            
+            
+              <!-- 캘린더 event 모달 창 -->
 
+            <div class="event-list-outer" id="eventListPopup">
+                <div class="event-list-box">
+                     <div class="event-list-header">
+                        <span class="day">
+                            <strong class="date"></strong>
+                            <span class="week-color"></span>
+                        </span>
+                        <div class="contWrap">
+                            <h2 class="title"></h2>
+                            <div class="startDay">
+                            </div>
+                             <div class=eventName>
+	                        	<span>작성자 : </span>
+	                        	<span class="eventId">${loginUser.userId}</span>
+                        	</div>
+                        </div>
+                        <div class="event-icon">
+                            <i class='bx bx-dots-vertical-rounded event'>
+                                <ul class="event-link">
+                                    <li><a href="" id="deleteEvent">삭제하기</a></li>
+                                    <li><a href="">게시글에 올리기</a></li>
+                                    <li><a href="">주소 복사</a></li>
+                                </ul>
+                            </i>
+                         </div>
+                       
+                     </div>
+
+                     <div class="memo">
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            
 			
             <!-------------- 캘린더 모달 창 ------------->
-        <form action="insertCalendarEvent.gr" method="post" id="calendarEventForm">
+        <form action="insertCalendarEvent.gr" method="post" id="calendarEventForm" onsubmit="return vaildateForm()">
         	<input type="hidden" name="groupNo" value="${c.groupNo}">
         	<input type="hidden" name="calendarNo" value="${c.calendarNo}">
         	<input type="hidden" name="userId" value="${loginUser.userId}">
@@ -80,11 +127,12 @@
                     <div class="eventBody" id="eventBody">
                         <div class="eventContentWrap">
                             <div class="textInputArea">
-                                <input type="text" name="title" placeholder="일정제목" >
+                                <input type="text" name="title" placeholder="일정제목" id="title">
                             </div>
                             <div class="textInputArea-2">
                                 <textarea name="memo"
                                 placeholder="일정설명"
+                                id="memo"
                                 maxlength="1500" ></textarea>
                             </div>
                             <div class="infoWrap">
@@ -185,7 +233,7 @@
 
                             </div>
                             <div class="buttonWrap">
-                                <button type="submit">완료</button>
+                                <button>완료</button>
                             </div>
                         </div>
                     </div>

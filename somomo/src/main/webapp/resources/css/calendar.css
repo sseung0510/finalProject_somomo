@@ -76,7 +76,7 @@ body {
 
 
 
-.event-popup-outer.lyWrap {
+.lyWrap {
   z-index: 10000;
   position: fixed;
   display: flex;
@@ -402,3 +402,152 @@ input:focus, textarea:focus {
   background: #474e60;
   color: white;
 }
+
+
+
+/* 캘린더 Event 보여주는 modal */
+
+.event-list-outer {
+  display: none;
+}
+
+
+.lyWrap .event-list-box {
+  min-height: 400px;
+  position: relative;
+  min-width: 480px;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 34%), 0 10px 10px 0 rgb(0 0 0 / 6%);
+  align-self: flex-start;
+}
+
+.lyWrap .event-list-header {
+  display: flex;
+  position: relative;
+  min-height: 100px;
+  padding: 27px 30px 19px;
+  align-items: flex-start;
+  background-color: #fcfcfc;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 5%);
+}
+
+
+.day {
+  position: relative;
+  text-align: center;
+}
+
+.day .date {
+  display: block;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  color: #333;
+}
+
+.day .week-color {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fc6342!important;
+  margin-top : 10px;
+}
+
+.contWrap {
+  flex: 1 1;
+  min-width: 0;
+  padding: 0 20px;
+}
+
+ .contWrap .title {
+  font-size: 18px;
+  font-weight: 400;
+  color: #222;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin: -1px 0 4px 0;
+  line-height: 1.27;
+}
+
+.contWrap .startDay {
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
+  display: block;
+  margin-top: 2px;
+}
+
+.contWrap .eventName {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    position: relative;
+    margin-top: 7px;
+
+}
+
+.memo {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin: 0 30px 15px;
+  padding-top: 17px;
+  line-height: 1.6;
+}
+
+.event-icon i {
+  position: relative;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.event {
+  position: relative;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.event .event-link{
+  position: absolute;
+  right: 0;
+  background-color: var(--white-color);
+  padding: 10px 0;
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+  width: 130px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.event .event-link.show{
+  opacity: 1;
+  pointer-events: visible;
+  top: 100%;
+  font-size: 15px;
+  width: 160px;
+  padding: 0;
+  text-align: left;
+  padding: 10px 0;
+}
+
+.event-link li{
+  padding: 10px 0;
+}
+
+.event-link li:hover{
+  padding: 10px 0;
+  background: #f7f7f7;
+}
+
+.event-link li a {
+  margin-left: 15px;
+}
+
+
+

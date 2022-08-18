@@ -43,7 +43,7 @@
 								<c:if test="${not empty fatList}">
 									<c:forEach var="fat" items="${fatList}">
 										<c:if test="${fat.boardNo eq f.boardNo}">
-											<img src="${fat.changeName}" style="width:100%; height:200px;">
+											<img src="${fat.changeName}" style="width:48%; height:200px;">
 										</c:if>
 									</c:forEach>
 								</c:if>

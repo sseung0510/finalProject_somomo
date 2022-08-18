@@ -170,9 +170,11 @@
 								<td align="right">
 									<div class="form-icon">
 										<i class='bx bx-dots-vertical-rounded feed'>
+										
 										<ul class="feed-link">
 											<li><a class="updateMeetBoard">수정</a></li>
 											<li><a class="checkDelete">삭제</a></li>
+										
 										</ul>
 										</i>
 									</div>

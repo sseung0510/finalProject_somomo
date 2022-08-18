@@ -252,7 +252,9 @@ public class GroupController {
 	public String calendarForm(@RequestParam("groupNo") int groupNo, Model model) {	
 		
 		model.addAttribute("c", groupService.selectCalendar(groupNo));
-	
+		model.addAttribute("g", groupService.selectGroup(groupNo));
+		model.addAttribute("mList", groupService.selectMemberList(groupNo));
+		
 		
 		return "group/groupCalendar";
 		
@@ -308,6 +310,7 @@ public class GroupController {
             }
             hash.put("color", eventList.get(i).getColor());
             hash.put("textColor",eventList.get(i).getTextColor());
+            hash.put("id",eventList.get(i).getMemo());
             hash.put("allDay", eventList.get(i).isAllDay());
  
             jsonObj = new JSONObject(hash);
