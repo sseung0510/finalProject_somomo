@@ -35,7 +35,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="chat">
+					<a href="chat.ch">
 						<i class="uil uil-comment"></i>
 						<span class="link-name">CHAT</span>
 					</a>

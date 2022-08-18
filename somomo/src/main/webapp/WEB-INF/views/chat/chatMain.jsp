@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     
     <title>채팅 테스트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
+
         .chat-wrap {
             height: 100vh;
             min-height: 400px;
@@ -53,11 +55,7 @@
         /* ---------- 채팅방 유저 목록 ---------- */
         .chat-user-list {
             max-height: 0;
-            transition: all 2s;
             overflow: hidden;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-bottom: 0;
             background-color: white;
             z-index: 1;
             position: relative;
@@ -241,6 +239,16 @@
         }
 
         /* ---------- 채팅방 목록 영역 ---------- */
+        /* 참여한 채팅방이 없을 때 */
+        .chat-list-empty {
+            width: 300px;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* 참여한 채팅방이 있을 때 */
         .chat-list {
             width: 300px;
             overflow-y: scroll;
@@ -366,6 +374,7 @@
             top: 0;
             left: 0;
             display: none;
+            z-index: 3;
         }
         .modal-wrap {
             width: 330px;
@@ -423,9 +432,195 @@
         .modal-button-confirm {
             background-color: rgb(250, 188, 186);
         }
+
+        .test {
+            max-height: 800px;
+            padding-bottom: 20px;
+            transition: all 1s ease-in;
+        }
+
+        /* ---------- 웹소켓 테스트 ---------- */
+        .web-socket-wrap {
+            border: 1px solid black;
+        }
+        .web-socket-wrap * {
+            font-size: 12px;
+        }
+        fieldset {
+            width: 100%;
+            padding: 10px;
+        }
+        .tableWrap {
+            border: 1px solid black;
+            width: 100%;
+            height: 400px;
+            overflow-y: scroll;
+        }
+        .tableWrap * {
+            text-align: center;
+            padding: 4px;
+        }
+
     </style>
     </head>
     <body>
+
+        <!-- ---------- 웹소켓 테스트 ---------- -->
+        <div class="web-socket-wrap">
+            <fieldset>
+                <legend>웹소켓 서버</legend>
+                <button onclick="connect();">접속</button>
+                <button onclick="disconnect();">종료</button>
+                현재 상태 : <span id="webSocketStatus">접속 전</span>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend>채팅방 생성</legend>
+                채팅방 이름 : <input type="text" id="roomName">
+                <button onclick="insertChatRoom();">채팅방 생성</button>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend>전체 채팅방 리스트</legend>
+                <div class="tableWrap">
+                    <table border="1px solid black">
+                        <thead>
+                            <th>ROOM_NO</th>
+                            <th>BOARD_NO</th>
+                            <th>ROOM_NAME</th>
+                            <th>ROOM_DATE</th>
+                            <th>참가버튼</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+
+        <script>
+
+            /* ---------- 웹소켓 테스트 ---------- */
+            var socket
+            
+            function connect() {
+
+                var webSocketStatus = document.getElementById('webSocketStatus');
+                var uri = "ws://localhost:8888/somomo/cs";
+
+                socket = new WebSocket(uri);
+
+                socket.onopen = function() {
+                    webSocketStatus.innerHTML = '웹소켓 서버 연결';
+                }
+                socket.onclose = function() {
+                    webSocketStatus.innerHTML = '웹소켓 서버 종료';
+                }
+                socket.onerror = function(e) {
+                    webSocketStatus.innerHTML = '웹소켓 서버 에러';
+                }
+                socket.onmessage = function(e) {
+                    
+                }
+            }
+            
+            function disconnect() {
+                socket.close();
+            }
+            
+            function send() {
+
+                var text = document.getElementsByClassName('chat-input')[0].children[0].value;
+
+                if (!text) {
+                    return;
+                }
+
+                socket.send(text);
+            }
+
+            function insertChatRoom() {
+                $.ajax({
+                    url : 'insertChatRoom.ch', 
+                    data : {
+                        roomName : $('#roomName').val(), 
+                        userId : '${loginUser.userId}'
+                    }, success : function(result) { 
+                        if (result == 'success') {
+                            selectAllChatRoom();
+                            alert('채팅방 생성 성공');
+                            setTimeout("location.reload()", 1000);
+                        }
+                        if (result == 'fail') {
+                            alert('채팅방 생성 실패');
+                        }
+                    }, error : function() {
+                        alert('createChatRoom error');
+                    }
+                });
+		    }
+
+            $(function() {
+                selectAllChatRoom();
+            })
+
+            function selectAllChatRoom () {
+                $.ajax({
+                    url : 'selectAllChatRoom.ch', 
+                    success : function(list) { 
+                        if (list != '') {
+                            
+                            let value = '';
+    
+                            for(var i in list){
+                                value += '<tr>'
+                                       + '<td>' + list[i].roomNo + '</th>'
+                                       + '<td>' + list[i].boardNo + '</th>'
+                                       + '<td>' + list[i].roomName + '</th>'
+                                       + '<td>' + list[i].roomDate + '</th>'
+                                       + '<td>' + '<button onclick="insertUserInChatRoom(' + list[i].roomNo + ');">참가</button>' + '</th>'
+                                       + '</tr>'
+                            }
+
+                            $('.tableWrap tbody').html(value);
+                        }
+                        if (list == '') {
+                            
+                            let value = '';
+    
+                            value += '<tr>'
+                                   + '<td colspan=5>' + '조회되는 채팅방 없음' + '</th>'
+                                   + '</tr>'
+                            
+                            $('.tableWrap tbody').html(value);
+                        }
+                    }, error : function() {
+                        alert('selectAllChatRoom error');
+                    }
+                });
+            }
+
+            function insertUserInChatRoom(roomNo) {
+                $.ajax({
+                    url : 'insertUserInChatRoom.ch', 
+                    data : {
+                        roomNo : roomNo, 
+                        userId : '${loginUser.userId}'
+                    }, success : function(result) { 
+                        console.log(result);
+                        if (result == 'success') {
+                            alert('채팅방 참가 성공');
+                            setTimeout("location.reload()", 1000);
+                        }
+                        if (result == 'fail') {
+                            alert('이미 참가한 채팅방 입니다.');
+                        }
+                    }, error : function() {
+                        alert('insertUserInChatRoom error');
+                    }
+                });
+            }
+
+        </script>
 
         <div class="chat-wrap">
 
@@ -515,91 +710,116 @@
                     <!-- 채팅 입력, 전송 버튼 -->
                     <div class="chat-input">
                         <input type="text" placeholder="메시지를 입력해주세요...">
-                        <button>전송</button>
+                        <button onclick="send();">전송</button>
                     </div>
                 </div>
 
             </div>
 
             <!-- ---------- 채팅방 목록 영역 ---------- -->
-            <div class="chat-list">
-                <!-- ---------- 채팅방 목록 ---------- -->
-                <div class="chat-room">
-                    <!-- 채팅방 대표 사진 (= 방장 프로필) -->
-                    <div class="chat-room-picture-wrap">
-                        <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
-                    </div>
-                    <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
-                    <div class="chat-room-content">
-                        <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
-                        <div class="chat-room-last-message-wrap">
-                            <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
-                            <div class="chat-room-last-message-time">24시간 전</div>
+            <!-- ---------- 채팅방 목록 ---------- -->
+            <c:choose>
+            	<c:when test="${ empty myChatRoomList }">
+                    <!-- 참여한 채팅방이 없을 때 -->
+                    <div class="chat-list-empty">참여한 채팅방이 없습니다.</div>
+            	</c:when>
+            	<c:otherwise>
+                    <!-- 참여한 채팅방이 있을 때 -->
+                    <div class="chat-list">
+                        <div class="chat-room">
+                            <!-- 채팅방 대표 사진 (= 방장 프로필) -->
+                            <div class="chat-room-picture-wrap">
+                                <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
+                            </div>
+                            <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
+                            <div class="chat-room-content">
+                                <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
+                                <div class="chat-room-last-message-wrap">
+                                    <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
+                                    <div class="chat-room-last-message-time">24시간 전</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="chat-room">
-                    <!-- 채팅방 대표 사진 (= 방장 프로필) -->
-                    <div class="chat-room-picture-wrap">
-                        <div class="chat-room-badge">1</div>
-                        <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
-                    </div>
-                    <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
-                    <div class="chat-room-content">
-                        <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
-                        <div class="chat-room-last-message-wrap">
-                            <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
-                            <div class="chat-room-last-message-time">24시간 전</div>
+                        <div class="chat-room">
+                            <!-- 채팅방 대표 사진 (= 방장 프로필) -->
+                            <div class="chat-room-picture-wrap">
+                                <div class="chat-room-badge">1</div>
+                                <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
+                            </div>
+                            <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
+                            <div class="chat-room-content">
+                                <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
+                                <div class="chat-room-last-message-wrap">
+                                    <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
+                                    <div class="chat-room-last-message-time">24시간 전</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="chat-room">
-                    <!-- 채팅방 대표 사진 (= 방장 프로필) -->
-                    <div class="chat-room-picture-wrap">
-                        <div class="chat-room-badge">10</div>
-                        <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
-                    </div>
-                    <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
-                    <div class="chat-room-content">
-                        <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
-                        <div class="chat-room-last-message-wrap">
-                            <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
-                            <div class="chat-room-last-message-time">24시간 전</div>
+                        <div class="chat-room">
+                            <!-- 채팅방 대표 사진 (= 방장 프로필) -->
+                            <div class="chat-room-picture-wrap">
+                                <div class="chat-room-badge">10</div>
+                                <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
+                            </div>
+                            <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
+                            <div class="chat-room-content">
+                                <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
+                                <div class="chat-room-last-message-wrap">
+                                    <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
+                                    <div class="chat-room-last-message-time">24시간 전</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="chat-room">
-                    <!-- 채팅방 대표 사진 (= 방장 프로필) -->
-                    <div class="chat-room-picture-wrap">
-                        <div class="chat-room-badge">99</div>
-                        <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
-                    </div>
-                    <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
-                    <div class="chat-room-content">
-                        <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
-                        <div class="chat-room-last-message-wrap">
-                            <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
-                            <div class="chat-room-last-message-time">24시간 전</div>
+                        <div class="chat-room">
+                            <!-- 채팅방 대표 사진 (= 방장 프로필) -->
+                            <div class="chat-room-picture-wrap">
+                                <div class="chat-room-badge">99</div>
+                                <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
+                            </div>
+                            <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
+                            <div class="chat-room-content">
+                                <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
+                                <div class="chat-room-last-message-wrap">
+                                    <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
+                                    <div class="chat-room-last-message-time">24시간 전</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="chat-room">
-                    <!-- 채팅방 대표 사진 (= 방장 프로필) -->
-                    <div class="chat-room-picture-wrap">
-                        <div class="chat-room-badge">+99</div>
-                        <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
-                    </div>
-                    <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
-                    <div class="chat-room-content">
-                        <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
-                        <div class="chat-room-last-message-wrap">
-                            <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
-                            <div class="chat-room-last-message-time">24시간 전</div>
+                        <div class="chat-room">
+                            <!-- 채팅방 대표 사진 (= 방장 프로필) -->
+                            <div class="chat-room-picture-wrap">
+                                <div class="chat-room-badge">+99</div>
+                                <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
+                            </div>
+                            <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
+                            <div class="chat-room-content">
+                                <div class="chat-room-title">홍은동배드민턴맨님의 모임 채팅방</div>
+                                <div class="chat-room-last-message-wrap">
+                                    <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
+                                    <div class="chat-room-last-message-time">24시간 전</div>
+                                </div>
+                            </div>
                         </div>
+    
+                        <c:forEach var="r" items="${ myChatRoomList }">
+                            <div class="chat-room">
+                                <!-- 채팅방 대표 사진 (= 방장 프로필) -->
+                                <div class="chat-room-picture-wrap">
+                                    <div class="chat-room-picture"><img src="${pageContext.request.contextPath}/resources/img/profile.png"></div>
+                                </div>
+                                <!-- 채팅방 이름, 마지막 메시지 / 시간 -->
+                                <div class="chat-room-content">
+                                    <div class="chat-room-title">${ r.roomName }</div>
+                                    <div class="chat-room-last-message-wrap">
+                                        <div class="chat-room-last-message">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇㅎㅇㅎ</div>
+                                        <div class="chat-room-last-message-time">24시간 전</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
-                </div>
-
-            </div>
+            	</c:otherwise>
+            </c:choose>
         </div>
 
         <!-- ---------- 채팅 페이지 Contextmenu 모음 ---------- -->
@@ -663,22 +883,18 @@
 
             /* ---------- 채팅방 회원 목록 ON / OFF 기능 ---------- */
             var chatUserList = document.getElementsByClassName('chat-user-list')[0];
-            var chatUserListStyle = window.getComputedStyle(chatUserList);
             var uilAngleDown = document.getElementsByClassName('uil-angle-down')[0];
 
             function accordionSwitch() {
-
-                if (chatUserList.style.maxHeight == 0) {
-
-                    chatUserList.style.maxHeight = '800px';
-                    chatUserList.style.paddingBottom = '20px';
-                    uilAngleDown.style.color = 'rgb(255, 146, 139)';
+                if (chatUserList.style.maxHeight == '800px') {
+                    chatUserList.style.maxHeight = '0px';
+                    chatUserList.style.transition = 'all .4s';
+                    uilAngleDown.style.color = 'rgb(0, 0, 0)';
                 }
                 else {
-
-                    chatUserList.style.maxHeight = '0';
-                    chatUserList.style.paddingBottom = '0';
-                    uilAngleDown.style.color = 'rgb(0, 0, 0)';
+                    chatUserList.style.maxHeight = '800px';
+                    chatUserList.style.transition = 'all 1s';
+                    uilAngleDown.style.color = 'rgb(255, 146, 139)';
                 }
             };
 
@@ -687,12 +903,10 @@
             var chatRoomContextmenu = document.querySelector('.chat-room-contextmenu');
 
             function showChatUserContextmenu (show = true) {
-
                 chatUserContextmenu.style.display = show ? 'block' : 'none';
             };
 
             function showChatRoomContextmenu (show = true) {
-
                 chatRoomContextmenu.style.display = show ? 'block' : 'none';
             };
 
@@ -706,28 +920,22 @@
                 
                 /* 채팅방 유저 목록을 마우스 오른쪽 버튼으로 누르면 Contextmenu 띄우기 */
                 for (let i = 0; i < chatUser.length; i++) {
-
                     if (e.target.closest('.chat-user') == chatUser[i]) {
-
                         showChatUserContextmenu();
                         break;
                     }
                     else {
-
                          showChatUserContextmenu(false);
                     }
                 }
 
                 /* 채팅방 목록을 마우스 오른쪽 버튼으로 누르면 Contextmenu 띄우기 */
                 for (let i = 0; i < chatRoom.length; i++) {
-
                     if (e.target.closest('.chat-room') == chatRoom[i]) {
-
                         showChatRoomContextmenu();
                         break;
                     }
                     else {
-
                         showChatRoomContextmenu(false);
                     }
                 }
@@ -741,7 +949,6 @@
 
             /* 마우스 왼쪽 버튼 클릭 시 Contextmenu 닫기 */
             window.addEventListener('click', function(e) {
-
                 showChatUserContextmenu(false);
                 showChatRoomContextmenu(false);
             });
@@ -754,79 +961,62 @@
             
             /* Modal 열기 */
             function openModal(modalType) {
-
                 if (modalType == 'changeHost') {
-                    
                     changeHostModal.style.display = 'flex';
                 }
                 if (modalType == 'kickMember') {
-
                     kickMemberModal.style.display = 'flex';
                 }
                 if (modalType == 'changeChatRoomName') {
-
                     changeChatRoomNameModal.style.display = 'flex';
                 }
                 if (modalType == 'leaveChatRoom') {
-
                     leaveChatRoomModal.style.display = 'flex';
                 }
             };
 
             /* Modal창에서 취소 시 Modal 창 닫기 */
             function cancelModal(modalType) {
-
                 if (modalType == 'changeHost') {
-
                     changeHostModal.style.display = 'none';
                 }
                 if (modalType == 'kickMember') {
-
                     kickMemberModal.style.display = 'none';
                 }
                 if (modalType == 'changeChatRoomName') {
-
                     changeChatRoomNameModal.style.display = 'none';
                 }
                 if (modalType == 'leaveChatRoom') {
-
                     leaveChatRoomModal.style.display = 'none';
                 }
             };
 
             /* Modal창에서 확인 시 ~ */
             function confirmModal(modalType) {
-
                 if (modalType == 'changeHost') {
-
                     changeHostModal.style.display = 'none';
                 }
                 if (modalType == 'kickMember') {
-
                     kickMemberModal.style.display = 'none';
                 }
                 if (modalType == 'changeChatRoomName') {
-
                     changeChatRoomNameModal.style.display = 'none';
                 }
                 if (modalType == 'leaveChatRoom') {
-
                     leaveChatRoomModal.style.display = 'none';
                 }
             };
 
             /* Modal창 바깥 영역 클릭 시 Modal창 닫기 */
             window.addEventListener('click', function(e) {
-
                 if (e.target.classList.contains('modal-overlay')) {
-
                         changeHostModal.style.display = 'none';
                         kickMemberModal.style.display = 'none';
                         changeChatRoomNameModal.style.display = 'none';
                         leaveChatRoomModal.style.display = 'none';
                     }
             });
-
+            
         </script>
 
     </body>
