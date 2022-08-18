@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chatMapper">
-  
+	
+	<resultMap type="chatRoom" id="chatRoomResultSet">
+		<result column="ROOM_NO" property="roomNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="ROOM_NAME" property="roomName"/>
+		<result column="ROOM_DATE" property="roomDate"/>
+	</resultMap>
+	
+	<resultMap type="chatMember" id="chatMemberResultSet">
+		<result column="ROOM_NO" property="roomNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="USER_RANK" property="userRank"/>
+	</resultMap>
+	
+	<insert id="insertMeetBoard" parameterType="feedBoard">
+		INSERT
+		  INTO
+		       FEED_BOARD
+		       (
+		       BOARD_NO,
+		       BOARD_WRITER,
+		       REGION_NO,
+		       BOARD_TYPE,
+		       BOARD_TITLE,
+		       BOARD_CONTENT
+		       )
+		VALUES
+		       (
+		       SEQ_FBNO.NEXTVAL,
+		       #{boardWriter},
+		       1,
+		       'M',
+		       #{boardTitle},
+		       'test'
+		       )
+	</insert>
+	
+	<insert id="insertChatRoom" parameterType="String">
+		INSERT 
+		  INTO 
+		       CHAT_ROOM
+		       (
+		       ROOM_NO,
+		       BOARD_NO,
+		       ROOM_NAME
+		       )
+		VALUES 
+		       (
+		       SEQ_CRNO.NEXTVAL,
+		       SEQ_FBNO.CURRVAL,
+		       #{boardTitle}
+		       )
+	</insert>
+	
+	<insert id="insertChatMember" parameterType="String">
+		INSERT 
+		  INTO 
+		       CHAT_MEMBER
+		       (
+		       ROOM_NO,
+		       USER_ID,
+		       USER_RANK
+		       )
+		VALUES 
+		       (
+		       SEQ_CRNO.CURRVAL,
+		       #{boardWriter},
+		       'A'
+		       )
+	</insert>
+	
+	<select id="selectAllChatRoom" resultMap="chatRoomResultSet">
+		SELECT 
+		       ROOM_NO, 
+               BOARD_NO, 
+               ROOM_NAME, 
+               ROOM_DATE 
+          FROM 
+               CHAT_ROOM 
+         ORDER 
+            BY 
+               ROOM_DATE DESC
+	</select>
+	
+	<select id="selectMyChatRoom" resultMap="chatRoomResultSet">
+		SELECT 
+		       ROOM_NO, 
+               BOARD_NO, 
+               ROOM_NAME, 
+               ROOM_DATE
+		  FROM
+		       CHAT_ROOM
+		  JOIN 
+		       CHAT_MEMBER USING (ROOM_NO)
+		 WHERE 
+		       USER_ID = #{userId}
+         ORDER 
+            BY 
+               ROOM_DATE DESC
+	</select>
+	
+	<select id="checkInsertUser" parameterType="chatMember" resultType="_int">
+		SELECT 
+		       COUNT(*) AS COUNT_CHAT_MEMBER
+		  FROM
+		       CHAT_MEMBER
+		 WHERE 
+		       USER_ID = #{userId}
+		   AND 
+               ROOM_NO = #{roomNo}
+	</select>
+	
+	<select id="insertUserInChatRoom" parameterType="chatMember">
+		INSERT 
+		  INTO 
+		       CHAT_MEMBER
+		       (
+		       ROOM_NO,
+		       USER_ID,
+		       USER_RANK
+		       )
+		VALUES 
+		       (
+		       #{roomNo},
+		       #{userId},
+		       'M'
+		       )
+	</select>
+	
 </mapper>
