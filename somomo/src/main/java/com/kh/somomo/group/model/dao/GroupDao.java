@@ -1,6 +1,7 @@
 package com.kh.somomo.group.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,14 +12,15 @@ import com.kh.somomo.common.model.vo.RegionCategory;
 import com.kh.somomo.group.model.vo.CalendarPlan;
 import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
+import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 
 @Repository
 public class GroupDao {
 	
-	public int selectGroupListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("groupMapper.selectGroupListCount");
+	public int selectGroupListCount(SqlSessionTemplate sqlSession, String categoryNo) {
+		return sqlSession.selectOne("groupMapper.selectGroupListCount", categoryNo);
 	}
 	
 	public ArrayList<RegionCategory> selectRegionCategoryList(SqlSessionTemplate sqlSession) {
@@ -29,13 +31,14 @@ public class GroupDao {
 		return (ArrayList)sqlSession.selectList("groupMapper.selectGroupCategoryList");
 	}
 
-	public ArrayList<GroupRoom> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<GroupRoom> selectGroupList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
+		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("groupMapper.selectList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("groupMapper.selectGroupList", map, rowBounds);
 	}
 	
 	public ArrayList<GroupRoom> myGroupList(SqlSessionTemplate sqlSession, String userId) {
@@ -46,8 +49,12 @@ public class GroupDao {
 		return sqlSession.insert("groupMapper.insertGroup", gr);
 	}
 
-	public int insertMember(SqlSessionTemplate sqlSession, GroupMember gm) {
-		return sqlSession.insert("groupMapper.insertGroupMember",gm);
+	public ArrayList<GroupRoom> searchGroup(SqlSessionTemplate sqlSession, String search) {
+		return (ArrayList)sqlSession.selectList("groupMapper.searchGroup", search);
+	}
+
+	public int insertRoomAdmin(SqlSessionTemplate sqlSession, GroupMember gm) {
+		return sqlSession.insert("groupMapper.insertRoomAdmin",gm);
 	}
 	
 	public int insertCalendar(SqlSessionTemplate sqlSession) {
@@ -86,13 +93,30 @@ public class GroupDao {
 		return sqlSession.insert("groupMapper.insertCalendarEvent", gp);
 	}
 
-	
 	public ArrayList<CalendarPlan> selectCalendarEventList(SqlSessionTemplate sqlSession, int calendarNo) {
 		
 		return (ArrayList)sqlSession.selectList("groupMapper.selectCalendarEventList", calendarNo);
 	}
 
-	
+	public int applyGroup(SqlSessionTemplate sqlSession, GroupJoinApply applyInfo) {
+		return sqlSession.insert("groupMapper.applyGroup", applyInfo);
+	}
+
+	public ArrayList<GroupJoinApply> getApplicationList(SqlSessionTemplate sqlSession, int groupNo) {
+		return (ArrayList)sqlSession.selectList("groupMapper.getApplicationList", groupNo);
+	}
+
+	public int insertRoomMember(SqlSessionTemplate sqlSession, GroupMember gm) {
+		return sqlSession.insert("groupMapper.insertRoomMember", gm);
+	}
+
+	public int countApplication(SqlSessionTemplate sqlSession, int groupNo) {
+		return sqlSession.selectOne("groupMapper.countApplication", groupNo);
+	}
+
+	public int delteApplyInfo(SqlSessionTemplate sqlSession, GroupJoinApply applyInfo) {
+		return sqlSession.delete("groupMapper.delteApplyInfo", applyInfo);
+	}
 
 
 }

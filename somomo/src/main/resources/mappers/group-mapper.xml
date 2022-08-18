@@ -4,15 +4,18 @@
   <resultMap id="groupResultSet" type="groupRoom">
 		<result column="GROUP_NO" property="groupNo"/>
 		<result column="REGION_NO" property="regionNo"/>
-		<result column="REGION_NAME" property="regionNo"/>
+		<result column="REGION_NAME" property="regionName"/>
 		<result column="CATEGORY_NO" property="categoryNo"/>
-		<result column="CATEGORY_NAME" property="categoryNo"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="GROUP_NAME" property="groupName"/>
 		<result column="GROUP_IMG" property="groupImg"/>
 		<result column="GROUP_DETAIL" property="groupDetail"/>
 		<result column="GROUP_TYPE" property="groupType"/>
+		<result column="GROUP_TYPE_STR" property="groupTypeStr"/>
 		<result column="GROUP_DATE" property="groupDate"/>
 		<result column="MEMBER_COUNT" property="memberCount"/>
+		<result column="MY_GROUP" property="myGroup"/>
+		<result column="APPLYING" property="applying" />
 		<result column="USER_RANK" property="userRank"/>
 	</resultMap>
 	
@@ -34,6 +37,15 @@
 		<result column="REGION_NAME" property="regionName" />
 	</resultMap>
 	
+	<resultMap id="applicationListSet" type="groupJoinApply">
+		<result column="APPLY_NO" property="applyNo" />
+		<result column="GROUP_NO" property="groupNo" />
+		<result column="USER_ID" property="userId" />
+		<result column="GREETING" property="greeting" />
+		<result column="APPLY_DATE" property="applyDate"/>
+		<result column="NICKNAME" property="nickname"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
 	
 	<resultMap id="groupCalendarResultSet" type="GroupCalendar">
 		<result column="CALENDAR_NO" property="calendarNo" />
@@ -56,14 +68,15 @@
 		
 	</resultMap>
 	
-	
-	
-	
-	<select id="selectGroupListCount" resultType="_int">
+	<select id="selectGroupListCount" resultType="_int" parameterType="string">
 		SELECT 
 		       COUNT(*) 
 		  FROM 
-		       GROUP_ROOM 
+		       GROUP_ROOM
+		 <if test="categoryNo != 0">
+		 WHERE 
+		       CATEGORY_NO = #{categoryNo}		 
+		 </if>
 	</select>
 	
 	<select id="selectRegionCategoryList" resultMap="regionCategoryResultSet">
@@ -83,50 +96,84 @@
 		       GROUP_CATEGORY
 	</select>
 	
-	<select id="selectList" resultMap="groupResultSet">
-		SELECT 
-		       R.GROUP_NO, 
-		       REGION_NAME, 
-		       CATEGORY_NAME, 
-		       GROUP_NAME, 
-		       GROUP_IMG, 
-		       GROUP_DETAIL , 
-		       DECODE(GROUP_TYPE, 'A', '공개', '비공개') GROUP_TYPE, 
-		       GROUP_DATE, 
-		       COUNT(M.GROUP_NO) MEMBER_COUNT
-		  FROM 
-		       GROUP_ROOM R
-		  LEFT 
-		  JOIN 
-		       REGION_CATEGORY USING(REGION_NO)
-		  LEFT 
-		  JOIN 
-		       GROUP_CATEGORY USING(CATEGORY_NO)
-		  LEFT 
-		  JOIN 
-		       GROUP_MEMBER M ON(R.GROUP_NO = M.GROUP_NO)
-		 GROUP 
-		    BY 
-		       R.GROUP_NO, 
-		       REGION_NAME, 
-		       CATEGORY_NAME, 
-		       GROUP_DETAIL,
-		       GROUP_NAME, 
-		       GROUP_IMG, 
-		       GROUP_TYPE, 
-		       GROUP_DATE
-		 ORDER 
-		    BY GROUP_NO DESC
+	<select id="selectGroupList" resultMap="groupResultSet" parameterType="hashMap">
+		SELECT
+       		   GROUP_NO,
+       		   GROUP_NAME,
+       		   REGION_NAME,
+       		   CATEGORY_NAME,
+       		   GROUP_IMG,
+       		   GROUP_NAME,
+       		   GROUP_DETAIL,
+       		   GROUP_TYPE,
+       		   DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개') AS GROUP_TYPE_STR,
+       		   GROUP_DATE,
+       		   MY_GROUP,
+       		   APPLYING,
+       		   MEMBER_COUNT
+  		  FROM
+       		   GROUP_ROOM R
+  		  JOIN
+       		   REGION_CATEGORY USING(REGION_NO)
+  		  JOIN
+       		   GROUP_CATEGORY USING(CATEGORY_NO)
+  		  LEFT
+  		  JOIN
+       		   (SELECT 
+       		           GROUP_NO, 
+       		           'Y' AS MY_GROUP
+          		  FROM 
+          		       GROUP_MEMBER
+         		 WHERE 
+         		       USER_ID = #{userId}) USING(GROUP_NO)
+          LEFT
+          JOIN
+               (SELECT 
+                       GROUP_NO,
+                       'A' AS APPLYING
+                  FROM
+                       GROUP_JOIN_APPLY
+                 WHERE
+                       USER_ID = #{userId}) USING(GROUP_NO)
+  		  LEFT
+  		  JOIN
+       		   (SELECT 
+       		   		   GROUP_NO,
+       		           COUNT(*) AS MEMBER_COUNT
+          		  FROM 
+          	 	       GROUP_MEMBER
+         		 GROUP
+              		BY 
+              		   GROUP_NO) USING(GROUP_NO)
+       <if test="categoryNo != 0">
+         WHERE CATEGORY_NO = #{categoryNo}
+       </if>
+         ORDER 
+            BY 
+               GROUP_NO DESC
 	</select>
 	
 	<select id="myGroupList" parameterType="string" resultMap="groupResultSet">
-		SELECT GROUP_NO, GROUP_IMG, GROUP_NAME, USER_RANK
-  		  FROM GROUP_ROOM
-  		  JOIN GROUP_MEMBER USING(GROUP_NO)
- 		 WHERE USER_ID = #{userId}
- 		 GROUP BY GROUP_NO, GROUP_IMG, GROUP_NAME, USER_RANK
+		SELECT 
+			   GROUP_NO, 
+			   GROUP_IMG, 
+			   GROUP_NAME, 
+			   USER_RANK
+  		  FROM 
+  		       GROUP_ROOM
+  		  JOIN 
+  		       GROUP_MEMBER USING(GROUP_NO)
+ 		 WHERE 
+ 		       USER_ID = #{userId}
+ 		 GROUP 
+ 		    BY 
+ 		       GROUP_NO, 
+ 		       GROUP_IMG, 
+ 		       GROUP_NAME, 
+ 		       USER_RANK
  		 ORDER 
-    	    BY GROUP_NO DESC
+    	    BY 
+    	       GROUP_NO DESC
 	</select>
 	
 	<insert id="insertGroup" parameterType="groupRoom">
@@ -156,7 +203,7 @@
 	
 	</insert>
 	
-	<insert id="insertGroupMember" parameterType="groupMember">
+	<insert id="insertRoomAdmin" parameterType="groupMember">
 		INSERT 
 			INTO GROUP_MEMBER
 				(
@@ -268,7 +315,71 @@
 		       GROUP_NO = ${groupNo}
 	</delete>
 	
+	<insert id="applyGroup" parameterType="groupJoinApply">
+		INSERT 
+		       INTO GROUP_JOIN_APPLY
+		       (
+		       APPLY_NO,
+		       GROUP_NO,
+		       USER_ID,
+		       GREETING
+		       )
+		VALUES
+			   (
+			   SEQ_GJANO.NEXTVAL,
+			   #{groupNo},
+			   #{userId},
+			   #{greeting}
+			   )  
+	</insert>
 	
+	<select id="getApplicationList" parameterType="_int" resultMap="applicationListSet">
+		SELECT 
+			   APPLY_NO,
+			   USER_ID, 
+			   NICKNAME, 
+			   GREETING
+  		  FROM 
+  		  	   GROUP_JOIN_APPLY
+  		  JOIN 
+  		  	   MEMBER USING(USER_ID)
+ 	     WHERE 
+ 	           GROUP_NO = #{groupNo}
+	</select>
+	
+	<insert id="insertRoomMember" parameterType="groupMember">
+		INSERT 
+		  INTO 
+		       GROUP_MEMBER
+		       (
+		       GROUP_NO,
+		       USER_ID
+		       )
+		VALUES
+		       (
+		       #{groupNo},
+		       #{userId}
+		       )
+	</insert>
+	
+	<select id="countApplication" parameterType="_int" resultType="_int">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       GROUP_JOIN_APPLY
+		 WHERE
+		       GROUP_NO = #{groupNo}     
+		     
+	</select>
+	
+	<delete id="delteApplyInfo" parameterType="groupJoinApply">
+		DELETE
+		       GROUP_JOIN_APPLY
+		 WHERE
+		       GROUP_NO = #{groupNo}
+		   AND
+		       USER_ID = #{userId}
+	</delete>
 	
 	
 	<select id="selectGroupCalendar" parameterType="_int" resultMap="groupCalendarResultSet">

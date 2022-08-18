@@ -7,9 +7,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.6">
     <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.5">
@@ -24,6 +21,23 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+	<style>
+		#aCount{
+			position: relative;
+			top: -30px;
+			left: 55px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: #FEC8C6;
+			width: 20px;
+			height: 20px;
+			border-radius: 10px;
+			color: white;
+		}
+	</style>
+
     <title>소모모 - ${g.groupName}</title> 
 </head>
 <body>
@@ -73,6 +87,24 @@
 						</li>
 						<li class="setting-item">
 							<div class="itemContent">
+								<span class="label">가입 요청</span>
+								<c:if test="${aCount ne 0}">
+									<span class="label-data">현재 대기 중인 요청 : ${aCount}개</span>							
+								</c:if>
+							</div>
+							<div class="itemSide">
+								<a class="application-form-btn" onclick="openModal();">
+									확인
+								</a>
+								<c:if test="${aCount ne 0}">
+									<div id="aCount">
+										<span class="label-data">${aCount}</span>							
+									</div>
+								</c:if>
+							</div>
+						</li>
+						<li class="setting-item">
+							<div class="itemContent">
 								<span class="label">그룹 삭제</span>
 							</div>
 							<div class="itemSide delete">
@@ -85,6 +117,7 @@
 				</div>
 			</div>
 
+			<!-- 그룹 타입 변경 모달 -->
 			<div id="type-modal" class="modal">
 				<div class="modal-content-setting">
 	
@@ -131,6 +164,38 @@
 							<button class="disabled" type="submit">변경하기</button>
 						</div>
 					</form>
+				</div>
+			</div>
+
+			<!-- 가입승인 모달 -->
+			<div id="application-modal" class="modal">
+				<div class="modal-content-setting">
+	
+					<div class="modal-header">
+						<div class="header-title">
+							<span>가입 신청 처리</span>
+							<button type="button" class="close">나가기</button>
+						</div>
+					</div>
+					
+					<div class="modal-body">
+						
+						<div class="list-content">
+							<!-- ajax로 요청된 리스트 : getApplicationList.gr -->
+							<table>
+								<thead>
+									<tr>
+										<th>회원닉네임</th>
+										<th>가입인사</th>
+										<th>처리</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -185,6 +250,106 @@
             })
         })
 	</script>
+
+	<script>
+		function openModal(){
+			
+			const modal = $('#application-modal');
+
+			modal.fadeIn(300);
+			$('body').css({'overflow': 'hidden', 'height' : '100%'});
+
+			getApplicationList();
+
+			$('.close').click(function(){
+				modal.fadeOut(300);
+				$('body').css({'overflow':'auto'});
+
+				// jsp파일로 요청했을때 지워주는 방법
+				// ajax로 받아온 리스트를 클리어 해야하는디..
+				// 방법 1)
+				//$('.list-content').html(""); 
+				// 방법 2)
+				// location.reload(true); 
+			})
+
+		} 
+	</script>
+
+	<script>
+		function getApplicationList(){
+			$.ajax({
+				url : 'getApplicationList.gr',
+				method : 'POST',
+				data : {
+					groupNo : "${g.groupNo}"
+				},
+				success : function(data){
+					let value = "";
+
+					console.log(data);
+
+					if(data.length != 0){
+						for(let i in data){
+							value += '<tr>'
+										+ '<td>' + data[i].nickname + '</td>'
+										+ '<td>' + data[i].greeting + '</td>'
+										+ '<td>'
+											+ '<input type="hidden" name="applyNo" value="'+ data[i].applyNo +'">'
+											+ '<input type="hidden" name="userId" value="'+ data[i].userId +'">'
+											+ '<input type="hidden" name="groupNo" value="'+ ${g.groupNo} + '">'
+											+ '<button class="acceptApply">승인</button>'
+											+ '<button class="rejectApply">거절</button>'
+										+ '</td>'
+									+ '</tr>';
+	
+							$('.list-content tbody').html(value);
+						}
+					} 
+					else{
+						$('.list-content').html("없어용!!!");
+					}
+
+				},
+				error : function(){
+					console.log("통신실패");
+				}
+
+			})
+		}
+	</script>
+
+	<script>
+		
+		$(document).on('click', '.acceptApply', function(){
+			const $applyNo = $(this).siblings().eq(0).val();
+			const $userId = $(this).siblings().eq(1).val();
+			const $groupNo = $(this).siblings().eq(2).val();
+
+			$.ajax({
+				url : 'accept',
+				method : 'POST',
+				data : {
+					applyNo : $applyNo,
+					userId : $userId,
+					groupNo : $groupNo
+				},
+				success : function(result){
+					if(result == "success"){
+						getApplicationList();
+					}
+					else{
+						
+					}
+				},
+				error : function(){
+					console.log("통신실패");
+				}
+			})
+		})
+
+	</script>
+	
 
     <script>
 		function postForm(num){

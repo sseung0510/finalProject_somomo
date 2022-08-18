@@ -31,6 +31,7 @@ import com.kh.somomo.common.template.Pagination;
 import com.kh.somomo.group.model.service.GroupService;
 import com.kh.somomo.group.model.vo.CalendarPlan;
 import com.kh.somomo.group.model.vo.GroupCalendar;
+import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 import com.kh.somomo.member.model.vo.Member;
@@ -42,32 +43,66 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 	
-	//그룹방 리스트 전체 화면
+	//그룹방 리스트 전체 화면 : community 화면
 	@RequestMapping("groupRoom.gr")
-	public ModelAndView selectGroupList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+	public ModelAndView selectGroupList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+										@RequestParam(value = "cno", defaultValue = "0") String categoryNo,
 										HttpSession session, ModelAndView mv) throws ParseException {
 		
-		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(), currentPage, 10, 9); // 페이징처리
+		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(categoryNo), currentPage, 10, 9); // 페이징처리
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
+
+		// 카테고리 버튼을 클릭해서 요청이 들어오면 해당 카테고리 번호를 페이지에 포워딩
+		// 카테고리 번호
+		// 개발 : 1, 스터디 : 2, 운동/취미 : 3, 기타 : 4
+		// 전체 목록의 경우 따로 지정된 번호가 없어 RequestParam의 defaultValue를 0으로 지정함
+		if(!categoryNo.equals("0")) {  
+			mv.addObject("cno", categoryNo);
+		}
+		
 		mv.addObject("pi", pi)										  // 페이징
-		  .addObject("myGroupList", groupService.myGroupList(userId)) // 내가 관리/가입한 그룹 리스트
 		  .addObject("cList", groupService.selectGroupCategoryList()) // 그룹카테고리
-		  .setViewName("group/community");
+		  .addObject("myGroupList", groupService.myGroupList(userId)) // 내가 관리/가입한 그룹 리스트
+		  .setViewName("group/community");			
 		
 		return mv;
 	}
 	
-	//그룹방 리스트
+	//그룹방 리스트 
 	@RequestMapping(value="list.gr")
-	public String groupList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
-				 			Model model) throws ParseException {
-		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(), currentPage, 10, 9); // 페이징처리
+	public String groupList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+						    @RequestParam(value = "cno", defaultValue = "0") String categoryNo,
+										  String userId, Model model) {
 		
-		ArrayList<GroupRoom> gList = groupService.selectList(pi); // 전체 그룹 리스트
-		model.addAttribute("list", gList); 
+		// 페이징처리
+		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(categoryNo), currentPage, 10, 9);
 		
-		return "group/groupList";
+		// userId와 categoryNo를 넘겨주기 위해 해시 맵 사용 
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("categoryNo", categoryNo);
+		
+		ArrayList<GroupRoom> gList = groupService.selectGroupList(pi, map); 			
+		model.addAttribute("gList", gList);
+	
+		return "group/ajaxGroupList";
 	}
+	
+	//그룹방 검색 리스트
+//	@ResponseBody
+//	@RequestMapping(value="search.gr")
+//	public ModelAndView searchList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+//								   @RequestParam(value = "cno", defaultValue = "0") String categoryNo,
+//									HttpSession session, ModelAndView mv, String search) {
+//		ArrayList<GroupRoom> gList = groupService.searchGroup(search);
+//		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(categoryNo), currentPage, 10, 9); // 페이징처리
+//		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
+//		mv.addObject("list", gList)
+//		  .addObject("pi",pi)
+//		  .addObject("myGroupList", groupService.myGroupList(userId))
+//		  .setViewName("group/community");
+//		return mv;
+//	}
 	
 	// 그룹방 개설 페이지로 요청 처리
 	@RequestMapping("insertForm.gr")
@@ -78,13 +113,13 @@ public class GroupController {
 	}
 	
 	/**
-	 * 그룹방 개설 처리
+	 * 그룹방 만들기
 	 * - 사용자정의 그룹이미지(upfile)가 없을경우 서버에 저장되어있는 기본 이미지중 하나가 자동 선택되고 gr.groupImg에 담겨 넘어옴
 	 * - 3개의 insert문 실행 : GROUP_ROOM, GROUP_MEMBER, GROUP_CALENDAR
 	 * - 성공적으로 그룹방 개설이 되면 상세페이지로 이동함
 	 */
 	@RequestMapping("insert.gr")
-	public String insertGroup(GroupRoom gr, GroupMember gm, GroupCalendar gc, MultipartFile upfile, Model model, HttpSession session){
+	public String insertGroup(GroupRoom gr, GroupMember gm, MultipartFile upfile, Model model, HttpSession session){
 		
 		// 사용자가 자기 사진을 추가
 		// 기존의 profileImg에 등록된 사진을 변경해준다. 
@@ -96,7 +131,7 @@ public class GroupController {
 		}
 		
 		int result = groupService.insertGroup(gr);   // GROUP_ROOM
-		int result2 = groupService.insertMember(gm); // GROUP_MEMBEr
+		int result2 = groupService.insertRoomAdmin(gm); // GROUP_MEMBEr
 		int result3 = groupService.insertCalendar(); // GROUP_CALENDAR
 		
 		int groupNo = groupService.getGroupNo();     // 상세페이지로 이동하기위해 식별값인 groupNo를 조회해서 가져옴
@@ -115,13 +150,11 @@ public class GroupController {
 	public ModelAndView groupDetail(int gno, ModelAndView mv) {
 		
 		GroupRoom gr = groupService.selectGroup(gno); 	     			   // 특정 그룹방에대한 정보를 담음
-		GroupCalendar gc = groupService.selectCalendar(gno);
 		ArrayList<GroupMember> mList = groupService.selectMemberList(gno); // 가입된 회원리스트
-	
+		
 		if (gr != null) {
 			mv.addObject("g", gr)
 			  .addObject("mList", mList)
-			  .addObject("c", gc)
 			  .setViewName("group/groupDetail");
 		} else {
 			mv.addObject("errorMsg", "그딴 그룹방은 없는디요??").setViewName("common/errorPage");
@@ -136,6 +169,7 @@ public class GroupController {
 		
 		mv.addObject("g", groupService.selectGroup(groupNo))
 		  .addObject("mList", groupService.selectMemberList(groupNo))
+		  .addObject("aCount", groupService.countApplication(groupNo))
 		  .setViewName("group/groupSetting");
 		
 		return mv;
@@ -220,32 +254,62 @@ public class GroupController {
 		return "redirect:groupRoom.gr";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public boolean checkDefaultImg(HttpSession session, String originFile) {
+	// -------------------------------------------------------- 
+	//그룹 가입 요청 관련 ajax	
+	@ResponseBody
+	@RequestMapping("join.gr")
+	public String joinGroup(GroupMember gm, GroupJoinApply applyInfo, 
+							@RequestParam(value="groupType", defaultValue = "A") String groupType) {
 		
-		String IMG_DRIECTORY = session.getServletContext().getRealPath("/resources/img/group/defaultGroupImg");
-		
-		String checkImg = originFile.substring(36);
-		
-		File dir = new File(IMG_DRIECTORY);
-		
-		String[] defaultImgs = dir.list();
-		
-		for(String img : defaultImgs) {
-			if (img.equals(checkImg)) {
-				return true;
-			}
+		if(groupType.equals("A")) { // 공개그룹에 가입 : 바로 회원을 그룹에 추가함
+			return groupService.insertRoomMember(gm) > 0 ? "success" : "fail";
+		}else {
+			return groupService.applyGroup(applyInfo) > 0 ? "success" : "fail";
 		}
-		return false;
 	}
+	
+	@ResponseBody
+	@RequestMapping("cancelApply.gr")
+	public String cancelApply(GroupJoinApply applyInfo) {
+		return groupService.delteApplyInfo(applyInfo) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getApplicationList.gr", produces = "application/json; charset=UTF-8")
+	public String getApplicationList(int groupNo) {
+		ArrayList<GroupJoinApply> aList = groupService.getApplicationList(groupNo);
+		return new Gson().toJson(aList);
+	}
+	
+	@ResponseBody
+	@RequestMapping("accept")
+	public String approveJoin(GroupJoinApply applyInfo) {
+		
+//			System.out.println(applyInfo.getApplyNo()); // 신청번호
+//			System.out.println(applyInfo.getUserId());  // 회원 아이디
+//			System.out.println(applyInfo.getGroupNo()); // 그룹방번호
+		
+		int result = groupService.delteApplyInfo(applyInfo); // delete문을 사용해서 해당 신청번호를 지워준다.
+		int result2 = 0;
+
+		if(result > 0) { // 성공적으로 지워졌다면 == 가입 승인 완료
+			GroupMember gm = new GroupMember();
+			gm.setGroupNo(applyInfo.getGroupNo());
+			gm.setUserId(applyInfo.getUserId());
+			
+			result2 = groupService.insertRoomMember(gm);
+		}
+		
+		return result2 > 0 ? "success" : "fail";
+	
+	}
+	
+	
+	
+	
+	
+	
+
 
 	
 	@RequestMapping("calendar.gr")
@@ -321,33 +385,25 @@ public class GroupController {
 	}
 	
 	
-	
+	//////////////////////////////// 
+	public boolean checkDefaultImg(HttpSession session, String originFile) {
+			
+			String IMG_DRIECTORY = session.getServletContext().getRealPath("/resources/img/group/defaultGroupImg");
+			
+			String checkImg = originFile.substring(36);
+			
+			File dir = new File(IMG_DRIECTORY);
+			
+			String[] defaultImgs = dir.list();
+			
+			for(String img : defaultImgs) {
+				if (img.equals(checkImg)) {
+					return true;
+				}
+			}
+			return false;
+		}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 이거는 임시 입니다.
-//	@RequestMapping("apply.gr")
-//	@ResponseBody
-//	public String applyGroup(GroupJoinApply applyInfo) {
-//		
-//		System.out.println(applyInfo);
-//		
-//		int result = groupService.applyGroup(applyInfo);
-//		
-//		if(result > 0) { // 그룹 가입 신청 완료
-//			return "NNNNY";
-//		} else {
-//			return "NNNNN";
-//		}
-//	}
-	
 }
 
 

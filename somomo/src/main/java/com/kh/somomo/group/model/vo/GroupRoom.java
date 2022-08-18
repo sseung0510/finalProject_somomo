@@ -13,13 +13,30 @@ public class GroupRoom {
 
 	// 테이블 : GROUP (그룹방)
 	private int groupNo;
-	private String regionNo;   // 조인해서 사용할것이기 떄문에 그냥 String으로 바꿈!!
-	private String categoryNo; // 조인해서 사용할것이기 떄문에 그냥 String으로 바꿈!!
+	private int regionNo;   
+	private int categoryNo; 
 	private String groupName;
 	private String groupImg;
 	private String groupDetail;
 	private String groupType;
-	private String groupDate;
-	private int memberCount; // 가입한 회원수를 받기 위한 필
-	private String userRank; // GROUP_MEMBER 와 조인할때 반환되는 값을 받아주기 위한것
+	private String groupDate; 
+	
+	// 지역/그룹 카테고리 조인해서 들어올 값을 위한 필드
+	private String regionName;
+	private String categoryName;
+	
+	// GROUP_MEMBER와 조인해서 각 그룹의 소속된 회원의 수를 담아줄 필드
+	private int memberCount;
+	
+	// GROUP_MEMBER와 조인할때 반환되는 값을 받아주기 위한것
+	private String userRank;
+	
+	// GROUP_MEMBER와 조인 => 내가 가입/관리 중인 그룹인지 확인하는 값 : 'Y'
+	private String myGroup;
+	
+	// GROUP_JOIN_APPLY와 조인 => 가입 요청중인 그룹인지 확인하는 값 : 'A'
+	private String applying;
+	
+	// 그룹타입 : 공개/비공개/그룹명 공개 => 따로 테이블이 없어서 DECODE사용
+	private String groupTypeStr;
 }

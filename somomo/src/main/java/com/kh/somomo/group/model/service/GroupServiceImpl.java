@@ -1,6 +1,7 @@
 package com.kh.somomo.group.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.kh.somomo.group.model.dao.GroupDao;
 import com.kh.somomo.group.model.vo.CalendarPlan;
 import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
+import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
 
@@ -26,8 +28,8 @@ public class GroupServiceImpl implements GroupService{
 
 	
 	@Override
-	public int selectGroupListCount() {
-		return groupDao.selectGroupListCount(sqlSession);
+	public int selectGroupListCount(String categoryNo) {
+		return groupDao.selectGroupListCount(sqlSession, categoryNo);
 	}
 	
 	@Override
@@ -41,8 +43,14 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<GroupRoom> selectList(PageInfo pi) {
-		return groupDao.selectList(sqlSession, pi);
+	public ArrayList<GroupRoom> selectGroupList(PageInfo pi, HashMap<String, String> map) {
+		return groupDao.selectGroupList(sqlSession, pi, map);
+	}
+	
+	@Override
+	public ArrayList<GroupRoom> searchGroup(String search) {
+		// TODO Auto-generated method stub
+		return groupDao.searchGroup(sqlSession, search);
 	}
 	
 	@Override
@@ -56,8 +64,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 	
 	@Override
-	public int insertMember(GroupMember gm) {
-		return groupDao.insertMember(sqlSession, gm);
+	public int insertRoomAdmin(GroupMember gm) {
+		return groupDao.insertRoomAdmin(sqlSession, gm);
 	}
 	
 	@Override
@@ -111,6 +119,33 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.selectCalendarEventList(sqlSession, calendarNo);
 	}
 
+	@Override
+	public int insertRoomMember(GroupMember gm) {
+		return groupDao.insertRoomMember(sqlSession, gm);
+	}
+	
+	@Override
+	public int applyGroup(GroupJoinApply applyInfo) {
+		return groupDao.applyGroup(sqlSession, applyInfo);
+	}
+
+	@Override
+	public int countApplication(int groupNo) {
+		return groupDao.countApplication(sqlSession, groupNo);
+	}
+
+	@Override
+	public ArrayList<GroupJoinApply> getApplicationList(int groupNo) {
+		return groupDao.getApplicationList(sqlSession, groupNo);
+	}
+
+	@Override
+	public int delteApplyInfo(GroupJoinApply applyInfo) {
+		return groupDao.delteApplyInfo(sqlSession, applyInfo);
+	}
+
+	
+	
 
 		
 

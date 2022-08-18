@@ -55,7 +55,7 @@ button:hover{
 
 /* ======================= 헤더 CSS ==================== */
 .wrapper{
-    position: sticky;
+    position: fixed;
     width: 100%;
     top: 0;
     border-bottom: 1px solid var(--border-color);

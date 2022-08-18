@@ -18,4 +18,7 @@ public class GroupJoinApply {
 	private String greeting;
 	private String applyDate;
 	private String status;
+	
+	// MEMBER 테이블과의 조인
+	private String nickname;
 }
