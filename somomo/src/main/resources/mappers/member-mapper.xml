@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
-  	<resultMap type="member" id="memberResultSet">
+  	
+	<resultMap type="member" id="memberResultSet">
 		<result column="USER_ID" property="userId"/>
 		<result column="USER_PWD" property="userPwd"/>
 		<result column="NICKNAME" property="nickname"/>
@@ -15,6 +16,13 @@
 		<result column="STATUS" property="status"/>
 	</resultMap>
 
+	<resultMap id="feedBoardResultSet" type="feedBoard">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TYPE" property="boardType" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="LIKE_CHECK" property="likeCheck" />
+		<result column="PROFILE_IMG" property="profileImg"/>
+	</resultMap>
 	<!-- 멤버로그인 -->
 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
 		SELECT
@@ -26,7 +34,7 @@
 		 	   EMAIL,
 			   GENDER,
 			   PROFILE_IMG,
-			   ENROLL_DATE,
+		       TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
 			   KAKAO_LOGIN,
 			   STATUS
 		  FROM MEMBER 
@@ -73,25 +81,6 @@
 		SELECT COUNT(*)
 		  FROM MEMBER
 		 WHERE NICKNAME = #{nickname}
-	</select>
-	
-	<!-- 마이페이지 -->
-	<select id="selectMyPage" resultMap="memberResultSet" parameterType="string">
-		SELECT 
-			   USER_ID,
-			   USER_PWD,
-			   NICKNAME,
-			   PHONE,
-		 	   AGE,
-		 	   EMAIL,
-			   GENDER,
-			   PROFILE_IMG,
-			   ENROLL_DATE,
-			   KAKAO_LOGIN,
-			   STATUS
-		  FROM MEMBER
-		 WHERE USER_ID=#{userId}
-		   AND STATUS='Y'
 	</select>
 	
 	<!-- 회원정보 업데이트 -->
@@ -187,6 +176,64 @@
 			   USER_ID = #{m.userId}
 		   AND EMAIL = #{m.email}
 	</update>
+	
+	<select id="likeList" resultMap="feedBoardResultSet">
+		SELECT 
+               BOARD_NO,
+               FD.BOARD_TITLE,
+               M.PROFILE_IMG,
+               LIKE_CHECK
+ 		  FROM
+               FEED_BOARD FD
+     LEFT JOIN FEED_LIKES FL USING (BOARD_NO)
+	 LEFT JOIN MEMBER M ON(FD.BOARD_WRITER = M.USER_ID)
+ 	 LEFT JOIN
+               (SELECT 
+                       BOARD_NO,
+                       'Y' AS LIKE_CHECK
+                  FROM 
+                       FEED_LIKES 
+                 WHERE
+                       USER_ID = #{userId}) USING (BOARD_NO)
+	      WHERE FD.STATUS='Y'
+	        AND FD.BOARD_TYPE='G'
+	        AND FL.USER_ID = #{userId}
+	
+	</select>
+	
+	<select id="favoriteList" resultMap="feedBoardResultSet">
+		SELECT 
+               BOARD_NO,
+               FD.BOARD_TITLE,
+               M.PROFILE_IMG,
+               LIKE_CHECK
+ 		  FROM
+               FEED_BOARD FD
+     LEFT JOIN FEED_LIKES FL USING (BOARD_NO)
+	 LEFT JOIN MEMBER M ON(FD.BOARD_WRITER = M.USER_ID)
+ 	 LEFT JOIN
+               (SELECT 
+                       BOARD_NO,
+                       'Y' AS LIKE_CHECK
+                  FROM 
+                       FEED_LIKES 
+                 WHERE
+                       USER_ID = #{userId}) USING (BOARD_NO)
+	      WHERE FD.STATUS='Y'
+	        AND FD.BOARD_TYPE='M'
+	        AND FL.USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteLikeY" parameterType="hashmap">
+		DELETE 
+		  FROM
+		       FEED_LIKES
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       BOARD_NO = #{boardNo}
+	</delete>
+	
 	
 	
 	<!-- 카카오 회원 추가 -->

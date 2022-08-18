@@ -107,7 +107,7 @@
 	
 	
 	<form action="insert.me" method="post" id="enrollForm">
-		<input type="hidden" value="resources/img/member/profile_img.png" id="profileImg" name="profileImg">
+		<input type="hidden" value="resources/img/member/profile_img/profile_img.png" id="profileImg" name="profileImg">
 		<table class="form-group">
 			<tr>
 				<td colspan="2">

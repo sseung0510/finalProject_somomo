@@ -26,8 +26,8 @@
 		position : relative;
 	}
 
-	#updateForm{
-		width : 400px;
+	#deleteForm{
+		width : 800px;
     	margin-left:10px;
     	margin-top:10px;
 		margin-left:20%;
@@ -41,7 +41,7 @@
    		padding-left:5px;
    	}
 	
-	#updateBtn{
+	#deleteBtn{
 		width:150px;
 		height:35px;
 		background-color:#FCD9D7;
@@ -50,7 +50,7 @@
 		margin-top:30px;
 		margin-left:120px;
 	}
-	#updateBtn:hover{
+	#deleteBtn:hover{
 		background-color:#FEC8C6;
 	}
 	.form-group input{
@@ -68,27 +68,6 @@
     .form-group{
     	margin-top:20px;
     }
-    .titleImg{
-  		width:110px;
-		height:30px;
-		border-radius:5px;
-		margin-top:190px;
-    }
-    .input-file-button{
-		width:110px;
-		height:40px;
-		background-color:#FCD9D7;
-		border:1px solid #FEC8C6;
-		border-radius:5px;
-		text-align:center;
-		margin-top:180px;
-		margin-left:30px;
-		cursor:pointer;
-		padding-top:5px;
-	}
-	.input-file-button:hover{
-		background-color:#FEC8C6;
-	}
 	#updateCssForm{
 		border-radius:5px;
 		width:100%;
@@ -99,6 +78,12 @@
 		border-color:rgba(254, 200, 198, .5);
 		outline:3px solid rgba(254, 200, 198, .6);
 	}
+	 #deleteQ{
+    	font-size:25px;
+    	font-weight:bold;
+    	padding-bottom:20px;
+    }
+    
 	</style>
 </head>
 <body>
@@ -201,57 +186,38 @@
            	
            	
 			<!-----------글 목록 띄워지는 공간----------->
-			<div id="updateCssForm">
-				<div id="myInfo">정보 변경</div>
-	        	<form action="update.me" method="post" id="updateForm" enctype="multipart/form-data">
-	        		<table>
+			<div id="deleteCssForm">
+				<div id="myInfo">회원 탈퇴</div>
+	        	<form action="delete.me" method="post" id="deleteForm">
+	        		<table class="form-group">
 	        			<tr>
-	        				<td>
-	        					<div>나의 프로필</div>
-								<img id="titleImg" width="240" height="180" src="${loginUser.profileImg}">
-	        				</td>
-	        				<td>
-	        				<label class="input-file-button" for="profileImg">
-	        					프로필 사진
-	        				</label>
-	        					<input type="file" id="profileImg" name="upfile" style="display:none;"  onchange="loadImg(this);">
-	        					<input type="hidden" name="profileImg" value="${loginUser.profileImg}">
+	        				<td id="deleteQ">
+	        					회원 탈퇴하시겠습니까?
 	        				</td>
 	        			</tr>
-	        		</table>
-					<table class="form-group">
-						<tr>
-							<td colspan="2">
+	        			
+	        			<tr>
+	     					<td colspan="2">
 								<div>아이디</div>
-								<input type="text" name="userId" id="userId" value="${loginUser.userId}" readonly>
+								<input type="text" name="userId" value="${loginUser.userId}" readonly>
 							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>닉네임</div>
-			                    <input type="text" class="inputcolor" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" required> <br>
+	        			</tr>
+	        			<tr>
+	        				<td colspan="2">
+								<div>비밀번호 확인</div>
+			                    <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" onkeyup="deletePass()"required>
 							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>전화번호</div>
-			                    <input type="text" class="telCheck inputcolor" id="phone" placeholder="Please Enter Tel" name="phone" required maxlength="13" value="${loginUser.phone }" oninput="autoHyphen2(this)"> 
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>이메일</div>
-			                    <input type="text" class="inputcolor" id="email" placeholder="Please Enter Email" name="email" value="${loginUser.email }" required> <br>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>현재 비밀번호</div>
-			                    <input type="password" class="inputcolor" id="userPwd" placeholder="Please Enter Password" name="userPwd" required>
-							</td>
-						</tr>
-					</table>
-					<button id="updateBtn">정보 수정</button>
+	        			</tr>
+	        		</table>
+	       		<pre>
+2개월동안 재 가입여부 판단을 목적으로 고객님의 최소 정보를 보관합니다.
+고객님의 기본정보는 2개월 후 완전소실 됩니다.
+회원탈퇴 후 2개월 동안 재 가입이 불가 합니다.
+	       		</pre>
+	       		
+	       			<input type="checkbox" name="deleteOk" >&nbsp; 위 약관에 동의하시겠습니까? <br>
+	       		
+	        		<button id="deleteBtn" disabled>회원 탈퇴</button>
 				</form>
 	        </div>
         </div>
@@ -280,36 +246,37 @@
     <!-- 오른쪽 사이드 바 끝-->
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 	
-	<script>
-		//바꾸려는 프로필사진 미리보기
-		function loadImg(inputFile){
-			//console.log(inputFile.files.length);
-			
-			if(inputFile.files.length == 1){
-				var reader = new FileReader();
-				
-				reader.readAsDataURL(inputFile.files[0]);
-
-                reader.onload = function(e){
-                	$('#titleImg').attr('src', e.target.result);
-				}
+	
+    <script>
+		function deletePass(){
+			if($('#userPwd').val()!=""){
+				$('input:checkbox[name="deleteOk"]').click(function(){
+					if($("input:checkbox[name='deleteOk']").is(":checked")==true){
+						console.log("됐나?")
+						$(':submit').removeAttr('disabled');
+					} else{
+						console.log("안됐나?")
+					}
+				})
 			}
 		}
 		
+		
+		
+		
+		
+		
+		
 		var msg='${alertMsg}'
-		if(msg==='비밀번호가 틀렸습니다.'){
+			if(msg==='비밀번호가 틀렸습니다.'){
+				
+				setTimeout(function() {
+					alert("비밀번호가 틀렸습니다. 다시 확인해주세요.");
+				}, 100);
+			}
 			
-			setTimeout(function() {
-				alert("비밀번호가 틀렸습니다. 다시 확인해주세요.");
-			}, 100);
-		}
-			
-	</script>
-	
-	
-	
-	
-	
+    </script>
+    
 	
 	
 	

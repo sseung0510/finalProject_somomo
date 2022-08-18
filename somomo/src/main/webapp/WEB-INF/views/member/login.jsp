@@ -8,8 +8,7 @@
 <title>로그인</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script><!-- 스위트얼럿 -->
-<!-- 카카오로그인 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 <style>
 
 	body{
@@ -140,22 +139,13 @@
 		<div class="hr-sect">또는</div>
 		
 		<div class="kakaoBtn">
-			<img src="resources/img/kakao_loginBtn.png" alt="카카오" onclick="kakaoLogin();">
+			<img src="resources/img/kakao_loginBtn.png" alt="카카오" onclick="qwer();">
 		</div>
 		
 		<script>
-		  function kakaoLogin() {
-			    $.ajax({
-			        url: 'getKakaoAuthUrl.do',
-			        type: 'get',
-			        async: false,
-			        dataType: 'text',
-			        success: function (url) {
-			            location.href = url;
-			        }
-			    });
-
-			  }
+			function qwer(){
+				console.log("야야");
+			}
 		</script>
 	</div>
 		
@@ -163,12 +153,6 @@
 		<a href="enrollForm.me">계정이 없으신가요? 가입하기</a>
 	</div>
 	
-	<!-- 로그인 안할 시 로그인 성공 메시지 뜨는 현상을 잠시 주석처리  
-	<c:if test="${!empty alertMsg }">
-		<script>
-			alert("${alertMsg}");
-		</script>
-	</c:if>
-	-->
+	
 </body>
 </html>

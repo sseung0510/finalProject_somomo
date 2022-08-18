@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.kh.somomo.member.model.service.MemberService;
 import com.kh.somomo.member.model.vo.CertVo;
 import com.kh.somomo.member.model.vo.Member;
@@ -39,19 +41,10 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender sender;
 	
+	// 로그인
 	@RequestMapping("login.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		
-		/*
-	      System.out.println(loginUser);
-	      if(loginUser != null) {
-	         session.setAttribute("loginUser", loginUser);
-	         mv.setViewName("common/mainFeed");
-	      }else {
-	         mv.setViewName("member/memberenrollForm");
-	      }
-	      return mv;
-	      */
 		Member loginUser = memberService.loginMember(m);
 		//System.out.println(loginUser);
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
@@ -66,17 +59,20 @@ public class MemberController {
 		return mv;
 	}
 	
+	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 		session.invalidate();
-		return "member/login";
+		return "redirect:/";
 	}
 	
+	// 회원가입 폼으로 이동
 	@RequestMapping("enrollForm.me")
 	public String memberEnrollForm() {
 		return "member/memberEnrollForm";
 	}
 	
+	// 회원가입
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model, HttpSession session) {
 
@@ -95,60 +91,37 @@ public class MemberController {
 			return "member/memberEnrollForm";
 		}
 	}
+	
+	//회원가입(아이디중복체크)
 	@ResponseBody
 	@RequestMapping("idCheck.me")
 	public String idCheck(String checkId) {
-		/*
-		int result = memberService.idCheck(checkId);
-		
-		if(result>0) {// 이미 존재하는 아이디 => 사용 불가능(NNNNN)
-			return "NNNNN";
-		} else { // 사용가능(NNNNY)
-			return "NNNNY";
-		}
-		*/
-		//result >0 ? "true" : "false"
 		return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY";
-		
 	}
 	
+	// 회원가입(닉네임중복체크)
 	@ResponseBody
 	@RequestMapping(value="nickNameCheck.me")
 	public String NickNameCheck(String checkNickName) {
-		/*
-		int result = memberService.idCheck(checkId);
-		
-		if(result>0) {// 이미 존재하는 아이디 => 사용 불가능(NNNNN)
-			return "NNNNN";
-		} else { // 사용가능(NNNNY)
-			return "NNNNY";
-		}
-		*/
-		//result >0 ? "true" : "false"
 		return memberService.NickNameCheck(checkNickName) > 0 ? "NNNNN" : "NNNNY";
-		
 	}
-	/*
-	@ResponseBody
-	@RequestMapping(value = "phoneCheck", method = RequestMethod.GET)
-	public String sendSMS(@RequestParam("phone") String userPhoneNumber) { // 휴대폰 문자보내기
-		int randomNumber = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);//난수 생성
-
-		memberService.certifiedPhoneNumber(userPhoneNumber,randomNumber);
-		
-		return Integer.toString(randomNumber);
-	}
-	*/
 	
+	// 마이페이지로 이동
 	@RequestMapping("myPage.me")
-	public ModelAndView myPage(String userId, ModelAndView mv) {
-		
-		mv.addObject("list", memberService.selectMyPage(userId)).setViewName("member/myPageUpdate");
-		return mv;
+	public String myPage() {
+		return "member/myPage";
 	}
 	
+	// 정보변경 페이지로 이동
+	@RequestMapping("updateInfo.me")
+	public String myPageInfo() {
+		return "member/myPageUpdate";
+	}
+	
+	
+	// 정보변경
 	@RequestMapping("update.me")
-	public String updateMember(Member m, String userPwd, MultipartFile upfile,HttpSession session, Model model) {
+	public String updateMember(Member m, String userPwd, MultipartFile upfile,HttpSession session, Model model, RedirectAttributes rttr) {
 		
 		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
 		
@@ -164,7 +137,7 @@ public class MemberController {
 			}
 			
 			int result = memberService.updateMember(m);
-			//System.out.println(m);
+			System.out.println(m);
 			if(result>0) {
 				session.setAttribute("loginUser", memberService.loginMember(m));
 				return "member/myPageUpdate";
@@ -173,53 +146,22 @@ public class MemberController {
 				return "member/login";
 			}
 			
-			
-			
 		}else {
-			session.setAttribute("errorMsg", "회원탈퇴에 실패했습니다");
-			return "main";
+			rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
+			return "redirect:myPage.me";
 		}
 		
 	}
 	
+	// 비밀번호 변경폼으로 이동
 	@RequestMapping("updatePwd.me")
-	public ModelAndView updatePwd(String userId, ModelAndView mv) {
-		
-		mv.addObject("list", memberService.selectMyPage(userId)).setViewName("member/myPagePassword");
-		return mv;
+	public String updatePwd() {
+		return "member/myPagePassword";
 	}
 
-	@RequestMapping("deleteMem.me")
-	public ModelAndView deleteMember(String userId, ModelAndView mv) {
-		
-		mv.addObject("list", memberService.selectMyPage(userId)).setViewName("member/myPageDelete");
-		return mv;
-	}
-	
-	@RequestMapping("delete.me")
-	public String deleteMember(String userId, String userPwd, HttpSession session) {
-		
-		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
-		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
-			int result = memberService.deleteMember(userId);
-			if(result>0) {
-				// 탈퇴처리 성공 => session에서 loginUser 지움, alert문구담기 => 메인페이지url요청
-				session.removeAttribute("loginUser");
-				session.setAttribute("alertMsg", "잘가가가가");
-				return "redirect:/";
-			}else {
-				
-				return "member/login";
-			}
-		}else {
-			session.setAttribute("errorMsg", "회원탈퇴에 실패했습니다");
-			return "main";
-		}
-		
-	}
-
+	// 비밀번호 변경
 	@RequestMapping("updatePassword.me")
-	public String pwdUpdate(Member m, String oldUserPwd, HttpSession session, Model model) {
+	public String pwdUpdate(Member m, String oldUserPwd,  HttpSession session, RedirectAttributes rttr) {
 		
 		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
 		if(bcryptPasswordEncoder.matches(oldUserPwd, encPwd)) {
@@ -231,12 +173,42 @@ public class MemberController {
 				int result1 = memberService.updatePwd(m);
 				System.out.println(m);
 			}
+			return "member/login";
+		}else {
+			rttr.addFlashAttribute("alertMsg", "현재 비밀번호가 일치하지 않습니다.");
+			return "redirect:updatePwd.me";
 		}
 		
+	}
+	
+	//회원탈퇴폼으로 이동
+	@RequestMapping("deleteMem.me")
+	public String deleteMember() {
+		return "member/myPageDelete";
+	}
+	
+	// 회원탈퇴
+	@RequestMapping("delete.me")
+	public String deleteMember(String userId, String userPwd, HttpSession session, RedirectAttributes rttr) {
 		
-		return "member/login";
+		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
+		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
+			int result = memberService.deleteMember(userId);
+			if(result>0) {
+				// 탈퇴처리 성공 => session에서 loginUser 지움, alert문구담기 => 메인페이지url요청
+				session.removeAttribute("loginUser");
+				return "redirect:/";
+			}else {
+				
+				return "member/login";
+			}
+		}else {
+			rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
+			return "redirect:deleteMem.me";
+		}
 	}
 
+	// 회원가입시 이메일 전송
 	@ResponseBody
 	@RequestMapping("sendEmail.me")
 	public String sendEmail(String email, HttpServletRequest request) throws MessagingException {
@@ -259,6 +231,7 @@ public class MemberController {
 		
 	}
 	
+	// 인증번호 체크
 	@ResponseBody
 	@RequestMapping("checkEmail.me")
 	public String checkEmail(String secret, HttpServletRequest request) {
@@ -266,16 +239,16 @@ public class MemberController {
 									  .who(request.getRemoteAddr())
 									  .secret(secret)
 									  .build());
-		//System.out.println(result);
-		//System.out.println(secret);
 		return result == true ? "NNNNY" : "NNNNN";
 	}
 	
+	// 아이디/비밀번호찾기 폼으로 이동
 	@RequestMapping("searchMem.me")
 	public String seachMem() {
 		return "member/searchId_pwd";
 	}
 	
+	// 아이디 찾기
 	@ResponseBody
 	@RequestMapping("searchId.me")
 	public String searchId(Member m, HttpServletRequest request) throws MessagingException {
@@ -296,21 +269,8 @@ public class MemberController {
 		
 		return search;
 	}
-	/*
-	@ResponseBody
-	@RequestMapping("searchPwd.me")
-	public String searchPwd(String userId, String email) {
-		
-		HashMap<String, String> map = new HashMap();
-		map.put("userId", userId);
-		map.put("email", email);
-		
-		int searchPwd = memberService.searchPwd(map);
-		System.out.println(searchPwd);
-		return searchPwd > 0 ? "Y" : "N";
-	}
-	*/
 	
+	// 비밀번호 찾기
 	@ResponseBody
 	@RequestMapping("searchPwd.me")
 	public String searchPwd(Member m, HttpServletRequest request) throws MessagingException {
@@ -351,6 +311,7 @@ public class MemberController {
 		return searchPwd > 0 ? "Y" : "N";
 	}
 	
+	// 랜덤값으로 나오는 임시비밀번호
 	public String randomCode() {
 		 int leftLimit = 48; // numeral '0'
 		    int rightLimit = 122; // letter 'z'
@@ -365,5 +326,44 @@ public class MemberController {
 		    return generatedString;
 	}
 
+	// 내가 누른 좋아요 리스트 불러오기
+	@ResponseBody
+	@RequestMapping(value="likeList.me", produces="application/json; charset=UTF-8")
+	public String likeList(String userId) {
+		
+		//System.out.println(memberService.likeList(userId));
+		return new Gson().toJson(memberService.likeList(userId));
+		
+		
+	}
+	
+	// 내가 누른 즐겨찾기 리스트 불러오기
+	@ResponseBody
+	@RequestMapping(value="favoriteList.me", produces="application/json; charset=UTF-8")
+	public String favoriteList(String userId) {
+		
+		return new Gson().toJson(memberService.favoriteList(userId));
+		
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("UnlikeY.me")
+	public String unlikeY(String boardNo, String userId) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("boardNo", boardNo);
+		map.put("userId", userId);
+		
+		return memberService.deleteLikeY(map) > 0 ? "success" : "fail";
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 }

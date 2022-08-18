@@ -202,57 +202,45 @@
            	
 			<!-----------글 목록 띄워지는 공간----------->
 			<div id="updateCssForm">
-				<div id="myInfo">정보 변경</div>
-	        	<form action="update.me" method="post" id="updateForm" enctype="multipart/form-data">
-	        		<table>
-	        			<tr>
-	        				<td>
-	        					<div>나의 프로필</div>
-								<img id="titleImg" width="240" height="180" src="${loginUser.profileImg}">
-	        				</td>
-	        				<td>
-	        				<label class="input-file-button" for="profileImg">
-	        					프로필 사진
-	        				</label>
-	        					<input type="file" id="profileImg" name="upfile" style="display:none;"  onchange="loadImg(this);">
-	        					<input type="hidden" name="profileImg" value="${loginUser.profileImg}">
-	        				</td>
-	        			</tr>
-	        		</table>
-					<table class="form-group">
-						<tr>
-							<td colspan="2">
-								<div>아이디</div>
-								<input type="text" name="userId" id="userId" value="${loginUser.userId}" readonly>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>닉네임</div>
-			                    <input type="text" class="inputcolor" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" required> <br>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>전화번호</div>
-			                    <input type="text" class="telCheck inputcolor" id="phone" placeholder="Please Enter Tel" name="phone" required maxlength="13" value="${loginUser.phone }" oninput="autoHyphen2(this)"> 
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>이메일</div>
-			                    <input type="text" class="inputcolor" id="email" placeholder="Please Enter Email" name="email" value="${loginUser.email }" required> <br>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>현재 비밀번호</div>
-			                    <input type="password" class="inputcolor" id="userPwd" placeholder="Please Enter Password" name="userPwd" required>
-							</td>
-						</tr>
-					</table>
-					<button id="updateBtn">정보 수정</button>
-				</form>
+				<div id="myInfo">비밀번호 변경</div>
+        	<form action="updatePassword.me" method="post" id="updateForm">
+				<table class="form-group">
+					<tr>
+						<td>
+							<div>아이디</div>
+							<input type="text" name="userId" value="${loginUser.userId}" readonly>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div>닉네임</div>
+		                    <input type="text" class="form-control" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" readonly> <br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div>현재 비밀번호</div>
+		                    <input type="password" class="form-control" id="oldUserPwd" placeholder="Please Enter Password" name="oldUserPwd" onkeyup="userPwd();" required>
+		                    <div></div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div>새 비밀번호</div>
+		                    <input type="password" class="form-control" id="newUserPwd" placeholder="Please Enter Password" name="userPwd" onkeyup="RegPwdCheck();"required>
+		                    <div id="regPwd" style="font-size:13px">영문자와 숫자로 이루어진 5~16글자 비밀번호를 입력해주세요</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div>새 비밀번호 확인</div>
+	             	  		<input type="password" class="form-control" id="checkPwd" placeholder="Please Enter Password" onkeyup="CheckPwd();" required>
+	             	  		<div id="samePwd" style="font-size:13px">일치하는 비밀번호를 적어주세요.</div>
+						</td>
+					</tr>
+				</table>
+				<button id="updateBtn" type="button" onclick="changePwd()">정보변경</button>
+			</form>
 	        </div>
         </div>
         <!------ 메인 피드 끝----------->
@@ -281,33 +269,78 @@
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 	
 	<script>
-		//바꾸려는 프로필사진 미리보기
-		function loadImg(inputFile){
-			//console.log(inputFile.files.length);
+		const $userPwd = $('#newUserPwd');
+		const regExpPwd = /^[a-zA-Z0-9]{5,16}$/;
+		
+		function RegPwdCheck(){
 			
-			if(inputFile.files.length == 1){
-				var reader = new FileReader();
-				
-				reader.readAsDataURL(inputFile.files[0]);
-
-                reader.onload = function(e){
-                	$('#titleImg').attr('src', e.target.result);
+			//들어온 값이 빈 문자열이 아닐때
+			if($userPwd.val()!=""){
+				//표현식에 맞지않는 비번일 경우
+				if(!regExpPwd.test($userPwd.val())){
+					$('#regPwd').show();
+					$('#regPwd').css('color','red').text('조건에 맞게 입력해주세요.');
 				}
+				else{// 사용가능한 비밀번호
+					$('#regPwd').show();
+					$('#regPwd').css('color','yellowgreen').text('사용가능한 비밀번호입니다.');
+					var ok="Y";
+					return ok;
+				}
+			}
+			else{// 값이 비어 있을때
+				$('#regPwd').show();
+				$('#regPwd').css('color','black').text('영문자와 숫자로 이루어진 5~16글자 비밀번호를 입력해주세요');
+			}
+			
+		}
+		
+		//비밀번호 확인
+		function CheckPwd(){
+			if(regExpPwd.test($userPwd.val())){ // 비밀번호 사용가능일 경우
+				if($('#checkPwd').val() != $userPwd.val()){ // 비밀번호가 일치하지 않을 경우
+					$('#samePwd').show();
+					$('#samePwd').css('color','orangered').text('비밀번호가 일치하지 않습니다.');
+				}
+				else{ // 비밀번호가 일치할 경우
+					$('#samePwd').show();
+					$('#samePwd').css('color','yellowgreen').text('비밀번호가 일치합니다.');
+					var ok1="Y";
+					return ok1;
+				}
+			} 
+			else{
+				$('#samePwd').show();
+				$('#samePwd').css('color','black').text('일치하는 비밀번호를 적어주세요.');
 			}
 		}
 		
+			 
+		function changePwd(){
+			var success="";
+			success=RegPwdCheck()+CheckPwd();
+			
+			if(success == 'YY'){
+				$("#updateBtn").removeAttr('type',"submit");
+			}else{
+				$("#updateBtn").attr('type',"button");
+			}
+			
+		}
+		
+			 
+		
 		var msg='${alertMsg}'
-		if(msg==='비밀번호가 틀렸습니다.'){
+		if(msg==='현재 비밀번호가 일치하지 않습니다.'){
 			
 			setTimeout(function() {
-				alert("비밀번호가 틀렸습니다. 다시 확인해주세요.");
+				alert("현재 비밀번호가 아닙니다. 다시 확인해주세요.");
 			}, 100);
 		}
-			
+		
+		
+		
 	</script>
-	
-	
-	
 	
 	
 	

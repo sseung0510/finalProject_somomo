@@ -1,11 +1,12 @@
 package com.kh.somomo.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.somomo.feed.model.vo.FeedBoard;
 import com.kh.somomo.member.model.vo.CertVo;
 import com.kh.somomo.member.model.vo.Member;
 
@@ -26,10 +27,6 @@ public class MemberDao {
 
 	public int NickNameCheck(SqlSessionTemplate sqlSession, String checkNickName) {
 		return sqlSession.selectOne("memberMapper.NickNameCheck", checkNickName);
-	}
-
-	public Member selectMyPage(SqlSessionTemplate sqlSession, String userId) {
-		return sqlSession.selectOne("memberMapper.selectMyPage", userId);
 	}
 
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
@@ -75,7 +72,18 @@ public class MemberDao {
 	public int changeUpPwd(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.update("memberMapper.changeUpPwd", map);
 	}
-	
+
+	public ArrayList<FeedBoard> likeList(SqlSessionTemplate sqlSession, String userId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.likeList", userId);
+	}
+
+	public ArrayList<FeedBoard> favoriteList(SqlSessionTemplate sqlSession, String userId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.favoriteList", userId);
+	}
+
+	public int deleteLikeY(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.delete("memberMapper.deleteLikeY", map);
+	}
 	
 	// 카카오 회원 추가
 	public int insertKakaoMember(SqlSessionTemplate sqlSession, Member m) {
