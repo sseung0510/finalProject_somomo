@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 	<!----------- 아이콘 CSS 링크 version 2------->
@@ -24,103 +24,6 @@
 	
 	<title>모임모집글상세보기</title>
 	
-	<style>
-		/**************** 게시글 부분 ********************/
-		/* 글 테두리*/
-		.fd-board {
-			width: 100%;
-			background: #fff;
-			border-radius: 6px;
-			padding: 20px;
-			columns:#8d1b1b;
-			box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);
-		}
-
-		/* 글 상단의 일반글/모임모집 부분*/
-		/* 일반글 태그 (General) */
-		.fd-board-top a {
-			text-decoration: none;
-			color: black;
-		}
-		/* 일반글 태그 (General) */
-           .btnBoardTypeG{
-	        font-size: 12px;
-	        border-radius: 20px;
-	        border: 1px solid lightgray;
-	        background-color: lightgray;
-	        color: black;
-	    }
-		/* 모임모집 태그 (Meet) */
-		.btnBoardTypeM{
-	        font-size: 12px;
-	        border-radius: 20px;
-	        border: 1px solid pink;
-	        background-color: pink;
-	        color: black;
-	    }
-
-		/* 글 상단의 지역(경기도/서울/인천 등등)*/
-	    .btnRegionNo{
-	    	font-size: 12px;
-	        border: 1px solid rgb(248, 248, 154);
-	        border-radius: 20px;
-	        background-color: rgb(248, 248, 154);
-	        color: black;
-	    }
-
-		/* 작성자 정보, 시간, ...버튼(아이콘 등록 필요) */
-       	.fd-board-writer-date{width: 100%;}
-
-		/* 작성자 프로필이미지*/
-		.profileImg-area{
-			width: 50px;
-			height: 50px;
-		}
-		.profileImg{
-			border-radius: 50%;
-			width:100%;
-			height:50px;
-		}
-
-		/* 글 내용 부분 각 margin*/
-		.fdm, .md{margin-top:10px;}
-
-		/* 좋아요/찜 버튼 */
-		.likeBtn{
-			width:30px;
-			height:30px;
-		}
-
-		/* 버튼 색 (다른 페이지와 통일 필요)*/
-		.btnPink{
-			display:block;
-			width:100%;
-			margin-top: 10px;
-			padding: 10px;
-			background-color: rgb(250,188,186);
-			border: 1px solid rgb(250,188,186);
-			border-radius: 20px;
-			color: white;
-			font-size: 18px;
-			font-weight: bold;
-		}
-		.btnPink:hover{
-     		background-color: #FEC8C6;
-     		border: 1px solid #FEC8C6;
-   		}
-   		.btnDisabled{
-			display:block;
-			width:100%;
-			margin-top: 10px;
-			padding: 10px;
-			background-color: rgb(190, 190, 190);
-			border: rgb(190, 190, 190);
-			border-radius: 20px;
-			color: white;
-			font-size: 18px;
-			font-weight: bold;
-		}
-    </style>
 </head>
 <body>
 	<!--------------------- 왼쪽 사이드 바 ------------------------>
@@ -148,85 +51,7 @@
         <div class="main-feed">
 	        <!-- 글 내용 띄우줄 공간 -->
 			<div class="board-area">
-				<div class="fd-board">
-					<div class="fd-board-top">
-						<a href="#" class="tag btnBoardTypeM">모임모집</a>&nbsp;
-					    <a href="#" class="tag btnRegionNo">${fb.regionName}</a>
-			   		</div>
-					<table class="fd-board-writer-date">
-						<tr>
-							<td rowspan="2" class="profileImg-area">
-								<c:choose>
-									<c:when test="${fb.profileImg ne null}">
-										<img class="profileImg" src="${fb.profileImg}" style="width:100%;">
-									</c:when>
-									<c:otherwise>
-										<img class="profileImg" src="resources/img/member/profile_img.png" style="width:100%;">
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td>${fb.nickname}</td>
-							<c:if test="${loginUser.userId eq fb.boardWriter}">
-								<td align="right">
-									<div class="form-icon">
-										<i class='bx bx-dots-vertical-rounded feed'>
-										
-										<ul class="feed-link">
-											<li><a class="updateMeetBoard">수정</a></li>
-											<li><a class="checkDelete">삭제</a></li>
-										
-										</ul>
-										</i>
-									</div>
-								</td>
-							</c:if>
-						</tr>
-						<tr><td class="fd-board-date">${fb.boardDate}</td></tr>
-					</table>
-					<div class="fd-board-contents fdm">
-						<div class="title">
-							<c:choose>
-								<c:when test="${fb.countMember lt fb.meetTotal}">
-									<b>모집중&nbsp;</b>
-								</c:when>
-								<c:otherwise>
-									<b>모집마감&nbsp;</b>
-								</c:otherwise>
-							</c:choose>
-							${fb.boardTitle}
-						</div>
-						<div class="content fdm">
-							<% pageContext.setAttribute("newLine", "\n"); %>
-							<p id="content">${fn:replace(fb.boardContent, newLine, '<br/>')}</p>
-						</div>
-						<div class="meet-info fdm" style="padding:5px;">
-							<div><img src="resources/img/test1.jpg" width="100%"></div>
-							<div class="fdm">
-								👉${fb.meetPlace} | ${fb.meetDate}<br>
-								👉${fb.meetCondition}<br>
-								👉${fb.countMember}/${fb.meetTotal}명 참여
-							</div>
-						</div>
-					</div>
-					<div style="margin-top:20px;">
-						<span class="likeBtn">
-							<img class="likeN" src="resources/img/star-off.png">
-						</span>
-						<span class="countLike">찜${fb.countLike}개</span>
-					</div>
-					<div class="fdm">${fb.countMember}명 참여중</div>
-				
-					<div class="joinChatBtn">
-						<c:choose>
-							<c:when test="${fb.countMember lt fb.meetTotal}">
-								<button type="button" class="btnPink" onclick="checkJoinCondition();">모임 참여 신청</button>
-							</c:when>
-							<c:otherwise>
-								<button type="button" class="btnDisabled" disabled>마감되었습니다</button>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
+				<jsp:include page="ajaxMeetBoard.jsp" />
 			</div>
 		</div>
 	

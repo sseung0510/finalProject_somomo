@@ -41,7 +41,7 @@ public class FeedController {
 	public ModelAndView selectFeedList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
 			                           ModelAndView mv) throws ParseException {
 		
-		PageInfo pi = Pagination.getPageInfo(feedService.selectFeedListCount(), currentPage, 10, 5); // 페이징처리
+		PageInfo pi = Pagination.getPageInfoFeed(feedService.selectFeedListCount(), currentPage, 5); // 페이징처리(마지막페이지 번호 계산해서 추가로 받아옴)
 		
 		mv.addObject("pi", pi)
 		  .addObject("rList", feedService.selectRegionList()) // 지역 카테고리 목록 가져오기
@@ -51,13 +51,10 @@ public class FeedController {
 	}
 	
 	@RequestMapping(value="list.fd")
-	public String ajaxSelectFeedList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
-	 		 						 String userId, Model model) throws ParseException {
-		
-		PageInfo pi = Pagination.getPageInfo(feedService.selectFeedListCount(), currentPage, 10, 5); // 페이징처리
-		
-		ArrayList<FeedBoard> fList = feedService.selectFeedList(pi, userId); // 사용자의 피드 목록 가져오기
-		for(FeedBoard fb : fList) {
+	public String ajaxSelectFeedList(PageInfo pi, String userId, Model model) throws ParseException {
+
+		ArrayList<FeedBoard> fbList = feedService.selectFeedList(pi, userId); // 사용자의 피드 목록 가져오기 
+		for(FeedBoard fb : fbList) {
 			
 			fb.setBoardDate(Time.getDiffTime(fb.getBoardDate())); // 지난 날짜 설정
 			
@@ -67,18 +64,15 @@ public class FeedController {
 		}
 		
 		ArrayList<Attachment> fatList = new ArrayList<>();
-		if(!fList.isEmpty()) {
+		if(!fbList.isEmpty()) {
 			HashMap<String, Integer> boardRange = new HashMap<>();
-			boardRange.put("min", fList.get(fList.size()-1).getBoardNo()); // 첫번 째 글번호
-			boardRange.put("max", fList.get(0).getBoardNo()); // 마지막 글번호
+			boardRange.put("min", fbList.get(fbList.size()-1).getBoardNo()); // 첫번 째 글번호
+			boardRange.put("max", fbList.get(0).getBoardNo()); // 마지막 글번호
 			
-			//System.out.println(boardRange.get("min"));
-			//System.out.println(boardRange.get("max"));
-			//System.out.println(feedService.selectFeedAttachmentList(boardRange));
 			fatList = feedService.selectFeedAttachmentList(boardRange);
 		}
 			
-		model.addAttribute("fList", fList)
+		model.addAttribute("fbList", fbList)
 			 .addAttribute("fatList", fatList);
 		
 		return "feed/ajaxFeedList";

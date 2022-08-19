@@ -23,95 +23,6 @@
 
     <title>메인 페이지</title>
     
-	<style>
-		/**************** 게시글 부분 ********************/
-		/* 글 테두리*/
-		.fd-board {
-		    width: 100%;
-		    background: #fff;
-		    border-radius: 6px;
-		    padding: 20px;
-		    columns:#626262;
-		    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);
-		    margin:10px;
-		}
-		
-		/* 글 상단의 일반글/모임모집 부분*/
-		/* 일반글 태그 (General) */
-		.fd-board-top a {
-			text-decoration: none;
-			color: black;
-			
-		}
-		.btnBoardTypeG {
-	       font-size: 12px;
-	       border-radius: 20px;
-	       border: 1px solid lightgray;
-	       background-color: lightgray;
-	       color: black;
-	   	}
-		/* 모임모집 태그 (Meet) */
-		.btnBoardTypeM {
-	       font-size: 12px;
-	       border-radius: 20px;
-	       border: 1px solid pink;
-	       background-color: pink;
-	       color: black;
-	   	}
-		
-		/* 글 상단의 지역(경기도/서울/인천 등등)*/
-		.btnRegionNo {
-		   	font-size: 12px;
-		   	border: 1px solid rgb(248, 248, 154);
-		    border-radius: 20px;
-		    background-color: rgb(248, 248, 154);
-		    color: black;
-		}
-		
-		/* 작성자 정보, 시간, ...버튼 */
-		.fd-board-writer-date {width: 100%;}
-		
-		/* 작성자 프로필이미지*/
-		.profileImg-area {
-			width: 50px;
-			height: 50px;
-		}
-		.profileImg {
-			border-radius: 50%;
-			width:100%;
-			height:50px;
-		}
-		
-		
-		
-		/* 글 내용 부분 각 margin + 모달창*/
-		.fdm, .mdm {margin-top:10px;}
-		
-		/* 좋아요/찜 버튼 */
-		.likeBtn {
-			width:30px;
-			height:30px;
-		}
-		.likeBtn:hover {cursor:pointer;}
-		
-		/* 버튼 색 (다른 페이지와 통일 필요) */
-		.btnPink{
-			display:block;
-			width:100%;
-			margin-top: 10px;
-			padding: 10px;
-			background-color: rgb(250,188,186);
-			border: 1px solid rgb(250,188,186);
-			border-radius: 20px;
-			color: white;
-			font-size: 18px;
-			font-weight: bold;
-		}
-		.btnPink:hover{
-     		background-color: #FEC8C6;
-     		border: 1px solid #FEC8C6;
-   		}
-	</style>
 </head>
 <body>
 	<!--------------------- 왼쪽 사이드 바 ------------------------>
@@ -222,7 +133,8 @@
         			method : 'POST',
         			data : {
         				userId : '${loginUser.userId}',
-        				cpage : currentPage
+        				currentPage : currentPage,
+        				boardLimit : '${pi.boardLimit}'
         			},
         			success : function(data){
         				// 응답된 문자열은 html형식(feed/ajaxFeedList.jsp에 응답내용 있음)

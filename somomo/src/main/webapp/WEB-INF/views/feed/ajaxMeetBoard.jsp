@@ -20,7 +20,7 @@
 					</c:otherwise>
 				</c:choose>
 			</td>
-			<td>${fb.nickname}</td>
+			<td><div class="fd-board-nickname"><strong>${fb.nickname}</strong></div></td>
 			<c:if test="${loginUser.userId eq fb.boardWriter}">
 				<td align="right">
 					<div class="form-icon">
@@ -34,13 +34,13 @@
 				</td>
 			</c:if>
 		</tr>
-		<tr><td class="fd-board-date">${fb.boardDate}</td></tr>
+		<tr><td class="fd-board-date"><div class="fd-board-nickname">${f.boardDate}</div></td></tr>
 	</table>
 	<div class="fd-board-contents fdm">
 		<div class="title">
 			<c:choose>
 				<c:when test="${fb.countMember lt fb.meetTotal}">
-					<b>모집중&nbsp;</b>
+					<b class="gather">모집중&nbsp;</b>
 				</c:when>
 				<c:otherwise>
 					<b>모집마감&nbsp;</b>
@@ -55,9 +55,9 @@
 		<div class="meet-info fdm" style="padding:5px;">
 			<div><img src="resources/img/test1.jpg" width="100%"></div>
 			<div class="fdm">
-				👉${fb.meetPlace} | ${fb.meetDate}<br>
+				 📆 ${fb.meetPlace} | ${fb.meetDate}<br>
 				👉${fb.meetCondition}<br>
-				👉${fb.countMember}/${fb.meetTotal}명 참여
+				💬${fb.countMember}/${fb.meetTotal}명 참여
 			</div>
 		</div>
 	</div>

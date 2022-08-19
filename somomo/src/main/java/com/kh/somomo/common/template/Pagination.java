@@ -4,6 +4,7 @@ import com.kh.somomo.common.model.vo.PageInfo;
 
 public class Pagination {
 
+	//일반 게시판 형식
 	public static PageInfo getPageInfo(int listCount, int currentPage, int pageLimit, int boardLimit) {
 		
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
@@ -15,5 +16,13 @@ public class Pagination {
 		}
 		
 		return new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+	}
+	
+	// 피드 형식
+	public static PageInfo getPageInfoFeed(int listCount, int currentPage, int boardLimit) {
+		
+		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		
+		return new PageInfo(listCount, currentPage, boardLimit, maxPage);
 	}
 }
