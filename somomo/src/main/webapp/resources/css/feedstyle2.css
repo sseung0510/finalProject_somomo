@@ -530,7 +530,86 @@ nav.close ~ .main-content .main-feed{
 
 
 
+/* =================== 다크 모드 ======================== */
+.mode-toggle {
+    height: 50px;
+    min-width: 45px;
+    position :absolute;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
 
+.mode {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+
+.mode-toggle .switch {
+    position: relative;
+    display: inline-block;
+    height: 22px;
+    width: 40px;
+    background-color: var(--toggle-color);
+    border-radius: 25px ;
+}
+
+.switch::before{
+    content:"";
+    position: absolute;
+    left: 5px;
+    transform: translateY(-50%);
+    top: 50%;
+    height: 15px;
+    width: 15px;
+    background-color: white;
+    border-radius: 50%;
+    transition: var(--tran-03);
+}
+
+body.dark {
+    --blue-color: #3a3b3c;
+    --white-color:#202b38;
+}
+
+body.dark .switch::before {
+    left : 20px;
+}
+
+body.dark .logo-name .logo_name {
+	color: white;
+}
+
+body.dark .top .sidebar-toggle {
+	color : white;
+}
+
+body.dark .right-top {
+    color : white;
+}
+
+body.dark .top .search-box input {
+     color : white;
+}
+
+body.dark
+.nav-links li a:hover i,
+body.dark
+.nav-links li a:hover .link-name{
+    color: white;
+}
+
+body.dark .profile .profile-link.show {
+	background : white;
+}
+
+body.dark .close {
+	opacity : 1;
+}
 
 
 /* ============== 미디어 쿼리 ======================== */

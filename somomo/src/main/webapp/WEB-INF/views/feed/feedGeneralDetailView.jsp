@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.7">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 	<!----------- 아이콘 CSS 링크 version 2------->

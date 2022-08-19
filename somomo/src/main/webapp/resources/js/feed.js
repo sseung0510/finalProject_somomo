@@ -34,3 +34,12 @@ window.addEventListener('click', function(e){
         }
     }
 })
+
+
+// Dark Mode 
+
+const modeToggle = body.querySelector(".mode-toggle");
+
+modeToggle.addEventListener("click", ()=>{
+     body.classList.toggle("dark");
+});
