@@ -25,7 +25,6 @@ public class PageInfo {
 	private int startPage; // 페이지 하단에 보여질 페이징바의 시작 수
 	private int endPage; // 페이지 하단에 보여질 페이징바의 끝 수
 	
-	
 	// 피드형식(무한스크롤) 만들 때 사용
 	public PageInfo(int listCount, int currentPage, int boardLimit, int maxPage) {
 		super();

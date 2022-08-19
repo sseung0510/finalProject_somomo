@@ -273,6 +273,6 @@
     
     
     
-    <script src="resources/js/GroupDetail.js"></script>
+    <script src="resources/js/GroupDetail.js?ver=1.0.0"></script>
 </body>
 </html>

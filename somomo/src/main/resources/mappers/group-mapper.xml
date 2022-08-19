@@ -10,6 +10,7 @@
 		<result column="GROUP_NAME" property="groupName"/>
 		<result column="GROUP_IMG" property="groupImg"/>
 		<result column="GROUP_DETAIL" property="groupDetail"/>
+		<result column="APPLY_QUESTION" property="applyQuestion"/>
 		<result column="GROUP_TYPE" property="groupType"/>
 		<result column="GROUP_TYPE_STR" property="groupTypeStr"/>
 		<result column="GROUP_DATE" property="groupDate"/>
@@ -128,6 +129,7 @@
        		   GROUP_IMG,
        		   GROUP_NAME,
        		   GROUP_DETAIL,
+       		   APPLY_QUESTION,
        		   GROUP_TYPE,
        		   DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개') AS GROUP_TYPE_STR,
        		   GROUP_DATE,
@@ -209,6 +211,7 @@
 				GROUP_NAME,
 				GROUP_IMG,
 				GROUP_DETAIL,
+				APPLY_QUESTION,
 				GROUP_TYPE,
 				GROUP_DATE
 				)
@@ -220,6 +223,7 @@
 				#{groupName},
 				#{groupImg},
 				#{groupDetail},
+				#{applyQuestion},
 				#{groupType},
 				SYSDATE
 				)

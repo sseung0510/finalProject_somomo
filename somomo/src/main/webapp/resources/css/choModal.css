@@ -17,23 +17,26 @@
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 300px; /* Could be more or less, depending on screen size */
-    height: 300px;
+    width: 400px; /* Could be more or less, depending on screen size */
     border-radius: 20px;
 }
 
 .header-title{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #aaa;
-    padding-bottom: 10px;
+    /* border-bottom: 1px solid #aaa; */
+    /* padding-bottom: 10px; */
+    padding: 10px;
 }
 
 .header-title__groupName{
     margin-bottom: 5px;
     font-weight: 900;
+}
+
+.header-title__question{
+    margin-left: 20px;
 }
 
 .header-title span{

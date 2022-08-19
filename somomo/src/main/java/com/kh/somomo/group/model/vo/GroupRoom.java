@@ -18,6 +18,7 @@ public class GroupRoom {
 	private String groupName;
 	private String groupImg;
 	private String groupDetail;
+	private String applyQuestion;
 	private String groupType;
 	private String groupDate; 
 	

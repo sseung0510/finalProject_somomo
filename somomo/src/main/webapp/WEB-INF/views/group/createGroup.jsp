@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
-    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.0.7">
+    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.1.0">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -126,7 +126,7 @@
                     <input type="file" name="upfile" id="upfile" onchange="loadImg(this);">
 
                     <div class="groupDesc-sheet">
-                        <textarea name="groupDetail" id="groupDetail" placeholder="생성하신 그룹에 관한 간단한 설명을 적어주세요" required></textarea>
+                        <textarea name="groupDetail" id="groupDetail" placeholder="생성할 그룹에 관한 간단한 설명을 적어주세요" required></textarea>
                     </div>
 
                     <div class="groupType-sheet">
@@ -157,12 +157,30 @@
                                 <div class="content-row__desc">그룹과 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</div>
                             </div>
                         </div>
+
+                        <div id="question-modal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="header-content">
+                                        <span>가입 질문</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-body">
+                                    <textarea name="applyQuestion" class="applyQuestion" placeholder="가입 질문을 작성하세요."></textarea>
+                                </div>
+                                <div class="modal-foot">
+                                    <button type="button" disabled class="confirm-modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
                         
                     </div>
 
                     <div class="button-area">
                         <button type="reset">취소</button>
-                        <button class="" type="submit" onclick="setDefaultImg();">완료</button>
+                        <button class="" type="submit" onclick="setDefaultImg()">완료</button>
                     </div>
                 </form>
 
@@ -232,7 +250,7 @@
         function loadImg(inputFile){
             
             if(inputFile.files.length == 1){
-                const reader =new FileReader();
+                const reader = new FileReader();
 
                 reader.readAsDataURL(inputFile.files[0]);
 
@@ -259,6 +277,40 @@
         });
         observer.observe(img, {attributes : true});
     </script>
+
+    <script>
+        // 가입 인사 작성 모달
+        const modal = $('.modal');
+
+        $('.content-row__btn #public').click(function(){
+            modal.fadeIn(300);                                          // 가입 모달 열기
+            if($('.applyQuestion').val().trim().length == 0){
+                $('.confirm-modal').prop('disabled', true);
+            }
+            $('body').css({'overflow' : 'hidden', 'height' : '100%'});
+        })
+        
+        $('.applyQuestion').keyup(function(){
+            if($('.applyQuestion').val().trim().length > 0){
+                $('.confirm-modal').prop('disabled', false);
+            }
+            else{
+                $('.confirm-modal').prop('disabled', true);
+            }
+        })
+
+        $('.confirm-modal').click(function(){
+            modal.fadeOut(300);
+            $('body').css({'overflow':'auto'});
+        })
+
+        $('.content-row__btn #private, .content-row__btn #public-toAll').click(function(){
+            $('.applyQuestion').val("");
+            console.log($('.applyQuestion').val());
+        })
+    </script>
+
+
 
     <script>
         function setDefaultImg(){

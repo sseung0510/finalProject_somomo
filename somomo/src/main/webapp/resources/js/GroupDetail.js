@@ -71,44 +71,6 @@ window.addEventListener('click', function(e){
 
 */
 
-// 글쓰기 Modal 창에서 focus 되는 순간 <p> 태그 없애주기
-
-    $('#editor').on('focus',function(){
-        $('.editor-placeholder').css('display','none');
-    })
-
-
-// 글쓰기 Modal 창에서 Image 태그 클릭 스크립트
-
-
-    
-    const btnImage = document.getElementById('btn-image');
-    const imageSelector = document.getElementById('img-selector');
-    
-    btnImage.addEventListener('click', function () {
-        imageSelector.click();
-    });
-
-    imageSelector.addEventListener('change', function (e) {
-        const files = e.target.files;
-        if (!!files) {
-            insertImageDate(files[0]);
-        }
-    });
-
-    function focusEditor() {
-        editor.focus({preventScroll: true});
-    }
-    
-    function insertImageDate(file) {
-        const reader = new FileReader();
-        reader.addEventListener('load', function (e) {
-            focusEditor();
-            document.execCommand('insertImage', false, `${reader.result}`);
-        });
-        reader.readAsDataURL(file);
-    }
-
 
 
 

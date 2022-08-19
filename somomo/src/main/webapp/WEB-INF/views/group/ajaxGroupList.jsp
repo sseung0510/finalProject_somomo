@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-
+<% pageContext.setAttribute("newLine", "\n"); %>
 <c:choose>
     <c:when test="${empty gList}">
         등록된 그룹이 없습니다.
@@ -11,7 +12,9 @@
         <c:forEach var="g" items="${gList}">
             <div class="group">
                 <div class="group-main">
+                    
                     <input type="hidden" class="groupNo" value="${g.groupNo}">
+                    <input type="hidden" class="question" value="${fn:replace(g.applyQuestion, newLine, '<br/>')}">
                     <div class="group-header">
                         <img src="${g.groupImg}" alt="" />
                     </div>

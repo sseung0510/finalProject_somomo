@@ -54,7 +54,7 @@ public class GroupController {
 										@RequestParam(value = "cno", defaultValue = "0") String categoryNo,
 										HttpSession session, ModelAndView mv) throws ParseException {
 		
-		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(categoryNo), currentPage, 10, 9); // 페이징처리
+		PageInfo pi = Pagination.getPageInfoFeed(groupService.selectGroupListCount(categoryNo), currentPage, 9); // 페이징처리
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
 
 		// 카테고리 버튼을 클릭해서 요청이 들어오면 해당 카테고리 번호를 페이지에 포워딩
@@ -75,12 +75,9 @@ public class GroupController {
 	
 	//그룹방 리스트 
 	@RequestMapping(value="list.gr")
-	public String groupList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+	public String groupList(PageInfo pi,
 						    @RequestParam(value = "cno", defaultValue = "0") String categoryNo,
 										  String userId, Model model) {
-		
-		// 페이징처리
-		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(categoryNo), currentPage, 10, 9);
 		
 		// userId와 categoryNo를 넘겨주기 위해 해시 맵 사용 
 		HashMap<String, String> map = new HashMap<String, String>();

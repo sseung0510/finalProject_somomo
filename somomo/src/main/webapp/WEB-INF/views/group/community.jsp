@@ -10,7 +10,7 @@
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
     <link rel="stylesheet" href="resources/css/groupList.css?ver=1.3.4">
-    <link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.4">
+    <link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.7">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -120,11 +120,11 @@
             var guide = "";
 
             if($('.adminGroup').html() == ""){
-                guide = "<span>현재 관리중인 그룹이 없습니다.</span>";
+                guide = "<br><span>현재 관리중인 그룹이 없습니다.</span><br>";
                 $('.adminGroup').append(guide);
             }
             if($('.memberGroup').html() == ""){
-                guide = "<span>가입한 그룹이 없습니다.</span>";
+                guide = "<br><span>가입한 그룹이 없습니다.</span><br>";
                 $('.memberGroup').append(guide);
             }
         </script>
@@ -161,12 +161,13 @@
                 <div class="modal-header">
                     <div class="header-title">
                         <div class="header-title__groupName"></div>
-                        <span>가입 질문에 답해주세요.</span>
                     </div>
+                        
+                        <div class="header-title__question"></div>
                 </div>
                 
                 <div class="modal-body">
-                    <textarea name="greeting" class="greeting" placeholder="여기에 작성하세요."></textarea>
+                    <textarea name="greeting" class="greeting" placeholder="가입 질문에 답 해주세요."></textarea>
                 </div>
                 <div class="modal-foot">
                     <button type="button" class="close">취소</button>
@@ -186,9 +187,6 @@
             console.log("카테고리 번호 : " + "${cno}"); // 0, 1, 2, 3, 4
 
             let currentPage = ${pi.currentPage};
-            
-            // var currentPage = ${pi.currentPage};
-			// console.log("현재 : " + currentPage);
 
 			selectGroupList(currentPage, categoryNo);
 			
@@ -231,7 +229,8 @@
                 method : 'POST',
                 data : {
                     userId : '${loginUser.userId}',
-                    cpage : currentPage,
+                    currentPage : currentPage,
+                    boardLimit : '${pi.boardLimit}',
                     cno : categoryNo
                 },
                 success : function(data){
@@ -273,6 +272,8 @@
             const $groupNo = $(this).parents('.group-foot').siblings('.group-main').children('.groupNo').val();
             const $userId = "${loginUser.userId}";
             const groupTitle = $(this).parents('.group-foot').siblings('.group-main').children('.group-body').children('h4').text();
+            const question = $(this).parents('.group-foot').siblings('.group-main').children('.question').val();
+            
             const modal = $('#applyModal');
 
             console.log(groupTitle);
@@ -309,11 +310,13 @@
                 $('.md-userId').val($userId);                               // 로그인한 회원의 아이디 : 자주 사용해서 그냥 상수로 뺐습니다
                 $('.md-groupType').val(groupType);                          // 그룹타입: 사실상 무조건 B
                 $('.header-title__groupName').text(groupTitle);
+                $('.header-title__question').html(question);
 
                 // 취소버튼 눌렀을때 모달 창 닫아주기
                 $('.close').click(function(){
                     modal.fadeOut(300);                                     // 모달 닫기
-                    $('body').css({'overflow':'auto'});                     // 모달 닫히면 다시 스크롤 가능하게 !필수임
+                    $('body').css({'overflow':'auto'});
+                    $('.greeting').val('');                                 // 모달 닫히면 다시 스크롤 가능하게 !필수임
                 })
             }
             
@@ -323,6 +326,8 @@
     <script>
         // 가입신청서(모달)을 전달해주는 함수
         function apply(){
+
+            
 
             const modal = $('#applyModal');
             
@@ -363,29 +368,35 @@
         // 가입요청 취소
         $(document).on('click', '.cancel-apply', function(){
             
+            const ask = confirm("가입요청을 취소하시겠습니까?");
+            
             const $userId = "${loginUser.userId}";
             const $groupNo = $(this).siblings().eq(0).val();
 
-            $.ajax({
-                url : 'cancelApply.gr',
-                method : 'POST',
-                data : {
-                    userId : $userId,
-                    groupNo : $groupNo
-                },
-                success : function(result){
-                    if(result == "success"){
-                        location.reload(true);
+            if(ask){
+                $.ajax({
+                    url : 'cancelApply.gr',
+                    method : 'POST',
+                    data : {
+                        userId : $userId,
+                        groupNo : $groupNo
+                    },
+                    success : function(result){
+                        if(result == "success"){
+                            location.reload(true);
+                        }
+                        else{
+                            alert("요청 처리에 실패하였습니다. 다시 시도해 주세요.");
+                            location.reload(true);
+                        }
+                    },
+                    error : function(){
+                        console.log("통신실패");
                     }
-                    else{
-                        alert("요청 처리에 실패하였습니다. 다시 시도해 주세요.");
-                        location.reload(true);
-                    }
-                },
-                error : function(){
-                    console.log("통신실패");
-                }
-            })
+                })
+            }
+
+
         })
     </script>
     
@@ -394,7 +405,6 @@
         $(document).on('click', '.group-main', function(){
             location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
         })
-
         $(document).on('click', '.enter-group', function(){
             location.href = "detail.gr?gno=" + $(this).siblings().eq(0).val();
         })
