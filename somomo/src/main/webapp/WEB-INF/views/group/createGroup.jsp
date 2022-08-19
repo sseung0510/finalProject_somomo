@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
-    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.0.6">
+    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.0.7">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -51,6 +51,8 @@
                 <form action="insert.gr" enctype="multipart/form-data" method="post">
                     <input type="hidden" name="userId" value="${loginUser.userId}">
                     <input type="hidden" name="userRank" value="A">
+
+                    <br><br>
 
                     <div class="category-sheet">
                         <label for="regionNo">지역 선택</label>
@@ -135,10 +137,10 @@
                         <div class="content">
                             <div class="content-row">
                                 <div class="content-row__btn">
-                                    <input name="groupType" value="C" type="radio" id="private">
-                                    <label for="private">비공개 그룹</label>
+                                    <input name="groupType" value="A" type="radio" id="public-toAll">
+                                    <label for="public-toAll">공개 그룹</label>
                                 </div>
-                                <div class="content-row__desc">그룹과 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</div>
+                                <div class="content-row__desc">누구나 그룹을 검색해 찾을 수 있고, 그룹 소개와 게시글을 볼 수 있습니다.</div>
                             </div>
                             <div class="content-row">
                                 <div class="content-row__btn">
@@ -149,10 +151,10 @@
                             </div>
                             <div class="content-row">
                                 <div class="content-row__btn">
-                                    <input name="groupType" value="A" type="radio" id="public-toAll">
-                                    <label for="public-toAll">공개 그룹</label>
+                                    <input name="groupType" value="C" type="radio" id="private">
+                                    <label for="private">비공개 그룹</label>
                                 </div>
-                                <div class="content-row__desc">누구나 그룹을 검색해 찾을 수 있고, 그룹 소개와 게시글을 볼 수 있습니다.</div>
+                                <div class="content-row__desc">그룹과 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</div>
                             </div>
                         </div>
                         
@@ -176,6 +178,7 @@
 
         // 사용자가 업로드 할 수 있는 input은 숨김
         $('#upfile').hide();
+
         $('#userImg').click(function(){
             $('#upfile').click();
         })
@@ -260,15 +263,6 @@
     <script>
         function setDefaultImg(){
             $("input[name=groupImg]").val($("#groupImg").attr('src')) // 경로
-        }
-
-        // 함수로 따로 뺐는데 안됨..
-        function showImgSelected(){
-            defaultImgs.each(function(){
-                if($(this).attr('src') != $('#groupImg').attr('src')){
-                    $(this).siblings().addClass('display-none');
-                }
-            })
         }
     </script>
 

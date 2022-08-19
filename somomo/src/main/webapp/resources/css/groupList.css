@@ -190,6 +190,7 @@ button:hover .button-text {
 /* ------------------------------------------------- */
 .content{
     display: flex;
+    margin-top: 60px;
     margin-right: 10%;
     margin-left: 26%;
     padding: 30px;

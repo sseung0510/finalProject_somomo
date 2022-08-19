@@ -10,7 +10,7 @@
 <body>
 
     <!---------------------- 글쓰기 Modal 창 --------------------->
-	<div id = "writePopup" class="popup-outer ">99
+	<div id = "writePopup" class="popup-outer ">
         <div class="popup-box">
             <i id="close" class='bx bx-x close'></i>
             <div class="write-form-header">

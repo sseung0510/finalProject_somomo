@@ -17,9 +17,7 @@
                     </div>
                     <div class="group-body">
                         <span class="tag tag-development">${g.categoryName}</span>
-                        <h4>
-                            ${g.groupName}
-                        </h4>
+                        <h4>${g.groupName}</h4>
                         <div class="group-info">
                             <span class="group-member">멤버 ${g.memberCount}명</span>
                             <span class="group-type">${g.groupTypeStr}</span>

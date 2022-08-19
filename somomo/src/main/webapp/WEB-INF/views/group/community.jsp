@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
-    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.3.3">
+    <link rel="stylesheet" href="resources/css/groupList.css?ver=1.3.4">
     <link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.4">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -123,7 +123,7 @@
                 guide = "<span>현재 관리중인 그룹이 없습니다.</span>";
                 $('.adminGroup').append(guide);
             }
-            else if($('.memberGroup').html() == ""){
+            if($('.memberGroup').html() == ""){
                 guide = "<span>가입한 그룹이 없습니다.</span>";
                 $('.memberGroup').append(guide);
             }
@@ -157,10 +157,11 @@
                 <input type="hidden" class="md-groupNo" name="groupNo">
                 <input type="hidden" class="md-userId" name="userId">
                 <input type="hidden" class="md-groupType" name="groupType">
+
                 <div class="modal-header">
                     <div class="header-title">
                         <div class="header-title__groupName"></div>
-                        <span>간단한 자기소개를 입력해주세요.</span>
+                        <span>가입 질문에 답해주세요.</span>
                     </div>
                 </div>
                 
@@ -271,7 +272,10 @@
             const groupType = $(this).siblings().val();
             const $groupNo = $(this).parents('.group-foot').siblings('.group-main').children('.groupNo').val();
             const $userId = "${loginUser.userId}";
+            const groupTitle = $(this).parents('.group-foot').siblings('.group-main').children('.group-body').children('h4').text();
             const modal = $('#applyModal');
+
+            console.log(groupTitle);
 
             if(groupType == "A"){
                 // ajax를 사용해서 현재 로그인된 회원 해당 그룹방에 멤버로 추가
@@ -304,6 +308,7 @@
                 $('.md-groupNo').val($groupNo);                             // 그룹넘버: 
                 $('.md-userId').val($userId);                               // 로그인한 회원의 아이디 : 자주 사용해서 그냥 상수로 뺐습니다
                 $('.md-groupType').val(groupType);                          // 그룹타입: 사실상 무조건 B
+                $('.header-title__groupName').text(groupTitle);
 
                 // 취소버튼 눌렀을때 모달 창 닫아주기
                 $('.close').click(function(){
