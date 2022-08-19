@@ -19,6 +19,22 @@
 		<result column="USER_RANK" property="userRank"/>
 	</resultMap>
 	
+	
+	<resultMap id="groupBoardResultSet" type="groupBoard">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="GROUP_NO" property="groupNo"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="COUNT" property="count"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="PROFILE_IMG" property="profileImg" />
+		<result column="STATUS" property="status"/>
+		<result column="COUNT_REPLY" property="countReply"/>
+		<result column="COUNT_LIKE" property="countLike"/>
+		<result column="LIKE_CHECK" property="likeCheck"/>
+	</resultMap>
+	
 	<resultMap id="memberResultSet" type="groupMember">
 		<result column="GROUP_NO" property="groupNo"/>
 		<result column="USER_ID" property="userId"/>
@@ -35,6 +51,13 @@
 	<resultMap id="regionCategoryResultSet" type="regionCategory">
 		<result column="REGION_NO" property="regionNo" />
 		<result column="REGION_NAME" property="regionName" />
+	</resultMap>
+	
+	<resultMap id="attachmentResultSet" type="attachment">
+		<result column="FILE_NO" property="fileNo" />
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
 	</resultMap>
 	
 	<resultMap id="applicationListSet" type="groupJoinApply">
@@ -448,6 +471,213 @@
 		  	   CALENDAR_NO = #{calendarNo}
 	</select>
 	
+	
+	
+	<select id="selectBoardListCount" resultType="_int">
+		SELECT 
+		       COUNT(*) 
+		  FROM 
+		       GROUP_BOARD 
+		 WHERE
+		       STATUS = 'Y'
+	</select>
+	
+	<select id="selectBoardList" resultMap="groupBoardResultSet">
+		SELECT
+				BOARD_NO,
+			  	GROUP_NO,
+			  	BOARD_WRITER,
+			  	BOARD_TITLE,
+			  	BOARD_CONTENT,
+			  	CREATE_DATE,
+			  	COUNT,
+			  	BOARD_TYPE,
+			  	PROFILE_IMG,
+			  	NVL(COUNT_REPLY, 0) AS COUNT_REPLY,
+                LIKE_CHECK,
+                NVL(COUNT_LIKE, 0) AS COUNT_LIKE
+			FROM 
+				GROUP_BOARD G
+			JOIN 
+		       MEMBER ON (BOARD_WRITER = USER_ID)
+		    LEFT JOIN 
+               (SELECT 
+                       COUNT(*) AS COUNT_REPLY,
+                       BOARD_NO 
+                  FROM 
+                       GROUP_REPLY
+                 GROUP
+                    BY BOARD_NO) USING (BOARD_NO) 
+			LEFT JOIN
+               (SELECT 
+                       BOARD_NO,
+                       'Y' AS LIKE_CHECK,
+                       COUNT(*) COUNT_LIKE
+                  FROM 
+                       GROUP_LIKES
+                 WHERE
+                       USER_ID = #{userId}
+                  GROUP 
+                    BY BOARD_NO, 'Y'
+                       ) USING (BOARD_NO)
+            WHERE 
+            	 G.STATUS='Y'
+          	AND
+          		 GROUP_NO = #{groupNo}
+              
+			ORDER
+				BY BOARD_NO DESC
+	</select>
+	
+	
+	
+	<select id="selectAttachmentList" parameterType="hashmap" resultMap="attachmentResultSet">
+		SELECT 
+		       FILE_NO,
+		       BOARD_NO,
+		       ORIGIN_NAME,
+		       CHANGE_NAME
+		  FROM 
+		       GROUP_ATTACHMENT
+		 WHERE
+		       BOARD_NO BETWEEN #{min} AND #{max}
+		 ORDER
+		    BY BOARD_NO DESC, FILE_NO ASC
+    </select>
+    
+    
+	<insert id="insertGroupBoard">
+		INSERT 
+		  INTO
+			  GROUP_BOARD
+			  (
+			  	BOARD_NO,
+			  	GROUP_NO,
+			  	BOARD_WRITER,
+			  	BOARD_TITLE,
+			  	BOARD_CONTENT,
+			  	BOARD_TYPE
+			  )
+		VALUES
+			  (
+			  SEQ_GBNO.NEXTVAL,
+			  #{groupNo},
+			  #{boardWriter},
+			  #{boardTitle},
+			  #{boardContent},
+			  #{boardType}
+			  )
+	
+	</insert>
+	
+	<insert id="insertAttachment" parameterType="attachment">
+		INSERT 
+		  INTO 
+		       GROUP_ATTACHMENT
+		       (
+		       FILE_NO,
+		       BOARD_NO,
+		       ORIGIN_NAME,
+		       CHANGE_NAME
+		       )
+		VALUES 
+		       (
+		       SEQ_GANO.NEXTVAL,
+		       SEQ_GBNO.CURRVAL,
+		       #{originName},
+		       #{changeName}
+		       )
+	</insert>
+	
+	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE 
+		       GROUP_BOARD
+		   SET 
+		       COUNT = COUNT + 1
+		 WHERE 
+		       BOARD_NO = #{boardNo}
+		   AND 
+		       STATUS = 'Y'
+	</update>
+	
+	
+	
+	<select id="selectBoardType" parameterType="_int" resultType="String">
+		SELECT 
+		       BOARD_TYPE 
+		  FROM
+		       GROUP_BOARD 
+		 WHERE 
+		       BOARD_NO = #{boardNo}
+		   AND
+		       STATUS = 'Y'
+	</select>
+	
+	
+	<update id="deleteBoard" parameterType="_int">
+		UPDATE 
+		       GROUP_BOARD
+		   SET 
+		       STATUS = 'N'
+		 WHERE 
+		       BOARD_NO = #{boardNo}
+	</update>
+	
+	<delete id="deleteAllAttachment" parameterType="_int">
+		DELETE
+		  FROM
+		       GROUP_ATTACHMENT
+		 WHERE
+		       BOARD_NO = #{boardNo}
+	</delete>
+	
+	
+	<insert id="insertLike" parameterType="likes">
+		INSERT 
+		  INTO
+		       GROUP_LIKES
+		       (
+		       USER_ID,
+		       BOARD_NO
+		       )
+		VALUES
+		       (
+		       #{userId},
+		       #{boardNo}
+		       )
+	</insert>
+	
+	
+	<delete id="deleteLike" parameterType="likes">
+		DELETE 
+		  FROM
+		       GROUP_LIKES
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       BOARD_NO = #{boardNo}
+	</delete>
+	
+	
+	<select id="checkLike" parameterType="likes" resultType="_int">
+		SELECT 
+		       COUNT(*)
+		  FROM 
+		       GROUP_LIKES 
+		   AND
+		       BOARD_NO = #{boardNo}	       
+	</select>
+	
+	
+	<select id="countLike" parameterType="_int" resultType="_int">
+		SELECT 
+		       COUNT(*)
+		  FROM 
+		       GROUP_LIKES 
+		 WHERE 
+		       BOARD_NO = #{boardNo}	       
+	</select>
 	
 	
 </mapper>

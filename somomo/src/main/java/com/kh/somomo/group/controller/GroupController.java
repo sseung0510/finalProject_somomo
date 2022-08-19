@@ -7,12 +7,12 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Update;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.kh.somomo.common.model.vo.Attachment;
+import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
+import com.kh.somomo.common.template.FileRename;
 import com.kh.somomo.common.template.Pagination;
+import com.kh.somomo.common.template.Time;
 import com.kh.somomo.group.model.service.GroupService;
 import com.kh.somomo.group.model.vo.CalendarPlan;
-import com.kh.somomo.group.model.vo.GroupCalendar;
+import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
@@ -147,13 +152,17 @@ public class GroupController {
 	// 그룹방 상세
 	// 상세보기 페이지에서 필요한 정보 : 해당 그룹방에 대한 정보, 가입된 회원들의 리스트
 	@RequestMapping("detail.gr")
-	public ModelAndView groupDetail(int gno, ModelAndView mv) {
+	public ModelAndView groupDetail(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+									int gno, ModelAndView mv) {
+		PageInfo pi = Pagination.getPageInfo(groupService.selectBoardListCount(), currentPage, 10, 5); // 페이징처리
+		
 		
 		GroupRoom gr = groupService.selectGroup(gno); 	     			   // 특정 그룹방에대한 정보를 담음
 		ArrayList<GroupMember> mList = groupService.selectMemberList(gno); // 가입된 회원리스트
 		
 		if (gr != null) {
 			mv.addObject("g", gr)
+			  .addObject("pi", pi)
 			  .addObject("mList", mList)
 			  .setViewName("group/groupDetail");
 		} else {
@@ -303,6 +312,109 @@ public class GroupController {
 		return result2 > 0 ? "success" : "fail";
 	
 	}
+	
+	
+
+	
+	
+	
+	
+	//--------------------------------GroupBoard
+	
+	//그룹방 게시글 정렬
+	@RequestMapping(value="listBoard.gr")
+	public String ajaxSelectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+									GroupMember gm, HttpSession session, Model model)throws ParseException {
+		PageInfo pi = Pagination.getPageInfo(groupService.selectBoardListCount(), currentPage, 10, 5); // 페이징처리
+		
+		ArrayList<GroupBoard>  grList = groupService.selectBoardList(pi, gm); //그룹 피드 리스트 가져오기
+		
+		ArrayList<Attachment> atList = new ArrayList<>();//그룹 피드 첨부파일 리스트 
+		
+		for(GroupBoard gb : grList) {
+			gb.setCreateDate(Time.getDiffTime(gb.getCreateDate()));
+		}
+		
+		
+		if(!grList.isEmpty()) { 
+			HashMap<String, Integer> boardRange = new HashMap<>();
+			boardRange.put("min", grList.get(grList.size()-1).getBoardNo()); // 첫번 째 글번호
+			boardRange.put("max", grList.get(0).getBoardNo()); // 마지막 글번호
+			
+			atList = groupService.selectBoardAttachmentList(boardRange);
+		}
+		
+		model.addAttribute("grList", grList)
+			 .addAttribute("atList", atList);
+		
+		System.out.println(grList);
+		System.out.println(atList);
+		
+		
+		return "group/groupDetailList";
+	}
+	
+	//그룹방 게시글 작성
+	@RequestMapping("insertBoard.gr")
+	public String insertBoard(GroupBoard gb,  MultipartHttpServletRequest mtfRequest, HttpSession session, Model model) {
+		int result = 0;
+		
+		ArrayList<Attachment> boardList = new ArrayList<>();
+		
+		Iterator<String> fileNames = mtfRequest.getFileNames();
+		
+		while(fileNames.hasNext()) { // file1 ~ file4
+			
+			String file = fileNames.next(); // file 하나씩 접근해서
+			
+			MultipartFile upfile = mtfRequest.getFile(file); // 실제 파일 객체 뽑아오기
+			
+			if(!upfile.getOriginalFilename().equals("")) { // 실제로 파일이 첨부됐을 경우
+				
+				// 지정경로에 해당 파일을 저장하고 원본명,수정명(경로+파일수정명) 반환받음
+				HashMap<String, String> map = FileRename.saveFile(upfile, session, "img/group");
+				
+	            Attachment at = new Attachment();
+	            at.setOriginName(map.get("originName"));
+	            at.setChangeName(map.get("changeName"));
+	            boardList.add(at);
+			}
+		}
+
+		result = groupService.insertGroupBoard(gb, boardList);
+	
+	
+		if(result > 0) {
+			return "redirect:detail.gr?gno=" + gb.getGroupNo();
+		} else {
+			model.addAttribute("errorMsg", "게시글 작성 실패");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("insertLike.gr")
+	public String ajaxInsertLike(Likes like) {
+		return groupService.insertLike(like) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteLike.gr")
+	public String ajaxDeleteLike(Likes like) {
+		return groupService.deleteLike(like) > 0 ? "success" : "fail";
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("countLike.gr")
+	public int ajaxCountLikes(int boardNo) {
+		return groupService.countLike(boardNo);
+	}
+	
+	
 	
 	
 	

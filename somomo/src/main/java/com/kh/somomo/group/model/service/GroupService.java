@@ -3,9 +3,12 @@ package com.kh.somomo.group.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.somomo.common.model.vo.Attachment;
+import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
 import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
@@ -66,6 +69,31 @@ public interface GroupService {
 	int updateType(GroupRoom g);
 
 	
+	
+	//------ 그룹방 피드 리스트 ---------- //
+	//그룹 피드 게시글 전체 개수 조회
+	int selectBoardListCount();
+	
+	//그룹 피드 게시글 목록 조회
+	ArrayList<GroupBoard> selectBoardList(PageInfo pi, GroupMember gm);
+	
+	//그룹 피드 게시글 첨부파일(사진) 목록 조회
+	ArrayList<Attachment> selectBoardAttachmentList(HashMap<String, Integer> boardRange);
+	
+	
+
+	//그룹 피드 게시글 추가
+	int insertGroupBoard(GroupBoard gb, ArrayList<Attachment> boardList);
+	
+	//좋아요 등록
+	int insertLike(Likes like);
+
+	//좋아요 삭제
+	int deleteLike(Likes like);
+
+	//좋아요 개수
+	int countLike(int boardNo);
+		
 	
 	// 캘린더 이벤트 추가 
 	

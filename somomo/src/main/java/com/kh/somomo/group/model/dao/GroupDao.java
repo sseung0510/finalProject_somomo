@@ -7,9 +7,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.somomo.common.model.vo.Attachment;
+import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
 import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
@@ -118,5 +121,48 @@ public class GroupDao {
 		return sqlSession.delete("groupMapper.delteApplyInfo", applyInfo);
 	}
 
+	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment at) {
+		return sqlSession.insert("groupMapper.insertAttachment", at);
+	}
+
+	public int insertGroupBoard(SqlSessionTemplate sqlSession, GroupBoard gb) {
+		return sqlSession.insert("groupMapper.insertGroupBoard", gb);
+	}
+
+	public int increaseCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("groupMapper.increaseCount", boardNo);
+	}
+	
+	public int selectBoardListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("groupMapper.selectBoardListCount");
+	}
+
+	public ArrayList<GroupBoard> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, GroupMember gm) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("groupMapper.selectBoardList", gm, rowBounds);
+	}
+
+	public ArrayList<Attachment> selectBoardAttachmentList(SqlSessionTemplate sqlSession,
+			HashMap<String, Integer> boardRange) {
+		return (ArrayList)sqlSession.selectList("groupMapper.selectAttachmentList", boardRange);
+	}
+
+	public int insertLike(SqlSessionTemplate sqlSession, Likes like) {
+		return sqlSession.insert("groupMapper.insertLike",like);
+	}
+
+	public int deleteLike(SqlSessionTemplate sqlSession, Likes like) {
+		return sqlSession.delete("groupMapper.deleteLike", like);
+	}
+
+	public int countLike(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("groupMapper.countLike", boardNo);
+	}
+	
+	
 
 }

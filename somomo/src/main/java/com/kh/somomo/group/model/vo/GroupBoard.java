@@ -22,4 +22,10 @@ public class GroupBoard {
 	private int count;
 	private String boardType;
 	private String status;
+	
+	private String profileImg;
+	
+	private int countReply;
+	private String likeCheck;
+	private int countLike;
 }

@@ -7,10 +7,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.somomo.common.model.vo.Attachment;
+import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
 import com.kh.somomo.group.model.dao.GroupDao;
 import com.kh.somomo.group.model.vo.CalendarPlan;
+import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupCalendar;
 import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
@@ -145,7 +148,49 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	
+	@Override
+	public int selectBoardListCount() {
+		return groupDao.selectBoardListCount(sqlSession);
+	}
 	
+	@Override
+	public ArrayList<GroupBoard> selectBoardList(PageInfo pi, GroupMember gm) {
+		return groupDao.selectBoardList(sqlSession,pi, gm);
+	}
+	
+	@Override
+	public ArrayList<Attachment> selectBoardAttachmentList(HashMap<String, Integer> boardRange) {
+		return groupDao.selectBoardAttachmentList(sqlSession, boardRange);
+	}
+	
+	
+	@Override
+	public int insertGroupBoard(GroupBoard gb, ArrayList<Attachment> boardList) {
+		int result1 = groupDao.insertGroupBoard(sqlSession, gb);
+		int result2 = 1;
+		if(!boardList.isEmpty()) {
+			for(Attachment at : boardList) {
+				result2 *= groupDao.insertAttachment(sqlSession, at);
+			}
+		}
+
+		return result1 * result2;
+	}
+
+	@Override
+	public int insertLike(Likes like) {
+		return groupDao.insertLike(sqlSession,like);
+	}
+
+	@Override
+	public int deleteLike(Likes like) {
+		return groupDao.deleteLike(sqlSession,like);
+	}
+
+	@Override
+	public int countLike(int boardNo) {
+		return groupDao.countLike(sqlSession, boardNo);
+	}
 
 		
 
