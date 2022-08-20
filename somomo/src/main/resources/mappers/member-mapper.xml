@@ -34,7 +34,7 @@
 		 	   EMAIL,
 			   GENDER,
 			   PROFILE_IMG,
-		       TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
+		       TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일"') AS ENROLL_DATE,
 			   KAKAO_LOGIN,
 			   STATUS
 		  FROM MEMBER 

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="resources/css/feedstyle2.css">
+	<link rel="stylesheet" href="resources/css/feedstyle2.css?ver=1.0.5">
 </head>
 <body>
 	<div class="main-outer">
@@ -79,7 +79,7 @@
 								 + '<div class="favorite-list-btn"><img class="likeY" src="resources/img/star-on.png"></div>'
 								 + '</div>'
 								 + '</div>';
-
+						console.log(data[i].boardNo);
 					}
 					$('.favorite-list').html(ok);
 				}, error:function(){
@@ -108,7 +108,11 @@
 			})
 		})
 	
-	
+		$(document).on("click", '.likeAll', function(){
+       		var boardNo = $(this).children().eq(0).val();
+       		console.log(boardNo);
+       		location.href = "detail.fd?boardNo=" + boardNo;
+       	});
 	</script>
 	
 	

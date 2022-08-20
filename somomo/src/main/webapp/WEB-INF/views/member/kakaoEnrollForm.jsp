@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>카카오회원가입</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style>
@@ -15,11 +15,10 @@
 		background-color : #f3f6fd;
 		position : relative;
 	}
-
 	.form{
 		background-color : white;
 		border : 1px solid lightgrey; 
-		height : 910px;
+		height : 650px;
 		width : 400px;
 		position:absolute;
 		left:50%;
@@ -48,12 +47,16 @@
 		height:30px;
 		margin-bottom:2px;
 	}
-	.emailCheck, .checkNick, .idCheck{
-		width:280px;
+	.emailCheck, .idCheck{
+		width:350px;
 		height:30px;
 		margin-bottom:10px;
 	}
-	
+	.checkNick{
+        width:280px;
+        height:30px;
+        margin-bottom: 10px;
+    }
 	.age_gender{
 		width:100px;
 		height:30px;
@@ -63,16 +66,13 @@
 		height:35px;
 	}
 	
-	#emailBtn1, #emailBtn2, #checkNick, #checkId{
+	#checkNick{
 		width:65px;
 		height:30px;
 		background-color:#FCD9D7;
 		border:1px solid #FEC8C6;
 		border-radius:5px;
 	} 
-	#telBtn:hover{
-		background-color:#FEC8C6;
-	}
 	.btns button{
 		width:150px;
 		height:30px;
@@ -155,7 +155,7 @@
 		</table>
  
 		<div class="btns" align="center">
-			<button type="submit" class="enrollSubmit" onclick="enroll()">회원가입</button>
+			<button type="button" class="enrollSubmit" onclick="enroll()">회원가입</button>
 			<button type="reset">초기화</button>
 		</div>
  
@@ -198,9 +198,20 @@
 				return;
 			}
 			
-			$(".enrollSubmit").attr('type',"submit");
+			var success = "";
+			success = nickCheck();
+			if(success == 'NNNNY'){
+				$(".enrollSubmit").attr('type',"submit");
+			}else{
+				$(".enrollSubmit").attr('type',"button");
+			}
 		}
 		
+        const autoHyphen2 = (target) => {
+			 target.value = target.value
+			   .replace(/[^0-9]/g, '')
+			  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
 		
 	</script>
 

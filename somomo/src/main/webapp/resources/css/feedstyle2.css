@@ -506,7 +506,6 @@ nav.close ~ .main-content .main-feed{
     overflow-x:hidden;
     max-height:300px;
     min-height:300px;
-
 }
 
 .like-list-img img, .favorite-list-img img{
@@ -519,8 +518,8 @@ nav.close ~ .main-content .main-feed{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-left:10px;
 }
-
 .likeAll{
 	display:flex;
     padding-top: 10px;
