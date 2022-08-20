@@ -164,6 +164,33 @@
 	</div>
 	
 	<script>
+		// 닉네임
+		function nickCheck(){
+			const $nickNameInput = $('#enrollForm input[name=nickname]');
+			var O5;
+			
+			if($nickNameInput.val().length >= 2){
+			$.ajax({
+				url:'nickNameCheck.me',
+				data : {checkNickName:$nickNameInput.val()},
+				async : false,
+				success:function(result){
+					if(result == 'NNNNN'){ //사용불가능
+						$('#nickNameResult').show();
+						$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
+					}
+					else{ // 사용가능
+						$('#nickNameResult').show();
+						$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
+						O5 = result;
+					}
+				}, error : function(){
+					console.log("아이디 중복체크용 ajax통신 실패");
+				}
+			});		
+		return O5;
+		}
+	}
 		
 		function enroll() {
 			if($('.age_gender').val()==""){
@@ -173,6 +200,7 @@
 			
 			$(".enrollSubmit").attr('type',"submit");
 		}
+		
 		
 	</script>
 

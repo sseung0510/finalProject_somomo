@@ -1,0 +1,171 @@
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #fafafa;
+}
+
+main{
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.content{
+    background-color: #fafafa;
+    height: 70vh;
+    min-width: 350px;
+    margin: 0 10px;
+}
+
+.content img{
+    min-width: 350px;
+    height: 70vh;
+}
+
+ul{
+    list-style: none;
+}
+/********** 오른쪽 컨텐츠 ***********/
+
+.content{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content-col{
+    border: 1px solid #e6e5e5;
+    background-color: #FFFFFF;
+}
+
+.content-col:first-child{
+    height: 80%;
+}
+
+.logo-area{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    margin-top: 36px;
+    margin-bottom: 15px;
+}
+
+.logo-title{
+    display: flex;
+    font-family: 'Brush Script MT', cursive;
+}
+
+.logo-title span{
+    font-size: 30px;
+}
+
+.normalLogin{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 32px;
+}
+
+.normalLogin input{
+    font-size: 12px;
+    /* padding: 14px 0 2px 8px; */
+    padding: 8px;
+    margin: 3px 0;
+    border: 1px solid #e6e5e5;
+    width: 75%;
+}
+
+.normalLogin button{
+    margin-top: 10px;
+    padding: 10px 0;
+    background-color: rgba(254, 200, 198, 0.3);
+    color: rgba(0, 0, 0, 0.5);
+    border: none;
+    cursor: pointer;
+    width: 80%;
+    border-radius: 5px;
+}
+
+.vertical-line{
+    display: flex;
+    align-items: center;
+    padding: 0 33px;
+    margin-bottom: 32px;
+}
+
+.line{
+    display: flex;
+    background-color: #e6e5e5;
+    width: 40%;
+    height: 1px;
+}
+
+.line-text{
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    color: #aaa;
+}
+
+.kakao-login{
+    display: flex;
+    justify-content: center;
+    padding: 0 32px;
+}
+
+.kakao-login button{
+    width: 100%;
+    background-color: rgb(254, 229, 0);
+    border: none;
+    cursor: pointer;
+    height: 35px;
+    margin-bottom: 30px;
+}
+
+.kakao-login button span{
+    margin: 0 10px;
+}
+
+.find-account,
+.enrollForm {
+    display: flex;
+    justify-content: center;
+}
+
+.find-account a,
+.enrollForm a{
+    text-decoration: none;
+    color: #aaa;
+}
+
+.content-col:last-child{
+    padding: 40px;
+}
+
+/********** aside **********/
+aside{
+    position: relative;
+    bottom: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+aside ul{
+    display: flex;
+}
+
+aside li{
+    margin: 0 5px 5px 5px;
+}
+
+/* ============== 미디어 쿼리 ======================== */
+@media only screen and (max-width:600px){
+    .content:first-child{
+        display: none;
+    }
+}

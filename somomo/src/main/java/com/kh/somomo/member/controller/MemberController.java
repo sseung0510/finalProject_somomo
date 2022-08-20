@@ -148,7 +148,7 @@ public class MemberController {
 			
 		}else {
 			rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
-			return "redirect:myPage.me";
+			return "redirect:updateInfo.me";
 		}
 		
 	}

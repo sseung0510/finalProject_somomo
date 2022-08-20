@@ -1,158 +1,101 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+   	<link rel="stylesheet" href="resources/css/login.css?ver=1.1.4">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>로그인</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script><!-- 스위트얼럿 -->
-
-<style>
-
-	body{
-		width : 100%;
-		height : 100%;
-		background-color : #f3f6fd;
-		position : relative;
-	}
-
-	.form{
-		background-color : white;
-		border : 1px solid lightgrey; 
-		height : 500px;
-		width : 400px;
-		position:absolute;
-		left:50%;
-    	top:50%;
-    	margin-left:-200px;
-    	margin-top:150px;
-	}
-	.logo-image img{
-    	display: flex;
-    	justify-content: center;
-	    height:50px;
-	    width:50px;
-	}
-	.logo_name{
-		font-size: 22px;
-	    font-weight: 600;
-	    color: var(--text-color);
-	    margin-left: 14px;
-	}
-	.normalLogin input{
-		width:350px;
-		height:30px;
-		margin-bottom:10px;
-	}
-	.loginBtn {
-		width:358px;
-		height:40px;
-		background-color:#FCD9D7;
-		border:1px solid #FEC8C6;
-		border-radius:5px;
-	}
-	.loginBtn:hover{
-		background-color:#FEC8C6;
-	}
-	.hr-sect{
-		display: flex;
-        flex-basis: 100%;
-        align-items: center;
-        color: rgba(0, 0, 0, 0.35);
-        font-size: 18px;
-        margin: 8px 0px;
-	}
-	.hr-sect::before, .hr-sect::after {
-        content: "";
-        flex-grow: 1;
-        background: rgba(0, 0, 0, 0.35);
-        height: 1px;
-        font-size: 0px;
-        line-height: 0px;
-        margin: 0px 16px;
-      }
-     .searchMem{
-     	margin-left:223px;
-     	text-decoration:none;
-     	color:black;
-     }
-     .enrollForm{
-     	background-color : white;
-		border : 1px solid lightgrey; 
-		height : 100px;
-		width : 400px;
-		position:absolute;
-		left:50%;
-    	top:50%;
-    	margin-left:-200px;
-    	margin-top:665px;
-    	display: flex;
-		align-items: center;
-     }
-     .enrollForm a{
-     	margin-left:100px;
-     	text-decoration:none;
-     	color:black;
-     }
-     .kakaoBtn img{
-     	height:45px;
-     	width:358px;
-     	margin-left: 23px;
-     	margin-top:15px;
-     }
-      .logo-name{
-        display: flex;
-        align-items: center;
-        margin-top:10px;
-    }
-</style>
 </head>
 <body>
-	
-	
-	<div class="form">
-		
-		<div class="logo-name">
-            <div class="logo-image">
-                <img src="${pageContext.request.contextPath}/resources/img/web_logo.jpg" alt="peach">
+   	<div class="cover">
+        <main>
+            <div class="content">
+                <img id="sample" src="https://www.instagram.com/static/images/homepage/screenshots/screenshot1-2x.png/cfd999368de3.png" alt="">
             </div>
 
-            <span class="logo_name">SoMoMo</span>
-        </div>
-		
-			
-		<div class="normalLogin" style="position: relative; left: 22px; top: 50px;">
-			<form action="login.me" method="post">
-				<input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="userId" required> <br>
-				<input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" required> <br>
-				<button class="loginBtn">로그인</button>
-			</form>
-		</div>
-		<br><br><br>
-		
-		<a href="searchMem.me" class="searchMem">로그인/비밀번호 찾기</a>
-		
-		
-		
-		<div class="hr-sect">또는</div>
-		
-		<div class="kakaoBtn">
-			<img src="resources/img/kakao_loginBtn.png" alt="카카오" onclick="qwer();">
-		</div>
-		
-		<script>
-			function qwer(){
-				console.log("야야");
+            <div class="content">
+                <div class="content-col">
+                    <div class="form">
+                        <div class="logo-area">
+                            <div class="logo-title">
+                                <span>SOMOMO</span>
+                            </div>
+                        </div>
+                            
+                        <form action="login.me" method="post">
+                            <div class="normalLogin">
+                                    <input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="userId" required>
+                                    <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" required>
+                                    <button class="loginBtn">로그인</button>
+                            </div>
+                        </form>
+                        
+                        <div class="vertical-line">
+                            <div class="line"></div>
+                            <div class="line-text">또는</div>
+                            <div class="line"></div>
+                        </div>
+    
+                        <div class="kakao-login">
+                            <button onclick="kakaoLogin();">
+                                <i class="fa-solid fa-comment"></i>
+                                <span>카카오 회원가입</span>
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="find-account">
+                            <a href="searchMem.me" class="searchMem">로그인/비밀번호 찾기</a>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <br><br>
+                <div class="content-col">
+                    <div class="enrollForm">
+                        <a href="enrollForm.me">계정이 없으신가요? 가입하기</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <ul>
+                <li>김유진</li>
+                <li>민경태</li>
+                <li>유형두</li>
+                <li>윤자원</li>
+                <li>조한울</li>
+                <li>최승희</li>
+            </ul>
+            <span>이름은 지워도 됨요 ^.^</span>
+        </aside>
+    </div>
+    
+    <script>
+		  function kakaoLogin() {
+			    $.ajax({
+			        url: 'getKakaoAuthUrl.do',
+			        type: 'get',
+			        async: false,
+			        dataType: 'text',
+			        success: function (url) {
+			            location.href = url;
+			        }
+			    });
+
+			  }
+		  
+		  var msg='${alertMsg}'
+			if(msg==='가입되지 않은 회원이거나 탈퇴한 회원입니다'){
+				
+				setTimeout(function() {
+					alert("가입되지 않은 회원이거나 탈퇴한 회원입니다.");
+				}, 100);
 			}
-		</script>
-	</div>
-		
-	<div class="enrollForm">
-		<a href="enrollForm.me">계정이 없으신가요? 가입하기</a>
-	</div>
-	
-	
+	</script>
 </body>
 </html>
