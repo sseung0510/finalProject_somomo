@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
-    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.1.0">
+    <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.1.2">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -93,27 +93,27 @@
                                 <li><img id="userImg" src="resources/img/addImg.png" alt=""></li><!-- 이친구는 사용자가 등록 할 수 있는 사진 -->
                                 <!-- 아래 사진들은 사이트에서 기본적으로 제공해주는 사진들 -->
                                 <li>
-                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img1.jpeg" alt="" >
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img1.jpg" alt="" >
                                     <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
                                 </li>
                                 <li>
-                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img2.jpeg" alt="" >
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img2.jpg" alt="" >
                                     <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
                                 </li>
                                 <li>
-                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img3.jpeg" alt="" >
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img3.png" alt="" >
                                     <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
                                 </li>
                                 <li>
-                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img4.jpeg" alt="" >
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img4.jpg" alt="" >
                                     <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
                                 </li>
                                 <li>
-                                    <img id="me" class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img5.jpeg" alt="" >
+                                    <img id="me" class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img5.jpg" alt="" >
                                     <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
                                 </li>
                                 <li>
-                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img6.jpeg" alt="" >
+                                    <img class="defaultImg" src="resources/img/group/defaultGroupImg/sample_group_img6.jpg" alt="" >
                                     <div class="middle display-none"><i class="fa-solid fa-check"></i></div>
                                 </li>
                                 <li>

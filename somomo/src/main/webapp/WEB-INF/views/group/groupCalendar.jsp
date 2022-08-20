@@ -22,9 +22,9 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="resources/js/ko.js"></script>
+
     <script src="resources/js/calendar.main.js"></script>
+    <script src="resources/js/ko.js"></script>
     
     
     
@@ -35,12 +35,12 @@
     
     <!-- DatePicker -->
 
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.cstainers">
-    <link rel="stylesheet" href="resources/css/flatpickr.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
+    <!-- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
+    <link rel="stylesheet" href="resources/css/flatpickr.css?ver=1.0.4"> 
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-
+-->
     <title>소모모</title> 
 </head>
 <body>
@@ -87,7 +87,7 @@
                             </div>
                              <div class=eventName>
 	                        	<span>작성자 : </span>
-	                        	<span class="eventId">${loginUser.userId}</span>
+	                        	<span class="eventId"></span>
                         	</div>
                         </div>
                         <div class="event-icon">
@@ -257,6 +257,10 @@
     </form>	
     
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="resources/js/GroupCalendar.js"></script>
 </body>
 </html>

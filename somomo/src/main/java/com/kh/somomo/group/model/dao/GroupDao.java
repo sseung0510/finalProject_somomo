@@ -99,6 +99,7 @@ public class GroupDao {
 	public ArrayList<CalendarPlan> selectCalendarEventList(SqlSessionTemplate sqlSession, int calendarNo) {
 		
 		return (ArrayList)sqlSession.selectList("groupMapper.selectCalendarEventList", calendarNo);
+		
 	}
 
 	public int applyGroup(SqlSessionTemplate sqlSession, GroupJoinApply applyInfo) {

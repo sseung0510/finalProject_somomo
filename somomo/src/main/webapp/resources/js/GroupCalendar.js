@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
 		  $(function () {
 		  				
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		                });
 		  
 		  request.done(function (data) {
-		                   // console.log(data); // log 로 데이터 찍어주기.
+		                   console.log(data); // log 로 데이터 찍어주기.
 		                    
 		                 
 					
@@ -23,12 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		    customButtons: {
 		      myCustomButton: {
 		        text: '일정 만들기',
-		        click: function() {
+		        click: function() {	
 		          eventPopup();
 		        }
 		      }
 		    },
 		    headerToolbar: {
+		    
 		      left: 'prev,next,today',
 		      center: 'title',
 		      right: 'myCustomButton',
@@ -70,8 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		      		var startDay = moment(arg.event.start).format('LLL');
 		      		var endDay = moment(arg.event.end).format('LLL');
 		      		var memo = arg.event.id;
-		
+					var eventId = arg.event.groupId;
 		      	
+		      		console.log(eventId);
 		            eventListPopup();
 		            
 		            if(endDay == "Invalid date"){
@@ -82,11 +85,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		           	$('.day .date').text(koreaday);
 		           	$('.day .week-color').text(day);
 		           	$('.memo').text(memo);
+		           	$('.eventId').text(eventId);
 		           	$('.startDay').text(startDay + " - " + endDay);
 		           	
 		           	
             
         		},
+        		
 		    events: data
 		    
 		    
@@ -98,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert( "정보 불러오는데 실패~ " + textStatus );
             });
         });
+        	
  
     });
 
@@ -117,7 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		 // 기본값 세팅
 		  if($('#startDate').val() == '') {
 		    var date = new Date();
-		    // console.log(moment(date).format('YYYY-MM-DD'));
+		     console.log(moment(date).format('YYYY-MM-DD'));
+		    
 		    $("#startDate").attr('value', moment(date).format('YYYY-MM-DD'));
 		  }
 		 

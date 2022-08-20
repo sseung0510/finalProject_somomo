@@ -79,7 +79,7 @@
 	<resultMap id="groupCalendarEventResultSet" type="CalendarPlan">
 		<result column="PLAN_NO" property="planNo" />
 		<result column="CALENDAR_NO" property="calendarNo" />
-		<result column="USER_ID" property="userId" />
+		<result column="USERID" property="userId" />
 		<result column="TITLE" property="title" />
 		<result column="MEMO" property="memo" />
 		<result column="START_DATE" property="startDate" />
@@ -459,6 +459,7 @@
 	
 	<select id="selectCalendarEventList" resultMap="groupCalendarEventResultSet">
 		SELECT 
+				CALENDAR_NO,
 		       	USERID,
 				TITLE,
 				MEMO,

@@ -463,7 +463,7 @@ public class GroupController {
 		
 		List<CalendarPlan> eventList = groupService.selectCalendarEventList(cNo);
 		
-
+		System.out.println(eventList);
 		JSONObject jsonObj = new JSONObject();
         JSONArray jsonArray = new JSONArray();
  
@@ -484,6 +484,9 @@ public class GroupController {
             hash.put("color", eventList.get(i).getColor());
             hash.put("textColor",eventList.get(i).getTextColor());
             hash.put("id",eventList.get(i).getMemo());
+            hash.put("groupId",eventList.get(i).getUserId());
+            
+            System.out.println(eventList.get(i).getUserId());
             hash.put("allDay", eventList.get(i).isAllDay());
  
             jsonObj = new JSONObject(hash);
