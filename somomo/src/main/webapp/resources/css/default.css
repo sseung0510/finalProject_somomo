@@ -1,0 +1,54 @@
+/* ===== 구글 폰트 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito",sans-serif;
+}
+
+:root{
+     /*====== 색상 미리 설정 ========  */
+     /*====== 색상 추가하고 싶으면 여기에 추가하고 쓰자 ======= */
+
+    --blue-color: #0E4BF1;
+    --white-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --grey-color : #dfdfdf;
+    --border-color: #e6e5e5;
+    --toggle-color: #DDD;
+    --title-icon-color: #fff;
+    --community-text-color: #030303;
+    --theme-color : #FEC8C6;
+    
+    /* ====== 트랜지션 ====== */
+    --tran-07: all 0.7s ease;
+    --tran-05: all 0.5s ease;
+    --tran-03: all 0.3s ease;
+    --tran-02: all 0.2s ease;
+}
+
+body{
+    min-height: 100vh;
+}
+
+ul{
+    list-style:none;
+    padding-left:0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a { text-decoration: none; color: black; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:focus { text-decoration: none; }
+a:hover, a:active { text-decoration: none; }
+
+button:hover{
+    cursor: pointer;
+}
+

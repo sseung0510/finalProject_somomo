@@ -76,7 +76,7 @@ button.learn-more .circle {
   margin: 0;
   width: 40px;
   height: 40px;
-  background: var(--theme-color);
+  background-color: var(--theme-color);
   border-radius: 24px;
 }
 

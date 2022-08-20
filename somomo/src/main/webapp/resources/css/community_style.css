@@ -1,0 +1,671 @@
+/* ======================= 왼쪽 사이드 바 CSS ==================== */
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    border-right: 1px solid var(--border-color);
+    transition: var(--tran-05);
+    margin-left: 10%;
+}
+
+nav.close{
+    width: 73px;
+}
+nav .logo-name{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+nav .logo-image{
+    display: flex;
+    justify-content: center;
+    min-width: 45px;
+}
+nav .logo-image img{
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+nav .logo-name .logo_name{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-left: 14px;
+    transition: var(--tran-05);
+}
+nav.close .logo_name{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.menu-items{
+    border-bottom: 1px solid var(--border-color);
+}
+
+nav .menu-items{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-items li a{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    position: relative;
+}
+
+.menu-items li a i{
+	padding-bottom: 4px;
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color);
+}
+
+.menu-items li a .link-name{
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--black-light-color);    
+    transition: var(--tran-05);
+}
+
+.menu-items:last-child{
+    justify-content: flex-end;
+}
+
+/*  */
+.log-out-menu{
+    border-top: 1px solid var(--border-color);
+}
+
+nav .log-out-menu{
+    display: flex;
+    flex-direction: column;
+}
+
+.log-out-menu li a{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    position: relative;
+}
+
+.log-out-menu li a i{
+	padding-bottom: 4px;
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color);
+}
+
+.log-out-menu li a .link-name{
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--black-light-color);    
+    transition: var(--tran-05);
+}
+/*  */
+
+nav.close li a .link-name{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav-links li a:hover i,
+.nav-links li a:hover .link-name{
+    color: var(--blue-color);
+}
+
+.nav-col{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.myGroup{
+    display: flex;
+    flex-direction: column;
+    max-height: 120px;
+    width: 240px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.myGroup img{
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.m2{
+    margin-top: 20px;
+}
+
+.nav-group-list:hover{
+    border-radius: 10px;
+    width: 80%;
+    cursor: pointer;
+}
+
+.menu-items .logout-mode{
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ================================ 왼쪽 사이드 바 끝 ===================== */
+
+
+/* ================================ 메인 컨텐츠 =========================== */
+
+.main-content{
+    margin: 0 10%;
+    position: relative;
+    left: 250px;
+    /* background-color: var(--white-color); */
+    min-height: 100vh;
+    padding: 10px 14px;
+    width: 55%;
+    transition: var(--tran-05);
+}
+nav.close ~ .main-content{
+    left: 73px;
+    width: 70%;
+}
+
+.group-outer{
+    padding-left: 50px;
+    width: 1000px;
+    height: 1000px;
+    position: relative;
+    top: 100px;
+    z-index: 5;
+}
+
+.tag-group{
+    margin-left: 5px;
+    width: 100%;
+    height: 40px;
+}
+  
+.tag-body {
+    width: 100%;
+    display: flex;
+    height: 40px;
+    align-items: center;
+}
+
+.tag-group .tag-body li {
+    display: flex;
+    width: 90px;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 8px 1px;
+    font-size: 14px;
+    border : 2px solid rgb(228, 226, 226);
+    margin: 5px;
+    cursor: pointer;
+}
+
+.tag-group .tag-body li:hover{
+    background-color: var(--toggle-color);
+    transition: var(--tran-02);
+}
+/* 카테고리 끝 */
+
+/* 그룹 시작 */
+.group-content{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.group {
+    margin: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 280px;
+    height: 360px;
+    cursor: pointer;
+  }
+  .group-header img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .group-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 20px 0px 20px;
+  }
+
+  .tag {
+    background: #cccccc;
+    border-radius: 50px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #fff;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .tag-development {
+    background-color: #47bcd4;
+  }
+  .tag-trip {
+    background-color: #5e76bf;
+  }
+  .tag-exercise {
+    background-color: #cd5b9f;
+  }
+
+  .group-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 26px;
+    padding: 0 ;
+    font-size: 13px;
+}
+
+.group-member::after {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #a8a5a5;
+}
+
+.group-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.group-btn button{
+    width: 100%;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.group-btn button:hover{
+    background-color: var(--toggle-color);
+    transition: var(--tran-02);
+}
+/* ==================== 상단 바 =================== */
+
+.main-content .top{
+    margin-left: 11%;
+    position: fixed;
+    top: 0;
+    left: 250px;
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    transition: var(--tran-05);
+    z-index: 10;
+}
+
+@media (max-width:1440px) {
+    .main-content .top{
+        width: 40%;
+    }
+}
+
+@media (min-width:1500px){
+    .main-content .top{
+        width: 50%;
+    }
+}
+
+nav.close ~ .main-content .top{
+    left: 73px;
+    width: 53%;
+    margin-right: 0;
+}
+
+.main-content .top .sidebar-toggle{
+    font-size: 26px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.top .user-icon {
+    font-size: 26px;
+    color: var(--text-color);
+    cursor: pointer;
+
+}
+.main-content .top .search-box{
+    position: relative;
+    height: 45px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 30px;
+    
+}
+.top .search-box input{
+    position: absolute;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    padding: 0 25px 0 50px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 400;
+    outline: none;
+}
+.top .search-box i{
+    position: absolute;
+    left: 15px;
+    font-size: 22px;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-55%);
+    color: var(--black-light-color);
+}
+
+
+.top img{
+    width: 40px;
+}
+
+/* ==================== 상단 바  끝=================== */
+
+/* ===================== 그룹 목록 ==================*/
+
+
+
+
+/* ===================== 메인 피드 끝 ==================*/
+
+
+
+
+
+
+/* ================오른쪽 사이드 바================= */
+
+.right-sidebar {
+    position: fixed;
+    top: 0;
+    right : 0;
+    /* height: 100%; */
+    width: 400px;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+    transition: var(--tran-05);
+    margin-right: 10%;
+    z-index: 8;
+}
+
+.right-top {
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    margin: 0 20%;
+}
+
+.right-sidebar .right-top i {
+    font-size: 30px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile .profile-link{
+    position: absolute;
+    right: 0;
+    background-color: var(--white-color);
+    padding: 10px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 160px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.profile .profile-link.show{
+    opacity: 1;
+    pointer-events: visible;
+    top: 100%;
+    transition: var( --tran-03);
+}
+
+.profile .profile-link li{
+    font-style:normal;
+}
+
+.profile .profile-link a{
+    padding: 10px 16px;
+    display: flex;
+    grid-gap: 10px;
+    font-size: 14px;
+    color: var(--text-color);
+    align-items: center;
+    transition: var( --tran-03);
+}
+
+.profile .profile-link a:hover{
+    background-color: var(--grey-color);
+}
+
+/* ================오른쪽 사이드 바 끝================= */
+
+
+
+
+
+
+/* =================== 다크 모드 ======================== */
+.mode-toggle {
+    height: 50px;
+    min-width: 45px;
+    position :absolute;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mode {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+
+.mode-toggle .switch {
+    position: relative;
+    display: inline-block;
+    height: 22px;
+    width: 40px;
+    background-color: var(--toggle-color);
+    border-radius: 25px ;
+}
+
+.switch::before{
+    content:"";
+    position: absolute;
+    left: 5px;
+    transform: translateY(-50%);
+    top: 50%;
+    height: 15px;
+    width: 15px;
+    background-color: white;
+    border-radius: 50%;
+    transition: var(--tran-03);
+}
+
+body.dark {
+    --blue-color: #3a3b3c;
+    --white-color:#202b38;
+}
+
+body.dark .switch::before {
+    left : 20px;
+}
+
+
+body.dark .logo-name .logo_name {
+	color: white;
+}
+
+body.dark .top .sidebar-toggle {
+	color : white;
+}
+
+body.dark .right-top {
+    color : white;
+}
+
+body.dark .top .search-box input {
+     color : white;
+}
+
+
+body.dark
+.nav-links li a:hover i,
+body.dark
+.nav-links li a:hover .link-name{
+    color: white;
+}
+
+body.dark .profile .profile-link.show {
+	background : white;
+}
+
+body.dark .close,
+body.dark .close:focus {
+	opacity : 1;
+}
+
+/* ============== 미디어 쿼리 ======================== */
+
+@media only screen and (max-width: 600px) {
+    nav{
+        margin: 0;
+        width: 100%;
+       
+    }
+
+    nav.close {
+        width: 100%;
+        z-index: 10;
+    }
+
+    nav.close li a .link-name {
+        opacity: 1;
+        pointer-events: none;
+    }
+
+    .main-content {
+       left: 0;
+       margin: 0;
+       padding: 0;
+       width: 100%;
+    }
+
+    nav.close ~ .main-content .top {
+        
+        position: fixed;
+        left: 73px;
+        width: 88%;
+        margin-right: 0;
+    }
+
+    nav.close ~ .main-content {
+        left: 73px;
+        width: 88%;
+    }
+    
+    .main-content .top {
+        top: 0;
+        left: 0;
+        margin: 0;
+        width: 100%;
+        position: fixed;
+     }
+
+     .main-content .main-feed {
+        margin: 0px;
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        padding-top: 70px;
+        transition: var(--tran-05);
+        z-index: 5;
+    }
+    
+
+    nav.close~ .main-content .top .search-box {
+        position: relative;
+        height: 45px;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 30px;
+        display: none;
+    }
+
+ 
+
+
+    nav.close ~ .main-content .main-feed {
+        width: 95%;
+        margin-left: 0%;
+        display: none;
+    }
+
+    .right-sidebar {
+        display: none;
+    }
+  }
+
+
+  @media only screen and (max-width: 964px) {
+
+    .right-sidebar {
+        display: none;
+    }    
+  }
