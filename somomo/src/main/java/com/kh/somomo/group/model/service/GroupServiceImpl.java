@@ -11,6 +11,7 @@ import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
+import com.kh.somomo.common.model.vo.Reply;
 import com.kh.somomo.group.model.dao.GroupDao;
 import com.kh.somomo.group.model.vo.CalendarPlan;
 import com.kh.somomo.group.model.vo.GroupBoard;
@@ -192,7 +193,38 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.countLike(sqlSession, boardNo);
 	}
 
-		
+	@Override
+	public int insertReply(Reply reply) {
+		return groupDao.insertReply(sqlSession, reply);
+	}
+	
+	@Override
+	public ArrayList<Reply> selectReplyList(int boardNo) {
+		return groupDao.selectReplyList(sqlSession, boardNo);
+	}
+	
+	@Override
+	public int insertReReply(Reply reply) {
+		return groupDao.insertReReply(sqlSession, reply);
+	}
+	
+
+	@Override
+	public boolean checkHasRereply(int replyNo) {
+		int countRereply = groupDao.countRereply(sqlSession, replyNo);
+		return countRereply > 0 ? true : false;
+	}
+	
+	@Override
+	public int deleteReply(int replyNo) {
+		return groupDao.deleteReply(sqlSession, replyNo);
+	}
+	
+	@Override
+	public int deleteReplyContent(int replyNo) {
+		return groupDao.deleteReplyContent(sqlSession, replyNo);
+	}
+	
 
 	
 	

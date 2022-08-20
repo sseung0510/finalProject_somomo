@@ -11,6 +11,7 @@ import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
+import com.kh.somomo.common.model.vo.Reply;
 import com.kh.somomo.group.model.vo.CalendarPlan;
 import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupCalendar;
@@ -164,6 +165,29 @@ public class GroupDao {
 		return sqlSession.selectOne("groupMapper.countLike", boardNo);
 	}
 	
+	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("groupMapper.selectReplyList", boardNo);
+	}
+	
+	public int insertReply(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.insert("groupMapper.insertReply", reply);
+	}
+	
+	public int insertReReply(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.insert("groupMapper.insertReReply", reply);
+	}
+	
+	public int countRereply(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.selectOne("groupMapper.countRereply", replyNo);
+	}
+	
+	public int deleteReply(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("groupMapper.deleteReply", replyNo);
+	}
+	
+	public int deleteReplyContent(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("groupMapper.deleteReplyContent", replyNo);
+	}
 	
 
 }

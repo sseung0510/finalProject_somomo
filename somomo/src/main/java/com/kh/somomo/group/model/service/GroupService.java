@@ -7,6 +7,7 @@ import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
 import com.kh.somomo.common.model.vo.RegionCategory;
+import com.kh.somomo.common.model.vo.Reply;
 import com.kh.somomo.group.model.vo.CalendarPlan;
 import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupCalendar;
@@ -94,7 +95,23 @@ public interface GroupService {
 	//좋아요 개수
 	int countLike(int boardNo);
 		
+	//댓글 조회
+	ArrayList<Reply> selectReplyList(int boardNo);
+		
+	//댓글 작성
+	int insertReply(Reply reply);
 	
+	// 답글(대댓글) 작성
+	int insertReReply(Reply reply);
+
+	// 대댓글 존재 여부 확인
+	boolean checkHasRereply(int replyNo);
+
+	// 댓글 삭제
+	int deleteReplyContent(int replyNo);
+
+	// 댓글 내용 삭제 (답글 존재하는 댓글일 경우)
+	int deleteReply(int replyNo);
 	// 캘린더 이벤트 추가 
 	
 	int insertCalendarEvent(CalendarPlan gp);

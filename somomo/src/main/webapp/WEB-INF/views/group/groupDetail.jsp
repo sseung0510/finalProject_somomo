@@ -38,27 +38,6 @@
         <div class="main-middle">
             <!---------------------- 글쓰기 Modal 창 --------------------->
             <jsp:include page="groupDetailCommon/modal.jsp"/>
-			
-			<!-- 공지사항 -->
-			<!-- <div>
-				<div class="notice">
-					<h3>공지사항</h3>
-					<ul>
-						<li class="noticeItem" style="font-size:14px; border-top:1px solid #f5f5f5;">
-							<a href="#">공지사항 내용 들어갈 자리</a>
-						</li>
-						<li class="noticeItem" style="font-size:14px; border-top:1px solid #f5f5f5;">
-							<a href="#">공지사항 내용 들어갈 자리</a>
-						</li>
-						<li class="noticeItem" style="font-size:14px; border-top:1px solid #f5f5f5;">
-							<a href="#">공지사항 내용 들어갈 자리</a>
-						</li>
-					</ul>
-				</div>
-			</div> -->
-			
-			
-			<!-- ----------피드 게시글 들어갈 자리------- -->
             
             
         </div>
@@ -94,8 +73,7 @@
     </script>
     
     
-    
-     <script>
+      <script>
 	    	$(function(){
 	    		
 	    		let currentPage = ${pi.currentPage} ;
@@ -163,6 +141,12 @@
 							
 						});
 
+
+						$('.replyBtn').click(function(){
+							insertReply(this);
+						})
+						
+						
        				}
         		});
 			}
@@ -261,6 +245,192 @@
     				}
     			});
 			}
+			
+			
+			
+			// ajax 댓글 작성
+        	function insertReply(grReply){
+        		let rno = $(grReply).data('rno');
+				console.log(rno);
+				
+        		if($('#replyContent'+rno).val() != ''){
+	        		$.ajax({
+	        			url : 'insertReply.gr',
+	        			data : {
+	        				boardNo : rno,
+	        				replyWriter : '${loginUser.userId}',
+	        				replyContent : $('#replyContent'+rno).val()
+	        			},
+	        			success : function(result){
+	        				if(result == 'success'){
+	        					selectReplyList(rno);
+	        					//console.log($('.replyContent').val());
+	        					$('#replyContent'+rno).val('');
+	        					//$(document).scrollTop($(document).height());
+	        				}
+	        			},
+	        			error : function(){
+	        				console.log('에러');
+	        			}
+	        		});
+        		}
+        		else{
+        			alert('내용을 입력해주세요');
+        		}
+        	}
+			
+			
+			
+        	function selectReplyList(rno){
+        		$.ajax({
+        			url : 'selectReplyList.gr',
+        			data : {
+        				boardNo : rno
+        			},
+        			success : function(list){
+        				$('.commentCount'+rno).html(list.length);
+        				let result = '';
+        				for(let i in list){
+        					// 일반 댓글일 경우
+        					if(list[i].rdepth == 0){
+	        					result += '<div id="reply-groupNo' + list[i].rgroup + '">'
+        						        + 	'<div id="replyNo' + list[i].replyNo + '" class="replyWrap reply">';
+        					}
+        					// 답글일 경우
+        					else{
+        						result += 	'<div id="replyNo' + list[i].replyNo + '" class="replyWrap re-reply" style="margin-left:35px;">';
+        					}
+        					// 공통 부분(작성자, 작성일, 프로필사진, 댓글 내용)
+       						result +=			'<div class="writeInfo">' + list[i].nickname 
+       						        +				'<a class="upProfile">'
+		                            +					'<span class="upProfileImg">'
+		                            +						'<img src="' + list[i].profileImg + '">'    
+		                            +					'</span>'        
+		                            + 				'</a>'
+		                            +			'</div>'
+		                        	+			'<div class="text">' + list[i].replyContent.replaceAll("\n", "<br/>")
+		                        	+				'<div class="twiceComment">'
+		                        	+					'<time class="time" style="margin-left:5px; color:gray;">'+ list[i].replyDate +'</time>'
+		                        	+					'<div class="reply-btn-area" data-reply_no="' + list[i].replyNo + '">';
+                        	// 일반 댓글일 경우, 답글달기 버튼 표시
+                        	if(list[i].rdepth == 0){
+                        		result +=				'<button class="rBtn reReplyBtn showArea" data-rboard="'+ rno +'" data-rgroup="' + list[i].rgroup + '">답글달기</button>';
+                        	}
+                        	// 댓글작성자일 경우, 댓글 수정/삭제 버튼 표시 + 삭제되지 않은 댓글일 경우
+                            if(list[i].replyWriter == '${loginUser.userId}' && list[i].replyContent != '삭제된 댓글입니다'){
+                            	result += 	          '<button class="delReplyBtn">삭제</button>';
+                            }
+                        	
+                        	result +=					'</div>'
+                        			+				'</div>'
+                        			+			'</div>'
+	                                +		'</div>';
+	                        // 같은 댓글 그룹 중 마지막 댓글일 경우 <div id="reply-groupNo" + list[i].rgroup > 닫기        
+	                        if(list[i].isLastRgroupReply == 'Y'){
+	                        	result +='</div>';
+	                        }
+							
+        				}
+        				
+        				// 댓글목록에 전체 댓글 출력
+        				$('.commnetWrap'+rno).html(result);
+        			}
+        		});
+        	}
+			
+        	
+        	
+        	
+
+       		// 답글버튼(답글달기,답글취소) 클릭 시
+       		$(document).on('click', '.reReplyBtn', function(){
+				let rgroupNo = $(this).data('rgroup');
+				let rboardNo = $(this).data('rboard');
+				//console.log(rboardNo);
+				// 답글달기 버튼일 경우
+				if($(this).hasClass('showArea')){
+					let reReplyArea = '<div id="inputArea' + rgroupNo + '" class="reply-input-area" style="margin-left:40px;">'
+				   					+ 	'<textarea class="reContent" type="text" placeholder="댓글을 입력해주세요..." rows="1" style="resize: none; vertical-align:middle;"></textarea>'
+				   					+ 	'<button id="replyBtn'+rboardNo+'" onclick="insertReReply(this,'+ rboardNo +','+ rgroupNo +');">작성</button>'
+				  					+ '</div>';
+				  					
+					$('#reply-groupNo'+ rgroupNo).append(reReplyArea);
+					
+					$(this).html('답글취소');
+					$(this).removeClass('showArea');
+				}
+				// 답글취소 버튼일 경우
+				else {
+					$('#inputArea' + rgroupNo).remove();
+					$(this).html('답글달기');
+					$(this).addClass('showArea');
+				}
+			});
+        	
+        	// ajax 답글(대댓글) 작성
+        	function insertReReply(target, rboardNo, rgroupNo){
+				let inputArea = $(target).parent().attr('id'); // 답글 작성 칸 id
+				let reContent = $(target).siblings('textarea').val().trim(); // 답글 작성 내용
+				
+				if(reContent != ''){
+					$.ajax({
+						url : 'insertReReply.gr',
+						data : {
+							boardNo : rboardNo,
+							replyWriter : '${loginUser.userId}',
+							replyContent : reContent,
+							rgroup : rgroupNo
+						},
+						success : function(result){
+							if(result == 'success'){
+								//$('#'+inputArea).remove(); // 해당 답변 작성 칸 없애기
+								selectReplyList(rboardNo);
+							}
+						},
+	        			error : function(){
+	        				console.log('에러');
+	        			}
+					});
+				}
+				else {
+					alert('내용을 입력해주세요');
+				}	
+        	}
+        	
+        	
+        	
+        	
+       		// ajax 댓글 삭제 버튼 클릭 시
+       		$(document).on('click', '.delReplyBtn', function(){
+       			
+				let replyNo = $(this).parent().data('reply_no'); // 해당 댓글 번호
+       			let replyContent = $(this).parent().parent().find('.content'); // 해당 댓글 내용 요소
+       			let upReplyBtn = $(this).parent().find('.upReplyBtn'); // 해당 댓글수정버튼
+       			let delReplyBtn = $(this).parent().find('.delReplyBtn'); // 해당 댓글삭제버튼
+				
+        		if(confirm("댓글을 삭제하시겠습니까?")){
+        			$.ajax({
+        				url : 'deleteReply.gr',
+        				data : {
+        					replyNo : replyNo
+        				},
+        				success : function(result){
+        					if(result == 'deleteReply'){ // 답변 없는 댓글일 경우 => 댓글 삭제 (STATUS='N')
+        						$('#replyNo' + replyNo).remove(); // 해당 답변 지우기
+        					}
+        					else if(result == 'deleteContent'){ // 답변 달린 댓글일 경우 => 댓글 내용 삭제
+        						replyContent.html('삭제된 댓글입니다');
+        						upReplyBtn.attr('style', 'display:none;'); // 해당 댓글수정버튼 숨기기
+        						delReplyBtn.attr('style', 'display:none;'); // 해당 댓글삭제버튼 숨기기
+        					}
+        				},
+        				error : function(){
+        					console.log('에러');
+        				}
+        			});
+    			}
+			});
+        	
         	
       </script>
     
@@ -276,6 +446,6 @@
     
     
     
-    <script src="resources/js/GroupDetail.js?ver=1.0.0"></script>
+    <script src="resources/js/GroupDetail.js"></script>
 </body>
 </html>

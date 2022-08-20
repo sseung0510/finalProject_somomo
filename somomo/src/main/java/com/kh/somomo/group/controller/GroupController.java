@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
+import com.kh.somomo.common.model.vo.Reply;
 import com.kh.somomo.common.template.FileRename;
 import com.kh.somomo.common.template.Pagination;
 import com.kh.somomo.common.template.Time;
@@ -412,10 +413,45 @@ public class GroupController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value="selectReplyList.gr", produces="application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int boardNo) {
+		
+		ArrayList<Reply> rpList = groupService.selectReplyList(boardNo);
+		for(Reply rp : rpList) {
+			if(rp.getProfileImg() == null) rp.setProfileImg("resources/img/member/profile_img.png");
+			if(rp.getReplyContent() == null) rp.setReplyContent("삭제된 댓글입니다");
+		}
+		return new Gson().toJson(rpList);
+	}
+
+	
+	@ResponseBody
+	@RequestMapping("insertReply.gr")
+	public String ajaxInsertReply(Reply reply) {
+		return groupService.insertReply(reply) > 0 ? "success" : "fail";
+	}
 	
 	
+	@ResponseBody
+	@RequestMapping("insertReReply.gr")
+	public String ajaxInsertReReply(Reply reply) {
+		return groupService.insertReReply(reply) > 0 ? "success" : "fail";
+	}
 	
 	
+	@ResponseBody
+	@RequestMapping("deleteReply.gr")
+	public String ajaxDeleteReply(int replyNo) {
+		
+		boolean hasRereply = groupService.checkHasRereply(replyNo);
+		
+		if(hasRereply) {
+			return groupService.deleteReplyContent(replyNo) > 0 ? "deleteContent" : "fail";
+		} else {
+			return groupService.deleteReply(replyNo) > 0 ? "deleteReply" : "fail";
+		}
+	}
 	
 	
 

@@ -64,7 +64,7 @@
                         
         
                         <span class="commentCountBtn">댓글
-                            <span class="commentCount">${gr.countReply}</span>
+                            <span class="commentCount${gr.boardNo}">${gr.countReply}</span>
                             <i class="uil uil-angle-up"></i> 
                         </span>
                     </div>
@@ -85,24 +85,26 @@
                 </div>
         
         
-        <!-- ----댓글----- -->
-                <div class="commentBox">
-                    <div class="commnetWrap">
-                        <div class="writeInfo">몽키스패너
-                            <a class="upProfile">
-                                <span class="upProfileImg">
-                                    <img src="./resources/img/food.jpeg">
-                                </span>
-                            </a>
-                        </div>
-                        <div class="text">몽키스패너 특가로 구매했어요!!!
-                            <div class="twiceComment">
-                                <time class="time">8월 2일 오후 5:20</time>
-                                <div class="reply-replyBtn">답글쓰기</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-----댓글------>
+        
+        		<div class="reply-area">
+	                <div class="reply-input-area" style="margin-bottom : 10px">
+                        <textarea id="replyContent${gr.boardNo}" placeholder="댓글을 입력해주세요..." rows="1" style="resize: none; width:450px; border : 1px; border-radius : 30px; padding : 10px; vertical-align:middle;"  ></textarea>
+                        <span class="replyBtn" data-rno="${gr.boardNo}" style="font-size: 13px; vertical-align:middle; cursor:pointer; margin-left:20px;">작성</span>
+               	 	</div>
+               	 	<!-- ajax 댓글 목록 출력 부분 -->
+               	 	<div class="commentBox">
+						<div class="commnetWrap${gr.boardNo}">
+								
+								
+								
+								
+						</div>
+               	 	</div>
+               	 	
+               	 	
+				</div>
+				
             </c:forEach>
         </c:otherwise>
     </c:choose>
