@@ -543,6 +543,15 @@
 		       REPLY_NO = #{replyNo}
 	</update>
 	
+	<update id="deleteReply" parameterType="_int">
+		UPDATE 
+		       FEED_REPLY 
+		   SET 
+		       STATUS = 'N' 
+		 WHERE 
+		       REPLY_NO = #{replyNo}
+	</update>
+	
 	<select id="countRereply" parameterType="_int" resultType="_int">
 		SELECT 
 		       COUNT(*)
@@ -556,15 +565,6 @@
 		       STATUS = 'Y'
 	</select>
 	
-	<update id="deleteReply" parameterType="_int">
-		UPDATE 
-		       FEED_REPLY 
-		   SET 
-		       STATUS = 'N' 
-		 WHERE 
-		       REPLY_NO = #{replyNo}
-	</update>
-	
 	<update id="deleteReplyContent" parameterType="_int">
 		UPDATE 
 		       FEED_REPLY 
@@ -573,6 +573,52 @@
 		 WHERE 
 		       REPLY_NO = #{replyNo}
 	</update>
+	
+	<select id="countReplyNrereply" parameterType="_int" resultType="_int">
+		SELECT 
+		       COUNT(*)
+		  FROM 
+		       FEED_REPLY
+		 WHERE 
+		       RGROUP = #{rgroup} 
+		   AND 
+		       STATUS = 'Y'
+	</select>
+	
+	<select id="checkDeletedReply" parameterType="_int" resultType="_int">
+		SELECT
+               COUNT(*)
+          FROM 
+               FEED_REPLY
+         WHERE
+               RGROUP = #{rgroup} 
+           AND
+               RDEPTH = 0
+           AND 
+               REPLY_CONTENT IS NULL
+           AND 
+               STATUS = 'Y'
+	</select>
+	
+	<update id="deleteTwoReply" parameterType="_int">
+		UPDATE 
+		       FEED_REPLY 
+		   SET 
+		       STATUS = 'N' 
+		 WHERE 
+		       RGROUP = #{rgroup}
+	</update>
+	
+	<select id="countReply" parameterType="_int" resultType="_int">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       FEED_REPLY
+		 WHERE 
+		       BOARD_NO = #{boardNo}
+		   AND
+		       STATUS = 'Y'
+	</select>
 	
 	<insert id="insertLike" parameterType="likes">
 		INSERT 

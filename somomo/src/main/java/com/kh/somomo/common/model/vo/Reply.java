@@ -22,6 +22,7 @@ public class Reply {
 	private String status;
 	
 	private String isLastRgroupReply; // 댓글 그룹 별 마지막 댓글 번호 판별
+	private String isDeletedContent; // 답글 존재하는 댓글이 삭제됐을 경우를 판별
 	
 	// MEMBER테이블과 JOIN해서 받아온 값
 	private String nickname; // 작성자 닉네임

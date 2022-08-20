@@ -203,7 +203,6 @@ public class FeedController {
 		
 		FeedBoard fb = new FeedBoard();
 		String bType = feedService.selectBoardType(boardNo); //게시글 타입(G/M) 받아오기
-		
 		// 일반글일 경우
 		if(bType.equals("G")) { 
 			fb = feedService.selectGeneralBoard(boardNo);
@@ -241,7 +240,6 @@ public class FeedController {
 		
 		FeedBoard fb = new FeedBoard();
 		String bType = feedService.selectBoardType(boardNo); //게시글 타입(G/M) 받아오기
-		
 		// 일반글일 경우
 		if(bType.equals("G")) { 
 			fb = feedService.selectGeneralBoard(boardNo);
@@ -317,7 +315,7 @@ public class FeedController {
 		setMeetCondition(fb);
 		
 		// 모집 조건 충족하는 지 판별
-		return checkJoinCondition(fb, m) ? "isSatisfy" : "notSatisfy";
+		return checkJoinCondition(fb, m) ? "Y" : "N";
 	}
 	
 	// 신청자가 모집 조건을 충족하는지 판별
@@ -371,7 +369,10 @@ public class FeedController {
 		ArrayList<Reply> rpList = feedService.selectReplyList(boardNo);
 		for(Reply rp : rpList) {
 			if(rp.getProfileImg() == null) rp.setProfileImg("resources/img/member/profile_img.png");
-			if(rp.getReplyContent() == null) rp.setReplyContent("삭제된 댓글입니다");
+			if(rp.getReplyContent() == null) {
+				rp.setReplyContent("삭제된 댓글입니다");
+				rp.setIsDeletedContent("Y");
+			}
 		}
 		return new Gson().toJson(rpList);
 	}
@@ -396,15 +397,32 @@ public class FeedController {
 	
 	@ResponseBody
 	@RequestMapping("deleteReply.fd")
-	public String ajaxDeleteReply(int replyNo) {
+	public String ajaxDeleteReply(Reply reply) {
 		
-		boolean hasRereply = feedService.checkHasRereply(replyNo);
+		int replyNo = reply.getReplyNo();
+		int rgroup = reply.getRgroup();
 		
-		if(hasRereply) {
+		boolean isReplyWithRereply = feedService.checkHasRereply(replyNo);
+		// 답글이 달린 댓글인 경우
+		if(isReplyWithRereply) {
+			// 댓글 내용 삭제 (STATUS는 그대로 Y)
 			return feedService.deleteReplyContent(replyNo) > 0 ? "deleteContent" : "fail";
+		// 답글 없는 댓글인 경우 (답글도 해당)
 		} else {
+			// 삭제된 댓글에 달린 댓글(답글)인 경우 + 답글이 마지막 남은 1개일 경우
+			if(feedService.isSingleRereplyNdeleteReply(rgroup)) {
+				// 댓글과 답글 모두 삭제 (STATUS 모두 N으로)
+				return feedService.deleteTwoReply(rgroup) > 0 ? "deleteTwoReply" : "fail";
+			}
+			// 위의 모든 경우에 해당하지 않으면 해당 댓글만 삭제 (STATUS N)
 			return feedService.deleteReply(replyNo) > 0 ? "deleteReply" : "fail";
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("countReply.fd")
+	public int ajaxCountReply(int boardNo) {
+		return feedService.countReply(boardNo);
 	}
 	
 }

@@ -171,21 +171,42 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public boolean checkHasRereply(int replyNo) {
-		int countRereply = feedDao.countRereply(sqlSession, replyNo);
-		return countRereply > 0 ? true : false;
+	public int deleteReply(int replyNo) {
+		return feedDao.deleteReply(sqlSession, replyNo);
 	}
 	
 	@Override
-	public int deleteReply(int replyNo) {
-		return feedDao.deleteReply(sqlSession, replyNo);
+	public boolean checkHasRereply(int replyNo) {
+		return feedDao.countRereply(sqlSession, replyNo) > 0 ? true : false;
 	}
 	
 	@Override
 	public int deleteReplyContent(int replyNo) {
 		return feedDao.deleteReplyContent(sqlSession, replyNo);
 	}
+	
+	@Override
+	public boolean isSingleRereplyNdeleteReply(int rgroup) {
+		boolean flag = false;
+		// 그룹번호로 댓글+답글 개수 체크
+		int countReply = feedDao.countReplyNrereply(sqlSession, rgroup);
+		if(countReply == 2) { // 댓글 1개 + 답글 1개일 경우
+			// 댓글 내용이 삭제되어있을 경우 => true
+			flag = feedDao.checkDeletedReply(sqlSession, rgroup) > 0 ? true : false;
+		}
+		return flag;
+	}
+	
+	@Override
+	public int deleteTwoReply(int rgroup) {
+		return feedDao.deleteTwoReply(sqlSession, rgroup);
+	}
 
+	@Override
+	public int countReply(int boardNo) {
+		return feedDao.countReply(sqlSession, boardNo);
+	}
+	
 	//------- 좋아요 서비스 -------//
 	@Override
 	public int insertLike(Likes like) {
@@ -206,5 +227,9 @@ public class FeedServiceImpl implements FeedService{
 	public int countLike(int boardNo) {
 		return feedDao.countLike(sqlSession, boardNo);
 	}
+
+
+
+
 
 }

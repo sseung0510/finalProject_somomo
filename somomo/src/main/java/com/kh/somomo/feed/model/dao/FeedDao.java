@@ -134,16 +134,32 @@ public class FeedDao {
 		return sqlSession.update("feedMapper.updateReply", reply);
 	}
 	
-	public int countRereply(SqlSessionTemplate sqlSession, int replyNo) {
-		return sqlSession.selectOne("feedMapper.countRereply", replyNo);
-	}
-	
 	public int deleteReply(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("feedMapper.deleteReply", replyNo);
 	}
 	
+	public int countRereply(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.selectOne("feedMapper.countRereply", replyNo);
+	}
+	
 	public int deleteReplyContent(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("feedMapper.deleteReplyContent", replyNo);
+	}
+	
+	public int countReplyNrereply(SqlSessionTemplate sqlSession, int rgroup) {
+		return sqlSession.selectOne("feedMapper.countReplyNrereply", rgroup);
+	}
+
+	public int checkDeletedReply(SqlSessionTemplate sqlSession, int rgroup) {
+		return sqlSession.selectOne("feedMapper.checkDeletedReply", rgroup);
+	}
+	
+	public int deleteTwoReply(SqlSessionTemplate sqlSession, int rgroup) {
+		return sqlSession.update("feedMapper.deleteTwoReply", rgroup);
+	}
+	
+	public int countReply(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("feedMapper.countReply", boardNo);
 	}
 	
 	public int insertLike(SqlSessionTemplate sqlSession, Likes like) {
@@ -161,5 +177,7 @@ public class FeedDao {
 	public int countLike(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("feedMapper.countLike", boardNo);
 	}
+
+
 	
 }

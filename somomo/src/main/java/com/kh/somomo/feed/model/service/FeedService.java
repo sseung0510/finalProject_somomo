@@ -73,12 +73,18 @@ public interface FeedService {
 	int insertReReply(Reply reply);
 	// 댓글 수정
 	int updateReply(Reply reply);
-	// 대댓글 존재 여부 확인
-	boolean checkHasRereply(int replyNo);
 	// 댓글 삭제
 	int deleteReply(int replyNo);
+	// 답글(대댓글) 존재여부 확인 => 답글 존재하는 부모 댓글인지 판별용
+	boolean checkHasRereply(int replyNo);
 	// 댓글 내용 삭제 (답글 존재하는 댓글일 경우)
 	int deleteReplyContent(int replyNo);
+	// 삭제된 댓글에 달린 답글이며, 답글이 마지막 남은 1개인 경우인지 확인
+	boolean isSingleRereplyNdeleteReply(int rgroup);
+	// 댓글 + 답글 삭제
+	int deleteTwoReply(int rgroup);
+	// 댓글 개수 확인
+	int countReply(int boardNo);
 	
 	//------- 좋아요 서비스 -------//
 	// 좋아요 등록

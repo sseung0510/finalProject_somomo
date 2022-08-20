@@ -110,7 +110,7 @@
 						gender : '${loginUser.gender}'
 					},
 					success : function(result){
-						if(result == "isSatisfy"){
+						if(result == "Y"){
 							// 모집조건 충족 시, 모임 참여 안내 모달창 띄우기
 							$('#joinChatModal').modal('toggle');
 						}

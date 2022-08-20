@@ -34,7 +34,7 @@
 				</td>
 			</c:if>
 		</tr>
-		<tr><td class="fd-board-date"><div class="fd-board-nickname">${f.boardDate}</div></td></tr>
+		<tr><td class="fd-board-date"><div class="fd-board-nickname">${fb.boardDate}</div></td></tr>
 	</table>
 	<div class="fd-board-contents fdm">
 		<div class="title">

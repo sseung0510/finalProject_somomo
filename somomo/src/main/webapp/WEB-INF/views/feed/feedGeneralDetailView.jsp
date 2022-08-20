@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.7">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 	<!----------- 아이콘 CSS 링크 version 2------->
@@ -169,14 +169,14 @@
 		                            + 				'</a>'
 		                            +			'</div>'
 		                        	+			'<div class="content-area">'
-		                        	+				'<div class="content">' + list[i].replyContent.replaceAll("\n", "<br/>") + '</div>'
-		                        	+				'<div class="reply-btn-area" data-reply_no="' + list[i].replyNo + '">';
+		                        	+				'<div class="content">' + list[i].replyContent.replaceAll("\n", "<br>") + '</div>'
+		                        	+				'<div class="reply-btn-area" data-reply_no="' + list[i].replyNo + '" data-rgroup="' + list[i].rgroup + '">';
                         	// 일반 댓글일 경우, 답글달기 버튼 표시
                         	if(list[i].rdepth == 0){
-                        		result +=				'<button class="rBtn reReplyBtn showArea" data-rgroup="' + list[i].rgroup + '">답글달기</button>';
+                        		result +=				'<button class="rBtn reReplyBtn showArea">답글달기</button>';
                         	}
                         	// 댓글작성자일 경우, 댓글 수정/삭제 버튼 표시 + 삭제되지 않은 댓글일 경우
-                            if(list[i].replyWriter == '${loginUser.userId}' && list[i].replyContent != '삭제된 댓글입니다'){
+                            if(list[i].replyWriter == '${loginUser.userId}' && list[i].isDeletedContent != 'Y'){
                             	result +=				'<button class="rBtn upReplyBtn">수정</button>'
                             			+				'<button class="rBtn delReplyBtn">삭제</button>';
                             }
@@ -227,7 +227,8 @@
        		// 답글버튼(답글달기,답글취소) 클릭 시
        		$(document).on('click', '.reReplyBtn', function(){
        			
-				let rgroupNo = $(this).data('rgroup');
+       			let replyNo = $(this).parent().data('reply_no'); // 해당 댓글 번호
+				let rgroupNo = $(this).parent().data('rgroup'); // 해당 댓글그룹        
 				// 답글달기 버튼일 경우
 				if($(this).hasClass('showArea')){
 					let reReplyArea = '<div id="inputArea' + rgroupNo + '" class="reply-input-area" style="margin-left:40px;">'
@@ -321,25 +322,32 @@
        		$(document).on('click', '.delReplyBtn', function(){
        			
 				let replyNo = $(this).parent().data('reply_no'); // 해당 댓글 번호
-       			let replyContent = $(this).parent().parent().find('.content'); // 해당 댓글 내용 요소
-       			let upReplyBtn = $(this).parent().find('.upReplyBtn'); // 해당 댓글수정버튼
-       			let delReplyBtn = $(this).parent().find('.delReplyBtn'); // 해당 댓글삭제버튼
+				let rgroupNo = $(this).parent().data('rgroup'); // 해당 댓글그룹
 				
+				let replyContent = $(this).parent().parent().find('.content') // 해당 댓글 내용 요소
+       			let upReplyBtn = $(this).parent().find('.upReplyBtn'); // 해당 댓글수정버튼
+       			let delReplyBtn = $(this); // 해당 댓글삭제버튼
+       			
         		if(confirm("댓글을 삭제하시겠습니까?")){
         			$.ajax({
         				url : 'deleteReply.fd',
         				data : {
-        					replyNo : replyNo
+        					replyNo : replyNo,
+        					rgroup : rgroupNo
         				},
         				success : function(result){
         					if(result == 'deleteReply'){ // 답변 없는 댓글일 경우 => 댓글 삭제 (STATUS='N')
         						$('#replyNo' + replyNo).remove(); // 해당 답변 지우기
         					}
         					else if(result == 'deleteContent'){ // 답변 달린 댓글일 경우 => 댓글 내용 삭제
-        						replyContent.html('삭제된 댓글입니다');
+        						replyContent.html('삭제된 댓글입니다'); // 해당 댓글 내용 변경
         						upReplyBtn.attr('style', 'display:none;'); // 해당 댓글수정버튼 숨기기
         						delReplyBtn.attr('style', 'display:none;'); // 해당 댓글삭제버튼 숨기기
         					}
+        					else { // "deleteTwoReply" : 삭제된 댓글의 마지막 답변일 경우 => 댓글+답글 삭제
+        						$('#reply-groupNo'+rgroupNo).remove(); // 해당 댓글그룹 삭제
+        					}
+        					checkCountReply(); // 댓글 개수 변경
         				},
         				error : function(){
         					console.log('에러');
@@ -347,6 +355,23 @@
         			});
     			}
 			});
+       		
+        	// ajax 댓글 개수 가져오기
+    		function checkCountReply(){
+    			$.ajax({
+    				url : 'countReply.fd',
+    				method : 'POST',
+    				data : {
+    					boardNo : '${fb.boardNo}'
+    				},
+    				success : function(count){
+    					$('#replyCount').html('댓글 ' + count + '개');
+    				},
+    				error : function(){
+    					console.log('에러');
+    				}
+    			});
+    		}
         	
        		
 			//-----------------------------------------------
