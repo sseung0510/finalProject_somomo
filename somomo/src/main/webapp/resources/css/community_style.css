@@ -140,6 +140,7 @@ nav.close li a .link-name{
     display: flex;
     flex-direction: column;
     max-height: 120px;
+    min-height: 120px;
     width: 240px;
     overflow: auto;
     display: flex;

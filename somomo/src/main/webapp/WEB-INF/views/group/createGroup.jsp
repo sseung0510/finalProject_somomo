@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="resources/css/header.css?ver=1.0.1">
+    <link rel="stylesheet" href="resources/css/header.css?ver=1.0.2">
     <link rel="stylesheet" href="resources/css/createGroup.css?ver=1.1.2">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">

@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.0.9">
+	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.1.9">
 	<link rel="stylesheet" href="resources/css/default.css?ver=1.0.0">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">

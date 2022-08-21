@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.7">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!----------- 아이콘 CSS 링크 version 2------->
@@ -25,6 +25,12 @@
     
 </head>
 <body>
+
+
+	
+
+
+
 	<!--------------------- 왼쪽 사이드 바 ------------------------>
 	<jsp:include page="feedCommon/feed_leftSidebar.jsp" />
 	<!--------------------- 왼쪽 사이드 바 끝 ------------------------>
@@ -266,11 +272,50 @@
 							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
 							
 							<div class="mdm file-area">
+							
+							
+							
+							
+								    <div class="grid">
+								      <div class="form-element" onclick="$('#file-1').click();">
+								        <input type="file" name="file1" id="file-1" accept="image/*">
+								        <label for="file-1" id="file-1-preview">
+								          <img src="resources/img/addImage.png" >
+								        </label>
+								      </div>
+								      <div class="form-element">
+								        <input type="file" name="file2" id="file-2" accept="image/*">
+								        <label for="file-2" id="file-2-preview">
+								          <img src="resources/img/addImage.png" >
+								        </label>
+								      </div>
+								      <div class="form-element">
+								        <input type="file" name="file3"  id="file-3" accept="image/*">
+								        <label for="file-3" id="file-3-preview">
+								          <img src="resources/img/addImage.png" >
+								        </label>
+								      </div>
+								      <div class="form-element">
+								        <input type="file" name="file4" id="file-4" accept="image/*">
+								        <label for="file-4" id="file-4-preview">
+								          <img src="resources/img/addImage.png" >
+								        </label>
+								      </div>
+								    </div>
+								
+									</div>
+									<div class="delete-image">
+									<div class="reset" onclick="fileReset(1);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									<div onclick="fileReset(2);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									<div onclick="fileReset(3);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									<div onclick="fileReset(4);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									</div>
+							<!-- 
 								<input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
 								<input type="file" name="file2" id="file2"><input type="button" value="파일 삭제" onclick="fileReset(2);">
 								<input type="file" name="file3" id="file3"><input type="button" value="파일 삭제" onclick="fileReset(3);">
 								<input type="file" name="file4" id="file4"><input type="button" value="파일 삭제" onclick="fileReset(4);">
-							</div>
+								 -->
 							
 							<div style="margin-top:10px;">
 								<button type="submit" class="btnPink">글작성</button>
@@ -282,12 +327,6 @@
 			</div>
 		</div>
 		
-		<script>
-			// 첨부파일 삭제
-			function fileReset(num){
-				$('#file'+num).val('');
-			}
-		</script>
 		
 	    <!------- 모임모집글 작성 모달 ------->
 		<div class="modal fade" id="enrollMeetBoardModal">
@@ -392,6 +431,33 @@
            		});
            		
            	});
+           	
+           	<!-- 2022 08 20 사진 추가 JS-->
+           	
+           	function previewBeforeUpload(id){
+           	  document.querySelector("#"+id).addEventListener("change",function(e){
+           	    if(e.target.files.length == 0){
+           	      return;
+           	    }
+           	    let file = e.target.files[0];
+           	    let url = URL.createObjectURL(file);
+           	    document.querySelector("#"+id+"-preview img").src = url;
+           	  });
+           	}
+
+           	previewBeforeUpload("file-1");
+           	previewBeforeUpload("file-2");
+           	previewBeforeUpload("file-3");
+           	previewBeforeUpload("file-4");
+           	
+           	
+           	
+           	function fileReset(num){
+				$('#file-'+num).val('');
+				document.querySelector("#file-"+num+"-preview img").src = 'resources/img/addImage.png';
+			}
+           	
+           	
 		</script>
 			
         <!------ 메인 피드 끝----------->

@@ -7,6 +7,92 @@
 <head>
 	<meta charset="UTF-8">
 	
+	
+	
+	<style>
+	
+	.content {
+		position : relative;
+	}
+	.fade:not(.show) {
+    opacity: 1!important;
+	}
+	.slides {
+	  display: none;
+	}
+
+	.prev,
+	.next {
+	  cursor: pointer;
+	  position: absolute;
+	  top: 50%;
+	  width: auto;
+	  margin-top: -22px;
+	  padding: 16px;
+	  color: #FFF;
+	  font-weight: bold;
+	  font-size: 18px;
+	  transition: 0.6s ease;
+	  border-radius: 0 3px 3px 0;
+	}
+
+	.next {
+	  border-radius: 3px 0 0 3px;
+	}
+	
+	.caption {
+	  color: #FFF;
+	  font-size: 16px;
+	  padding: 8px 12px;
+	  position: absolute;
+	  bottom: 8px;
+	  width: 100%;
+	  text-align: center;
+	}
+	
+	.dot {
+	  cursor: pointer;
+	  height: 13px;
+	  width: 13px;
+	  margin: 0 2px;
+	  background-color: #e9ecef;
+	  border-radius: 50%;
+	  display: inline-block;
+	  transition: background-color 0.6s ease;
+	}
+	
+	.active,
+	.dot:hover {
+	  background-color: pink;
+	}
+	
+	
+	@keyframes fade {
+	  0% {
+	    opacity: 0;
+	
+	  }
+	
+	  100% {
+	    opacity: 1;
+	  }
+	}
+	
+	
+	.fade {
+	 
+	  animation-name: fade;
+	  animation-duration: 1.5s;
+	}
+	
+	.fade img{
+	  height : 400px;
+	}
+	
+	
+	
+	</style>
+	
 	<!----------- CSS --------------->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
 	<!----------- 아이콘 CSS 링크 ------->
@@ -92,9 +178,25 @@
 							<p id="content">${fn:replace(fb.boardContent, newLine, '<br/>')}</p>
 							<c:if test="${not empty fatList}">
 								<c:forEach var="fat" items="${fatList}">
-									<img src="${fat.changeName}">
+									<div class="slide fade">
+										<img src="${fat.changeName}" style="width:100%">
+									</div>	
 								</c:forEach>
+								  <c:if test ="${ fatList.size() != 1 }">
+								  		<a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+	     								<a class="next" onclick="changeSlide(1)">&#10095;</a>
+								  </c:if>
+								  <br>
+								  <div style="text-align:center;">
+									  <c:forEach var="fat" items="${fatList}" varStatus="status">
+						
+									      <span class="dot" onclick="currentSlide(${status.index+1})"></span>
+									     
+									   </c:forEach>
+								  </div>
+								 
 							</c:if>
+							
 						</div>
 					</div>
 					<div style="margin-top:20px;">
@@ -639,6 +741,51 @@
 			function fileReset(num){
 				$('#file'+num).val('');
 			}
+		</script>
+		
+		
+		
+		<script>
+		
+		<!-- 이미지 슬라이드 JS -->
+		
+		var currentIndex = 1;
+
+		function displaySlide(n) {
+		  currentIndex = n;
+		  var slides = document.getElementsByClassName("slide");
+		  console.log(slides);
+		  var dots = document.getElementsByClassName("dot");
+		 
+
+		  if(currentIndex > slides.length) {
+		    currentIndex = 1; 
+		  }
+		  if(currentIndex < 1) {
+		    currentIndex = slides.length; 
+		  }
+		  for(var i = 0; i < slides.length; i++)  {
+		    slides[i].style.display = "none"; 
+		    dots[i].className = dots[i].className.replace(" active", "");
+		  }
+		  
+		  slides[currentIndex - 1].style.display = "block";
+		  dots[currentIndex - 1].className = "dot active";
+		 
+		}
+
+		displaySlide(currentIndex);
+
+		function changeSlide(n) {
+		  currentIndex += n;
+		  displaySlide(currentIndex); 
+		}
+
+		function currentSlide(n) {
+		    displaySlide(n);
+		}
+		
+		
 		</script>
 		
 
