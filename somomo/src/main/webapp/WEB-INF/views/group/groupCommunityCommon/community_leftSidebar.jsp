@@ -39,45 +39,65 @@
 		</div>
 
 		<div class="nav-col">
-			<h3 class="m1">관리중인그룹</h3>
-			<div class="myGroup adminGroup"></div>
-
-			<h3 class="m2">가입한 그룹</h3>
-			<div class="myGroup memberGroup"></div>                
+			<div class="manage-area">
+				<div class="manage-title">
+					<i class="fa-solid fa-crown"></i>
+					<span class="title-name">관리중인 그룹</span>
+				</div>
+				<ul class="group-list g1"></ul>
+			</div>
+			<div class="manage-area">
+				<div class="manage-title">
+					<i class="fa-solid fa-user-group"></i>
+					<span class="title-name">가입한 그룹</span>
+				</div>
+				<ul class="group-list g2"></ul>
+			</div>
 		</div>
 		
 		<c:forEach var="mg" items="${myGroupList}">
 			<script>
-                var result = '<div class="nav-group-list">'
-                                + '<input type="hidden" value="${mg.groupNo}">'
-                                + '<img src="${mg.groupImg}" alt="">'
-                                + '<span class="admingroup-name">${mg.groupName}</span>'
-                            + '</div>';
+                var result = '<li>'
+							+	'<div class="nav-group-list">'
+							+		'<div class="img-div">'
+							+			'<img src="${mg.groupImg}" alt="" >'
+							+		'</div>'
+							+		'<input type="hidden" value="${mg.groupNo}">'
+							+		'<span class="admingroup-name">'+ '${mg.groupName}' +'</span>'
+							+	'</div>'
+							+'</li>';
 
 
                 if('${mg.userRank}' == 'A'){
-                    $('.adminGroup').append(result);
+                    $('.g1').append(result);
                 } 
                 else{
-                    $('.memberGroup').append(result);
+                    $('.g2').append(result);
                 }
             </script>
 		</c:forEach>
 		
         <script>
             
-            $('.adminGroup').css({'disply':'flex', 'flex-direction':'column', 'width':'100%'})
-            $('.memberGroup').css({'disply':'flex', 'flex-direction':'column', 'width':'100%'})
-            
-            var guide = "";
+			var guide1 = '<div class="no-group">'
+						+ 	'<div class="no-img-div">'
+						+		'<img src="resources/img/apeach2.png" alt="">'
+						+	'</div>'
+						+	'<span>관리하는 그룹이 없어요...</span>'
+						+'</div>';
 
-            if($('.adminGroup').html() == ""){
-                guide = "<br><span>현재 관리중인 그룹이 없습니다.</span><br>";
-                $('.adminGroup').append(guide);
+            var guide2 = '<div class="no-group">'
+						+ 	'<div class="no-img-div">'
+						+		'<img src="resources/img/apeach.png" alt="">'
+						+	'</div>'
+						+	'<span>가입된 그룹이 없어요...</span>'
+						+'</div>';
+
+            if($('.g1').html() == ""){
+                $('.g1').append(guide1);
             }
-            if($('.memberGroup').html() == ""){
-                guide = "<br><span>가입한 그룹이 없습니다.</span><br>";
-                $('.memberGroup').append(guide);
+            if($('.g2').html() == ""){
+                $('.g2').append(guide2);
             }
         </script>
 

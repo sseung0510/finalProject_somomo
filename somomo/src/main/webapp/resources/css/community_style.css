@@ -130,44 +130,91 @@ nav.close li a .link-name{
     color: var(--blue-color);
 }
 
-.nav-col{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+/*  */
+.manage-area{
+    border-bottom: 1px solid var(--border-color);
 }
 
-.myGroup{
+.manage-title{
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    height: 50px;
+}
+
+.manage-title span{
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--black-light-color);
+}
+
+.manage-title i{
+    padding-bottom: 4px;
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color);
+}
+
+.group-list{
     max-height: 120px;
     min-height: 120px;
-    width: 240px;
-    overflow: auto;
+    overflow: scroll;
+}
+
+.nav-group-list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+}
+
+.img-div{
+    display: flex;
+    width: 45px;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-group-list img{
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+}
+
+.nav-group-list span{
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.no-group{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.myGroup img{
-    padding: 5px;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+.no-group span{
+    color: var(--black-light-color);
 }
 
-.m2{
-    margin-top: 20px;
+.no-img-div{
+    display: flex;
+    justify-content: center;
 }
 
-.nav-group-list:hover{
-    border-radius: 10px;
-    width: 80%;
-    cursor: pointer;
+.no-group img{
+    width: 100px;
+    height: 100px;
 }
+/*  */
 
 .menu-items .logout-mode{
     padding-top: 10px;
-    border-top: 1px solid var(--border-color);
 }
+
 
 /* ================================ 왼쪽 사이드 바 끝 ===================== */
 

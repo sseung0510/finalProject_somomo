@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.2.0">
+	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.2.7">
 	<link rel="stylesheet" href="resources/css/default.css?ver=1.0.0">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -31,7 +31,6 @@
 	<!-- 메인컨텐츠 -->
 	<section class="main-content">
 		<jsp:include page="groupCommunityCommon/community_header.jsp"></jsp:include>
-	
 		<div class="group-outer">
 			<div class="tag-group">
 				<ul class="tag-body">
@@ -321,5 +320,19 @@
 	</script>
 
 	<script src="resources/js/feed.js"></script>
+
+	<script>
+		// nav에 .close가 붙으면 myGroup Text변환
+		$('.sidebar-toggle').click(function(){
+			if($('nav').hasClass('close')){
+				$('.m1').html('<i class="fa-solid fa-user-group"></i>');
+				$('.m2').html('<i class="fa-solid fa-crown"></i>');
+			}else{
+				$('.m1').html("관리중인 그룹");
+				$('.m2').html("가입한 그룹");
+			}
+		})
+	</script>
+
 </body>
 </html>
