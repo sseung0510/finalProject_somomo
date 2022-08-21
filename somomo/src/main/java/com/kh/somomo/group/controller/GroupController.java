@@ -442,15 +442,33 @@ public class GroupController {
 	
 	@ResponseBody
 	@RequestMapping("deleteReply.gr")
-	public String ajaxDeleteReply(int replyNo) {
+	public String ajaxDeleteReply(Reply reply) {
 		
-		boolean hasRereply = groupService.checkHasRereply(replyNo);
+		int replyNo = reply.getReplyNo();
+		int rgroup = reply.getRgroup();
 		
-		if(hasRereply) {
+		boolean isReplyWithRereply = groupService.checkHasRereply(replyNo);
+		// 답글이 달린 댓글인 경우
+		if(isReplyWithRereply) {
+			// 댓글 내용 삭제 (STATUS는 그대로 Y)
 			return groupService.deleteReplyContent(replyNo) > 0 ? "deleteContent" : "fail";
+		// 답글 없는 댓글인 경우 (답글도 해당)
 		} else {
+			// 삭제된 댓글에 달린 댓글(답글)인 경우 + 답글이 마지막 남은 1개일 경우
+			if(groupService.isSingleRereplyNdeleteReply(rgroup)) {
+				// 댓글과 답글 모두 삭제 (STATUS 모두 N으로)
+				return groupService.deleteTwoReply(rgroup) > 0 ? "deleteTwoReply" : "fail";
+			}
+			// 위의 모든 경우에 해당하지 않으면 해당 댓글만 삭제 (STATUS N)
 			return groupService.deleteReply(replyNo) > 0 ? "deleteReply" : "fail";
 		}
+	}
+
+	
+	@ResponseBody
+	@RequestMapping("countReply.gr")
+	public int ajaxCountReply(int boardNo) {
+		return groupService.countReply(boardNo);
 	}
 	
 	

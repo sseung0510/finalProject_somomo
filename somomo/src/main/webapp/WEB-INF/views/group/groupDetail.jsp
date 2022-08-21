@@ -280,6 +280,8 @@
         	}
 			
 			
+
+			
 			
         	function selectReplyList(rno){
         		$.ajax({
@@ -318,13 +320,13 @@
                         	}
                         	// 댓글작성자일 경우, 댓글 수정/삭제 버튼 표시 + 삭제되지 않은 댓글일 경우
                             if(list[i].replyWriter == '${loginUser.userId}' && list[i].replyContent != '삭제된 댓글입니다'){
-                            	result += 	          '<button class="delReplyBtn">삭제</button>';
+                            	result += 	          '<button class="delReplyBtn" data-rboard="'+ rno +'">삭제</button>';
                             }
                         	
-                        	result +=					'</div>'
+                        	result +=						'</div>'
+                        			+					'</div>'
                         			+				'</div>'
-                        			+			'</div>'
-	                                +		'</div>';
+                        			+			'</div>';
 	                        // 같은 댓글 그룹 중 마지막 댓글일 경우 <div id="reply-groupNo" + list[i].rgroup > 닫기        
 	                        if(list[i].isLastRgroupReply == 'Y'){
 	                        	result +='</div>';
@@ -398,31 +400,35 @@
         	}
         	
         	
-        	
-        	
-       		// ajax 댓글 삭제 버튼 클릭 시
+        	// ajax 댓글 삭제 버튼 클릭 시
        		$(document).on('click', '.delReplyBtn', function(){
-       			
+       			let rboardNo = $(this).data('rboard');
 				let replyNo = $(this).parent().data('reply_no'); // 해당 댓글 번호
-       			let replyContent = $(this).parent().parent().find('.content'); // 해당 댓글 내용 요소
-       			let upReplyBtn = $(this).parent().find('.upReplyBtn'); // 해당 댓글수정버튼
-       			let delReplyBtn = $(this).parent().find('.delReplyBtn'); // 해당 댓글삭제버튼
+				let rgroupNo = $(this).parent().data('rgroup'); // 해당 댓글그룹
 				
+				let replyContent = $(this).parent().parent().find('.content') // 해당 댓글 내용 요소
+       			let delReplyBtn = $(this); // 해당 댓글삭제버튼
+       			
         		if(confirm("댓글을 삭제하시겠습니까?")){
         			$.ajax({
         				url : 'deleteReply.gr',
         				data : {
-        					replyNo : replyNo
+        					replyNo : replyNo,
+        					rgroup : rgroupNo
         				},
         				success : function(result){
         					if(result == 'deleteReply'){ // 답변 없는 댓글일 경우 => 댓글 삭제 (STATUS='N')
         						$('#replyNo' + replyNo).remove(); // 해당 답변 지우기
         					}
         					else if(result == 'deleteContent'){ // 답변 달린 댓글일 경우 => 댓글 내용 삭제
-        						replyContent.html('삭제된 댓글입니다');
+        						replyContent.html('삭제된 댓글입니다'); // 해당 댓글 내용 변경
         						upReplyBtn.attr('style', 'display:none;'); // 해당 댓글수정버튼 숨기기
         						delReplyBtn.attr('style', 'display:none;'); // 해당 댓글삭제버튼 숨기기
         					}
+        					else { // "deleteTwoReply" : 삭제된 댓글의 마지막 답변일 경우 => 댓글+답글 삭제
+        						$('#reply-groupNo'+rgroupNo).remove(); // 해당 댓글그룹 삭제
+        					}
+        					checkCountReply(rboardNo); // 댓글 개수 변경
         				},
         				error : function(){
         					console.log('에러');
@@ -430,6 +436,24 @@
         			});
     			}
 			});
+       		
+        	// ajax 댓글 개수 가져오기
+    		function checkCountReply(rboardNo){
+    			$.ajax({
+    				url : 'countReply.gr',
+    				method : 'POST',
+    				data : {
+    					boardNo : rboardNo
+    				},
+    				success : function(count){
+    					$('.commentCount'+rboardNo).html(count);
+    				},
+    				error : function(){
+    					console.log('에러');
+    				}
+    			});
+    		}
+        	
         	
         	
       </script>

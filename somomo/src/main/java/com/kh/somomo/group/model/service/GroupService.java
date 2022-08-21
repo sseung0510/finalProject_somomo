@@ -112,6 +112,17 @@ public interface GroupService {
 
 	// 댓글 내용 삭제 (답글 존재하는 댓글일 경우)
 	int deleteReply(int replyNo);
+	
+	// 삭제된 댓글에 달린 답글이며, 답글이 마지막 남은 1개인 경우인지 확인
+	boolean isSingleRereplyNdeleteReply(int rgroup);
+
+	// 댓글 + 답글 삭제
+	int deleteTwoReply(int rgroup);
+	
+	// 댓글 개수 확인
+	int countReply(int boardNo);
+	
+	
 	// 캘린더 이벤트 추가 
 	
 	int insertCalendarEvent(CalendarPlan gp);
