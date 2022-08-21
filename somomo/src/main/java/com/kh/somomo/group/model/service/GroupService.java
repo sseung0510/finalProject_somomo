@@ -39,14 +39,8 @@ public interface GroupService {
 	
 	// ----- 그룹방 만들기 할때 필요한 메소드 ----- //
 	//그룹방 추가
-	int insertGroup(GroupRoom gr);
-	
-	//그룹방 방장 추가
-	int insertRoomAdmin(GroupMember gm);
-	
-	//그룹방 캘린더 추가
-	int insertCalendar();
-	
+	int insertGroup(GroupRoom gr, GroupMember gm);
+		
 	// 그룹방 번호 가져오기
 	int getGroupNo();
 	

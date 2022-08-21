@@ -629,35 +629,6 @@ body.dark .close:focus {
         position: fixed;
      }
 
-     .main-content .main-feed {
-        margin: 0px;
-        position: relative;
-        min-height: 100vh;
-        width: 100%;
-        padding-top: 70px;
-        transition: var(--tran-05);
-        z-index: 5;
-    }
-    
-
-    nav.close~ .main-content .top .search-box {
-        position: relative;
-        height: 45px;
-        max-width: 800px;
-        width: 100%;
-        margin: 0 30px;
-        display: none;
-    }
-
- 
-
-
-    nav.close ~ .main-content .main-feed {
-        width: 95%;
-        margin-left: 0%;
-        display: none;
-    }
-
     .right-sidebar {
         display: none;
     }

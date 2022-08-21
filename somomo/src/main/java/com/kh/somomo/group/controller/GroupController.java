@@ -124,22 +124,20 @@ public class GroupController {
 	@RequestMapping("insert.gr")
 	public String insertGroup(GroupRoom gr, GroupMember gm, MultipartFile upfile, Model model, HttpSession session){
 		
-		// 사용자가 자기 사진을 추가
-		// 기존의 profileImg에 등록된 사진을 변경해준다. 
-		// => 사용자가 그룹방 메인 사진을 따로 추가 하지 않을 경우, 서버에서 임의로 제공하는 사진의 경로가 gr.groupImg에 들어가 있음
+//		// 사용자가 자기 사진을 추가
+//		// 기존의 profileImg에 등록된 사진을 변경해준다. 
+//		// => 사용자가 그룹방 메인 사진을 따로 추가 하지 않을 경우, 서버에서 임의로 제공하는 사진의 경로가 gr.groupImg에 들어가 있음
 		if(!upfile.getOriginalFilename().equals("")) {
 			HashMap<String, String> map = saveFile(upfile, session, "img/group/userGroupImg");
 			
 			gr.setGroupImg(map.get("changeName"));	
 		}
 		
-		int result = groupService.insertGroup(gr);   // GROUP_ROOM
-		int result2 = groupService.insertRoomAdmin(gm); // GROUP_MEMBEr
-		int result3 = groupService.insertCalendar(); // GROUP_CALENDAR
+		int result = groupService.insertGroup(gr, gm);
 		
 		int groupNo = groupService.getGroupNo();     // 상세페이지로 이동하기위해 식별값인 groupNo를 조회해서 가져옴
 		
-		if(result*result2*result3 > 0) {
+		if(result > 0) {
 			return "redirect:detail.gr?gno=" + groupNo; // 쿼리스트링으로 전달
 		}else { 
 			model.addAttribute("errorMsg","그룹방 추가 실패");

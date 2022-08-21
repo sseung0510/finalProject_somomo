@@ -1,0 +1,88 @@
+
+/* ======================= 헤더 CSS ==================== */
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    z-index: 99;
+}
+
+header{
+    /* width: 100%; */
+    display: flex;
+    padding: 10px 14px;
+    background-color: var(--white-color);
+}
+
+header .logo-name{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+header .logo-image{
+    display: flex;
+    justify-content: center;
+    min-width: 45px;
+}
+header .logo-image img{
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+header .logo-name .logo_name{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-left: 14px;
+}
+
+.top{
+    margin-left: 130px;
+    width: 500px;
+}
+
+.search-box{
+    position: relative;
+    height: 45px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 30px;
+    
+}
+.search-box input{
+    position: absolute;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    padding: 0 25px 0 50px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 400;
+    outline: none;
+}
+.search-box i{
+    position: absolute;
+    left: 15px;
+    font-size: 22px;
+    z-index: 10;
+    top: 14%;
+    color: var(--black-light-color);
+}
+
+.menu-list{
+    display: flex;
+    position: relative;
+    left: 100px;
+    align-items: center;
+}
+
+.menu-list i{
+    font-size: 30px;
+    margin: 0 15px;
+}

@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.1.9">
+	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.2.0">
 	<link rel="stylesheet" href="resources/css/default.css?ver=1.0.0">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -19,6 +19,8 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.2">
 	<title>Insert title here</title>
 </head>
 <body>
@@ -91,8 +93,9 @@
 			
 			//스크롤 할 때마다 호출되는 함수
 			$(window).on('scroll', function(){
-				
+
                 if(${pi.maxPage eq 0}){
+					console.log('마지막 페이지');
                     return; // 등록된 게시글이 없을 경우 종류
                 }
 
@@ -109,6 +112,8 @@
 				if(isBottom){
 
 					if(currentPage == ${pi.maxPage}){
+
+						console.log("마지막임!!");
 						return; //마지막 페이지라면 끝
 					}
 					
@@ -153,75 +158,10 @@
             
             console.log(cno); // 1,2,3,4
 
-            location.href = "test?cno=" + cno;
+            location.href = "groupRoom.gr?cno=" + cno;
             
         })
         
-    </script>
-    
-    
-    <script>
-        // 그룹타입을 식별해서 가입 모달창을 열어주거나 / 바로 가입진행 시켜줌
-        $(document).on('click', '.apply', function(){
-            
-            // 공개 : 바로 가입완료
-            // 그룹명 공개 : 가입신청서 작성
-            // 비공개는 보이지 않음 => 방장이 초대 코드를 보내서 가입 할 수 있음 
-            
-            // 필요 변수 세팅
-            const groupType = $(this).siblings().val();
-            const $groupNo = $(this).parents('.group-foot').siblings('.group-main').children('.groupNo').val();
-            const $userId = "${loginUser.userId}";
-            const groupTitle = $(this).parents('.group-foot').siblings('.group-main').children('.group-body').children('h4').text();
-            const question = $(this).parents('.group-foot').siblings('.group-main').children('.question').val();
-            
-            const modal = $('#applyModal');
-
-            console.log(groupTitle);
-
-            if(groupType == "A"){
-                // ajax를 사용해서 현재 로그인된 회원 해당 그룹방에 멤버로 추가
-                $.ajax({
-                    url : 'join.gr',
-                    method : 'POST',
-                    data : {
-                        userId : $userId,
-                        groupNo : $groupNo
-                    },
-                    success : function(result){
-                        if(result == "success"){
-                            alert("가입 완료했습니다.");
-                            location.reload(true);
-                        }
-                        else{
-                            alert("정원 초과 되어 가입에 실패하였습니다");
-                            location.reload(true);
-                        }
-                    },
-                    error : function(){
-                        console.log("통신실패");
-                    }
-                })
-            }
-            else{
-                modal.fadeIn(300);                                          // 가입 모달 열기
-                $('body').css({'overflow' : 'hidden', 'height' : '100%'});  // 모달 열리면 뒷배경 스크롤 안되게
-
-                $('.md-groupNo').val($groupNo);                             // 그룹넘버: 
-                $('.md-userId').val($userId);                               // 로그인한 회원의 아이디 : 자주 사용해서 그냥 상수로 뺐습니다
-                $('.md-groupType').val(groupType);                          // 그룹타입: 사실상 무조건 B
-                $('.header-title__groupName').text(groupTitle);
-                $('.header-title__question').html(question);
-
-                // 취소버튼 눌렀을때 모달 창 닫아주기
-                $('.close').click(function(){
-                    modal.fadeOut(300);                                     // 모달 닫기
-                    $('body').css({'overflow':'auto'});
-                    $('.greeting').val('');                                 // 모달 닫히면 다시 스크롤 가능하게 !필수임
-                })
-            }
-            
-        })  
     </script>
 
 	<script>

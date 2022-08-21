@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
    	<link rel="stylesheet" href="resources/css/login.css?ver=1.1.4">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
 <title>로그인</title>
 </head>
 <body>

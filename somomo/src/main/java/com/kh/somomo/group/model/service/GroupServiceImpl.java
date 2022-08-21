@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
@@ -63,18 +64,13 @@ public class GroupServiceImpl implements GroupService{
 	}
 	
 	@Override
-	public int insertGroup(GroupRoom gr) {
-		return groupDao.insertGroup(sqlSession, gr);
-	}
-	
-	@Override
-	public int insertRoomAdmin(GroupMember gm) {
-		return groupDao.insertRoomAdmin(sqlSession, gm);
-	}
-	
-	@Override
-	public int insertCalendar() {
-		return groupDao.insertCalendar(sqlSession);
+	@Transactional
+	public int insertGroup(GroupRoom gr, GroupMember gm) {
+		
+		int result1 = groupDao.insertGroup(sqlSession, gr);
+		int result2 = groupDao.insertRoomAdmin(sqlSession, gm);
+		int result3 = groupDao.insertCalendar(sqlSession);
+		return result1*result2*result3;
 	}
 	
 	@Override
