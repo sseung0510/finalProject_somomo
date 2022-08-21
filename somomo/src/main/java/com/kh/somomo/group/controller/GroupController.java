@@ -548,25 +548,37 @@ public class GroupController {
         return jsonArray;
 	}
 	
+	// 그룹방 멤버
+	@RequestMapping("member.gr")
+	public ModelAndView memberList(ModelAndView mv) {
+		
+		mv
+//		  .addObject("g", groupService.selectGroup(groupNo))
+//		  .addObject("mList", groupService.selectMemberList(groupNo))
+//		  .addObject("aCount", groupService.countApplication(groupNo))
+		  .setViewName("group/groupSetting");
+		
+		return mv;
+	}
 	
 	//////////////////////////////// 
 	public boolean checkDefaultImg(HttpSession session, String originFile) {
 			
-			String IMG_DRIECTORY = session.getServletContext().getRealPath("/resources/img/group/defaultGroupImg");
-			
-			String checkImg = originFile.substring(36);
-			
-			File dir = new File(IMG_DRIECTORY);
-			
-			String[] defaultImgs = dir.list();
-			
-			for(String img : defaultImgs) {
-				if (img.equals(checkImg)) {
-					return true;
-				}
+		String IMG_DRIECTORY = session.getServletContext().getRealPath("/resources/img/group/defaultGroupImg");
+		
+		String checkImg = originFile.substring(36);
+		
+		File dir = new File(IMG_DRIECTORY);
+		
+		String[] defaultImgs = dir.list();
+		
+		for(String img : defaultImgs) {
+			if (img.equals(checkImg)) {
+				return true;
 			}
-			return false;
 		}
+		return false;
+	}
 	
 }
 

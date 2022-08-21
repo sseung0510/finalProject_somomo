@@ -68,7 +68,7 @@
 								<span class="label">그룹 이름 및 커버</span>
 							</div>
 							<div class="itemSide">
-								<a onclick="postForm(1);">
+								<a onclick="settingForm(1);">
 									변경
 								</a>
 							</div>
@@ -108,7 +108,7 @@
 								<span class="label">그룹 삭제</span>
 							</div>
 							<div class="itemSide delete">
-								<a onclick="postForm(2);">
+								<a onclick="settingForm(2);">
 									그룹 삭제
 								</a>
 							</div>
@@ -208,7 +208,7 @@
     </div>
     
     <!-- 세팅페이지에서 각각의 POST요청을 처리해주는 form태그와 script -->
-    <form id="postForm" method="post">
+    <form id="settingForm" method="post">
 		<input type="hidden" value="${g.groupNo}" name="groupNo"/>
     </form>	
     
@@ -352,15 +352,15 @@
 	
 
     <script>
-		function postForm(num){
+		function settingForm(num){
 			switch(num){
-				case 1: $('#postForm').attr('action', 'updateForm.gr').submit();
+				case 1: $('#settingForm').attr('action', 'updateForm.gr').submit();
 				break;
 				case 2:
 					const warning = confirm("주의!! 정말 그룹을 삭제하시겠습니까? 모든 피드와 기록들이 사라지고 되돌릴 수  없습니다.");
 
 					if(warning){
-						$('#postForm').attr('action', 'delete.gr').submit();
+						$('#settingForm').attr('action', 'delete.gr').submit();
 					}
 
 				break;

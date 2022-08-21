@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.2.7">
+	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.3.1">
 	<link rel="stylesheet" href="resources/css/default.css?ver=1.0.0">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -20,7 +20,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.2">
+	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.3">
 	<title>Insert title here</title>
 </head>
 <body>
@@ -35,7 +35,7 @@
 			<div class="tag-group">
 				<ul class="tag-body">
 					<c:forEach var="gc" items="${cList}">
-					<li class="category-list" value="${gc.categoryNo}">${gc.categoryName}</li>
+					<li class="category-list tag-${gc.categoryNo}" value="${gc.categoryNo}">${gc.categoryName}</li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -70,7 +70,7 @@
                 </div>
             </div>
         </div>
-	
+
 	</section>
 	
 	<div class="right-sidebar">
@@ -306,16 +306,9 @@
 
 	<script>
 		// 동적으로 생성된 리스트 목록을 클릭하면 해당 상세 페이지로 이동
-		$(document).on('click', '.group-main', function(){
-			location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
-		})
-		$(document).on('click', '.enter-group', function(){
-			location.href = "detail.gr?gno=" + $(this).siblings().eq(0).val();
-		})
-
-		// 목록에 나오는 리스트 누르면 해당 그룹방으로 갈 수 있음
-		$('.nav-group-list').click(function(){
-			location.href = "detail.gr?gno=" + $(this).children().eq(0).val();
+		$(document).on('click', '.group-main, .enter-group, .group-list li', function(){
+			const gno = $(this).data('gno');
+			location.href = "detail.gr?gno=" + gno;
 		})
 	</script>
 
@@ -324,13 +317,7 @@
 	<script>
 		// nav에 .close가 붙으면 myGroup Text변환
 		$('.sidebar-toggle').click(function(){
-			if($('nav').hasClass('close')){
-				$('.m1').html('<i class="fa-solid fa-user-group"></i>');
-				$('.m2').html('<i class="fa-solid fa-crown"></i>');
-			}else{
-				$('.m1').html("관리중인 그룹");
-				$('.m2').html("가입한 그룹");
-			}
+			
 		})
 	</script>
 

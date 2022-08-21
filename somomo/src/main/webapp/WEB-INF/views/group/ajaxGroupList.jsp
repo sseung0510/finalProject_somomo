@@ -11,15 +11,14 @@
     <c:otherwise>
         <c:forEach var="g" items="${gList}">
             <div class="group">
-                <div class="group-main">
-                    
+                <div data-gno="${g.groupNo}" class="group-main">
                     <input type="hidden" class="groupNo" value="${g.groupNo}">
                     <input type="hidden" class="question" value="${fn:replace(g.applyQuestion, newLine, '<br/>')}">
                     <div class="group-header">
                         <img src="${g.groupImg}" alt="" />
                     </div>
                     <div class="group-body">
-                        <span class="tag tag-development">${g.categoryName}</span>
+                        <span class="tag tag-${g.categoryNo}">${g.categoryName}</span>
                         <h4>${g.groupName}</h4>
                         <div class="group-info">
                             <span class="group-member">멤버 ${g.memberCount}명</span>
@@ -31,8 +30,7 @@
                     <c:choose>
                         <c:when test="${g.myGroup eq 'Y'}">
                             <div class="group-btn">
-                                <input type="hidden" value="${g.groupNo}">
-                                <button class="enter-group">그룹 방문</button>
+                                <button data-gno="${g.groupNo}" class="enter-group">그룹 방문</button>
                             </div>
                         </c:when>
                         <c:when test="${g.applying eq 'A'}">

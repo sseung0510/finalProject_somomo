@@ -57,7 +57,7 @@
 		
 		<c:forEach var="mg" items="${myGroupList}">
 			<script>
-                var result = '<li>'
+                var result = '<li data-gno="${mg.groupNo}">'
 							+	'<div class="nav-group-list">'
 							+		'<div class="img-div">'
 							+			'<img src="${mg.groupImg}" alt="" >'

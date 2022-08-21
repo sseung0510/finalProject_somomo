@@ -159,7 +159,7 @@ nav.close li a .link-name{
 }
 
 .group-list{
-    max-height: 120px;
+    max-height: 135px;
     min-height: 120px;
     overflow: scroll;
 }
@@ -215,6 +215,10 @@ nav.close li a .link-name{
     padding-top: 10px;
 }
 
+.group-list li:hover{
+    cursor: pointer;
+}
+
 
 /* ================================ 왼쪽 사이드 바 끝 ===================== */
 
@@ -246,9 +250,13 @@ nav.close ~ .main-content{
 }
 
 .tag-group{
+    position: sticky;
+    top: 65px;
     margin-left: 5px;
     width: 100%;
-    height: 40px;
+    height: 50px;
+    background-color: white;
+    margin-bottom: 40px;
 }
   
 .tag-body {
@@ -282,6 +290,7 @@ nav.close ~ .main-content{
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    padding: 20px 0 0 20px;
 }
 .group {
     margin: 10px;
@@ -316,13 +325,13 @@ nav.close ~ .main-content{
     text-transform: uppercase;
     cursor: pointer;
   }
-  .tag-development {
+  .tag-1 {
     background-color: #47bcd4;
   }
-  .tag-trip {
+  .tag-2 {
     background-color: #5e76bf;
   }
-  .tag-exercise {
+  .tag-3 {
     background-color: #cd5b9f;
   }
 

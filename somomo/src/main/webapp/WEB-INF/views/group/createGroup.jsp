@@ -97,32 +97,9 @@
                                 <span class="msg"></span>
                             </div>
                         </div>
+    
+                        <br>
 
-                        <!-- <div class="category-sheet">
-                            <div class="container">
-                                <label for="regionNo">지역 선택</label>
-                                <div class="dropdown">
-                                    <select name="regionNo" id="regionNo">
-                                        <c:forEach var="r" items="${rList}">
-                                            <option value="${r.regionNo}">${r.regionName}</option>
-                                        </c:forEach>    
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="container">
-                                <label for="categoryNo">그룹 카테고리</label>
-                                <div class="dropdown">
-                                    <select name="categoryNo" id="categoryNo">
-                                        <c:forEach var="c" items="${cList}">
-                                            <option value="${c.categoryNo}">${c.categoryName}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                        </div> -->
-    
-                        <br><br>
-    
                         <div class="groupName-sheet">
                             <label for="">GROUP</label><br>
                             <input id="groupName" name="groupName" required type="text" placeholder="그룹명을 입력하세요">
@@ -230,7 +207,6 @@
                         </div>
     
                         <div class="button-area">
-                            <button type="button" onclick="test();">테스트</button>
                             <button type="reset">취소</button>
                             <button class="" type="submit" onclick="setDefaultImg()">완료</button>
                         </div>
