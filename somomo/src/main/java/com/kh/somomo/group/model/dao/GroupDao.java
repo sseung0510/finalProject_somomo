@@ -189,5 +189,20 @@ public class GroupDao {
 		return sqlSession.update("groupMapper.deleteReplyContent", replyNo);
 	}
 	
+	public int countReplyNrereply(SqlSessionTemplate sqlSession, int rgroup) {
+		return sqlSession.selectOne("groupMapper.countReplyNrereply", rgroup);
+	}
 
+	public int checkDeletedReply(SqlSessionTemplate sqlSession, int rgroup) {
+		return sqlSession.selectOne("groupMapper.checkDeletedReply", rgroup);
+	}
+	
+	public int deleteTwoReply(SqlSessionTemplate sqlSession, int rgroup) {
+		return sqlSession.update("groupMapper.deleteTwoReply", rgroup);
+	}
+	
+	public int countReply(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("groupMapper.countReply", boardNo);
+	}
+	
 }
