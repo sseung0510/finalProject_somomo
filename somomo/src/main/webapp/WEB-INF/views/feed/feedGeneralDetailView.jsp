@@ -37,6 +37,7 @@
 	}
 
 	.next {
+	  right: 0px;
 	  border-radius: 3px 0 0 3px;
 	}
 	
