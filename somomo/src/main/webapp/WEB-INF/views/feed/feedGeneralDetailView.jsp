@@ -450,6 +450,7 @@
         					else { // "deleteTwoReply" : 삭제된 댓글의 마지막 답변일 경우 => 댓글+답글 삭제
         						$('#reply-groupNo'+rgroupNo).remove(); // 해당 댓글그룹 삭제
         					}
+        					$('#inputArea' + rgroupNo).remove(); // 답변창 숨기기
         					checkCountReply(); // 댓글 개수 변경
         				},
         				error : function(){
