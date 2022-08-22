@@ -224,6 +224,17 @@ top: 3px;
 
 /* ================== 게시글 CSS ================= */
 
+.feed-outer{
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 10px rgb(0 0 0 / 20%);
+}
+
+.feed-top{
+  display: flex;
+  justify-content: space-between;
+}
+
 .feed-profile {
   display: flex;
   align-items: center;
@@ -237,10 +248,7 @@ top: 3px;
   margin-right: 10px;
 }
 
-.feed-profile .form-icon {
-position: absolute;
-right: 30%;
-}
+
 
 .postCount {
 overflow: hidden;
@@ -248,6 +256,7 @@ padding: 15px 0 10px;
 margin-top: 17px;
 display: flex;
 justify-content: space-between;
+align-items: center;
 }
 
 .likeCountBtn img{
@@ -263,10 +272,19 @@ margin-right: 10px;
 font-size: 14px;
 }
 
+.postCountLeft{
+  display: flex;
+  align-items: center;
+}
+
+.postCountRight span{
+  display: flex;
+  align-items: center;
+}
 
 .postCountRight {
-font-size: 20px;
-margin-right: 10px;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
 
@@ -329,6 +347,38 @@ display: flex;
 position: relative;
 vertical-align: top;
 margin-top: 5px;
+}
+
+.reply-input-area{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reply-input-area textarea{
+  padding: 10px;
+  width: 78%;
+  height: 40px;
+  font-size: 13px;
+  border-radius: 20px;
+  border: none;
+  outline: 1px solid var(--border-color);
+  vertical-align: middle;
+  resize: none;
+}
+
+.replyBtn{
+  height: 40px;
+  width: 10%;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(250,188,186);
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .reply-replyBtn {

@@ -18,92 +18,96 @@
         <c:otherwise>
 
             <c:forEach var="gr" items="${grList}">
-                <div class="feed-profile">
-                    <input type="hidden" name="boardNo" value="${gr.boardNo}">
-                        <c:choose>
-                            <c:when test="${gr.profileImg ne null}">
-                                <img src="${gr.profileImg}">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="resources/img/member/profile_img.png">
-                            </c:otherwise>
-                        </c:choose>
-                        <div>
-                        <p>${gr.boardWriter}</p>
-                        <small>${gr.createDate}</small>  
+                <div class="feed-outer">
+                    <div class="feed-top">
+                        <div class="feed-profile">
+                            <input type="hidden" name="boardNo" value="${gr.boardNo}">
+                                <c:choose>
+                                    <c:when test="${gr.profileImg ne null}">
+                                        <img src="${gr.profileImg}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="resources/img/member/profile_img.png">
+                                    </c:otherwise>
+                                </c:choose>
+                            <div>
+                                <p>${gr.boardWriter}</p>
+                                <small>${gr.createDate}</small>  
+                            </div>
                         </div>
                         <div class="form-icon">
-                        <i class='bx bx-dots-vertical-rounded feed'>
-                            <ul class="feed-link">
-                                <li><a href=""> 글 수정</a></li>
-                                <li><a href="">삭제하기</a></li>
-                                <li><a href="">공지로 등록</a></li>
-                            </ul>
-                        </i>
+                            <i class='bx bx-dots-vertical-rounded feed'>
+                                <ul class="feed-link">
+                                    <li><a href=""> 글 수정</a></li>
+                                    <li><a href="">삭제하기</a></li>
+                                    <li><a href="">공지로 등록</a></li>
+                                </ul>
+                            </i>
+                        </div>
+                    </div>
+            
+            <!-- ------게시물 내용---- -->
+                    <div class="feed-content">
+                            <p>${gr.boardContent}</p>
+                            <c:if test="${not empty atList}">
+                                <c:forEach var="at" items="${atList}">
+                                    <c:if test="${at.boardNo eq gr.boardNo}">
+                                        <img src="${at.changeName}" style="width:100%; height:200px;">
+                                    </c:if>
+                                </c:forEach>
+                            </c:if>
+                    </div>
+            
+            <!-- ---좋아요, 댓글 ---- -->
+                    <div class="postCount">
+                        <div class="postCountLeft">
+                            <span class="likeCountBtn"><img src="./resources/img/redheart.png">좋아요
+                                <span class="likeCount${gr.boardNo}">${gr.countLike}</span> <!-- 총 좋아요 개수 -->
+                            </span>
+                            
+            
+                            <span class="commentCountBtn">댓글
+                                <span class="commentCount${gr.boardNo}">${gr.countReply}</span>
+                                <i class="uil uil-angle-up"></i> 
+                            </span>
+                        </div>
+                        <div class="postCountRight">
+                            <c:choose>
+                                    <c:when test="${empty gr.likeCheck}">
+                                        <span class="likeBtn" data-bno="${gr.boardNo}">
+                                            <img class="likeN" src="resources/img/heart-off.png">
+                                        </span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="likeBtn" data-bno="${gr.boardNo}">
+                                            <img class="likeY" src="resources/img/heart-on.png">
+                                        </span>
+                                    </c:otherwise>
+                                </c:choose>
+                        </div>
+                    </div>
+            
+            
+            <!-----댓글------>
+            
+                    <div class="reply-area">
+                        <div class="reply-input-area">
+                            <textarea id="replyContent${gr.boardNo}" placeholder="댓글을 입력해주세요..." rows="1"></textarea>
+                            <span class="replyBtn" data-rno="${gr.boardNo}">작성</span>
+                        </div>
+                            <!-- ajax 댓글 목록 출력 부분 -->
+                            <div class="commentBox">
+                            <div class="commnetWrap${gr.boardNo}">
+                                    
+                                    
+                                    
+                                    
+                            </div>
+                            </div>
+                            
+                            
                     </div>
                 </div>
-        
-        <!-- ------게시물 내용---- -->
-                <div class="feed-content">
-                        <p>${gr.boardContent}</p>
-                        <c:if test="${not empty atList}">
-                            <c:forEach var="at" items="${atList}">
-                                <c:if test="${at.boardNo eq gr.boardNo}">
-                                    <img src="${at.changeName}" style="width:100%; height:200px;">
-                                </c:if>
-                            </c:forEach>
-                        </c:if>
-                </div>
-        
-        <!-- ---좋아요, 댓글 ---- -->
-                <div class="postCount">
-                    <div class="postCountLeft">
-                        <span class="likeCountBtn"><img src="./resources/img/redheart.png">좋아요
-                            <span class="likeCount${gr.boardNo}">${gr.countLike}</span> <!-- 총 좋아요 개수 -->
-                        </span>
-                        
-        
-                        <span class="commentCountBtn">댓글
-                            <span class="commentCount${gr.boardNo}">${gr.countReply}</span>
-                            <i class="uil uil-angle-up"></i> 
-                        </span>
-                    </div>
-                    <div class="postCountRight">
-                        <c:choose>
-                                <c:when test="${empty gr.likeCheck}">
-                                    <span class="likeBtn" data-bno="${gr.boardNo}">
-                                        <img class="likeN" src="resources/img/heart-off.png">
-                                    </span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="likeBtn" data-bno="${gr.boardNo}">
-                                        <img class="likeY" src="resources/img/heart-on.png">
-                                    </span>
-                                </c:otherwise>
-                            </c:choose>
-                    </div>
-                </div>
-        
-        
-        <!-----댓글------>
-        
-        		<div class="reply-area">
-	                <div class="reply-input-area" style="margin-bottom : 10px">
-                        <textarea id="replyContent${gr.boardNo}" placeholder="댓글을 입력해주세요..." rows="1" style="resize: none; width:450px; border : 1px; border-radius : 30px; padding : 10px; vertical-align:middle;"  ></textarea>
-                        <span class="replyBtn" data-rno="${gr.boardNo}" style="font-size: 13px; vertical-align:middle; cursor:pointer; margin-left:20px;">작성</span>
-               	 	</div>
-               	 	<!-- ajax 댓글 목록 출력 부분 -->
-               	 	<div class="commentBox">
-						<div class="commnetWrap${gr.boardNo}">
-								
-								
-								
-								
-						</div>
-               	 	</div>
-               	 	
-               	 	
-				</div>
 				
             </c:forEach>
         </c:otherwise>

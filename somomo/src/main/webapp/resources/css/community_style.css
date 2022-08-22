@@ -159,9 +159,9 @@ nav.close li a .link-name{
 }
 
 .group-list{
-    max-height: 135px;
+    max-height: 120px;
     min-height: 120px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .nav-group-list{

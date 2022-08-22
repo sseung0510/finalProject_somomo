@@ -251,11 +251,6 @@
 
     </div>
     
-    <!-- 세팅페이지에서 각각의 POST요청을 처리해주는 form태그와 script -->
-    <form id="postForm" method="post">
-		<input type="hidden" value="${g.groupNo}" name="groupNo"/>
-    </form>	
-    
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     

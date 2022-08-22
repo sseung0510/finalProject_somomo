@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
 <!-- 그룹방 정보 -->
     <div>
@@ -40,5 +33,13 @@
         </div>
     </div>
 
-</body>
-</html>
+    <!-- 세팅페이지로 넘어감 : 그룹방 번호 숨겨주기 위해 post로 보냈습니다.-->
+    <form id="settingForm" method="post">
+        <input type="hidden" name="groupNo" value="${g.groupNo}">
+    </form>
+    
+    <script>
+        function settingForm(){
+            $('#settingForm').attr('action', 'setting.gr').submit();
+        }
+    </script>

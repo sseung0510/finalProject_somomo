@@ -474,7 +474,7 @@ public class GroupController {
 
 	
 	@RequestMapping("calendar.gr")
-	public String calendarForm(@RequestParam("groupNo") int groupNo, Model model) {	
+	public String calendarForm(@RequestParam("gno") int groupNo, Model model) {	
 		
 		model.addAttribute("c", groupService.selectCalendar(groupNo));
 		model.addAttribute("g", groupService.selectGroup(groupNo));
@@ -550,13 +550,11 @@ public class GroupController {
 	
 	// 그룹방 멤버
 	@RequestMapping("member.gr")
-	public ModelAndView memberList(ModelAndView mv) {
+	public ModelAndView memberList(ModelAndView mv, @RequestParam("gno") int groupNo) {
 		
-		mv
-//		  .addObject("g", groupService.selectGroup(groupNo))
-//		  .addObject("mList", groupService.selectMemberList(groupNo))
-//		  .addObject("aCount", groupService.countApplication(groupNo))
-		  .setViewName("group/groupSetting");
+		mv.addObject("g", groupService.selectGroup(groupNo))
+		  .addObject("mList", groupService.selectMemberList(groupNo))
+		  .setViewName("group/groupMember");
 		
 		return mv;
 	}
