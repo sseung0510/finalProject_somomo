@@ -276,40 +276,48 @@
 							
 							
 							
-								    <div class="grid">
-								      <div class="form-element" onclick="$('#file-1').click();">
-								        <input type="file" name="file1" id="file-1" accept="image/*">
-								        <label for="file-1" id="file-1-preview">
-								          <img src="resources/img/addImage.png" >
-								        </label>
-								      </div>
-								      <div class="form-element">
-								        <input type="file" name="file2" id="file-2" accept="image/*">
-								        <label for="file-2" id="file-2-preview">
-								          <img src="resources/img/addImage.png" >
-								        </label>
-								      </div>
-								      <div class="form-element">
-								        <input type="file" name="file3"  id="file-3" accept="image/*">
-								        <label for="file-3" id="file-3-preview">
-								          <img src="resources/img/addImage.png" >
-								        </label>
-								      </div>
-								      <div class="form-element">
-								        <input type="file" name="file4" id="file-4" accept="image/*">
-								        <label for="file-4" id="file-4-preview">
-								          <img src="resources/img/addImage.png" >
-								        </label>
-								      </div>
-								    </div>
+								    <div class="grid" >
+								    	<div class="form-wrap">
+									      <div class="form-element">
+									      	
+									        <input type="file" name="file1" id="file-1" accept="image/*">
+									        <label for="file-1" id="file-1-preview">
+									          <img id="preview" src="resources/img/addImage.png" >
+									        </label>
+									      </div>
+									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									   </div>
+									   <div class="form-wrap">
+									      <div class="form-element">
+									     	
+									        <input type="file" name="file2" id="file-2" accept="image/*">
+									        <label for="file-2" id="file-2-preview">
+									          <img id="preview" src="resources/img/addImage.png" >
+									        </label>
+									      </div>
+									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									   </div>
+									   <div class="form-wrap">
+									      <div class="form-element">
+									        <input type="file" name="file3"  id="file-3" accept="image/*">
+									        <label for="file-3" id="file-3-preview">
+									          <img id="preview" src="resources/img/addImage.png" >
+									        </label>
+									      </div>
+									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									   </div>
+									   <div class="form-wrap">
+									      <div class="form-element">
+									        <input type="file" name="file4" id="file-4" accept="image/*">
+									        <label for="file-4" id="file-4-preview">
+									          <img id="preview" src="resources/img/addImage.png" >
+									        </label>
+									     </div>
+									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+									    </div>
 								
 									</div>
-									<div class="delete-image">
-									<div class="reset" onclick="fileReset(1);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									<div onclick="fileReset(2);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									<div onclick="fileReset(3);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									<div onclick="fileReset(4);"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									</div>
+								
 							<!-- 
 								<input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
 								<input type="file" name="file2" id="file2"><input type="button" value="파일 삭제" onclick="fileReset(2);">
@@ -432,30 +440,36 @@
            		
            	});
            	
-           	<!-- 2022 08 20 사진 추가 JS-->
+           	// 2022 08 21 사진 추가 JS
+           
+           	// 삭제버튼 Default OFF
            	
-           	function previewBeforeUpload(id){
-           	  document.querySelector("#"+id).addEventListener("change",function(e){
-           	    if(e.target.files.length == 0){
-           	      return;
-           	    }
-           	    let file = e.target.files[0];
-           	    let url = URL.createObjectURL(file);
-           	    document.querySelector("#"+id+"-preview img").src = url;
-           	  });
+           	var fileInputList = $("input[type=file]")
+           	var imageList = $("img#preview");
+           	var remBtnList = $("div.imageRemoveBtn");
+           	for(let i=0; i<fileInputList.length; i++){
+           		fileInputList.eq(i).on("change", function(e){
+					if(e.target.files.length == 0){
+						return;
+					}
+					let file = e.target.files[0];
+					let url = URL.createObjectURL(file);
+					imageList.eq(i).attr("src", url)
+					
+					
+					// 삭제버튼 ON
+					remBtnList.eq(i).addClass("on")					
+				});
+           		
+           		remBtnList.eq(i).on("click", ()=>{
+           			remBtnList.eq(i).removeClass("on")
+           			imageList.eq(i)[0].src = 'resources/img/addImage.png';
+           			fileInputList.eq(i).val('');
+           		})
            	}
 
-           	previewBeforeUpload("file-1");
-           	previewBeforeUpload("file-2");
-           	previewBeforeUpload("file-3");
-           	previewBeforeUpload("file-4");
-           	
-           	
-           	
-           	function fileReset(num){
-				$('#file-'+num).val('');
-				document.querySelector("#file-"+num+"-preview img").src = 'resources/img/addImage.png';
-			}
+          
+           
            	
            	
 		</script>

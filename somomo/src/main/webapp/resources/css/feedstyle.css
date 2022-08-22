@@ -726,13 +726,32 @@ nav.close ~ .main-content .main-feed{
     display: flex;
     text-align: center;
     gap: 20px;
-    justify-content: space-around;
-    
+  
+}
+.imageRemoveBtn{
+	display:none;
+	width: 100%;
+    margin: 10px 0;
+    text-align: center;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition : 0.5s
+}
+.imageRemoveBtn.on{
+	display : block;	
 }
 
-	.delete-image div{
-	cursor : pointer;	
+.imageRemoveBtn.on i {
+	color : red;
 }
+
+.form-wrap {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 			
 	
 

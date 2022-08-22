@@ -15,7 +15,7 @@
 		position : relative;
 	}
 	.fade:not(.show) {
-    opacity: 1!important;
+    opacity: 0;
 	}
 	.slides {
 	  display: none;
@@ -68,7 +68,7 @@
 	}
 	
 	
-	@keyframes fade {
+	@keyframes fade-1 {
 	  0% {
 	    opacity: 0;
 	
@@ -80,13 +80,13 @@
 	}
 	
 	
-	.fade {
+	.fade-1 {
 	 
-	  animation-name: fade;
+	  animation-name: fade-1;
 	  animation-duration: 1.5s;
 	}
 	
-	.fade img{
+	.fade-1 img{
 	  height : 400px;
 	}
 	
@@ -179,7 +179,7 @@
 							<p id="content">${fn:replace(fb.boardContent, newLine, '<br/>')}</p>
 							<c:if test="${not empty fatList}">
 								<c:forEach var="fat" items="${fatList}">
-									<div class="slide fade">
+									<div class="slide fade-1">
 										<img src="${fat.changeName}" style="width:100%">
 									</div>	
 								</c:forEach>
