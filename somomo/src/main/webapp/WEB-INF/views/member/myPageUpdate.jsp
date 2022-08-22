@@ -161,10 +161,10 @@
 						</tr>
 						<tr>
 							<td colspan="2" >
-								<div>* 닉네임</div>
+								<span>* 닉네임</span>
+								<span id="nickNameResult" class="colorSubmit" style="font-size:12px">2글자 이상인 닉네임을 입력해주세요</span>
 								<input type="text" class="checkNick" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" style="width:270px;"required>
 								<input type="button" id="checkNick" value="중복확인" onclick="nickCheck();"> <br>
-								<div id="nickNameResult" class="colorSubmit" style="font-size:12px">2글자 이상인 닉네임을 입력해주세요</div>
 							</td>
 						</tr>
 						<tr>
@@ -188,7 +188,7 @@
 						</tr>
 						</c:if>
 					</table>
-					<button id="updateBtn">정보 수정</button>
+					<button id="updateBtn" disabled>정보 수정</button>
 				</form>
 	        </div>
         </div>
@@ -251,6 +251,7 @@
 					else{ // 사용가능
 						$('#nickNameResult').show();
 						$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
+						$('#updateBtn').removeAttr("disabled");
 						O5 = result;
 					}
 				}, error : function(){
@@ -267,6 +268,12 @@
 				alert("비밀번호가 틀렸습니다. 다시 확인해주세요.");
 			}, 100);
 		}
+		if(msg==='정보변경이 완료됐습니다.'){
+			setTimeout(function() {
+				alert("정보변경이 완료됐습니다.");
+			}, 100);
+		}
+			
 			
 	</script>
 	

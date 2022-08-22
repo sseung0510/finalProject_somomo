@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-   	<link rel="stylesheet" href="resources/css/login.css?ver=1.1.4">
+   	<link rel="stylesheet" href="resources/css/login.css?ver=1.1.5">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
 <title>로그인</title>
@@ -27,10 +28,11 @@
                             
                         <form action="login.me" method="post">
                             <div class="normalLogin">
-                                    <input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="userId" required>
-                                    <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" required>
-                                    <button class="loginBtn">로그인</button>
+                                <input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="userId" required>
+                                <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" required>
+                                <button class="loginBtn">로그인</button>
                             </div>
+                            <input type="checkbox" name="saveId" id="rememberId"> <label id="memberId">아이디 저장</label>
                         </form>
                         
                         <div class="vertical-line">
@@ -72,7 +74,6 @@
                 <li>조한울</li>
                 <li>최승희</li>
             </ul>
-            <span>이름은 지워도 됨요 ^.^</span>
         </aside>
     </div>
     
@@ -97,6 +98,59 @@
 					alert("가입되지 않은 회원이거나 탈퇴한 회원입니다.");
 				}, 100);
 			}
+		  
+		  
+	        /*쿠키값저장코드*/   
+	        function setCookie(cookieName, value, exdays){
+	            var exdate = new Date();
+	            exdate.setDate(exdate.getDate() + exdays);
+	            var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	            document.cookie = cookieName + "=" + cookieValue;
+	        }
+	        // 쿠키값 삭제
+	        function deleteCookie(cookieName){
+	            var expireDate = new Date();
+	            expireDate.setDate(expireDate.getDate() - 1);
+	            document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	        }
+	        // 쿠키값 가져오기
+	        function getCookie(cookieName) {
+	            cookieName = cookieName + '=';
+	            var cookieData = document.cookie;
+	            var start = cookieData.indexOf(cookieName);
+	            var cookieValue = '';
+	            if(start != -1){
+	                start += cookieName.length;
+	                var end = cookieData.indexOf(';', start);
+	                if(end == -1)end = cookieData.length;
+	                cookieValue = cookieData.substring(start, end);
+	            }
+	            return unescape(cookieValue);
+	        }
+
+	        var userId = getCookie("userId"); // 저장된 쿠키값 가져오기
+	        $("input[name='userId']").val(userId); // 저장된 쿠키값을 가져와서 input 태그에 넣어준다.
+	        
+	        if($("input[name='userId']").val() != ""){ // 페이지를 로드했을때 아이디 입력창이 비어있지 않으면
+	            $("#rememberId").attr("checked", true); // 체크박스를 체크된 상태로 두기
+	        }
+	        
+	        $("#rememberId").change(function(){ // 체크박스에 변화가 있다면 (체크 / 체크해지)
+	            if($("#rememberId").is(":checked")){ // 체크박스가 체크되면
+	                var userId = $("input[name='userId']").val(); // userId 변수에 입력값을 넣고
+	                setCookie("userId", userId, 7); // 그 입력값을 7일동안 쿠키 보관
+	            }else{ 
+	                deleteCookie("userId"); // 체크해지시 쿠키삭제
+	            }
+	        });
+	        
+	        $("input[name='userId']").keyup(function(){ // 아이디를 입력할 때
+	            if($("#rememberId").is(":checked")){ // 체크박스가 체크되어있으면
+	                var userId = $("input[name='userId']").val(); // 입력값을 
+	                setCookie("userId", userId, 7); // 7일동안 보관
+	            }
+	        });
+
 	</script>
 </body>
 </html>

@@ -8,7 +8,9 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ public class MemberController {
 	
 	@Autowired
 	private JavaMailSender sender;
+	
 	
 	// 로그인
 	@RequestMapping("login.me")
@@ -140,7 +143,8 @@ public class MemberController {
 			int result = memberService.updateMember(m); //정보수정이 성공하면 result == 1
 			if(result>0) {// 업데이트에 성공했을 경우
 				session.setAttribute("loginUser", memberService.loginMember(m));
-				return "member/myPageUpdate";
+				rttr.addFlashAttribute("alertMsg", "정보변경이 완료됐습니다.");
+				return "redirect:updateInfo.me";
 			}else {
 				return "member/login";
 			}
@@ -163,7 +167,8 @@ public class MemberController {
 				int result = memberService.updateMember(m); //정보수정이 성공하면 result == 1
 				if(result>0) {  // 업데이트에 성공했을 경우
 					session.setAttribute("loginUser", memberService.loginMember(m));
-					return "member/myPageUpdate";
+					rttr.addFlashAttribute("alertMsg", "정보변경이 완료됐습니다.");
+					return "redirect:updateInfo.me";
 				}else {
 					return "member/login";
 				}
@@ -188,12 +193,10 @@ public class MemberController {
 		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
 		if(bcryptPasswordEncoder.matches(oldUserPwd, encPwd)) {
 			int result = memberService.oldUserPwd(m);
-			System.out.println(result);
 			if(result>0) {
 				String encPwd1 = bcryptPasswordEncoder.encode(m.getUserPwd());
 				m.setUserPwd(encPwd1);
 				int result1 = memberService.updatePwd(m);
-				System.out.println(m);
 			}
 			return "member/login";
 		}else {

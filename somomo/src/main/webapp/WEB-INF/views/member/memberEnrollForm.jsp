@@ -101,7 +101,6 @@
         <div class="logo-image">
             <img src="${pageContext.request.contextPath}/resources/img/web_logo.jpg" alt="peach">
         </div>
-
         <span class="logo_name">SoMoMo</span>
     </div>
 	
@@ -172,12 +171,11 @@
 			</tr>
 			
 		</table>
- 
+		
 		<div class="btns" align="center">
 			<button type="submit" class="enrollSubmit" onclick="enroll()">회원가입</button>
 			<button type="reset">초기화</button>
 		</div>
- 
 	</form>
             
 	</div>

@@ -68,7 +68,7 @@ ul{
     flex-direction: column;
     align-items: center;
     margin-top: 10px;
-    margin-bottom: 32px;
+    margin-bottom: 10px;
 }
 
 .normalLogin input{
@@ -89,6 +89,7 @@ ul{
     cursor: pointer;
     width: 80%;
     border-radius: 5px;
+    margin-bottom:0%:
 }
 
 .vertical-line{
@@ -146,7 +147,12 @@ ul{
 .content-col:last-child{
     padding: 40px;
 }
-
+#rememberId{
+	margin-left:35px;
+}
+#memberId{
+	font-size:12.8px;
+}
 /********** aside **********/
 aside{
     position: relative;
