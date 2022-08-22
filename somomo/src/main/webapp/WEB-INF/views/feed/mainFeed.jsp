@@ -271,9 +271,6 @@
 							<div class="mdm"><b>내용</b></div>
 							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
 							
-							<div class="mdm file-area">
-							
-							
 							
 							
 								    <div class="grid" >
@@ -444,7 +441,7 @@
            
            	// 삭제버튼 Default OFF
            	
-           	var fileInputList = $("input[type=file]")
+           	var fileInputList = $("input[type=file]");
            	var imageList = $("img#preview");
            	var remBtnList = $("div.imageRemoveBtn");
            	for(let i=0; i<fileInputList.length; i++){
@@ -461,7 +458,7 @@
 					remBtnList.eq(i).addClass("on")					
 				});
            		
-           		remBtnList.eq(i).on("click", ()=>{
+           		remBtnList.eq(i).on("click", function(){
            			remBtnList.eq(i).removeClass("on")
            			imageList.eq(i)[0].src = 'resources/img/addImage.png';
            			fileInputList.eq(i).val('');
