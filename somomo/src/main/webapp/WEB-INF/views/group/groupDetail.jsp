@@ -10,7 +10,7 @@
     
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.6">
-    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.6">
+    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.8">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
     <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.4">
     <!----------- 아이콘 CSS 링크 ------->
@@ -278,14 +278,17 @@
 							result += 	'<div id="replyNo' + list[i].replyNo + '" class="replyWrap re-reply" style="margin-left:35px;">';
 						}
 						// 공통 부분(작성자, 작성일, 프로필사진, 댓글 내용)
-						result +=			'<div class="writeInfo">' + list[i].nickname 
-								+				'<a class="upProfile">'
+						result +=			'<div class="writeInfo">'
+								+ 				'<a class="upProfile">'
 								+					'<span class="upProfileImg">'
 								+						'<img src="' + list[i].profileImg + '">'    
-								+					'</span>'        
+								+					'</span>'
 								+ 				'</a>'
+								+				'<div class="writeInfo-content">'
+								+					'<span>' + list[i].nickname + '</span>'
+								+					'<span>' + list[i].replyContent.replaceAll("\n", "<br/>") + '</span>'		
+								+				'</div>'
 								+			'</div>'
-								+			'<div class="text">' + list[i].replyContent.replaceAll("\n", "<br/>")
 								+				'<div class="twiceComment">'
 								+					'<time class="time" style="margin-left:5px; color:gray;">'+ list[i].replyDate +'</time>'
 								+					'<div class="reply-btn-area" data-reply_no="' + list[i].replyNo + '">';
@@ -326,9 +329,9 @@
 			//console.log(rboardNo);
 			// 답글달기 버튼일 경우
 			if($(this).hasClass('showArea')){
-				let reReplyArea = '<div id="inputArea' + rgroupNo + '" class="reply-input-area" style="margin-left:40px;">'
+				let reReplyArea = '<div id="inputArea' + rgroupNo + '" class="reply-input-area rrArea" style="margin-left:40px;">'
 								+ 	'<textarea class="reContent" type="text" placeholder="댓글을 입력해주세요..." rows="1" style="resize: none; vertical-align:middle;"></textarea>'
-								+ 	'<button id="replyBtn'+rboardNo+'" onclick="insertReReply(this,'+ rboardNo +','+ rgroupNo +');">작성</button>'
+								+ 	'<button class="replyBtn" id="replyBtn'+rboardNo+'" onclick="insertReReply(this,'+ rboardNo +','+ rgroupNo +');">작성</button>'
 								+ '</div>';
 								
 				$('#reply-groupNo'+ rgroupNo).append(reReplyArea);

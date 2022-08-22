@@ -97,12 +97,7 @@
                         </div>
                             <!-- ajax 댓글 목록 출력 부분 -->
                             <div class="commentBox">
-                            <div class="commnetWrap${gr.boardNo}">
-                                    
-                                    
-                                    
-                                    
-                            </div>
+                                <div class="commentWrap commnetWrap${gr.boardNo}"></div>
                             </div>
                             
                             

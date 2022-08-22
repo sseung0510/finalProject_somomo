@@ -83,14 +83,14 @@
 						+ 	'<div class="no-img-div">'
 						+		'<img src="resources/img/apeach2.png" alt="">'
 						+	'</div>'
-						+	'<span>관리하는 그룹이 없어요...</span>'
+						+	'<span>관리중인 그룹이 없어요...</span>'
 						+'</div>';
 
             var guide2 = '<div class="no-group">'
 						+ 	'<div class="no-img-div">'
 						+		'<img src="resources/img/apeach.png" alt="">'
 						+	'</div>'
-						+	'<span>가입된 그룹이 없어요...</span>'
+						+	'<span>가입한 그룹이 없어요...</span>'
 						+'</div>';
 
             if($('.g1').html() == ""){

@@ -294,59 +294,27 @@ font-size: 22px;
 cursor: pointer;
 }
 
-
-
-
-.commentBox .commnetWrap {
-position: relative;
-min-height: 67px;
-padding: 14px 40px 14px 44px;
-border-top: 1px solid #f0f0f0;
+.commentBox .commentWrap {
+  position: relative;
 }
 
-.commnetWrap .writeInfo {
+.commentWrap .writeInfo {
 display: flex;
 text-align: left;
 overflow: hidden;
-max-height: 18.59px;
 font-size: 13px;
 white-space: normal;
 max-width: 90%;
 padding-right: 3px;
 font-weight: 600;
 color: #333;
+height: 50px;
 }
 
-
-
-.commnetWrap  .writeInfo>.upProfile {
-position: absolute;
-left: 22px;
-top: 15px;
-}
-
-.upProfile {
-margin-left: -20px;
-}
-
-.upProfile .upProfileImg img{
-width: 30px;
-height: 30px;
-border-radius: 50%;
-}
-
-
-.commentBox .text {
-font-size: 13px;
-line-height: 1.4;
-cursor: pointer;
-}
-
-.commentBox .twiceComment {
-display: flex;
-position: relative;
-vertical-align: top;
-margin-top: 5px;
+.replyWrap{
+  border-top: 1px solid var(--border-color);
+  margin-top: 10px;
+  padding: 14px 10px 0 0;
 }
 
 .reply-input-area{
@@ -367,6 +335,10 @@ margin-top: 5px;
   resize: none;
 }
 
+.reply-input-area textarea:focus{
+	border: 1px solid #FEC8C6;
+}
+
 .replyBtn{
   height: 40px;
   width: 10%;
@@ -381,13 +353,51 @@ margin-top: 5px;
   justify-content: center;
 }
 
+.replyBtn:hover{
+  cursor: pointer;
+}
+
 .reply-replyBtn {
 margin-left: 10px;
 }
 
+.upProfile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
 
+/* 댓글 관련 */
+.upProfileImg img{
+  width: 35px;
+  height: 35px;
+}
 
+.writeInfo-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
+.twiceComment{
+  display: flex;
+  flex-direction: row;
+}
+
+.twiceComment .rBtn{
+  margin: 0 10px 0 15px;
+}
+
+.twiceComment button{
+  border: none;
+  background-color: transparent;
+  color: var(--black-light-color);
+}
+
+.rrArea{
+  margin-top: 10px;
+}
 /* ================= 피드 DropDown ================ */
 
 .feed {

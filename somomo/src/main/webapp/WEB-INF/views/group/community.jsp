@@ -35,7 +35,7 @@
 			<div class="tag-group">
 				<ul class="tag-body">
 					<c:forEach var="gc" items="${cList}">
-					<li class="category-list tag-${gc.categoryNo}" value="${gc.categoryNo}">${gc.categoryName}</li>
+					<li class="category-list category-${gc.categoryNo}" value="${gc.categoryNo}">${gc.categoryName}</li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -79,12 +79,15 @@
 
 	<script>
 
+		$(function(){
+			$('.category-${cno}').css('background-color', 'var(--toggle-color)');
+		})
         
         // 무한 스크롤 페이징
 	    $(function(){
 
             let categoryNo = "${cno}";         
-            console.log("카테고리 번호 : " + "${cno}"); // 0, 1, 2, 3, 4
+            //console.log("카테고리 번호 : " + "${cno}"); // 0, 1, 2, 3, 4
 
             let currentPage = ${pi.currentPage};
 
@@ -112,7 +115,7 @@
 
 					if(currentPage == ${pi.maxPage}){
 
-						console.log("마지막임!!");
+						// console.log("마지막임!!");
 						return; //마지막 페이지라면 끝
 					}
 					
@@ -127,8 +130,8 @@
         // 그룹 리스트 ajax
         function selectGroupList(currentPage, categoryNo){
             
-            console.log("요청페이지 : " + currentPage);
-            console.log("카테고리 번호 : " + categoryNo);
+            // console.log("요청페이지 : " + currentPage);
+            // console.log("카테고리 번호 : " + categoryNo);
             $.ajax({
                 url : 'list.gr',
                 method : 'POST',
@@ -312,14 +315,14 @@
 		})
 	</script>
 
-	<script src="resources/js/feed.js"></script>
-
 	<script>
 		// nav에 .close가 붙으면 myGroup Text변환
 		$('.sidebar-toggle').click(function(){
 			
 		})
 	</script>
+
+	<script src="resources/js/feed.js"></script>
 
 </body>
 </html>
