@@ -1,7 +1,9 @@
 -- 관리자 계정 : somomo계정생성, 권한부여
 --create user somomo identified by somomo;
 --grant connect, resource to somomo;
-
+-- 관리자 계정 : somomo에 스케줄러 추가
+--grant manage scheduler to somomo; 
+--grant create any job to somomo;
 --------------------------------------------------
 -----------     DROP TABLE/SEQUENCE   	----------
 --------------------------------------------------
@@ -521,3 +523,39 @@ CREATE TABLE CERT(
 
 COMMIT;
 ALTER TABLE MEMBER MODIFY USER_PWD NULL;
+ALTER TABLE MEMBER ADD QUIT_DATE DATE;
+
+
+---------------------------------------------------------------------------------
+-------------------------------스케쥴러(2개월 뒤에 회원삭제)-------------------------
+---------------------------------------------------------------------------------
+
+DROP PROCEDURE DELETE_MEMBER_STATUS;
+
+CREATE OR REPLACE PROCEDURE DELETE_MEMBER_STATUS
+IS 
+BEGIN
+        DELETE FROM MEMBER
+        WHERE STATUS='N'
+        AND MONTHS_BETWEEN(SYSDATE, QUIT_DATE)>=2;
+        COMMIT;
+END;
+/
+
+BEGIN DBMS_SCHEDULER.DROP_JOB('DELETE_MEMBER_STATUS1');
+END;
+/
+
+BEGIN
+DBMS_SCHEDULER.CREATE_JOB(
+    JOB_NAME => 'DELETE_MEMBER_STATUS1',
+    JOB_TYPE => 'PLSQL_BLOCK',
+    JOB_ACTION => 'BEGIN DELETE_MEMBER_STATUS; END;',
+    START_DATE => SYSDATE,
+    REPEAT_INTERVAL => 'FREQ = DAILY; BYHOUR=0; BYMINUTE=0;');
+END;
+/
+
+EXEC DBMS_SCHEDULER.ENABLE('DELETE_MEMBER_STATUS1');
+
+EXEC DBMS_SCHEDULER.RUN_JOB('DELETE_MEMBER_STATUS1');
