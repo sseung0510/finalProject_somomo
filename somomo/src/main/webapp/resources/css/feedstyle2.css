@@ -514,7 +514,6 @@ nav.close ~ .main-content .main-feed{
 }
 
 .like-list-content, .favorite-list-content{
-    width : 250px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -523,6 +522,16 @@ nav.close ~ .main-content .main-feed{
 .likeAll{
 	display:flex;
     padding-top: 10px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.goBoard{
+	display: flex;
+	flex-direction: row;
+	width: 250px;
 }
 
 /* ================오른쪽 사이드 바 끝================= */

@@ -45,9 +45,8 @@ public class MemberController {
 	@RequestMapping("login.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		
-		Member loginUser = memberService.loginMember(m);
-		//System.out.println(loginUser);
-		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
+		Member loginUser = memberService.loginMember(m); // 정보가 일치하는 회원찾기
+		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) { // 로그인유저가 널이아니고, 암호화된 비밀번호가 일치하면 로그인 성공
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:main.fd");
 			session.setAttribute("alertMsg", "로그인성공");
@@ -76,17 +75,16 @@ public class MemberController {
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model, HttpSession session) {
 
-		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
-		System.out.println(encPwd);
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd()); // 받아오는 비밀번호 인코딩
 		
-		m.setUserPwd(encPwd);
+		m.setUserPwd(encPwd); // 멤버객체에 인코딩된 비밀번호 셋팅
 		
-		int result = memberService.insertMember(m);
+		int result = memberService.insertMember(m); // 회원가입에 성공하면 result값 1
 		
-		if(result>0) { 
+		if(result>0) {  // 회원가입 성공할 경우
 			session.setAttribute("alertMsg", "성공적으로 회원가입이 되었습니다");
 			return "redirect:/";
-		} else {
+		} else { // 회원가입 실패할 경우
 			model.addAttribute("alertMsg", "회원가입에 실패했습니다. 다시 진행해주세요");
 			return "member/memberEnrollForm";
 		}
@@ -96,14 +94,16 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("idCheck.me")
 	public String idCheck(String checkId) {
-		return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY";
+		return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY"; // 중복되는 아이디가 있으면 NNNNN으로 반환
 	}
 	
 	// 회원가입(닉네임중복체크)
 	@ResponseBody
 	@RequestMapping(value="nickNameCheck.me")
 	public String NickNameCheck(String checkNickName) {
-		return memberService.NickNameCheck(checkNickName) > 0 ? "NNNNN" : "NNNNY";
+		System.out.println(checkNickName);
+		return memberService.NickNameCheck(checkNickName) > 0 ? "NNNNN" : "NNNNY"; // 중복되는 닉네임이 있으면 NNNNN으로 반환
+		
 	}
 	
 	// 마이페이지로 이동
@@ -122,35 +122,57 @@ public class MemberController {
 	// 정보변경
 	@RequestMapping("update.me")
 	public String updateMember(Member m, String userPwd, MultipartFile upfile,HttpSession session, Model model, RedirectAttributes rttr) {
-		
-		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
-		
-		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
-			
-			if(!upfile.getOriginalFilename().equals("")) {
-				if(m.getProfileImg()!=null) {
-					new File(session.getServletContext().getRealPath(m.getProfileImg())).delete();
+		String iskakaoLogin=((Member)session.getAttribute("loginUser")).getKakaoLogin();
+		System.out.println(m);
+		if(iskakaoLogin.equals("Y")) { // 카카오 로그인인 경우
+			if(!upfile.getOriginalFilename().equals("")) { // 오리지날파일네임이 빈문자열이 아닐 경우
+				System.out.println(m.getProfileImg());
+				if(m.getProfileImg()!=null) { // 프로필 이미지가 널이 아닐경우
+					
+					if(session.getServletContext().getRealPath(m.getProfileImg()) != null ) {
+						//File ('http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg')
+						new File(session.getServletContext().getRealPath(m.getProfileImg())).delete(); // 프로필 이미지를 삭제
+					}					
 				}
-				
 				HashMap<String, String> map = saveFile(upfile,session,"img/member/profile_img");
 				m.setProfileImg(map.get("changeName"));
 			}
-			
-			int result = memberService.updateMember(m);
-			System.out.println(m);
-			if(result>0) {
+			int result = memberService.updateMember(m); //정보수정이 성공하면 result == 1
+			if(result>0) {// 업데이트에 성공했을 경우
 				session.setAttribute("loginUser", memberService.loginMember(m));
 				return "member/myPageUpdate";
 			}else {
-				
 				return "member/login";
 			}
 			
-		}else {
-			rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
-			return "redirect:updateInfo.me";
+		} else { // 일반 회원일 경우
+			
+			String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd(); // 현재 로그인 된 유저의 비밀번호
+			
+			if(bcryptPasswordEncoder.matches(userPwd, encPwd)) { // 유저가 입력한 비밀번호와 DB상의 정보가 일치하는지 확인
+				
+				if(!upfile.getOriginalFilename().equals("")) { // 오리지날파일네임이 빈문자열이 아닐 경우
+					if(m.getProfileImg()!=null) { // 프로필 이미지가 널이 아닐경우
+						new File(session.getServletContext().getRealPath(m.getProfileImg())).delete(); // 프로필 이미지를 삭제
+					}
+					
+					HashMap<String, String> map = saveFile(upfile,session,"img/member/profile_img");
+					m.setProfileImg(map.get("changeName"));
+				}
+				
+				int result = memberService.updateMember(m); //정보수정이 성공하면 result == 1
+				if(result>0) {  // 업데이트에 성공했을 경우
+					session.setAttribute("loginUser", memberService.loginMember(m));
+					return "member/myPageUpdate";
+				}else {
+					return "member/login";
+				}
+				
+			}else {
+				rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
+				return "redirect:updateInfo.me";
+			}
 		}
-		
 	}
 	
 	// 비밀번호 변경폼으로 이동
@@ -191,9 +213,9 @@ public class MemberController {
 	@RequestMapping("delete.me")
 	public String deleteMember(String userId, String userPwd, HttpSession session, RedirectAttributes rttr) {
 		
-		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
-		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
-			int result = memberService.deleteMember(userId);
+		String iskakaoLogin=((Member)session.getAttribute("loginUser")).getKakaoLogin();
+		if(iskakaoLogin.equals("Y")) { // 카카오 로그인인 경우
+			int result = memberService.deleteKakaoUser(userId);
 			if(result>0) {
 				// 탈퇴처리 성공 => session에서 loginUser 지움, alert문구담기 => 메인페이지url요청
 				session.removeAttribute("loginUser");
@@ -202,9 +224,24 @@ public class MemberController {
 				
 				return "member/login";
 			}
+			
 		}else {
-			rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
-			return "redirect:deleteMem.me";
+			
+			String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();
+			if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
+				int result = memberService.deleteMember(userId);
+				if(result>0) {
+					// 탈퇴처리 성공 => session에서 loginUser 지움, alert문구담기 => 메인페이지url요청
+					session.removeAttribute("loginUser");
+					return "redirect:/";
+				}else {
+					
+					return "member/login";
+				}
+			}else {
+				rttr.addFlashAttribute("alertMsg", "비밀번호가 틀렸습니다.");
+				return "redirect:deleteMem.me";
+			}
 		}
 	}
 

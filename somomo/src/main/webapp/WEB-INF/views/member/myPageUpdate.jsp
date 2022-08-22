@@ -99,6 +99,14 @@
 		border-color:rgba(254, 200, 198, .5);
 		outline:3px solid rgba(254, 200, 198, .6);
 	}
+	#checkNick{
+		width:100px;
+		height:40px;
+		background-color:#FCD9D7;
+		border:1px solid #FEC8C6;
+		border-radius:5px;
+	}
+	
 	</style>
 </head>
 <body>
@@ -152,9 +160,11 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								<div>닉네임</div>
-			                    <input type="text" class="inputcolor" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" required> <br>
+							<td colspan="2" >
+								<div>* 닉네임</div>
+								<input type="text" class="checkNick" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" style="width:270px;"required>
+								<input type="button" id="checkNick" value="중복확인" onclick="nickCheck();"> <br>
+								<div id="nickNameResult" class="colorSubmit" style="font-size:12px">2글자 이상인 닉네임을 입력해주세요</div>
 							</td>
 						</tr>
 						<tr>
@@ -169,12 +179,14 @@
 			                    <input type="text" class="inputcolor" id="email" placeholder="Please Enter Email" name="email" value="${loginUser.email }" required> <br>
 							</td>
 						</tr>
+						<c:if test="${loginUser.kakaoLogin eq 'N' }">
 						<tr>
 							<td colspan="2">
 								<div>현재 비밀번호</div>
 			                    <input type="password" class="inputcolor" id="userPwd" placeholder="Please Enter Password" name="userPwd" required>
 							</td>
 						</tr>
+						</c:if>
 					</table>
 					<button id="updateBtn">정보 수정</button>
 				</form>
@@ -219,6 +231,33 @@
                 	$('#titleImg').attr('src', e.target.result);
 				}
 			}
+		}
+		
+		// 닉네임
+		function nickCheck(){
+			const $nickNameInput = $('#updateForm input[name=nickname]');
+			console.log($nickNameInput.val());
+			var O5;
+			$.ajax({
+				url:'nickNameCheck.me',
+				data : {checkNickName:$nickNameInput.val()},
+				async : false,
+				success:function(result){
+					console.log(result);
+					if(result == 'NNNNN'){ //사용불가능
+						$('#nickNameResult').show();
+						$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
+					}
+					else{ // 사용가능
+						$('#nickNameResult').show();
+						$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
+						O5 = result;
+					}
+				}, error : function(){
+					console.log("아이디 중복체크용 ajax통신 실패");
+				}
+			});		
+			return O5;
 		}
 		
 		var msg='${alertMsg}'

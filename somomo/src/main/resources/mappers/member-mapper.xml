@@ -262,4 +262,12 @@
 			   'Y'
 			   )
 	</insert>
+	
+	<!-- 카카오 회원 탈퇴 -->
+	<delete id="deleteKakaoUser" parameterType="string">
+		DELETE
+	  	  FROM MEMBER
+	  	 WHERE USER_ID = #{userId} 
+	</delete>
+	
 </mapper>

@@ -89,6 +89,10 @@ public class MemberDao {
 	public int insertKakaoMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.insertKakaoMember",m);
 	}
+
+	public int deleteKakaoUser(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.delete("memberMapper.deleteKakaoUser", userId);
+	}
 	
 	
 	

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="resources/css/feedstyle2.css?ver=1.0.5">
+	<link rel="stylesheet" href="resources/css/feedstyle2.css?ver=1.1.7">
 </head>
 <body>
 	<div class="main-outer">
@@ -43,16 +43,18 @@
 					console.log(data);
 					var ok="";
 					for(var i in data){
-							 ok += '<div class="likeAll">'
-								 + '<input type="hidden" value="'+data[i].boardNo+'">'
-								 + '<div class="like-list-img">'
-								 + '<img src="'+data[i].profileImg+'" alt=""></div>'
-								 + '<div class="like-list-content">'
-								 + '<div class="like-list-title">'+data[i].boardTitle+'</div>'
-								 + '<div class="like-list-btn"><img class="likeY" src="resources/img/heart-on.png"></div>'
-								 + '</div>'
-								 + '</div>';
-
+						 ok += '<div class="likeAll">'
+							 + 		'<input type="hidden" class="boardNo" value="'+data[i].boardNo+'">'
+							 + 		'<div class="goBoard">'
+							 + 			'<div class="like-list-img">'
+							 + 				'<img src="'+data[i].profileImg+'" alt="">'
+							 +			'</div>'
+							 + 			'<div class="like-list-content">'
+							 + 				'<div class="like-list-title">'+data[i].boardTitle+'</div>'
+							 + 			'</div>'
+							 + 		'</div>'
+							 + 		'<div class="like-list-btn"><img class="likeY" src="resources/img/heart-on.png"></div>'
+							 + '</div>';
 					}
 					$('.like-list').html(ok);
 				}, error:function(){
@@ -67,19 +69,21 @@
 				data:{
 					userId:"${loginUser.userId}"
 				}, success: function(data){
-					console.log(data+"asdf");
+					//console.log(data+"asdf");
 					var ok="";
 					for(var i in data){
-							 ok += '<div class="likeAll">'
-								 + '<input type="hidden" class="boardNo" value="'+data[i].boardNo+'">'
-								 + '<div class="favorite-list-img">'
-								 + '<img src="'+data[i].profileImg+'" alt=""></div>'
-								 + '<div class="favorite-list-content">'
-								 + '<div class="favorite-list-title">'+data[i].boardTitle+'</div>'
-								 + '<div class="favorite-list-btn"><img class="likeY" src="resources/img/star-on.png"></div>'
-								 + '</div>'
-								 + '</div>';
-						console.log(data[i].boardNo);
+						 ok += '<div class="likeAll">'
+							 + 		'<input type="hidden" class="boardNo" value="'+data[i].boardNo+'">'
+							 + 		'<div class="goBoard">'
+							 + 			'<div class="favorite-list-img">'
+							 + 				'<img src="'+data[i].profileImg+'" alt="">'
+							 +			'</div>'
+							 + 			'<div class="favorite-list-content">'
+							 + 				'<div class="favorite-list-title">'+data[i].boardTitle+'</div>'
+							 + 			'</div>'
+							 + 		'</div>'
+							 + 		'<div class="favorite-list-btn"><img class="likeY" src="resources/img/star-on.png"></div>'
+							 + '</div>';
 					}
 					$('.favorite-list').html(ok);
 				}, error:function(){
@@ -108,8 +112,8 @@
 			})
 		})
 	
-		$(document).on("click", '.likeAll', function(){
-       		var boardNo = $(this).children().eq(0).val();
+		$(document).on("click", '.goBoard', function(){
+       		var boardNo = $('.likeAll').children().eq(0).val();
        		console.log(boardNo);
        		location.href = "detail.fd?boardNo=" + boardNo;
        	});

@@ -59,4 +59,8 @@ public interface MemberService {
 	
 	// 카카오 회원 추가
 	int insertKakaoMember(Member m);
+
+	// 카카오 회원 탈퇴
+	int deleteKakaoUser(String userId);
+
 }

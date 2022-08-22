@@ -134,5 +134,11 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.insertKakaoMember(sqlSession, m);
 	}
 
+	@Override
+	public int deleteKakaoUser(String userId) {
+		return memberDao.deleteKakaoUser(sqlSession, userId);
+	}
+
+	
 	
 }

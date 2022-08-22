@@ -41,7 +41,7 @@
    		padding-left:5px;
    	}
 	
-	#deleteBtn{
+	#deleteBtn, #kakaoDeleteBtn{
 		width:150px;
 		height:35px;
 		background-color:#FCD9D7;
@@ -124,25 +124,41 @@
 	        			<tr>
 	     					<td colspan="2">
 								<div>아이디</div>
-								<input type="text" name="userId" value="${loginUser.userId}" readonly>
+								<input type="text" name="userId" value="${loginUser.userId}" id="userId" readonly>
 							</td>
 	        			</tr>
+						<c:if test="${loginUser.kakaoLogin eq 'N' }">
 	        			<tr>
 	        				<td colspan="2">
 								<div>비밀번호 확인</div>
 			                    <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" onkeyup="deletePass()"required>
 							</td>
 	        			</tr>
+	        			</c:if>
 	        		</table>
+				<c:if test="${loginUser.kakaoLogin eq 'N' }">
 	       		<pre>
 2개월동안 재 가입여부 판단을 목적으로 고객님의 최소 정보를 보관합니다.
 고객님의 기본정보는 2개월 후 완전소실 됩니다.
 회원탈퇴 후 2개월 동안 재 가입이 불가 합니다.
 	       		</pre>
-	       		
-	       			<input type="checkbox" name="deleteOk" >&nbsp; 위 약관에 동의하시겠습니까? <br>
-	       		
-	        		<button id="deleteBtn" disabled>회원 탈퇴</button>
+	       		</c:if>
+	       		<c:choose>
+	       			<c:when test="${loginUser.kakaoLogin eq 'N'}">
+	       				<input type="checkbox" name="deleteOk" >&nbsp; 위 약관에 동의하시겠습니까? <br>
+	       			</c:when>
+	       			<c:otherwise>
+	       				<input type="checkbox" name="kakaoDeleteOk" onclick="kakaoCheck()">&nbsp; 정말 탈퇴하시겠습니까? <br>
+	       			</c:otherwise>
+	       		</c:choose>
+	       		<c:choose>
+	       			<c:when test="${loginUser.kakaoLogin eq 'N'}">
+	        			<button id="deleteBtn" disabled>회원 탈퇴</button>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<button id="kakaoDeleteBtn" disabled>회원 탈퇴</button>
+	        		</c:otherwise>
+	        	</c:choose>	
 				</form>
 	        </div>
         </div>
@@ -184,9 +200,18 @@
 					}
 				})
 			}
+
 		}
 		
-		
+		function kakaoCheck(){
+			console.log($('#userId').val());
+			if($("input:checkbox[name='kakaoDeleteOk']").is(":checked")==true){
+				console.log("됐나?")
+				$(':submit').removeAttr('disabled');
+			} else{
+				console.log("안됐나?")
+			}
+		}
 		
 		
 		
