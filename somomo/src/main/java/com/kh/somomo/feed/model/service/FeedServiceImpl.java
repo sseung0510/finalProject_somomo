@@ -33,8 +33,13 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public ArrayList<FeedBoard> selectFeedList(PageInfo pi, String userId) {
-		return feedDao.selectFeedList(sqlSession, pi, userId);
+	public int selectSearchListCount(HashMap<String, Object> map) {
+		return feedDao.selectSearchListCount(sqlSession, map);
+	}
+	
+	@Override
+	public ArrayList<FeedBoard> selectFeedList(PageInfo pi, HashMap<String, Object> map) {
+		return feedDao.selectFeedList(sqlSession, pi, map);
 	}
 	
 	@Override
@@ -50,25 +55,27 @@ public class FeedServiceImpl implements FeedService{
 	//------- 글 작성 서비스 -------//
 	@Override
 	@Transactional
-	public int insertGeneralBoard(FeedBoard fb, ArrayList<Attachment> atList) {
+	public int insertGeneralBoard(FeedBoard fb, ArrayList<Attachment> fatList) {
 		
 		int result1 = feedDao.insertGeneralBoard(sqlSession, fb);
 		int result2 = 1;
-		if(!atList.isEmpty()) {
-			for(Attachment at : atList) {
+		if(!fatList.isEmpty()) {
+			for(Attachment at : fatList) {
 				result2 *= feedDao.insertAttachment(sqlSession, at);
 			}
 		}
-
+		
 		return result1 * result2;
 	}
 	
 	@Override
 	@Transactional
 	public int insertMeetBoard(FeedBoard fb) {
-		int result1 = feedDao.insertMeetBoard(sqlSession, fb);
-		int result2 = feedDao.insertChatRoom(sqlSession, fb.getBoardTitle());
-		int result3 = feedDao.insertChatAdmin(sqlSession, fb.getBoardWriter());
+		
+		int result1 = feedDao.insertMeetBoard(sqlSession, fb); // 모임모집글 추가
+		int result2 = feedDao.insertChatRoom(sqlSession, fb.getBoardTitle()); // 채팅방 생성
+		int result3 = feedDao.insertChatAdmin(sqlSession, fb.getBoardWriter()); // 채팅방 관리자 생성
+
 		return result1 * result2 * result3;
 	}
 	
@@ -105,7 +112,7 @@ public class FeedServiceImpl implements FeedService{
 	
 	@Override
 	public boolean checkChatMemberSpace(int boardNo, int roomNo) {
-		
+
 		int meetTotal = feedDao.selectMeetTotal(sqlSession, boardNo);
 		int countMember = feedDao.selectCountMember(sqlSession, roomNo);
 		
@@ -120,23 +127,35 @@ public class FeedServiceImpl implements FeedService{
 	
 	//------- 게시글 수정/삭제 서비스 -------//
 	@Override
-	public int updateGeneralBoard(FeedBoard fb) {
-		return 0;
+	@Transactional
+	public int updateGeneralBoard(FeedBoard fb, ArrayList<Integer> deleteFileList, ArrayList<Attachment> newFatList) {
+		
+		int result1 = feedDao.updateGeneralBoard(sqlSession, fb); // 게시글 내용 수정
+		
+		int result2 = 1;
+		if(!deleteFileList.isEmpty()) {
+			for(int fileNo : deleteFileList) {
+				result2 *= feedDao.deleteAttachment(sqlSession, fileNo); // 기존 파일 삭제
+			}
+		} 
+		
+		int result3 = 1;
+		if(!newFatList.isEmpty()) {
+			for(Attachment at : newFatList) {
+				if(at.getFileNo() > 0) { // 파일번호가 존재한다면 해당 파일번호에 새 첨부파일 update
+					result3 *= feedDao.updateAttachment(sqlSession, at);
+				} else {
+					result3 *= feedDao.insertNewAttachment(sqlSession, at); // 새 첨부파일 추가
+				}
+			}
+		}
+		
+		return result1 * result2 * result3;
 	}
 
 	@Override
 	public int updateMeetBoard(FeedBoard fb) {
 		return feedDao.updateMeetBoard(sqlSession, fb);
-	}
-	
-	@Override
-	public int insertNewAttachment(ArrayList<Attachment> atList) {
-		return 0;
-	}
-	
-	@Override
-	public int deleteAttachment(ArrayList<Attachment> atList) {
-		return 0;
 	}
 	
 	@Override
@@ -187,6 +206,7 @@ public class FeedServiceImpl implements FeedService{
 	
 	@Override
 	public boolean isSingleRereplyNdeleteReply(int rgroup) {
+
 		boolean flag = false;
 		// 그룹번호로 댓글+답글 개수 체크
 		int countReply = feedDao.countReplyNrereply(sqlSession, rgroup);
@@ -194,6 +214,7 @@ public class FeedServiceImpl implements FeedService{
 			// 댓글 내용이 삭제되어있을 경우 => true
 			flag = feedDao.checkDeletedReply(sqlSession, rgroup) > 0 ? true : false;
 		}
+		
 		return flag;
 	}
 	
@@ -227,9 +248,6 @@ public class FeedServiceImpl implements FeedService{
 	public int countLike(int boardNo) {
 		return feedDao.countLike(sqlSession, boardNo);
 	}
-
-
-
 
 
 }

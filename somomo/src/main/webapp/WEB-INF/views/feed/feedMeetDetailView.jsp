@@ -51,7 +51,7 @@
         <div class="main-feed">
 	        <!-- 글 내용 띄우줄 공간 -->
 			<div class="board-area">
-				<jsp:include page="ajaxMeetBoard.jsp" />
+				<jsp:include page="feedMeetBoard.jsp" />
 			</div>
 		</div>
 	

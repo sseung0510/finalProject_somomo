@@ -22,14 +22,18 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectFeedListCount");
 	}
 	
-	public ArrayList<FeedBoard> selectFeedList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
+	public int selectSearchListCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("feedMapper.selectSearchListCount", map);
+	}
+	
+	public ArrayList<FeedBoard> selectFeedList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("feedMapper.selectFeedList", userId, rowBounds);
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeedList", map, rowBounds);
 	}
 	
 	public ArrayList<Attachment> selectFeedAttachmentList(SqlSessionTemplate sqlSession,
@@ -96,19 +100,28 @@ public class FeedDao {
 	public int insertChatMember(SqlSessionTemplate sqlSession, ChatMember cm) {
 		return sqlSession.insert("feedMapper.insertChatMember", cm);
 	}
+
+	public int countOriginFile(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("feedMapper.countOriginFile", boardNo);
+	}
+	public int deleteAttachment(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.delete("feedMapper.deleteAttachment", fileNo);
+	}
+	public int updateGeneralBoard(SqlSessionTemplate sqlSession, FeedBoard fb) {
+		return sqlSession.update("feedMapper.updateGeneralBoard", fb);
+	}
 	
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment at) {
+		return sqlSession.update("feedMapper.updateAttachment", at);
+	}
 	
-	// updateGeneralBoard 관련
-	
+	public int insertNewAttachment(SqlSessionTemplate sqlSession, Attachment at) {
+		return sqlSession.insert("feedMapper.insertNewAttachment", at);
+	}
 	
 	public int updateMeetBoard(SqlSessionTemplate sqlSession, FeedBoard fb) {
 		return sqlSession.update("feedMapper.updateMeetBoard", fb);
 	}
-	
-	
-	// insertNewAttachment 관련
-	// deleteAttachment 관련
-	
 	
 	public int deleteBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("feedMapper.deleteBoard", boardNo);
@@ -177,7 +190,5 @@ public class FeedDao {
 	public int countLike(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("feedMapper.countLike", boardNo);
 	}
-
-
 	
 }

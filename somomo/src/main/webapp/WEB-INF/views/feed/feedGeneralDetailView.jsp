@@ -95,7 +95,7 @@
 	</style>
 	
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.9">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 	<!----------- 아이콘 CSS 링크 version 2------->
@@ -137,88 +137,7 @@
         <div class="main-feed">
 	        <!-- 글 내용 띄우줄 공간 -->
 			<div class="board-area">
-				<div class="fd-board">
-					<div class="fd-board-top">
-						<a href="#" class="tag btnBoardTypeG">일반글</a>&nbsp;
-					    <a href="#" class="tag btnRegionNo">${fb.regionName}</a>
-			   		</div>
-					<table class="fd-board-writer-date">
-						<tr>
-							<td rowspan="2" class="profileImg-area">
-								<c:choose>
-									<c:when test="${fb.profileImg ne null}">
-										<img class="profileImg" src="${fb.profileImg}" style="width:100%;">
-									</c:when>
-									<c:otherwise>
-										<img class="profileImg" src="resources/img/member/profile_img.png" style="width:100%;">
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td><div class="fd-board-nickname"><strong>${fb.nickname}</strong></div></td>
-							<c:if test="${loginUser.userId eq fb.boardWriter}">
-								<td align="right">
-									<div class="form-icon">
-										<i class='bx bx-dots-vertical-rounded feed'>
-										<ul class="feed-link">
-											<li><a class="updateGeneralBoard">수정</a></li>
-											<li><a class="checkDelete">삭제</a></li>
-										</ul>
-										</i>
-									</div>
-								</td>
-							</c:if>
-						</tr>
-						<tr><td class="fd-board-date"><div class="fd-board-nickname">${fb.boardDate}</div></td></tr>
-					</table>
-					<div class="fd-board-contents fdm">
-						<div class="title">
-							${fb.boardTitle}
-						</div>
-						<div class="content fdm">
-							<% pageContext.setAttribute("newLine", "\n"); %>
-							<p id="content">${fn:replace(fb.boardContent, newLine, '<br/>')}</p>
-							<c:if test="${not empty fatList}">
-								<c:forEach var="fat" items="${fatList}">
-									<div class="slide fade-1">
-										<img src="${fat.changeName}" style="width:100%">
-									</div>	
-								</c:forEach>
-								  <c:if test ="${ fatList.size() != 1 }">
-								  		<a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-	     								<a class="next" onclick="changeSlide(1)">&#10095;</a>
-								  </c:if>
-								  <br>
-								  <div style="text-align:center;">
-									  <c:forEach var="fat" items="${fatList}" varStatus="status">
-						
-									      <span class="dot" onclick="currentSlide(${status.index+1})"></span>
-									     
-									   </c:forEach>
-								  </div>
-								 
-							</c:if>
-							
-						</div>
-					</div>
-					<div style="margin-top:20px;">
-						<span class="likeBtn">
-							<img class="likeN" src="resources/img/heart-off.png">
-						</span>
-						<span class="countLike">좋아요${fb.countLike}개</span>
-					</div>
-				
-					<div class="reply-area">
-						<div id="replyCount">댓글 0개</div>
-		                <div class="reply-input-area">
-	                        <textarea id="replyContent" placeholder="댓글을 입력해주세요..." rows="1" style="resize: none;" ></textarea>
-	                        <button id="replyBtn" onclick="insertReply();">작성</button>
-	               	 	</div>
-	               	 	<!-- ajax 댓글 목록 출력 부분 -->
-	               	 	<div class="reply-content-area">
-
-	               	 	</div>
-					</div>
-				</div>
+				<jsp:include page="feedGeneralBoard.jsp" />
 			</div>
 		</div>
 	
@@ -314,7 +233,7 @@
 	        				if(result == 'success'){
 	        					selectReplyList();
 	        					$('#replyContent').val('');
-	        					//$(document).scrollTop($(document).height());
+	        					$(document).scrollTop($(document).height());
 	        				}
 	        			},
 	        			error : function(){
@@ -428,6 +347,7 @@
 				let rgroupNo = $(this).parent().data('rgroup'); // 해당 댓글그룹
 				
 				let replyContent = $(this).parent().parent().find('.content') // 해당 댓글 내용 요소
+				let reReplyBtn = $(this).parent().find('.reReplyBtn'); // 해당 답변작성버튼
        			let upReplyBtn = $(this).parent().find('.upReplyBtn'); // 해당 댓글수정버튼
        			let delReplyBtn = $(this); // 해당 댓글삭제버튼
        			
@@ -450,7 +370,7 @@
         					else { // "deleteTwoReply" : 삭제된 댓글의 마지막 답변일 경우 => 댓글+답글 삭제
         						$('#reply-groupNo'+rgroupNo).remove(); // 해당 댓글그룹 삭제
         					}
-        					$('#inputArea' + rgroupNo).remove(); // 답변창 숨기기
+        					$('#inputArea' + rgroupNo).remove();
         					checkCountReply(); // 댓글 개수 변경
         				},
         				error : function(){
@@ -603,66 +523,88 @@
         	
         	// ajax 수정버튼 클릭 시 모달창 내용 세팅
     		function setModalContent(){
+    			
     			$.ajax({
     				url : 'getModalContent.fd',
+    				method: 'POST',
     				data : {
     					boardNo : '${fb.boardNo}'
     				},
-    				success : function(data){
-    					$('#gmRegion option[value=' + data.regionNo +']').attr('selected', true);
-    					$('#gmTitle').val(data.boardTitle);
-    					$('#gmContent').val(data.boardContent);
+    				success : function(map){
+    					let fb = map.fb;
+    					let fatList = map.fatList;
+    					console.log(fatList);
     					
-    					// !!!!!!!!!!!!!!!!!!!!첨부파일 세팅 필요 => controller 수정!!!!!!!!!!!!!!!!!!!!!
+    					$('#gmRegion option[value=' + fb.regionNo +']').attr('selected', true);
+    					$('#gmTitle').val(fb.boardTitle);
+    					$('#gmContent').val(fb.boardContent);
+    					
+    					for(let i in fatList){
+    					    fno = Number(i) + 1;
+  
+    						$('#file-'+fno+'-preview img').attr('src', fatList[i].changeName); // 사진 미리보기 띄우기
+    					    remBtnList.eq(i).addClass("on"); // 사진삭제버튼 띄우기
+    					    
+    					    console.log(fatList[i].fileNo);
+    					    $('#origin-'+fno).attr('data-fno', fatList[i].fileNo).attr('data-filename', fatList[i].changeName);
+    					    
+    			       		console.log("모달창새로불러온파일번호"+$('#origin-'+fno).data('fno'));
+    					    
+    					}
     				}
     			});
         	}
-    		/*
-           	// ajax 게시글 수정 후 새로 정보 가져오기
-           	function selectMeetBoard(){
-           		$.ajax({
-           			url : 'selectBoard.fd',
-           			method : 'POST',
-           			data : {
-           				boardNo : '${fb.boardNo}'
-           			},
-           			success : function(data){
-           				// 응답된 문자열은 html형식(feed/ajaxMeetDetail.jsp에 응답내용 있음)
-           				$('.board-area').html(data);
-           				checkLike();
-           			},
-           			error : function(){
-           				console.log('에러');
-           			}
-           		});
-           	}
-            	
-           	
-         	// 수정 모달창 안에서 글수정 버튼 클릭 시
+    		
+         	 //수정 모달창 안에서 글수정 버튼 클릭 시
          	$(document).on('click', '#updateGeneralBtn', function(){
          			
-         		//var formData = new FormData($('#updateMeetForm')[0]);
-         		//contentType : false,
-         		//processData : false
+         		let formData = new FormData($('#updateGeneralForm')[0]);
+
          		$.ajax({
-         			url : 'updateM.fd',
+         			url : 'updateG.fd',
          			method : 'POST',
-         			data : $('#updateGeneralForm').serialize(),
+         			contentType : false,
+             		processData : false,
+         			data : formData,
          			success : function(result){
          				$('#updateGeneralBoardModal').modal('hide');
          				if(result == "success"){
-             				selectMeetBoard();
+             				//selectNewBoard();
          				}
          				else{
          					alert('게시글 수정 실패');
          				}
+         				// ajax 호출 후 모달창 data-fno, data-filname 값이 이전 값으로만 저장되는 문제가 있어서
+         				// 일단 창 새로 띄우는 거로 변경
+         				location.href = 'detail.fd?boardNo='+${fb.boardNo};
          			},
          			error : function(){
          				console.log('에러');
          			}
          		});
          	});
-           	*/
+           	
+        	/*
+           	// ajax 게시글 수정 후 새로 정보 가져오기
+           	function selectNewBoard(){
+           		$.ajax({
+           			url : 'selectNewBoard.fd',
+           			method : 'POST',
+           			data : {
+           				boardNo : '${fb.boardNo}'
+           			},
+           			success : function(data){
+           				// 응답된 문자열은 html형식(feed/feedGeneralBoard.jsp에 응답내용 있음)
+           				$('.board-area').html(data);
+           				checkLike();
+           				selectReplyList();
+           			},
+           			error : function(){
+           				console.log('에러');
+           			}
+           		});
+           	}
+        	*/
 		</script>
 		
 		<!---------------- 모달창 ---------------->
@@ -698,7 +640,7 @@
 				<div class="modal-content">
 					    
 					<div class="modal-header">
-						<h4 class="modal-title w-100 text-center">일반게시글</h4>
+						<h4 class="modal-title w-100 text-center">일반게시글 수정</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 								
@@ -721,15 +663,57 @@
 							<div class="mdm"><b>내용</b></div>
 							<textarea id="gmContent" name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
 							
-							<div class="mdm file-area">
-								<input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
-								<input type="file" name="file2" id="file2"><input type="button" value="파일 삭제" onclick="fileReset(2);">
-								<input type="file" name="file3" id="file3"><input type="button" value="파일 삭제" onclick="fileReset(3);">
-								<input type="file" name="file4" id="file4"><input type="button" value="파일 삭제" onclick="fileReset(4);">
-							</div>
+							<div class="grid">
+								<div class="form-wrap">
+									<div class="form-element">
+								      	
+								        <input type="file" name="file1" id="file-1" accept="image/*">
+								        <label for="file-1" id="file-1-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								     </div>
+								     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+								<div class="form-wrap">
+									<div class="form-element">
+								     	
+								        <input type="file" name="file2" id="file-2" accept="image/*">
+								        <label for="file-2" id="file-2-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								    </div>
+								    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+								<div class="form-wrap">
+									<div class="form-element">
+								    	<input type="file" name="file3"  id="file-3" accept="image/*">
+								        <label for="file-3" id="file-3-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								    </div>
+								    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+								<div class="form-wrap">
+									<div class="form-element">
+								    	<input type="file" name="file4" id="file-4" accept="image/*">
+								        <label for="file-4" id="file-4-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								     </div>
+								     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+							    
+							    <!-- 기존 파일 정보 -->
+							    <div class="origin-area" style="display:none;">
+								    <input type="hidden" name="origin" id="origin-1" data-fno="" data-filename="" value="">
+								    <input type="hidden" name="origin" id="origin-2" data-fno="" data-filename="" value="">
+								    <input type="hidden" name="origin" id="origin-3" data-fno="" data-filename="" value="">
+								    <input type="hidden" name="origin" id="origin-4" data-fno="" data-filename="" value="">
+							    </div>
+						    </div>
 							
 							<div style="margin-top:10px;">
-								<button type="submit" class="btnPink">글작성</button>
+								<button type="button" id="updateGeneralBtn" class="btnPink">글수정</button>
 							</div>
 						</form>
 					</div>				
@@ -739,10 +723,63 @@
 		</div>
 		
 		<script>
-			// 첨부파일 삭제
-			function fileReset(num){
-				$('#file'+num).val('');
-			}
+		 	var fileInputList = $("input[type=file]");
+	       	var imageList = $("img#preview");
+	       	var remBtnList = $("div.imageRemoveBtn");
+	       	for(let i=0; i<fileInputList.length; i++){
+	       		fileInputList.eq(i).on("change", function(e){
+					if(e.target.files.length == 0){
+						return;
+					}
+					let file = e.target.files[0];
+					let url = URL.createObjectURL(file);
+					imageList.eq(i).attr("src", url)
+					
+					
+					// 삭제버튼 ON
+					remBtnList.eq(i).addClass("on");
+					
+					deleteOrigin(i); // 삭제된 원본파일 기록
+				});
+	       		
+	       		remBtnList.eq(i).on("click", ()=>{
+	       			remBtnList.eq(i).removeClass("on")
+	       			imageList.eq(i)[0].src = 'resources/img/addImage.png';
+	       			fileInputList.eq(i).val('');
+	       			
+	       			deleteOrigin(i);// 삭제된 원본파일 기록
+	       		});
+	       	}
+	      
+	       	function deleteOrigin(i){
+	       		let fno= Number(i) + 1;
+	       		let fileNo = $('#origin-'+fno).data('fno');
+	       		let fileName = $('#origin-'+fno).data('filename');
+	       		
+	       		// 원본파일이 삭제되었을 경우, file3*15*resources/img/feedUploadFiles/abc.jpg 형태로 기록
+	       		// 위치*파일번호*파일명
+	       		if(fileNo != ''){
+		       		$('#origin-'+fno).val('file'+fno+'*'+fileNo+'*'+fileName);
+	       		}
+	       	}
+	       	
+	       	// ajax로 새글을 띄운 후, 모달창을 다시 비워 주는 용도의 함수
+	       	// 현재 setModalContent()에서 data-fno랑 data-filename이 ajax 호출 후에 값이 이전값으로만 계속 들어가는 문제가 발생
+	       	// => 일단 글 수정 후에 redirect로 창 다시 띄움. 추후 모임모집글처럼 수정후에 ajax로 내용만 새로 띄우게 수정 필요
+	       	/*
+	       	function resetInput(){
+	       		for(let i=0; i<4; i++){
+	       			$('div.imageRemoveBtn').eq(i).removeClass('on');
+	       			$('img#preview').eq(i)[0].src = 'resources/img/addImage.png';
+	       			$('input[type=file]').eq(i).val('');
+	       			
+	       			let fno = Number(i) + 1;
+	       			$('#origin-'+fno).attr('data-fno', '').attr('data-filename', '');
+	       			$('#origin-'+fno).val('');
+	       		}
+	       	}
+	       	*/
+	       	
 		</script>
 		
 		
@@ -751,41 +788,41 @@
 		
 		<!-- 이미지 슬라이드 JS -->
 		
-		var currentIndex = 1;
-
-		function displaySlide(n) {
-		  currentIndex = n;
-		  var slides = document.getElementsByClassName("slide");
-		  console.log(slides);
-		  var dots = document.getElementsByClassName("dot");
-		 
-
-		  if(currentIndex > slides.length) {
-		    currentIndex = 1; 
-		  }
-		  if(currentIndex < 1) {
-		    currentIndex = slides.length; 
-		  }
-		  for(var i = 0; i < slides.length; i++)  {
-		    slides[i].style.display = "none"; 
-		    dots[i].className = dots[i].className.replace(" active", "");
-		  }
-		  
-		  slides[currentIndex - 1].style.display = "block";
-		  dots[currentIndex - 1].className = "dot active";
-		 
-		}
-
-		displaySlide(currentIndex);
-
-		function changeSlide(n) {
-		  currentIndex += n;
-		  displaySlide(currentIndex); 
-		}
-
-		function currentSlide(n) {
-		    displaySlide(n);
-		}
+			var currentIndex = 1;
+	
+			function displaySlide(n) {
+			  currentIndex = n;
+			  var slides = document.getElementsByClassName("slide");
+			  console.log(slides);
+			  var dots = document.getElementsByClassName("dot");
+			 
+	
+			  if(currentIndex > slides.length) {
+			    currentIndex = 1; 
+			  }
+			  if(currentIndex < 1) {
+			    currentIndex = slides.length; 
+			  }
+			  for(let i = 0; i < slides.length; i++)  {
+			    slides[i].style.display = "none"; 
+			    dots[i].className = dots[i].className.replace(" active", "");
+			  }
+			  
+			  slides[currentIndex - 1].style.display = "block";
+			  dots[currentIndex - 1].className = "dot active";
+			 
+			}
+	
+			displaySlide(currentIndex);
+	
+			function changeSlide(n) {
+			  currentIndex += n;
+			  displaySlide(currentIndex); 
+			}
+	
+			function currentSlide(n) {
+			    displaySlide(n);
+			}
 		
 		
 		</script>

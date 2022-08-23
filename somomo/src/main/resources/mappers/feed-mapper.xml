@@ -61,6 +61,30 @@
 		       STATUS = 'Y'
 	</select>
 	
+	<select id="selectSearchListCount" parameterType="hashmap" resultType="_int">
+		SELECT 
+		       COUNT(*) 
+		  FROM 
+		       FEED_BOARD 
+		 WHERE
+		       STATUS = 'Y'
+		 <if test='boardType != "A"'>
+		   AND 
+		       BOARD_TYPE = #{boardType} 
+		 </if>
+		 <if test='!regionNoList.contains(0)'>
+		   AND 
+		       REGION_NO IN
+		       <foreach collection="regionNoList" item="regionNo" open="(" close=")" separator=",">
+		       #{regionNo}
+		       </foreach>
+		 </if>
+		   AND
+		       BOARD_CONTENT
+		  LIKE 
+		       '%' || #{keyword} || '%'
+	</select>
+	
 	<select id="selectFeedList" resultMap="feedBoardResultSet">
 		SELECT
 		       BOARD_NO,
@@ -117,6 +141,21 @@
                        USER_ID = #{userId}) USING (BOARD_NO)
 		 WHERE
 		       F.STATUS = 'Y'
+		 <if test='boardType != "" and boardType != "A"'>
+		   AND 
+		       BOARD_TYPE = #{boardType} 
+		 </if>
+		 <if test='!regionNoList.isEmpty() and !regionNoList.contains(0)'>
+		   AND 
+		       REGION_NO IN
+		       <foreach collection="regionNoList" item="regionNo" open="(" close=")" separator=",">
+		       #{regionNo}
+		       </foreach>
+		 </if>
+		   AND
+		       BOARD_CONTENT
+		  LIKE 
+		       '%' || #{keyword} || '%'
 		 ORDER
 		    BY BOARD_NO DESC
 	</select>
@@ -141,6 +180,8 @@
 			   REGION_NAME
 		  FROM 
 		       REGION_CATEGORY
+		 WHERE
+		       REGION_NAME != '전체지역'
 	</select>
 	
 	<insert id="insertGeneralBoard" parameterType="feedBoard">
@@ -322,6 +363,8 @@
 		       FEED_ATTACHMENT
 	     WHERE
 	           BOARD_NO = #{boardNo}
+	     ORDER
+	        BY FILE_NO
 	</select>
 	
 	<select id="selectMeetBoard" parameterType="_int" resultMap="feedBoardResultSet">
@@ -421,6 +464,63 @@
 		       (
 		       #{roomNo},
 		       #{userId}
+		       )
+	</insert>
+	
+	<select id="countOriginFile" parameterType="_int" resultType="_int">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       FEED_ATTACHMENT
+		 WHERE
+		       BOARD_NO = #{boardNo}
+	</select>
+	
+	<update id="updateGeneralBoard" parameterType="feedBoard">
+		UPDATE
+		       FEED_BOARD
+		   SET
+		       REGION_NO = #{regionNo},
+		       BOARD_TITLE = #{boardTitle},
+		       BOARD_CONTENT = #{boardContent}
+		 WHERE
+		       BOARD_NO = #{boardNo}
+	</update>
+	
+	<delete id="deleteAttachment" parameterType="_int">
+		DELETE
+		  FROM
+		       FEED_ATTACHMENT
+		 WHERE
+		       FILE_NO = #{fileNo}
+	</delete>
+	
+	<update id="updateAttachment" parameterType="attachment">
+		UPDATE
+		       FEED_ATTACHMENT
+		   SET
+		       ORIGIN_NAME = #{originName},
+		       CHANGE_NAME = #{changeName}
+		 WHERE
+		       FILE_NO = #{fileNo}
+	</update>
+	
+	<insert id="insertNewAttachment" parameterType="attachment">
+		INSERT 
+		  INTO 
+		       FEED_ATTACHMENT
+		       (
+		       FILE_NO,
+		       BOARD_NO,
+		       ORIGIN_NAME,
+		       CHANGE_NAME
+		       )
+		VALUES 
+		       (
+		       SEQ_FANO.NEXTVAL,
+		       #{boardNo},
+		       #{originName},
+		       #{changeName}
 		       )
 	</insert>
 	

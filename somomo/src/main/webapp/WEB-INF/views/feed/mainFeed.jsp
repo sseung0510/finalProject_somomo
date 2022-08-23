@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.6">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.0.9">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!----------- 아이콘 CSS 링크 version 2------->
@@ -26,11 +26,6 @@
 </head>
 <body>
 
-
-	
-
-
-
 	<!--------------------- 왼쪽 사이드 바 ------------------------>
 	<jsp:include page="feedCommon/feed_leftSidebar.jsp" />
 	<!--------------------- 왼쪽 사이드 바 끝 ------------------------>
@@ -43,7 +38,9 @@
 
 			<div class="search-box">
             	<i class="uil uil-search"></i>
-                <input type="text" placeholder="검색">
+            	<form action="search.fd" method="get">
+                	<input type="text" placeholder="검색" name="keyword">
+                </form>
             </div>
 		</div>
         <!------- 헤더 끝--------->
@@ -59,13 +56,24 @@
 					<i class="uil uil-edit"></i>
 					<div class="menu">
 						<ul>
-							<li><button type="button" data-toggle="modal" data-target="#enrollBoardModal" class="btn btn-primary">일반글</button></li>
-							<li><button type="button" data-toggle="modal" data-target="#enrollMeetBoardModal" class="btn btn-primary">모임모집</button></li>
+							<li><button type="button" class="btn btn-primary" onclick="openModal('G');">일반글</button></li>
+							<li><button type="button" class="btn btn-primary" onclick="openModal('M');">모임모집</button></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<script>
+				function openModal(bType){
+					if(bType == 'G'){
+						$('#enrollBoardModal').find('form').trigger('reset');
+						//fileReset(1);
+						$('#enrollBoardModal').modal('toggle');
+					}
+					else{
+						$('#enrollMeetBoardModal').find('form').trigger('reset');
+						$('#enrollMeetBoardModal').modal('toggle');
+					}
+				}
 				// 글쓰기 버튼 Toggle javascript
 				const menu = document.querySelector('.menuToggle');
 				menu.addEventListener('click', function() {
@@ -85,11 +93,10 @@
         	<input type="hidden" name="boardNo" value="">
         </form>
         
-        
         <script>
 	    	$(function(){
 	    		
-	    		let currentPage = ${pi.currentPage} ;
+	    		let currentPage = ${pi.currentPage};
 	    		//let currentPage = 1 ;
 	    		
 	    		selectFeedList(currentPage);
@@ -140,7 +147,10 @@
         			data : {
         				userId : '${loginUser.userId}',
         				currentPage : currentPage,
-        				boardLimit : '${pi.boardLimit}'
+        				boardLimit : '${pi.boardLimit}',
+        				boardType : '${boardType}',
+        				regionNo : '${regionNoList}',
+        				keyword : '${keyword}'
         			},
         			success : function(data){
         				// 응답된 문자열은 html형식(feed/ajaxFeedList.jsp에 응답내용 있음)
@@ -271,57 +281,55 @@
 							<div class="mdm"><b>내용</b></div>
 							<textarea name="boardContent" class="form-control" rows="8" placeholder="내용을 입력해주세요" style="resize: none;" required></textarea>
 							
-							
-							
-								    <div class="grid" >
-								    	<div class="form-wrap">
-									      <div class="form-element">
-									      	
-									        <input type="file" name="file1" id="file-1" accept="image/*">
-									        <label for="file-1" id="file-1-preview">
-									          <img id="preview" src="resources/img/addImage.png" >
-									        </label>
-									      </div>
-									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									   </div>
-									   <div class="form-wrap">
-									      <div class="form-element">
-									     	
-									        <input type="file" name="file2" id="file-2" accept="image/*">
-									        <label for="file-2" id="file-2-preview">
-									          <img id="preview" src="resources/img/addImage.png" >
-									        </label>
-									      </div>
-									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									   </div>
-									   <div class="form-wrap">
-									      <div class="form-element">
-									        <input type="file" name="file3"  id="file-3" accept="image/*">
-									        <label for="file-3" id="file-3-preview">
-									          <img id="preview" src="resources/img/addImage.png" >
-									        </label>
-									      </div>
-									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									   </div>
-									   <div class="form-wrap">
-									      <div class="form-element">
-									        <input type="file" name="file4" id="file-4" accept="image/*">
-									        <label for="file-4" id="file-4-preview">
-									          <img id="preview" src="resources/img/addImage.png" >
-									        </label>
-									     </div>
-									        <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
-									    </div>
-								
-									</div>
-								
-							<!-- 
-								<input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
-								<input type="file" name="file2" id="file2"><input type="button" value="파일 삭제" onclick="fileReset(2);">
-								<input type="file" name="file3" id="file3"><input type="button" value="파일 삭제" onclick="fileReset(3);">
-								<input type="file" name="file4" id="file4"><input type="button" value="파일 삭제" onclick="fileReset(4);">
-								 -->
-							
+							<div class="grid">
+								<div class="form-wrap">
+									<div class="form-element">
+								      	
+								        <input type="file" name="file1" id="file-1" accept="image/*">
+								        <label for="file-1" id="file-1-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								     </div>
+								     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+								<div class="form-wrap">
+									<div class="form-element">
+								     	
+								        <input type="file" name="file2" id="file-2" accept="image/*">
+								        <label for="file-2" id="file-2-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								    </div>
+								    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+								<div class="form-wrap">
+									<div class="form-element">
+								    	<input type="file" name="file3"  id="file-3" accept="image/*">
+								        <label for="file-3" id="file-3-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								    </div>
+								    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+								<div class="form-wrap">
+									<div class="form-element">
+								    	<input type="file" name="file4" id="file-4" accept="image/*">
+								        <label for="file-4" id="file-4-preview">
+								        	<img id="preview" src="resources/img/addImage.png" >
+								        </label>
+								     </div>
+								     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+								</div>
+							    
+							    <!-- 기존 파일 정보 -->
+							    <div class="origin-area" style="display:none;">
+								    <input type="hidden" name="origin" id="origin-1" data-fno="" data-filename="" value="">
+								    <input type="hidden" name="origin" id="origin-2" data-fno="" data-filename="" value="">
+								    <input type="hidden" name="origin" id="origin-3" data-fno="" data-filename="" value="">
+								    <input type="hidden" name="origin" id="origin-4" data-fno="" data-filename="" value="">
+							    </div>
+						    </div>
+
 							<div style="margin-top:10px;">
 								<button type="submit" class="btnPink">글작성</button>
 							</div>
@@ -437,10 +445,8 @@
            		
            	});
            	
-           	// 2022 08 21 사진 추가 JS
-           
+            
            	// 삭제버튼 Default OFF
-           	
            	var fileInputList = $("input[type=file]");
            	var imageList = $("img#preview");
            	var remBtnList = $("div.imageRemoveBtn");
@@ -464,9 +470,6 @@
            			fileInputList.eq(i).val('');
            		})
            	}
-
-          
-           
            	
            	
 		</script>

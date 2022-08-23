@@ -136,12 +136,10 @@ nav.close li a .link-name{
     pointer-events: none;
 }
 
-
-
 .menu-items li img {
     margin-left: 10px;
-    width: 24px;
-    height: 24px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -149,14 +147,18 @@ nav.close li a .link-name{
     color: var(--black-light-color);
 }
 
-.menu-items li a .community-name{
+.loginProfile {
+	margin-top:350px;
+}
+
+.menu-items li a .login-profile{
     position: fixed;
     margin-left: 57px;
     font-size: 16px;
     font-weight: 400;
     color: var(--community-text-color);    
     transition: var(--tran-05);
-    font-family: "Roboto","Arial",sans-serif;
+    /*font-family: "Roboto","Arial",sans-serif;*/
    
 }
 
@@ -687,7 +689,7 @@ nav.close ~ .main-content .main-feed{
 .grid .form-element {
   width:101px;
   height:101px;
-  border : 1px solid black;
+  border : 1px solid lightgray;
  
 }
 .grid .form-element input {

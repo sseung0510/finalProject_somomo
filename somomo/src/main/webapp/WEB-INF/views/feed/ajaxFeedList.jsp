@@ -32,18 +32,6 @@
 									</c:choose>
 								</td>
 								<td><div class="fd-board-nickname"><strong>${fb.nickname}</strong></div></td>
-								<c:if test="${loginUser.userId eq fb.boardWriter}">
-									<td align="right">
-										<div class="form-icon">
-											<i class='bx bx-dots-vertical-rounded feed'>
-											<ul class="feed-link">
-												<li><a class="updateMeetBoard">수정</a></li>
-												<li><a class="checkDelete">삭제</a></li>
-											</ul>
-											</i>
-										</div>
-									</td>
-								</c:if>
 							</tr>
 							<tr><td class="fd-board-date"><div class="fd-board-nickname">${fb.boardDate}</div></td></tr>
 						</table>
@@ -107,18 +95,6 @@
 									</c:choose>
 								</td>
 								<td><div class="fd-board-nickname"><strong>${fb.nickname}</strong></div></td>
-								<c:if test="${loginUser.userId eq fb.boardWriter}">
-									<td align="right">
-										<div class="form-icon">
-											<i class='bx bx-dots-vertical-rounded feed'>
-											<ul class="feed-link">
-												<li><a class="updateMeetBoard">수정</a></li>
-												<li><a class="checkDelete">삭제</a></li>
-											</ul>
-											</i>
-										</div>
-									</td>
-								</c:if>
 							</tr>
 							<tr><td class="fd-board-date"><div class="fd-board-nickname">${fb.boardDate}</div></td></tr>
 						</table>
