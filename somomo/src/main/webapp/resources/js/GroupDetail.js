@@ -38,14 +38,49 @@ var writePopup = function(){
    
 }
 
+var updatePopup = function(){
+    
+    var hide = ()=>{
+        this.popup.removeClass("active");
+    }
+
+    this.popup = $("#updatePopup")
+    this.content = $("#updatePopup textarea")
+    this.submitButton = $("#updatePopup #submit")
+    this.submitButton.click(()=>{
+        
+        // TODO: ajax로 데이터 주고 받자!!!!
+
+
+        hide();
+        $("#updatePopup #editor").empty();
+    });
+
+    this.closeButton = $("#updatePopup #close")
+    this.closeButton.click(()=>{
+
+        hide();
+        $("#updatePopup #editor").empty();
+    })
+
+
+
+    this.show = ()=>{
+        this.popup.addClass("active");
+    }
+   
+}
+
 // 글쓰기 버튼 클릭했을 떄 active 클래스 추가
 writeBtn.addEventListener("click", ()=>{
     var w = new writePopup();
     w.show();
 })
 
-
-
+		// updateBtn.addEventListener("click", ()=>{
+		// 	var w = new writePopup();
+		// 	w.show();
+		// })
 
 // 피드 DROPDOWN
 /*

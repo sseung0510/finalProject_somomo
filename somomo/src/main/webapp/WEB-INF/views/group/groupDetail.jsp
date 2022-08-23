@@ -10,7 +10,7 @@
     
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.9">
-    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.8">
+    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.9">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
     <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.4">
     <!----------- 아이콘 CSS 링크 ------->
@@ -48,6 +48,10 @@
 
     </div>
         
+	<script>
+		console.log($('feed-profile'));
+	</script>
+
 	<script>
 		$(function(){
 			
@@ -121,6 +125,11 @@
 						insertReply(this);
 					})
 					
+					$('.feed').click(function(){
+						const feed = document.querySelector('.feed');
+						const dropdownFeed = feed.querySelector('.feed-link');
+						dropdownFeed.classList.toggle('show');
+					})
 					
 				}
 			});
@@ -442,12 +451,18 @@
 			$('#file'+num).val('');
 		}
 	</script>
+	
+	<script src="resources/js/GroupDetail.js?ver=1.0.1"></script>
+
+	<script>
+		$(document).on('click', '#updateForm', function(){
+			var w = new updatePopup();
+			w.show();
+		})
+	</script>
     
     
     
     
-    
-    
-    <script src="resources/js/GroupDetail.js"></script>
 </body>
 </html>

@@ -38,7 +38,7 @@
                         <div class="form-icon">
                             <i class='bx bx-dots-vertical-rounded feed'>
                                 <ul class="feed-link">
-                                    <li><a href=""> 글 수정</a></li>
+                                    <li id="updateForm"><a> 글 수정</a></li>
                                     <li><a href="">삭제하기</a></li>
                                     <li><a href="">공지로 등록</a></li>
                                 </ul>

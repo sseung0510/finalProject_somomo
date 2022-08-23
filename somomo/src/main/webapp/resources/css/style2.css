@@ -38,10 +38,12 @@ body{
               transform 0.2s 0s ease-in-out;
 }
 
-#writePopup {
+#writePopup,
+#updatePopup {
   opacity: 0;
 }
-#writePopup.active{
+#writePopup.active,
+#updatePopup.active{
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);
