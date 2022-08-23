@@ -91,22 +91,6 @@ public class GroupController {
 		return "group/ajaxGroupList";
 	}
 	
-	//그룹방 검색 리스트
-//	@ResponseBody
-//	@RequestMapping(value="search.gr")
-//	public ModelAndView searchList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
-//								   @RequestParam(value = "cno", defaultValue = "0") String categoryNo,
-//									HttpSession session, ModelAndView mv, String search) {
-//		ArrayList<GroupRoom> gList = groupService.searchGroup(search);
-//		PageInfo pi = Pagination.getPageInfo(groupService.selectGroupListCount(categoryNo), currentPage, 10, 9); // 페이징처리
-//		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
-//		mv.addObject("list", gList)
-//		  .addObject("pi",pi)
-//		  .addObject("myGroupList", groupService.myGroupList(userId))
-//		  .setViewName("group/community");
-//		return mv;
-//	}
-	
 	// 그룹방 개설 페이지로 요청 처리
 	@RequestMapping("insertForm.gr")
 	public String insertForm(Model model) {
@@ -201,6 +185,7 @@ public class GroupController {
 		
 		// 수정 전 사용하던 그룹 대표 이미지가 사이트에서 제공하던 사진이였는지, 사용자가 직접 업로드한 사진이였는지 확인하는 메소드
 		// true : 사이트에서 제공하는 사진, false : 사용자가 업로드한 파일
+		
 		boolean checkImg = checkDefaultImg(session, originFile); 
 		
 		// 새로운 업로드 파일이 있는지 확인
@@ -229,7 +214,7 @@ public class GroupController {
 		}
 		
 		int result = groupService.updateGroup(g);
-		
+
 		return "redirect:setting.gr?groupNo=" + g.getGroupNo();
 	}
 	
@@ -474,7 +459,7 @@ public class GroupController {
 
 	
 	@RequestMapping("calendar.gr")
-	public String calendarForm(@RequestParam("gno") int groupNo, Model model) {	
+	public String calendarForm(int groupNo, Model model) {	
 		
 		model.addAttribute("c", groupService.selectCalendar(groupNo));
 		model.addAttribute("g", groupService.selectGroup(groupNo));

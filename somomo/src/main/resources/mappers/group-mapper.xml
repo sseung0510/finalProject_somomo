@@ -343,7 +343,8 @@
 		UPDATE
 		       GROUP_ROOM
 		   SET
-		       GROUP_TYPE = #{groupType}
+		       GROUP_TYPE = #{groupType},
+			       APPLY_QUESTION = #{applyQuestion}	       
 		 WHERE 
 		       GROUP_NO = #{groupNo}
 	</update>

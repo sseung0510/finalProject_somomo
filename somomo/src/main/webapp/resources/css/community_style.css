@@ -157,10 +157,13 @@ nav.close li a .link-name{
     justify-content: center;
     color: var(--black-light-color);
 }
+/* 
+.group-list::-webkit-scrollbar {
+    display: none;
+} */
 
 .group-list{
     max-height: 120px;
-    min-height: 120px;
     overflow-y: scroll;
 }
 
@@ -207,7 +210,7 @@ nav.close li a .link-name{
 
 .no-group img{
     width: 100px;
-    height: 100px;
+    height: 90px;
 }
 /*  */
 
@@ -689,7 +692,6 @@ body.dark .close:focus {
         display: none;
     }
   }
-
 
   @media only screen and (max-width: 964px) {
 

@@ -41,9 +41,9 @@
                         <li class="forward">
                             <a onclick="postForm(3);"><span class="header-name">일정</span></a>
                         </li>
-                        <li class="forward">
+                        <!-- <li class="forward">
                             <a onclick="postForm(4);"><span class="header-name">멤버</span></a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -55,6 +55,7 @@
 
 
 <form id="postForm" method="post" action="">
+    <input type="hidden" name="groupNo" value="${g.groupNo}">
     <input type="hidden" name="gno" value="${g.groupNo}">
 </form>
 

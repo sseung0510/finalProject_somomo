@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.3.2">
+	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.3.3">
 	<link rel="stylesheet" href="resources/css/default.css?ver=1.0.0">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -79,8 +79,9 @@
 
 	<script>
 
+		// 클릭된 카테고리 버튼은 색상 변경 / 클릭 X
 		$(function(){
-			$('.category-${cno}').css('background-color', 'var(--toggle-color)');
+			$('.category-${cno}').css({'background-color':'var(--toggle-color)', 'cursor' : 'default'}).off('click');
 		})
         
         // 무한 스크롤 페이징

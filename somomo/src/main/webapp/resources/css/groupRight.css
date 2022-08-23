@@ -61,6 +61,7 @@
 
 .member-profile li a{
   display: flex;
+  align-items: center;
 }
 
 .text{

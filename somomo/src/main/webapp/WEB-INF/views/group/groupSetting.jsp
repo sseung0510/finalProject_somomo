@@ -8,11 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.6">
+    <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.9">
     <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.5">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
-    <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.4">
-	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.0.7">
+    <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.5">
+	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.1.2">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -133,21 +133,6 @@
 							
 							<div class="content">
 								<input type="hidden" name="groupNo" value="${g.groupNo}">
-								<div class="content-row">
-									<div class="content-row__btn">
-										<input name="groupType" value="C" type="radio" id="private">
-										<label for="private">비공개 그룹</label>
-									</div>
-									<div class="content-row__desc">그룹과 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</div>
-								</div>
-
-								<div class="content-row">
-									<div class="content-row__btn">
-										<input name="groupType" value="B" type="radio" id="public">
-										<label for="public">그룹명 공개 그룹</label> 
-									</div>
-									<div class="content-row__desc">누구나 그룹을 검색으로 찾아 그룹 소개를 볼 수 있지만, 게시글은 멤버만 볼 수 있습니다.</div>
-								</div>
 
 								<div class="content-row">
 									<div class="content-row__btn">
@@ -155,6 +140,25 @@
 										<label for="public-toAll">공개 그룹</label>
 									</div>
 									<div class="content-row__desc">누구나 그룹을 검색해 찾을 수 있고, 그룹 소개와 게시글을 볼 수 있습니다.</div>
+								</div>
+								
+								<div class="content-row">
+									<div class="content-row__btn">
+										<input name="groupType" value="B" type="radio" id="public">
+										<label for="public">그룹명 공개 그룹</label> 
+									</div>
+									<div class="content-row__desc">누구나 그룹을 검색으로 찾아 그룹 소개를 볼 수 있지만, 게시글은 멤버만 볼 수 있습니다.</div>
+									<div class="content-row__question">
+										<textarea class="hidden" name="applyQuestion" id="applyQuestion"></textarea>
+									</div>
+								</div>
+
+								<div class="content-row">
+									<div class="content-row__btn">
+										<input name="groupType" value="C" type="radio" id="private">
+										<label for="private">비공개 그룹</label>
+									</div>
+									<div class="content-row__desc">그룹과 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</div>
 								</div>
 							</div>
 						</div>
@@ -172,28 +176,24 @@
 				<div class="modal-content-setting">
 	
 					<div class="modal-header">
-						<div class="header-title">
-							<span>가입 신청 처리</span>
+						<div class="header-title-applyForm">
+							<div class="header-title-applyForm__div1">
+								<span>가입 신청 처리</span>
+							</div>
 							<button type="button" class="close">나가기</button>
 						</div>
 					</div>
 					
-					<div class="modal-body">
+					<div class="modal-body-apply">
 						
 						<div class="list-content">
 							<!-- ajax로 요청된 리스트 : getApplicationList.gr -->
-							<table>
-								<thead>
-									<tr>
-										<th>회원닉네임</th>
-										<th>가입인사</th>
-										<th>처리</th>
-									</tr>
-								</thead>
-								<tbody>
-									
-								</tbody>
-							</table>
+							<div class="list-header">
+								<div class="list-header-row">회원닉네임</div>
+								<div class="list-header-row">답변</div>
+								<div class="list-header-row">처리</div>
+							</div>
+							<div class="list-body"></div>
 						</div>
 					</div>
 				</div>
@@ -264,13 +264,6 @@
 			$('.close').click(function(){
 				modal.fadeOut(300);
 				$('body').css({'overflow':'auto'});
-
-				// jsp파일로 요청했을때 지워주는 방법
-				// ajax로 받아온 리스트를 클리어 해야하는디..
-				// 방법 1)
-				//$('.list-content').html(""); 
-				// 방법 2)
-				// location.reload(true); 
 			})
 
 		} 
@@ -287,27 +280,26 @@
 				success : function(data){
 					let value = "";
 
-					console.log(data);
-
 					if(data.length != 0){
 						for(let i in data){
-							value += '<tr>'
-										+ '<td>' + data[i].nickname + '</td>'
-										+ '<td>' + data[i].greeting + '</td>'
-										+ '<td>'
-											+ '<input type="hidden" name="applyNo" value="'+ data[i].applyNo +'">'
-											+ '<input type="hidden" name="userId" value="'+ data[i].userId +'">'
-											+ '<input type="hidden" name="groupNo" value="'+ ${g.groupNo} + '">'
-											+ '<button class="acceptApply">승인</button>'
-											+ '<button class="rejectApply">거절</button>'
-										+ '</td>'
-									+ '</tr>';
-	
-							$('.list-content tbody').html(value);
+							value += 	'<div class="items">'
+									+		'<div class="list-body-row">' + data[i].nickname + '</div>'
+									+		'<div class="list-body-row">' + data[i].greeting + '</div>'
+									+		'<div class="list-body-row">'
+									+			'<input type="hidden" name="applyNo" value="'+ data[i].applyNo +'">'
+									+	 		'<input type="hidden" name="userId" value="'+ data[i].userId +'">'
+									+ 			'<input type="hidden" name="groupNo" value="'+ ${g.groupNo} + '">'
+									+			'<button class="acceptApply">승인</button>'
+									+			'<button class="rejectApply">거절</button>'
+									+ 		'</div>'
+									+	'</div>';
+										
+
+							$('.list-body').html(value);
 						}
 					} 
 					else{
-						$('.list-content').html("없어용!!!");
+						$('.list-body').html("<div class='no-result'>대기중인 요청이 존재하지 않습니다.</div");
 					}
 
 				},
@@ -350,7 +342,6 @@
 
 	</script>
 	
-
     <script>
 		function settingForm(num){
 			switch(num){
@@ -369,6 +360,26 @@
 		}
 	</script>
     
+	<script>
+		$('#public').click(function(){
+			$('#applyQuestion').removeClass('hidden');
+		})
+
+		$('#private, #public-toAll').click(function(){
+			$('#applyQuestion').addClass('hidden');
+			$('#applyQuestion').val('');
+		})
+
+		$('#private').click(function(){
+			if(confirm('정말 비공개로 변경하시겠습니까? 그룹이 목록에서 조회되지 않으며 초대코드로만 멤버를 추가할 수 있습니다.')){
+				return true;
+			}
+			else{
+				return false;
+			}	
+		})
+	</script>
+
     <script src="resources/js/GroupDetail.js"></script>
 </body>
 </html>

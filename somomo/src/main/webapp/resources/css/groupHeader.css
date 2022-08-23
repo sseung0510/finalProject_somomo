@@ -166,7 +166,7 @@ header{
 
 .main-header .main-header-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     height: 40px;
     padding: 0 15%;
