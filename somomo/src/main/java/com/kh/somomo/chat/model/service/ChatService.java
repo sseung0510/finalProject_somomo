@@ -11,9 +11,19 @@ public interface ChatService {
 
 	ArrayList<ChatRoom> selectAllChatRoom();
 
+	int insertUserInChatRoom(ChatMember cm);
+	
+	int checkInsertUser(ChatMember cm);
+	
 	ArrayList<ChatRoom> selectMyChatRoom(String userId);
 
-	int checkInsertUser(ChatMember cm);
+	ArrayList<Chat> selectChatInChatRoom(ChatMember cm);
 
-	int insertUserInChatRoom(ChatMember cm);
+	ArrayList<ChatMember> selectUserInChatRoom(int roomNo);
+
+	ChatRoom selectChatRoom(int roomNo);
+
+	int insertChat(Chat c);
+
+	Chat selectChat(Chat c);
 }

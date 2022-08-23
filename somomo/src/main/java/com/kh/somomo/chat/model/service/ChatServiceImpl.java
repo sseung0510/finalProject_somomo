@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.somomo.chat.model.dao.ChatDao;
-import com.kh.somomo.chat.model.vo.ChatMember;
-import com.kh.somomo.chat.model.vo.ChatRoom;
+import com.kh.somomo.chat.model.vo.*;
 import com.kh.somomo.feed.model.vo.FeedBoard;
 
 @Service
@@ -26,7 +25,7 @@ public class ChatServiceImpl implements ChatService{
 	public int insertChatRoom(FeedBoard fb) {
 		
 		int result1 = chatDao.insertMeetBoard(sqlSession, fb);
-		int result2 = chatDao.insertChatRoom(sqlSession, fb.getBoardTitle());
+		int result2 = chatDao.insertChatRoom(sqlSession, fb);
 		int result3 = chatDao.insertChatMember(sqlSession, fb.getBoardWriter());
 		
 		return result1 * result2 * result3;
@@ -36,6 +35,16 @@ public class ChatServiceImpl implements ChatService{
 	public ArrayList<ChatRoom> selectAllChatRoom() {
 		return chatDao.selectAllChatRoom(sqlSession);
 	}
+	
+	@Override
+	public int insertUserInChatRoom(ChatMember cm) {
+		return chatDao.insertUserInChatRoom(sqlSession, cm);
+	}
+	
+	@Override
+	public int checkInsertUser(ChatMember cm) {
+		return chatDao.checkInsertUser(sqlSession, cm);
+	}
 
 	@Override
 	public ArrayList<ChatRoom> selectMyChatRoom(String userId) {
@@ -43,12 +52,27 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	@Override
-	public int checkInsertUser(ChatMember cm) {
-		return chatDao.checkInsertUser(sqlSession, cm);
+	public ArrayList<Chat> selectChatInChatRoom(ChatMember cm) {
+		return chatDao.selectChatInChatRoom(sqlSession, cm);
 	}
 
 	@Override
-	public int insertUserInChatRoom(ChatMember cm) {
-		return chatDao.insertUserInChatRoom(sqlSession, cm);
+	public ArrayList<ChatMember> selectUserInChatRoom(int roomNo) {
+		return chatDao.selectUserInChatRoom(sqlSession, roomNo);
+	}
+
+	@Override
+	public ChatRoom selectChatRoom(int roomNo) {
+		return chatDao.selectChatRoom(sqlSession, roomNo);
+	}
+
+	@Override
+	public int insertChat(Chat c) {
+		return chatDao.insertChat(sqlSession, c);
+	}
+
+	@Override
+	public Chat selectChat(Chat c) {
+		return chatDao.selectChat(sqlSession, c);
 	}
 }

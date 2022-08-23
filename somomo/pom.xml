@@ -270,6 +270,20 @@
 		    <artifactId>javax.mail</artifactId>
 		    <version>1.6.2</version>
 		</dependency>
+		
+		<!-- 웹소켓 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- jackson -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.12.3</version>
+		</dependency>
 		       
 	</dependencies>
 	

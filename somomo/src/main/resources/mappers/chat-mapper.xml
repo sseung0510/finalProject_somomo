@@ -2,17 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chatMapper">
 	
-	<resultMap type="chatRoom" id="chatRoomResultSet">
+	<resultMap type="chat" id="chatResultSet">
+		<result column="CHAT_NO" property="chatNo"/>
 		<result column="ROOM_NO" property="roomNo"/>
-		<result column="BOARD_NO" property="boardNo"/>
-		<result column="ROOM_NAME" property="roomName"/>
-		<result column="ROOM_DATE" property="roomDate"/>
+		<result column="CHAT_WRITER" property="chatWriter"/>
+		<result column="CHAT_CONTENT" property="chatContent"/>
+		<result column="CHAT_DATE" property="chatDate"/>
+		<result column="CHAT_TIME" property="chatTime"/>
+		<result column="PROFILE_IMG" property="profileImg"/>
+		<result column="NICKNAME" property="nickname"/>
 	</resultMap>
 	
 	<resultMap type="chatMember" id="chatMemberResultSet">
 		<result column="ROOM_NO" property="roomNo"/>
 		<result column="USER_ID" property="userId"/>
 		<result column="USER_RANK" property="userRank"/>
+		<result column="INSERT_DATE" property="insertDate"/>
+		<result column="PROFILE_IMG" property="profileImg"/>
+		<result column="NICKNAME" property="nickname"/>
+	</resultMap>
+	
+	<resultMap type="chatRoom" id="chatRoomResultSet">
+		<result column="ROOM_NO" property="roomNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="ROOM_NAME" property="roomName"/>
+		<result column="ROOM_DATE" property="roomDate"/>
+		<result column="ROOM_THUMBNAIL" property="roomThumbnail"/>
+		<result column="CHAT_CONTENT" property="chatContent"/>
+		<result column="CHAT_DATE" property="chatDate"/>
+		<result column="INSERT_DATE" property="insertDate"/>
 	</resultMap>
 	
 	<insert id="insertMeetBoard" parameterType="feedBoard">
@@ -20,38 +38,40 @@
 		  INTO
 		       FEED_BOARD
 		       (
-		       BOARD_NO,
-		       BOARD_WRITER,
-		       REGION_NO,
-		       BOARD_TYPE,
-		       BOARD_TITLE,
+		       BOARD_NO, 
+		       BOARD_WRITER, 
+		       REGION_NO, 
+		       BOARD_TYPE, 
+		       BOARD_TITLE, 
 		       BOARD_CONTENT
 		       )
 		VALUES
 		       (
-		       SEQ_FBNO.NEXTVAL,
-		       #{boardWriter},
-		       1,
-		       'M',
-		       #{boardTitle},
+		       SEQ_FBNO.NEXTVAL, 
+		       #{boardWriter}, 
+		       1, 
+		       'M', 
+		       #{boardTitle}, 
 		       'test'
 		       )
 	</insert>
 	
-	<insert id="insertChatRoom" parameterType="String">
+	<insert id="insertChatRoom" parameterType="feedBoard">
 		INSERT 
 		  INTO 
 		       CHAT_ROOM
 		       (
-		       ROOM_NO,
-		       BOARD_NO,
-		       ROOM_NAME
+		       ROOM_NO, 
+		       BOARD_NO, 
+		       ROOM_NAME, 
+		       ROOM_THUMBNAIL
 		       )
 		VALUES 
 		       (
-		       SEQ_CRNO.NEXTVAL,
-		       SEQ_FBNO.CURRVAL,
-		       #{boardTitle}
+		       SEQ_CRNO.NEXTVAL, 
+		       SEQ_FBNO.CURRVAL, 
+		       #{boardTitle}, 
+		       #{profileImg}
 		       )
 	</insert>
 	
@@ -60,14 +80,14 @@
 		  INTO 
 		       CHAT_MEMBER
 		       (
-		       ROOM_NO,
-		       USER_ID,
+		       ROOM_NO, 
+		       USER_ID, 
 		       USER_RANK
 		       )
 		VALUES 
 		       (
-		       SEQ_CRNO.CURRVAL,
-		       #{boardWriter},
+		       SEQ_CRNO.CURRVAL, 
+		       #{boardWriter}, 
 		       'A'
 		       )
 	</insert>
@@ -85,21 +105,21 @@
                ROOM_DATE DESC
 	</select>
 	
-	<select id="selectMyChatRoom" resultMap="chatRoomResultSet">
-		SELECT 
+	<select id="insertUserInChatRoom" parameterType="chatMember">
+		INSERT 
+		  INTO 
+		       CHAT_MEMBER
+		       (
 		       ROOM_NO, 
-               BOARD_NO, 
-               ROOM_NAME, 
-               ROOM_DATE
-		  FROM
-		       CHAT_ROOM
-		  JOIN 
-		       CHAT_MEMBER USING (ROOM_NO)
-		 WHERE 
-		       USER_ID = #{userId}
-         ORDER 
-            BY 
-               ROOM_DATE DESC
+		       USER_ID, 
+		       USER_RANK
+		       )
+		VALUES 
+		       (
+		       #{roomNo}, 
+		       #{userId}, 
+		       'M'
+		       )
 	</select>
 	
 	<select id="checkInsertUser" parameterType="chatMember" resultType="_int">
@@ -113,21 +133,160 @@
                ROOM_NO = #{roomNo}
 	</select>
 	
-	<select id="insertUserInChatRoom" parameterType="chatMember">
+	<select id="selectMyChatRoom" parameterType="String" resultMap="chatRoomResultSet">
+		SELECT 
+		       ROOM_NO, 
+               BOARD_NO, 
+               ROOM_NAME, 
+               ROOM_DATE, 
+               ROOM_THUMBNAIL, 
+               CHAT_CONTENT, 
+               CHAT_DATE, 
+               INSERT_DATE
+		  FROM
+		       CHAT_ROOM
+		  JOIN 
+		       CHAT_MEMBER USING (ROOM_NO)
+     LEFT JOIN 
+               (
+               SELECT 
+                       ROOM_NO, 
+                       CHAT_CONTENT, 
+                       CHAT_DATE
+                  FROM 
+                       CHAT
+                 WHERE 
+                       ROWID IN (SELECT 
+                                        MAX(ROWID) 
+                                   FROM 
+                                        CHAT 
+                                  GROUP 
+                                     BY 
+                                        ROOM_NO)
+               ) USING (ROOM_NO)
+		 WHERE 
+		       USER_ID = #{userId}
+         ORDER 
+            BY 
+               CHAT_DATE DESC NULLS LAST
+	</select>
+	
+	<select id="selectChatInChatRoom" parameterType="chatMember" resultMap="chatResultSet">
+		SELECT 
+		       CHAT_NO, 
+		       ROOM_NO, 
+		       CHAT_WRITER, 
+		       CHAT_CONTENT, 
+		       TO_CHAR(CHAT_DATE, '""YYYY"년 "FMMM"월 "FMDD"일" DAY') AS "CHAT_DATE",
+		       TO_CHAR(CHAT_TIME, 'AM FMHH:FMMI') AS "CHAT_TIME",
+		       PROFILE_IMG, 
+		       NICKNAME
+		  FROM
+		       CHAT
+		  JOIN 
+		       MEMBER ON (CHAT_WRITER = USER_ID)
+		 WHERE 
+		       ROOM_NO = #{roomNo}
+		   AND 
+		       <![CDATA[(SELECT 
+                                TO_CHAR(INSERT_DATE, 'YYYYMMDDHH24MISS')
+                           FROM 
+                                CHAT_MEMBER
+                          WHERE 
+                                USER_ID = #{userId}
+                            AND 
+                                ROOM_NO = #{roomNo}) <= TO_CHAR(CHAT_DATE, 'YYYYMMDDHH24MISS')]]>
+         ORDER 
+            BY 
+               CHAT_NO ASC
+	</select>
+	
+	<select id="selectUserInChatRoom" parameterType="_int" resultMap="chatMemberResultSet">
+		SELECT 
+		       ROOM_NO, 
+		       USER_ID, 
+		       USER_RANK, 
+		       INSERT_DATE, 
+		       PROFILE_IMG, 
+		       NICKNAME
+		  FROM
+		       CHAT_MEMBER
+		  JOIN 
+		       MEMBER USING (USER_ID)
+		 WHERE 
+		       ROOM_NO = #{roomNo}
+         ORDER 
+            BY 
+               INSERT_DATE ASC
+	</select>
+	
+	<select id="selectChatRoom" parameterType="_int" resultMap="chatRoomResultSet">
+		SELECT 
+		       ROOM_NO, 
+		       BOARD_NO, 
+		       ROOM_NAME, 
+		       ROOM_DATE, 
+		       ROOM_THUMBNAIL
+		  FROM
+		       CHAT_ROOM
+		 WHERE 
+		       ROOM_NO = #{roomNo}
+	</select>
+	
+	<insert id="insertChat" parameterType="chat">
 		INSERT 
 		  INTO 
-		       CHAT_MEMBER
+		       CHAT
 		       (
-		       ROOM_NO,
-		       USER_ID,
-		       USER_RANK
+		       CHAT_NO, 
+		       ROOM_NO, 
+		       CHAT_WRITER, 
+		       CHAT_CONTENT
 		       )
 		VALUES 
 		       (
-		       #{roomNo},
-		       #{userId},
-		       'M'
+		       SEQ_CNO.NEXTVAL, 
+		       #{roomNo}, 
+		       #{chatWriter}, 
+		       #{chatContent}
 		       )
+	</insert>
+	
+	<select id="selectChat" parameterType="chat" resultMap="chatResultSet">
+		SELECT 
+		       CHAT_NO, 
+		       ROOM_NO, 
+		       CHAT_WRITER, 
+		       CHAT_CONTENT, 
+		       CHAT_DATE,
+		       CHAT_TIME,
+		       PROFILE_IMG, 
+		       NICKNAME
+		  FROM
+		       (
+		       SELECT 
+		              CHAT_NO, 
+		              ROOM_NO, 
+		              CHAT_WRITER, 
+		              CHAT_CONTENT, 
+		              TO_CHAR(CHAT_DATE, '""YYYY"년 "FMMM"월 "FMDD"일" DAY') AS "CHAT_DATE",
+		              TO_CHAR(CHAT_TIME, 'AM FMHH:FMMI') AS "CHAT_TIME",
+		              PROFILE_IMG, 
+		              NICKNAME
+		         FROM
+		              CHAT
+		         JOIN 
+		              MEMBER ON (CHAT_WRITER = USER_ID)
+		        WHERE 
+		              ROOM_NO = #{roomNo}
+		          AND 
+		              CHAT_WRITER = #{chatWriter}
+                ORDER 
+                   BY 
+                      CHAT_NO DESC
+		       )
+		 WHERE 
+		       ROWNUM = 1
 	</select>
 	
 </mapper>

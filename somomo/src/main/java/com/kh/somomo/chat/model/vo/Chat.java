@@ -18,4 +18,9 @@ public class Chat {
 	private String chatWriter;
 	private String chatContent;
 	private String chatDate;
+	private String chatTime; // 테이블에 새로 추가된 컬럼
+	
+	// MEMBER 테이블 JOIN 시 가져올 값
+	private String profileImg;
+	private String nickname;
 }

@@ -1,5 +1,10 @@
 package com.kh.somomo.chat.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.kh.somomo.chat.model.service.ChatService;
 import com.kh.somomo.chat.model.vo.*;
+import com.kh.somomo.common.template.Time;
 import com.kh.somomo.feed.model.vo.FeedBoard;
 import com.kh.somomo.member.model.vo.Member;
 
@@ -23,12 +29,13 @@ public class ChatController {
 	// 채팅방 생성 (테스트용)
 	@ResponseBody
 	@RequestMapping("insertChatRoom.ch")
-	public String ajaxInsertChatRoom(String roomName, String userId) {
+	public String ajaxInsertChatRoom(String roomName, String userId, String profileImg) {
 		
 		FeedBoard fb = new FeedBoard();
 		
 		fb.setBoardTitle(roomName);
 		fb.setBoardWriter(userId);
+		fb.setProfileImg(profileImg);
 		
 		return chatService.insertChatRoom(fb) > 0 ? "success" : "fail";
 	}
@@ -50,9 +57,7 @@ public class ChatController {
 		cm.setRoomNo(roomNo);
 		cm.setUserId(userId);
 		
-		int result = chatService.checkInsertUser(cm);
-		System.out.println(result);
-		if (result > 0) {
+		if (chatService.checkInsertUser(cm) > 0) {
 			return "fail";
 		} else {
 			return chatService.insertUserInChatRoom(cm) > 0 ? "success" : "fail";
@@ -61,12 +66,56 @@ public class ChatController {
 	
 	// 채팅 페이지 메인
 	@RequestMapping("chat.ch")
-	public String selectMyChatRoom(HttpSession session, Model model) {
+	public String selectMyChatRoom(HttpSession session, Model model) throws ParseException {
 		
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
 		
-		model.addAttribute("myChatRoomList", chatService.selectMyChatRoom(userId));
+		// 채팅방 조회
+		ArrayList<ChatRoom> myChatRoomList =  chatService.selectMyChatRoom(userId);
+		
+		for(ChatRoom cr : myChatRoomList) {
+			if (cr.getChatDate() != null) {
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				
+				Date chatDate = sdf.parse(cr.getChatDate());
+				Date insertDate = sdf.parse(cr.getInsertDate());
+				
+				// 사용자가 채팅방에 입장한 일시보다 해당 채팅방의 마지막 메시지가 온 일시가
+				int result = chatDate.compareTo(insertDate);
+				
+				if (result < 0) { // 이전이라면 해당 채팅방의 채팅목록에서 마지막 메시지와 메시지가 온 시간을 보여주지 않음
+					cr.setChatContent(null);
+					cr.setChatDate(null);
+				}
+				if (cr.getChatDate() != null) {
+					cr.setChatDate(Time.getDiffTime(cr.getChatDate()));
+				}
+			}
+		}
+		
+		model.addAttribute("myChatRoomList", myChatRoomList);
 		
 		return "chat/chatMain";
+	}
+	
+	// 채팅방 채팅 내용 조회
+	@ResponseBody
+	@RequestMapping(value = "selectChatInChatRoom.ch", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectChatInChatRoom(int roomNo, String userId) {
+		
+		ChatMember cm = new ChatMember();
+		
+		cm.setRoomNo(roomNo);
+		cm.setUserId(userId);
+		
+		return new Gson().toJson(chatService.selectChatInChatRoom(cm));
+	}
+	
+	// 채팅방 유저 목록 조회
+	@ResponseBody
+	@RequestMapping(value = "selectUserInChatRoom.ch", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectUserInChatRoom(int roomNo) {
+		return new Gson().toJson(chatService.selectUserInChatRoom(roomNo));
 	}
 }
