@@ -238,6 +238,7 @@
 			const $nickNameInput = $('#updateForm input[name=nickname]');
 			console.log($nickNameInput.val());
 			var O5;
+			
 			$.ajax({
 				url:'nickNameCheck.me',
 				data : {checkNickName:$nickNameInput.val()},
@@ -263,7 +264,6 @@
 		
 		var msg='${alertMsg}'
 		if(msg==='비밀번호가 틀렸습니다.'){
-			
 			setTimeout(function() {
 				alert("비밀번호가 틀렸습니다. 다시 확인해주세요.");
 			}, 100);

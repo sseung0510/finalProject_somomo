@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="chat">
+					<a href="chat.ch">
 						<i class="uil uil-comment"></i>
 						<span class="link-name">CHAT</span>
 					</a>
@@ -55,13 +56,14 @@
 					</a>
 				</li>
 				
-				<!-- 커뮤니티 이름 나타내기 -->
-				<li>
-					<a href="updatePwd.me" class="">
-						<i class="uil uil-lock-open-alt"></i>
-						<span class="link-name">비밀번호 변경</span>
-					</a>
-				</li>
+				<c:if test="${loginUser.kakaoLogin eq 'N' }">
+					<li>
+						<a href="updatePwd.me" class="">
+							<i class="uil uil-lock-open-alt"></i>
+							<span class="link-name">비밀번호 변경</span>
+						</a>
+					</li>
+				</c:if>
 				
 				<li>
 					<a href="deleteMem.me" class="">

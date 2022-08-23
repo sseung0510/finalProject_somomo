@@ -44,7 +44,7 @@
                         <div class="kakao-login">
                             <button onclick="kakaoLogin();">
                                 <i class="fa-solid fa-comment"></i>
-                                <span>카카오 회원가입</span>
+                                <span>카카오 로그인</span>
                                 <i class="fa-solid fa-arrow-right-long"></i>
                             </button>
                         </div>
