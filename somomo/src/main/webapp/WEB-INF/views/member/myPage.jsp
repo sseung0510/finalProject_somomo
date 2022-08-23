@@ -570,6 +570,7 @@
 	sr.reveal(`.profile-info-group`, {interval: 100, delay: 600})
 	sr.reveal(`.title`, {delay: 700})
 	sr.reveal(`.filters-content`, {delay: 700})
+	sr.reveal(`.likes-content`, {delay: 750})
 	sr.reveal(`.activity-data`, {delay: 800})
 	
 	</script>
