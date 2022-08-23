@@ -526,6 +526,7 @@ nav.close ~ .main-content .main-feed{
     width: 100%;
     justify-content: space-between;
     align-items: center;
+    cursor : pointer;
 }
 
 .goBoard{

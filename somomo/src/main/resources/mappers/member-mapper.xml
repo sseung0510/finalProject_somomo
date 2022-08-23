@@ -23,6 +23,20 @@
 		<result column="LIKE_CHECK" property="likeCheck" />
 		<result column="PROFILE_IMG" property="profileImg"/>
 	</resultMap>
+	
+	
+	<resultMap id="myPageResultSet" type="feedBoard">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="BOARD_TYPE" property="boardType" />
+		<result column="COUNT" property="count"/>
+		<result column="LIKE_COUNT" property="countLike" />
+	</resultMap> 
+
+
+	
+	
+	
 	<!-- 멤버로그인 -->
 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
 		SELECT
@@ -233,6 +247,60 @@
 		   AND
 		       BOARD_NO = #{boardNo}
 	</delete>
+	
+	
+	
+	<!-- 내가 쓴 일반글 조회 -->
+	
+	
+	<select id="feedGeneralBoardList" resultMap="myPageResultSet">
+	
+			SELECT 
+					BOARD_NO,
+       				FD.BOARD_TITLE,
+       				COUNT,
+       				LIKE_COUNT
+       			FROM
+        			FEED_BOARD FD
+       LEFT JOIN MEMBER M ON(FD.BOARD_WRITER = M.USER_ID)
+       LEFT JOIN (
+        
+			        SELECT BOARD_NO, COUNT(*) AS LIKE_COUNT
+			            FROM FEED_LIKES
+			            GROUP BY BOARD_NO)USING (BOARD_NO
+			     )
+          WHERE FD.STATUS='Y'
+            AND FD.BOARD_TYPE='G'
+            AND FD.BOARD_WRITER = #{userId}
+	
+	</select>
+	
+	
+	<!-- 내가 쓴 모임모집 글 조회 -->
+	
+	
+	
+	<select id="feedMeetBoardList" resultMap="myPageResultSet">
+	
+			SELECT 
+					BOARD_NO,
+       				FD.BOARD_TITLE,
+       				COUNT,
+       				LIKE_COUNT
+       			FROM
+        			FEED_BOARD FD
+       LEFT JOIN MEMBER M ON(FD.BOARD_WRITER = M.USER_ID)
+       LEFT JOIN (
+        
+			        SELECT BOARD_NO, COUNT(*) AS LIKE_COUNT
+			            FROM FEED_LIKES
+			            GROUP BY BOARD_NO)USING (BOARD_NO
+			     )
+          WHERE FD.STATUS='Y'
+            AND FD.BOARD_TYPE='M'
+            AND FD.BOARD_WRITER = #{userId}
+	
+	</select>
 	
 	
 	

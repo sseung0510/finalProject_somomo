@@ -8,7 +8,107 @@
 	<!----------- CSS --------------->
 	<link rel="stylesheet" href="resources/css/feedstyle2.css?ver=1.1.7">
 </head>
+
+
+
+
+<style>
+
+
+
+
+
+.filters-content {
+  margin: 2px;
+  background-color: #f2f2f2;
+  padding: 7px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 5px;
+}
+
+.filters-button {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.filters-button:hover {
+  background-color: white;
+}
+
+
+
+
+/* 좋아요와 찜 보여주기 */
+.filters [data-content] {
+  display: none;
+}
+
+.filters-active[data-content] {
+  display: flex;
+}
+
+.filter-tab-active {
+  background-color: white;
+}
+
+
+
+
+</style>
+
+
+
 <body>
+
+	 <section class="filters container">
+    <!--=============== 필터 탭 ===============-->
+    <ul class="filters-content">
+        <button class="filters-button filter-tab-active" data-target="#likes">
+           Likes
+        </button>
+        <button class="filters-button" data-target="#favorites">
+            Favorites
+        </button>
+    </ul>
+
+    <div class="filters-sections">
+        <!--=============== 좋아요 ===============-->
+        <div class="likes-content filters-active" data-content id="likes">
+          
+          <div class="like-list">
+				
+		  </div>
+
+        </div>
+
+        <!--=============== 찜 ===============-->
+        <div class="favorites-content" data-content id="favorites">
+            
+            <div class="favorite-list">
+				
+			</div>
+        </div>
+    </div>
+    
+    
+    
+    
+     
+</section>
+  
+
+
+
+<!-- 
 	<div class="main-outer">
 		<div class="likes">
 			<div class="like-header"><h2>Likes</h2></div>
@@ -24,7 +124,7 @@
 			</div>
 		</div>
 	</div>
-	
+	 -->
 	
 	<script>
 		$(function(){
@@ -120,7 +220,36 @@
 	</script>
 	
 	
+	<script>
 	
+	// 좋아요 찜 탭 JS
+	const tabs = document.querySelectorAll('[data-target]'),
+	      tabContents = document.querySelectorAll('[data-content]')
+
+	tabs.forEach(tab =>{
+	    tab.addEventListener('click', () =>{
+	        const target = document.querySelector(tab.dataset.target)
+
+	        tabContents.forEach(tc =>{
+	            tc.classList.remove('filters-active')
+	           
+	        })
+	        target.classList.add('filters-active')
+			
+			
+	        tabs.forEach(t =>{
+	            t.classList.remove('filter-tab-active')
+	            
+	        })
+	        tab.classList.add('filter-tab-active')
+	         
+	    })
+	})
+
+	
+	
+	
+	</script>
 	
 	
 	
