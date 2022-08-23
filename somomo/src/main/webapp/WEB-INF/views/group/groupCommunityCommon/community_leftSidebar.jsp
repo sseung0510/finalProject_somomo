@@ -35,6 +35,12 @@
 						<span class="link-name">Group List</span>
 					</a>
 				</li>
+				<li>
+					<a onclick="privateJoinModal();" style="cursor: pointer;">
+						<i class="fa-solid fa-key"></i>
+						<span class="link-name">Join Group</span>
+					</a>
+				</li>
 			</ul>
 		</div>
 

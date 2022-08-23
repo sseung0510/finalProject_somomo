@@ -19,8 +19,9 @@ public class GroupRoom {
 	private String groupImg;
 	private String groupDetail;
 	private String applyQuestion;
+	private String inviteCode;
 	private String groupType;
-	private String groupDate; 
+	private String groupDate;
 	
 	// 지역/그룹 카테고리 조인해서 들어올 값을 위한 필드
 	private String regionName;

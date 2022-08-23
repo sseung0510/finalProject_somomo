@@ -18,6 +18,7 @@
 		<result column="MY_GROUP" property="myGroup"/>
 		<result column="APPLYING" property="applying" />
 		<result column="USER_RANK" property="userRank"/>
+		<result column="INVITE_CODE" property="inviteCode"/>
 	</resultMap>
 	
 	
@@ -189,8 +190,9 @@
          		 GROUP
               		BY 
               		   GROUP_NO) USING(GROUP_NO)
+         WHERE GROUP_TYPE NOT LIKE('C')
        <if test="categoryNo != 0">
-         WHERE CATEGORY_NO = #{categoryNo}
+           AND CATEGORY_NO = #{categoryNo}
        </if>
          ORDER 
             BY 
@@ -231,6 +233,7 @@
 				GROUP_IMG,
 				GROUP_DETAIL,
 				APPLY_QUESTION,
+				INVITE_CODE,
 				GROUP_TYPE,
 				GROUP_DATE
 				)
@@ -243,6 +246,7 @@
 				#{groupImg},
 				#{groupDetail},
 				#{applyQuestion},
+				#{inviteCode},
 				#{groupType},
 				SYSDATE
 				)
@@ -294,7 +298,8 @@
 		       GROUP_DETAIL, 
 		       GROUP_IMG,
 		       GROUP_TYPE,
-		       DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개')GROUP_TYPE_STR, 
+		       DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개')GROUP_TYPE_STR,
+		       INVITE_CODE, 
 		       GROUP_DATE, 
 		       COUNT(M.GROUP_NO) MEMBER_COUNT
   		  FROM 
@@ -312,7 +317,8 @@
  		       GROUP_NAME, 
  		       GROUP_DETAIL, 
  		       GROUP_IMG,
- 		       GROUP_TYPE, 
+ 		       GROUP_TYPE,
+ 		       INVITE_CODE,
  		       GROUP_DATE
 	</select>
 
@@ -370,6 +376,9 @@
 		       APPLY_NO,
 		       GROUP_NO,
 		       USER_ID,
+	       <if test='status neq null and status neq ""'>
+			   STATUS,
+		   </if>
 		       GREETING
 		       )
 		VALUES
@@ -377,6 +386,9 @@
 			   SEQ_GJANO.NEXTVAL,
 			   #{groupNo},
 			   #{userId},
+		   <if test='status neq null and status neq ""'>
+			   #{status},
+		   </if>
 			   #{greeting}
 			   )  
 	</insert>
@@ -877,6 +889,28 @@
                        		   WHERE 
                        		         GROUP_NO = ${groupNo})
          ORDER BY USER_ID ASC           
+	</select>
+	
+	<select id="matchGroup" resultType="_int">
+		SELECT 
+			   GROUP_NO
+		  FROM 
+		  	   GROUP_ROOM
+		 WHERE 
+		 	   INVITE_CODE = #{invitationCode}
+	</select>
+	
+	<select id="matchJoinApply" resultType="_int">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       GROUP_JOIN_APPLY
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       GROUP_NO = #{groupNo}
+		   AND
+		       STATUS = 'J'
 	</select>
 	
 </mapper>

@@ -140,5 +140,11 @@ public interface GroupService {
 
 	// 초대코드 발송을 위한 사용자 검색
 	ArrayList<Member> searchUser(HashMap<String, String> map);
-
+	
+	// 초대코드와 그룹을 매칭해서 그룹방 번호 반환
+	int matchGroup(String invitationCode);
+	
+	// 그룹조인어플라이 테이블과 매칭후 결과가 있다면 제거
+	int matchJoinApply(GroupJoinApply joinInfo);
+	
 }

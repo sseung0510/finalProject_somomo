@@ -21,6 +21,7 @@ import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
+import com.kh.somomo.member.model.vo.CertVo;
 import com.kh.somomo.member.model.vo.Member;
 
 @Service
@@ -248,6 +249,17 @@ public class GroupServiceImpl implements GroupService{
 	public ArrayList<Member> searchUser(HashMap<String, String> map) {
 		return groupDao.searchUser(sqlSession, map);
 	}
-	
+
+	@Override
+	public int matchGroup(String invitationCode) {
+		return groupDao.matchGroup(sqlSession, invitationCode);
+	}
+
+	@Override
+	public int matchJoinApply(GroupJoinApply joinInfo) {
+		return groupDao.matchJoinApply(sqlSession, joinInfo);
+	}
+
+
 	
 }

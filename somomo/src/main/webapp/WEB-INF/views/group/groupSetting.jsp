@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.5">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
     <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.5">
-	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.1.3">
+	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.1.6">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -232,6 +232,7 @@
 						<div class="search-input">
 							<span>사용자 검색 : </span>
 							<input type="text" name="keyword">
+							<input type="hidden" name="inviteCode" id="code" value="${g.inviteCode}">
 							<div class="searchBtn-area">
 								<button onclick="searchUser();">검색</button>
 							</div>
@@ -458,9 +459,9 @@
 							for(var i in data){
 								result  += '<div class="search-input-result__items">'
 										+ 	'<span>'+ data[i].userId +'</span>'
-										+ 	'<input type="hidden" value="'+ data[i].email +'">'
+										+ 	'<input type="hidden" data-id="'+ data[i].userId +'" value="'+ data[i].email +'">'
 										+ 	'<div>'
-										+		'<button">코드 전송</button>'
+										+		'<button class="sendBtn">코드 전송</button>'
 										+ 	'</div>'
 										+ '</div>';
 										
@@ -480,8 +481,51 @@
 					}
 				})
 			}
-
 		}
+	</script>
+
+	<script>
+		$(document).on('click', '.sendBtn', function(){
+			// console.log("${g.inviteCode}");
+			// console.log($(this).parent().siblings('input[type=hidden]').data('id'));
+			// console.log($(this).parent().siblings('input[type=hidden]').val());
+
+			// groupJoinApply에 필요한 정보
+			const $groupNo = ${g.groupNo};
+			const $userId = $(this).parent().siblings('input[type=hidden]').data('id');
+			const $status = "J";
+
+			// 메일전송에 필요한 정보들
+			const $email = $(this).parent().siblings('input[type=hidden]').val();
+			const $code = "${g.inviteCode}";
+			const $groupName = "${g.groupName}";
+
+			$.ajax({
+				url : 'inviteMember.gr',
+				method : 'POST',
+				data : {
+					groupNo : $groupNo,
+					userId : $userId,
+					status : $status,
+					email : $email,
+					groupName : $groupName,
+					code : $code
+				},
+				success : function(result){
+					console.log(result);
+					if(result == "Y"){
+						alert("메일 전송 완료!");
+					}
+					else{
+						console.log("실패");
+					}
+
+				},
+				error : function(){
+					console.log("통신실패!");
+				}
+			})
+		})
 	</script>
 
     <script src="resources/js/GroupDetail.js"></script>

@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.3.3">
+	<link rel="stylesheet" href="resources/css/community_style.css?ver=1.3.5">
 	<link rel="stylesheet" href="resources/css/default.css?ver=1.0.0">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -37,6 +37,17 @@
 					<c:forEach var="gc" items="${cList}">
 					<li class="category-list category-${gc.categoryNo}" value="${gc.categoryNo}">${gc.categoryName}</li>
 					</c:forEach>
+					
+					<div class="switch-holder">
+						<div class="switch-label">
+							<i class="fa-solid fa-lock"></i></i><span>비공개 그룹</span>
+						</div>
+						<div class="switch-toggle">
+							<input type="checkbox" id="private">
+							<label for="private"></label>
+						</div>
+					</div>
+
 				</ul>
 			</div>
 
@@ -71,11 +82,66 @@
             </div>
         </div>
 
+		<div id="private-join-modal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="header-title">
+                        <div class="header-title__row">미공개 그룹 가입</div>
+                    </div>
+                </div>
+                
+				<div class="modal-body-private">
+					<span>가입 코드를 입력하세요</span>
+					<input name="inviteCode" type="text">
+				</div>
+
+                <div class="modal-foot">
+                    <button type="button" class="close">취소</button>
+                    <button class="disabled" onclick="join();">가입하기</button>
+                </div>
+            </div>
+        </div>
+
 	</section>
 	
 	<div class="right-sidebar">
 		<jsp:include page="groupCommunityCommon/community_rightSidebar.jsp" />
 	</div>
+
+	<script>
+		// let togglePrivate = localStorage.getItem('privateMode');
+
+		// const privateModeToggle = document.querySelector('#private');
+
+		// const enableToggle = () => {
+		// 	document.body.classList.add('privateMode');
+		// 	localStorage.setItem('privateMode', 'enabled');
+		// 	privateModeToggle.setAttribute('checked', true);
+		// }
+
+		// const disableToggle = () => {
+		// 	document.body.classList.remove('privateMode');
+		// 	localStorage.setItem('privateMode', null);
+		// }
+
+		// if (togglePrivate === 'enabled') {
+		// 	enableToggle();
+		// }
+
+		// privateModeToggle.addEventListener('click', () => {
+			
+		// 	togglePrivate = localStorage.getItem('privateMode');
+			
+			
+		// 	if (togglePrivate !== 'enabled') {
+		// 		enableToggle();
+			
+		// 	} else {  
+		// 		disableToggle(); 
+		// 	}
+		// });
+	</script>
 
 	<script>
 
@@ -323,7 +389,63 @@
 		})
 	</script>
 
+	<script>
+		function privateJoinModal(){
+
+			const modal = $('#private-join-modal');
+
+			// ah
+			modal.fadeIn(300);
+			$('body').css({'overflow' : 'hidden', 'height' : '100%'});
+
+
+			// 취소버튼 눌렀을때 모달 창 닫아주기
+			$('.close').click(function(){
+				modal.fadeOut(300);                                     // 모달 닫기
+				$('body').css({'overflow':'auto'});	
+			})
+		}	
+
+		function join(){
+			const $invitationCode = $('input[name=inviteCode]').val();
+			const $userId = "${loginUser.userId}";
+
+			$.ajax({
+				url : 'joinPrivateGroup.gr',
+				method : 'POST',
+				data : {
+					userId : $userId,
+					invitationCode : $invitationCode
+				},
+				success : function(result){
+					if(result == "Y"){
+						alert("그룹 가입 성공!");
+						
+						$('#private-join-modal').fadeOut(300);
+						$('body').css({'overflow':'auto'});	
+
+					}
+					else{
+						alert("잘못된 코드이거나 초대받지 않았습니다.");
+					}
+				},
+				error : function(){
+					console.log("통신 실패!");
+				}
+
+			})
+		}
+	</script>
+
 	<script src="resources/js/feed.js"></script>
+
+	<script>
+		$('#private').click(function(){
+			const cno = 5;
+        
+            location.href = "groupRoom.gr?cno=" + cno;
+		})
+	</script>
 
 </body>
 </html>

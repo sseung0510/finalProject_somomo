@@ -11,11 +11,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +44,7 @@ import com.kh.somomo.group.model.vo.GroupBoard;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
+import com.kh.somomo.member.model.service.MemberService;
 import com.kh.somomo.member.model.vo.Member;
 
 
@@ -48,6 +53,9 @@ public class GroupController {
 	
 	@Autowired
 	private GroupService groupService;
+	
+	@Autowired
+	private JavaMailSender sender;
 	
 	//그룹방 리스트 전체 화면 : community 화면
 	@RequestMapping("groupRoom.gr")
@@ -111,6 +119,12 @@ public class GroupController {
 //		// 사용자가 자기 사진을 추가
 //		// 기존의 profileImg에 등록된 사진을 변경해준다. 
 //		// => 사용자가 그룹방 메인 사진을 따로 추가 하지 않을 경우, 서버에서 임의로 제공하는 사진의 경로가 gr.groupImg에 들어가 있음
+	
+		// 그룹타입이 비공개(C)일 경우 코드 생성해서 inviteCode에 셋 
+		if(gr.getGroupType().equals("C")) {
+			gr.setInviteCode(getInviteCode(5));
+		}
+		
 		if(!upfile.getOriginalFilename().equals("")) {
 			HashMap<String, String> map = saveFile(upfile, session, "img/group/userGroupImg");
 			
@@ -127,6 +141,7 @@ public class GroupController {
 			model.addAttribute("errorMsg","그룹방 추가 실패");
 			return "common/errorPage";
 		}
+		
 	}
 	
 	// 그룹방 상세
@@ -558,6 +573,70 @@ public class GroupController {
 		return new Gson().toJson(mList);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "inviteMember.gr")
+	public String sendInviteCode(String email, String code, String groupName,
+								 GroupJoinApply ja) throws MessagingException {
+		
+		// insertGroupMember에 추가
+		ja.setGreeting("invitation Code sent");
+		int result = groupService.applyGroup(ja);
+		
+		
+		if (result > 0) {
+			MimeMessage message = sender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setTo(email);
+			helper.setSubject(groupName + " 인증코드 입니다.");
+			helper.setText("인증코드 : " + code);
+			
+			sender.send(message);
+			
+			return "Y";
+		} else {
+			return "N";			
+		}
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "joinPrivateGroup.gr")
+	public String joinPrivateGroup(String invitationCode, String userId) {
+		
+		System.out.println(invitationCode);
+		System.out.println(userId);
+		
+		// 코드와 그룹방을 매칭해서 그룹방번호를 반환받음
+		int groupNo = groupService.matchGroup(invitationCode);
+		
+		GroupJoinApply joinInfo = new GroupJoinApply();
+		joinInfo.setGroupNo(groupNo);
+		joinInfo.setUserId(userId);
+		
+		
+		
+		int result = groupService.matchJoinApply(joinInfo);
+		int result2 = 0;
+		int result3 = 0;
+		
+		
+		if(result > 0) {
+			result2 = groupService.delteApplyInfo(joinInfo);
+			
+			GroupMember gm = new GroupMember();
+			gm.setUserId(userId);
+			gm.setGroupNo(groupNo);
+			
+			result3 = groupService.insertRoomMember(gm);
+		}
+		
+		if(result2 * result3 > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}
+	
 	//////////////////////////////// 
 	public boolean checkDefaultImg(HttpSession session, String originFile) {
 			
@@ -576,6 +655,20 @@ public class GroupController {
 		}
 		return false;
 	}
+	
+	// 초대코드 생성
+	public static String getInviteCode(int length) {
+		
+		String inviteCode = "";
+		
+		for(int i = 0; i < length; i++) {
+			char ch = (char)((int)(Math.random()*25) + 65);
+			inviteCode += ch;
+		}
+		
+		return inviteCode;
+	}
+	
 	
 }
 

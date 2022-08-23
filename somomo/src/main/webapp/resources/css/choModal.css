@@ -318,7 +318,8 @@
 
 .search-input-result__items button{
     border: none;
-    background-color: #dfdfdf;
+    background-color: #bbb;
     color: white;
     padding: 5px;
 }
+
