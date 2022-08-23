@@ -81,6 +81,12 @@ body{
   border-radius: 4px;
 }
 
+#updateEditor {
+  padding: 16px 24px;
+  min-height: 350px;
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+}
 
 .write-form-header{
   display: flex;

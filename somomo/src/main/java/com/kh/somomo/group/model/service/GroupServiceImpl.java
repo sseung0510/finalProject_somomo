@@ -260,6 +260,25 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.matchJoinApply(sqlSession, joinInfo);
 	}
 
+	@Override
+	public int deleteBoard(int boardNo) {
+		return groupDao.deleteBoard(sqlSession, boardNo);
+	}
+
+	@Override
+	public int deleteAllAttachment(int boardNo) {
+		return groupDao.deleteAllAttachment(sqlSession, boardNo);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttachmentList(int boardNo) {
+		return groupDao.selectAttachmentList(sqlSession, boardNo);
+	}
+
+	@Override
+	public int deleteAttachment(ArrayList<Attachment> atList) {
+		return 0;
+	}
 
 	
 }

@@ -10,7 +10,7 @@
     
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.9">
-    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.9">
+    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.4">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
     <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.5">
     <!----------- 아이콘 CSS 링크 ------->
@@ -125,11 +125,20 @@
 						insertReply(this);
 					})
 					
-					$('.feed').click(function(){
+					/*$('.feed').click(function(){
 						const feed = document.querySelector('.feed');
 						const dropdownFeed = feed.querySelector('.feed-link');
 						dropdownFeed.classList.toggle('show');
-					})
+					})*/
+					
+					$('.feed').each(function(index){
+						$(this).click(function(){
+							const feed = document.querySelector('.feed');
+							const dropdownFeed = feed.querySelector('.feed-link');
+							dropdownFeed.classList.toggle('show');
+						})
+					});
+					
 					
 				}
 			});
@@ -452,13 +461,27 @@
 		}
 	</script>
 	
-	<script src="resources/js/GroupDetail.js?ver=1.0.1"></script>
+	<script src="resources/js/GroupDetail.js?ver=1.0.3"></script>
 
 	<script>
+		// (게시글)수정 버튼 클릭 시
 		$(document).on('click', '#updateForm', function(){
 			var w = new updatePopup();
 			w.show();
-		})
+		});
+		
+		
+		// (게시글)삭제 버튼 클릭 시
+		$(document).on('click', '.deleteForm', function(){
+			let bno = $(this).data('bno');
+			console.log(bno);
+    		if(confirm("삭제하시겠습니까?")){
+				$('#deleteGroupForm input[name="boardNo"]').val(bno);
+				console.log($('#deleteGroupForm input[name="boardNo"]').val());
+				$('#deleteGroupForm').attr('action', 'deleteBoard.gr').submit();
+			}
+		});	
+		
 	</script>
     
     

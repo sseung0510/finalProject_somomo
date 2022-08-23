@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<script src="https://kit.fontawesome.com/cbcad42a26.js" crossorigin="anonymous"></script>
     <c:choose>
         <c:when test="${empty grList}">
             <div class="empty-content">
@@ -35,15 +35,20 @@
                                 <small>${gr.createDate}</small>  
                             </div>
                         </div>
-                        <div class="form-icon">
+                        <!--<li class="updateForm" data-bno="${gr.boardNo}"><a>글 수정</a></li>  -->
+                        <c:if test="${loginUser.userId eq gr.boardWriter}">
+                        	<ul>
+	                        	<i class="fa-solid fa-circle-minus deleteForm" data-bno="${gr.boardNo}" style="font-size:20px; color:red;"></i>
+                        	</ul>
+                        </c:if>
+                        <!--<div class="form-icon">
                             <i class='bx bx-dots-vertical-rounded feed'>
                                 <ul class="feed-link">
-                                    <li id="updateForm"><a> 글 수정</a></li>
-                                    <li><a href="">삭제하기</a></li>
+                                   
                                     <li><a href="">공지로 등록</a></li>
                                 </ul>
                             </i>
-                        </div>
+                        </div>  -->
                     </div>
             
             <!-- ------게시물 내용---- -->
@@ -103,6 +108,12 @@
                             
                     </div>
                 </div>
+                
+                <form action="" method="post" id="deleteGroupForm">
+			   		<input type="hidden" name="boardNo" value="">
+			   		<input type="hidden" name="groupNo" value="${gr.groupNo}">
+			   	</form>
+				
 				
             </c:forEach>
         </c:otherwise>

@@ -76,10 +76,20 @@ public interface GroupService {
 	//그룹 피드 게시글 첨부파일(사진) 목록 조회
 	ArrayList<Attachment> selectBoardAttachmentList(HashMap<String, Integer> boardRange);
 	
-	
+	//그룹 피드 게시글 첨부파일 목록 조회
+	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
 	//그룹 피드 게시글 추가
 	int insertGroupBoard(GroupBoard gb, ArrayList<Attachment> boardList);
+	
+	//기존 첨부파일 삭제
+	int deleteAttachment(ArrayList<Attachment> atList);
+	
+	//그룹 피드 게시글 삭제
+	int deleteBoard(int boardNo);
+	
+	// 기존 첨부파일 전체 삭제
+	int deleteAllAttachment(int boardNo);
 	
 	//좋아요 등록
 	int insertLike(Likes like);
@@ -146,5 +156,7 @@ public interface GroupService {
 	
 	// 그룹조인어플라이 테이블과 매칭후 결과가 있다면 제거
 	int matchJoinApply(GroupJoinApply joinInfo);
+
+	
 	
 }

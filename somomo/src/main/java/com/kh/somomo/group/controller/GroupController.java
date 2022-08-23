@@ -389,6 +389,34 @@ public class GroupController {
 		
 	}
 	
+	@RequestMapping("deleteBoard.gr")
+	public String deleteBoard(int boardNo, int groupNo, HttpSession session, Model model) {
+		System.out.println(boardNo);
+		
+		int result = groupService.deleteBoard(boardNo);
+		
+		System.out.println(result);
+		System.out.println(groupNo);
+		
+		// 글 삭제 성공했을 경우
+		if(result > 0) { 
+			ArrayList<Attachment> atList = groupService.selectAttachmentList(boardNo);
+			// 첨부파일 존재했을 경우
+			if(!atList.isEmpty()) {
+				groupService.deleteAllAttachment(boardNo); // DB에서 삭제
+				for(Attachment at : atList) {
+					new File(session.getServletContext().getRealPath(at.getChangeName())).delete(); // 실제 파일 삭제
+				}
+			}
+			//session.setAttribute("alertMsg", "게시글 삭제 성공");
+			
+			return "redirect:detail.gr?gno=" + groupNo;
+		} else {
+			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			return "common/errorPage";
+		}
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping("insertLike.gr")

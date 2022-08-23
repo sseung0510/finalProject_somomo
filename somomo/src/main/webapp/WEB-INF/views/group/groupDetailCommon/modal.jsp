@@ -68,7 +68,7 @@
         <form action="insertBoard.gr" method="post" enctype="multipart/form-data">
 
             <!-- 히든으로 넘겨줘야할 정보 -->
-            <input type="hidden" name="boardWriter" value="${loginUser.userId}">
+            <input type="hidden" name="boardNo" value="${gr.boardNo}">
             <input type="hidden" name="groupNo" value="${g.groupNo}">
             <!-- 공지사항 체크되면  N으로 바꿔서 보내기-->
             <input type="hidden" id="boardType" name="boardType" value="B">
@@ -76,13 +76,13 @@
             
                 <div class="textarea">
                 <!-- contenteditable 사용하기 -->
-                <div id="editor" contenteditable="true">
+                <div id="updateEditor" contenteditable="true">
                     
                 </div>
             </div>
             
             
-                <textarea name="boardContent" id="boardContent" style="display: none;"></textarea>
+                <textarea name="boardContent" id="groupBoardContent" style="display: none;"></textarea>
                 
                 
             <div class="mdm file-area">
@@ -108,7 +108,7 @@
             <label for="selectNotice"><input type="checkbox" name="selectNotice">공지사항</label></li>
 
             <div class="button">
-                <button id="submit" onclick="getContent();" class="send">게시</button>
+                <button type="submit"  class="send">수정</button>
             </div>
         </form>
 
@@ -121,7 +121,7 @@
         
         $('#boardContent').val($('#editor').html());
 
-        alert($('#boardContent').val());
+        //alert($('#boardContent').val());
     
     }
     

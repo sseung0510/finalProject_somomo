@@ -53,14 +53,14 @@ var updatePopup = function(){
 
 
         hide();
-        $("#updatePopup #editor").empty();
+        $("#updatePopup #UpdateEditor").empty();
     });
 
     this.closeButton = $("#updatePopup #close")
     this.closeButton.click(()=>{
 
         hide();
-        $("#updatePopup #editor").empty();
+        $("#updatePopup #UpdateEditor").empty();
     })
 
 

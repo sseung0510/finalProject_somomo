@@ -219,4 +219,17 @@ public class GroupDao {
 		return sqlSession.selectOne("groupMapper.matchJoinApply", joinInfo);
 	}
 	
+	
+	public int deleteBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("groupMapper.deleteBoard", boardNo);
+	}
+
+	public int deleteAllAttachment(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.delete("groupMapper.deleteAllAttachment", boardNo);
+	}
+
+	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("groupMapper.selectAttachmentList", boardNo);
+	}
+	
 }
