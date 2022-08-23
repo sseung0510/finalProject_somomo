@@ -38,7 +38,7 @@
                         <!--<li class="updateForm" data-bno="${gr.boardNo}"><a>글 수정</a></li>  -->
                         <c:if test="${loginUser.userId eq gr.boardWriter}">
                         	<ul>
-	                        	<i class="fa-solid fa-circle-minus deleteForm" data-bno="${gr.boardNo}" style="font-size:20px; color:red;"></i>
+	                        	<i class="fa-solid fa-x deleteForm" data-bno="${gr.boardNo}" style="font-size:20px;"></i>
                         	</ul>
                         </c:if>
                         <!--<div class="form-icon">
