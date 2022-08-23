@@ -19,6 +19,7 @@ import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
+import com.kh.somomo.member.model.vo.Member;
 
 @Repository
 public class GroupDao {
@@ -203,6 +204,10 @@ public class GroupDao {
 	
 	public int countReply(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("groupMapper.countReply", boardNo);
+	}
+
+	public ArrayList<Member> searchUser(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return (ArrayList)sqlSession.selectList("groupMapper.searchUser", map);
 	}
 	
 }

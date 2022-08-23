@@ -230,3 +230,95 @@
     margin: 0 5px;
     border: none;
 }
+
+/* 초대코드 모달 */
+.modal-content-search{
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* Could be more or less, depending on screen size */
+    border-radius: 20px;
+}
+
+.header-title-search{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-title-search__div1{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-title-search span{
+    margin-left: 50px;
+}
+
+.header-title-search button{
+    width: 50px;
+    border: none;
+    background-color: #dfdfdf;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 5px;
+}
+
+.search-input{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-input label{
+    font-size: 15px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.search-input input{
+    width: 50%;
+    margin-left: 10px;
+    height: 30px;
+    padding: 0 10px;
+}
+
+.searchBtn-area{
+    display: flex;
+    justify-content: center;
+    width: 20%;
+}
+
+.search-input button{
+    border: none;
+    background-color: #dfdfdf;
+    width: 50px;
+    color: white;
+    padding: 5px;
+}
+
+.search-input-result{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-input-result__items{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.search-input-result__items button{
+    border: none;
+    background-color: #dfdfdf;
+    color: white;
+    padding: 5px;
+}

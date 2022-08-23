@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.5">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
     <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.5">
-	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.1.2">
+	<link rel="stylesheet" href="resources/css/choModal.css?ver=1.1.3">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -76,7 +76,7 @@
 						<li class="setting-item">
 							<div class="itemContent">
 								<span class="label">그룹 공개</span>
-								<span class="label-data">${g.groupType}</span>
+								<span class="label-data">${g.groupTypeStr}</span>
 							</div>
 							<div class="itemSide">
 								<a class="chooseType">
@@ -85,24 +85,40 @@
 
 							</div>
 						</li>
-						<li class="setting-item">
-							<div class="itemContent">
-								<span class="label">가입 요청</span>
-								<c:if test="${aCount ne 0}">
-									<span class="label-data">현재 대기 중인 요청 : ${aCount}개</span>							
-								</c:if>
-							</div>
-							<div class="itemSide">
-								<a class="application-form-btn" onclick="openModal();">
-									확인
-								</a>
-								<c:if test="${aCount ne 0}">
-									<div id="aCount">
-										<span class="label-data">${aCount}</span>							
-									</div>
-								</c:if>
-							</div>
-						</li>
+						<c:if test="${g.groupType eq 'B'}">
+							<li class="setting-item">
+								<div class="itemContent">
+									<span class="label">가입 요청</span>
+									<c:if test="${aCount ne 0}">
+										<span class="label-data">현재 대기 중인 요청 : ${aCount}개</span>							
+									</c:if>
+								</div>
+								<div class="itemSide">
+									<a class="application-form-btn" onclick="openModal();">
+										확인
+									</a>
+									<c:if test="${aCount ne 0}">
+										<div id="aCount">
+											<span class="label-data">${aCount}</span>							
+										</div>
+									</c:if>
+								</div>
+							</li>
+						</c:if>
+
+						<c:if test="${g.groupType eq 'C'}">
+							<li class="setting-item">
+								<div class="itemContent">
+									<span class="label">초대코드 보내기</span>
+								</div>
+								<div class="itemSide">
+									<a onclick="openSearchModal();">
+										사용자 검색
+									</a>
+								</div>
+							</li>
+						</c:if>
+
 						<li class="setting-item">
 							<div class="itemContent">
 								<span class="label">그룹 삭제</span>
@@ -199,6 +215,32 @@
 				</div>
 			</div>
 
+			<!-- 초대코드 유저 검색 모달 -->
+			<div id="searchUser-modal" class="modal">
+				<div class="modal-content-search">
+	
+					<div class="modal-header-search">
+						<div class="header-title-search">
+							<div class="header-title-search__div1">
+								<span>사용자 검색</span>
+							</div>
+							<button type="button" class="close">나가기</button>
+						</div>
+					</div>
+					
+					<div class="modal-body-search">
+						<div class="search-input">
+							<span>사용자 검색 : </span>
+							<input type="text" name="keyword">
+							<div class="searchBtn-area">
+								<button onclick="searchUser();">검색</button>
+							</div>
+						</div>
+
+						<div class="search-input-result"></div>
+					</div>
+				</div>
+			</div>
         </div>
 
         <div class="main-right">
@@ -214,18 +256,8 @@
     
 	<script>
 		// 모달창의 그룹 타입들중 현재 그룹방에 설정되어있는 타입을 기본값으로 세팅
-		let curType = "";
-
-		// 처음에 정보 받아올때 DECODE를 사용해서 변환 시키기 때문에 다시 
-		switch("${g.groupType}"){
-				case "공개" : curType = "A";
-				break;
-				case "그룹명 공개" : curType = "B";
-				break;
-				case "비공개" : curType = "C";
-				break;
-			}
-
+		let curType = "${g.groupType}";
+		
 		$('input[name="groupType"]').each(function(){
 			if(curType == $(this).val()){
 				$(this).attr('checked', 'true');
@@ -378,6 +410,78 @@
 				return false;
 			}	
 		})
+	</script>
+
+	<script>
+		function openSearchModal(){
+			const modal = $('#searchUser-modal');
+
+			modal.fadeIn(300);
+			$('body').css({'overflow': 'hidden', 'height' : '100%'});
+
+			$('.close').click(function(){
+				modal.fadeOut(300);
+				$('input[name=keyword]').val("");
+				$('.search-input-result').html("");
+				$('body').css({'overflow':'auto'});
+
+			})
+		}
+	</script>
+
+	<script>
+		function searchUser(){
+
+			$('.search-input-result').html("");
+
+			const $keyword = $('input[name=keyword]').val();
+			const $groupNo = ${g.groupNo};
+
+			if($keyword == ""){
+				alert("검색어를 입력하세요!!");
+				return false;
+			} else{
+
+				$.ajax({
+					url : 'searchUser.gr',
+					method : 'GET',
+					data : {
+						keyword : $keyword,
+						groupNo : $groupNo
+					},
+					success : function(data){
+						
+						let result = "";
+						
+						if(data.length != 0){
+		
+							for(var i in data){
+								result  += '<div class="search-input-result__items">'
+										+ 	'<span>'+ data[i].userId +'</span>'
+										+ 	'<input type="hidden" value="'+ data[i].email +'">'
+										+ 	'<div>'
+										+		'<button">코드 전송</button>'
+										+ 	'</div>'
+										+ '</div>';
+										
+								$('.search-input-result').html(result);
+							}
+						}
+						else{
+							result = '<span>존재하지 않는 회원 입니다.</span>';
+
+							$('.search-input-result').html(result);
+						}
+
+					},
+							
+					error : function(){
+						console.log("통신 실패!");
+					}
+				})
+			}
+
+		}
 	</script>
 
     <script src="resources/js/GroupDetail.js"></script>

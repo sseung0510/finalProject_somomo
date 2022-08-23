@@ -21,6 +21,7 @@ import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
+import com.kh.somomo.member.model.vo.Member;
 
 @Service
 public class GroupServiceImpl implements GroupService{
@@ -241,6 +242,11 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public int countReply(int boardNo) {
 		return groupDao.countReply(sqlSession, boardNo);
+	}
+
+	@Override
+	public ArrayList<Member> searchUser(HashMap<String, String> map) {
+		return groupDao.searchUser(sqlSession, map);
 	}
 	
 	

@@ -368,5 +368,16 @@
     });
     </script>
 
+    <script>
+        $('#private').click(function(){
+            if(confirm("비공개 그룹은 초대코드를 통해서만 멤버를 가입시킬 수 있습니다.")){
+                return true;
+            } 
+            else{
+                return false;
+            }
+        })
+    </script>
+
 </body>
 </html>

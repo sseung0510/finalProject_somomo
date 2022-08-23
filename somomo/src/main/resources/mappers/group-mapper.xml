@@ -104,6 +104,12 @@
 		<result column="IS_LAST_RGROUP_REPLY" property="isLastRgroupReply" />
 	</resultMap>
 	
+	<resultMap type="member" id="searchMemberResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PROFILE_IMG" property="profileImg"/>
+	</resultMap>
+	
 	<select id="selectGroupListCount" resultType="_int" parameterType="string">
 		SELECT 
 		       COUNT(*) 
@@ -286,8 +292,9 @@
 		       CATEGORY_NO, 
 		       GROUP_NAME, 
 		       GROUP_DETAIL, 
-		       GROUP_IMG, 
-		       DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개')GROUP_TYPE, 
+		       GROUP_IMG,
+		       GROUP_TYPE,
+		       DECODE(GROUP_TYPE, 'A', '공개', 'B', '그룹명 공개', 'C', '비공개')GROUP_TYPE_STR, 
 		       GROUP_DATE, 
 		       COUNT(M.GROUP_NO) MEMBER_COUNT
   		  FROM 
@@ -853,6 +860,23 @@
 		       STATUS = 'Y'
 	</select>
 	
-	
+	<select id="searchUser" parameterType="hashmap" resultMap="searchMemberResultSet">
+		SELECT 
+			   USER_ID, 
+			   EMAIL, 
+			   PROFILE_IMG
+  		  FROM 
+  		       MEMBER
+ 		 WHERE 
+ 		       USER_ID LIKE '%'|| #{keyword} ||'%'
+   		   AND 
+   		       USER_ID NOT IN(SELECT 
+   		         				     USER_ID
+                        	    FROM 
+                        	         GROUP_MEMBER
+                       		   WHERE 
+                       		         GROUP_NO = ${groupNo})
+         ORDER BY USER_ID ASC           
+	</select>
 	
 </mapper>

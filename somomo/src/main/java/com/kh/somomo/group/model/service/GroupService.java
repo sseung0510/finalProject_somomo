@@ -15,6 +15,7 @@ import com.kh.somomo.group.model.vo.GroupCategory;
 import com.kh.somomo.group.model.vo.GroupJoinApply;
 import com.kh.somomo.group.model.vo.GroupMember;
 import com.kh.somomo.group.model.vo.GroupRoom;
+import com.kh.somomo.member.model.vo.Member;
 
 public interface GroupService {
 	
@@ -137,6 +138,7 @@ public interface GroupService {
 	// 가입신청서리스트 조회
 	ArrayList<GroupJoinApply> getApplicationList(int groupNo);
 
-	
+	// 초대코드 발송을 위한 사용자 검색
+	ArrayList<Member> searchUser(HashMap<String, String> map);
 
 }

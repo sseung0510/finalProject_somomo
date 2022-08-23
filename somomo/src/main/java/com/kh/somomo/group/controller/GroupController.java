@@ -544,6 +544,20 @@ public class GroupController {
 		return mv;
 	}
 	
+	// 비공개 그룹 사용자 검색
+	@ResponseBody
+	@RequestMapping(value = "searchUser.gr", produces="application/json; charset=UTF-8")
+	public String searchUser(String keyword, String groupNo){
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("keyword", keyword);
+		map.put("groupNo", groupNo);
+		
+		ArrayList<Member> mList = groupService.searchUser(map);
+		
+		return new Gson().toJson(mList);
+	}
+	
 	//////////////////////////////// 
 	public boolean checkDefaultImg(HttpSession session, String originFile) {
 			
