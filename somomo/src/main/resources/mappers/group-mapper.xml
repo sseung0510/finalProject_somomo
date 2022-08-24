@@ -21,6 +21,9 @@
 		<result column="INVITE_CODE" property="inviteCode"/>
 	</resultMap>
 	
+	<resultMap id="groupJoinApplyResultSet" type="groupJoinApply">
+		<result column="GROUP_NO" property="groupNo"/>
+	</resultMap>
 	
 	<resultMap id="groupBoardResultSet" type="groupBoard">
 		<result column="BOARD_NO" property="boardNo"/>
@@ -111,15 +114,31 @@
 		<result column="PROFILE_IMG" property="profileImg"/>
 	</resultMap>
 	
-	<select id="selectGroupListCount" resultType="_int" parameterType="string">
+	<select id="selectGroupListCount" resultType="_int" parameterType="hashmap">
 		SELECT 
 		       COUNT(*) 
 		  FROM 
 		       GROUP_ROOM
-		 <if test="categoryNo != 0">
-		 WHERE 
-		       CATEGORY_NO = #{categoryNo}		 
-		 </if>
+		<choose>
+			<when test="categoryNo == 0">
+		 WHERE
+		       GROUP_TYPE IN('A', 'B')
+			</when>
+			<when test="categoryNo != 0 and categoryNo != 100">
+		 WHERE
+		       CATEGORY_NO = #{categoryNo}
+		   AND
+		   	   GROUP_TYPE IN('A', 'B')
+			</when>
+			<when test="categoryNo == 100">
+		  JOIN
+		       GROUP_MEMBER USING(GROUP_NO)
+		 WHERE
+		       GROUP_TYPE = 'C'
+		   AND
+		       USER_ID = #{userId}
+			</when>
+		</choose>       
 	</select>
 	
 	<select id="selectRegionCategoryList" resultMap="regionCategoryResultSet">
@@ -139,7 +158,7 @@
 		       GROUP_CATEGORY
 	</select>
 	
-	<select id="selectGroupList" resultMap="groupResultSet" parameterType="hashMap">
+	<select id="selectGroupList" resultMap="groupResultSet" parameterType="hashmap">
 		SELECT
        		   GROUP_NO,
        		   GROUP_NAME,
@@ -190,10 +209,18 @@
          		 GROUP
               		BY 
               		   GROUP_NO) USING(GROUP_NO)
-         WHERE GROUP_TYPE NOT LIKE('C')
-       <if test="categoryNo != 0">
-           AND CATEGORY_NO = #{categoryNo}
-       </if>
+         <choose>
+         	<when test="categoryNo != 100">
+          		WHERE GROUP_TYPE NOT LIKE('C')
+          		<if test="categoryNo != 0">
+     				AND CATEGORY_NO = #{categoryNo}
+          		</if>
+         	</when>
+         	<otherwise>
+         		WHERE GROUP_TYPE = 'C'
+         		  AND MY_GROUP = 'Y'
+         	</otherwise>
+         </choose>
          ORDER 
             BY 
                GROUP_NO DESC
@@ -891,7 +918,7 @@
          ORDER BY USER_ID ASC           
 	</select>
 	
-	<select id="matchGroup" resultType="_int">
+	<select id="matchGroup" resultMap="memberResultSet">
 		SELECT 
 			   GROUP_NO
 		  FROM 

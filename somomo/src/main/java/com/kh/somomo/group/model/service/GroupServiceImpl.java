@@ -35,8 +35,8 @@ public class GroupServiceImpl implements GroupService{
 
 	
 	@Override
-	public int selectGroupListCount(String categoryNo) {
-		return groupDao.selectGroupListCount(sqlSession, categoryNo);
+	public int selectGroupListCount(HashMap<String, String> map) {
+		return groupDao.selectGroupListCount(sqlSession, map);
 	}
 	
 	@Override
@@ -142,7 +142,7 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int delteApplyInfo(GroupJoinApply applyInfo) {
+	public int delteApplyInfo(GroupMember applyInfo) {
 		return groupDao.delteApplyInfo(sqlSession, applyInfo);
 	}
 
@@ -251,13 +251,19 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int matchGroup(String invitationCode) {
-		return groupDao.matchGroup(sqlSession, invitationCode);
+	public GroupMember matchGroup(String inviteCode) {
+		return groupDao.matchGroup(sqlSession, inviteCode);
 	}
 
 	@Override
-	public int matchJoinApply(GroupJoinApply joinInfo) {
-		return groupDao.matchJoinApply(sqlSession, joinInfo);
+	@Transactional
+	public int matchJoinApply(GroupMember gm) {
+		
+		int result = groupDao.matchJoinApply(sqlSession, gm);
+		int result2 = groupDao.delteApplyInfo(sqlSession, gm);
+		int result3 = groupDao.insertRoomMember(sqlSession, gm);
+		
+		return result*result2*result3;
 	}
 
 	@Override

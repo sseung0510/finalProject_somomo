@@ -25,8 +25,8 @@ import com.kh.somomo.member.model.vo.Member;
 @Repository
 public class GroupDao {
 	
-	public int selectGroupListCount(SqlSessionTemplate sqlSession, String categoryNo) {
-		return sqlSession.selectOne("groupMapper.selectGroupListCount", categoryNo);
+	public int selectGroupListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("groupMapper.selectGroupListCount", map);
 	}
 	
 	public ArrayList<RegionCategory> selectRegionCategoryList(SqlSessionTemplate sqlSession) {
@@ -121,7 +121,7 @@ public class GroupDao {
 		return sqlSession.selectOne("groupMapper.countApplication", groupNo);
 	}
 
-	public int delteApplyInfo(SqlSessionTemplate sqlSession, GroupJoinApply applyInfo) {
+	public int delteApplyInfo(SqlSessionTemplate sqlSession, GroupMember applyInfo) {
 		return sqlSession.delete("groupMapper.delteApplyInfo", applyInfo);
 	}
 
@@ -211,12 +211,12 @@ public class GroupDao {
 		return (ArrayList)sqlSession.selectList("groupMapper.searchUser", map);
 	}
 
-	public int matchGroup(SqlSessionTemplate sqlSession, String invitationCode) {
-		return sqlSession.selectOne("groupMapper.matchGroup", invitationCode);
+	public GroupMember matchGroup(SqlSessionTemplate sqlSession, String inviteCode) {
+		return sqlSession.selectOne("groupMapper.matchGroup", inviteCode);
 	}
 
-	public int matchJoinApply(SqlSessionTemplate sqlSession, GroupJoinApply joinInfo) {
-		return sqlSession.selectOne("groupMapper.matchJoinApply", joinInfo);
+	public int matchJoinApply(SqlSessionTemplate sqlSession, GroupMember gm) {
+		return sqlSession.selectOne("groupMapper.matchJoinApply", gm);
 	}
 	
 	

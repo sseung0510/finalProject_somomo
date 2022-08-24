@@ -25,6 +25,13 @@
 </head>
 <body>
 
+	<c:if test="${not empty alertMsg}">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+
 	<!-- 완쪽 사이드바 -->
 	<jsp:include page="groupCommunityCommon/community_leftSidebar.jsp"></jsp:include>
 	
@@ -37,7 +44,7 @@
 					<c:forEach var="gc" items="${cList}">
 					<li class="category-list category-${gc.categoryNo}" value="${gc.categoryNo}">${gc.categoryName}</li>
 					</c:forEach>
-					
+					<li class="category-list category-100" value="100">비공개</li>
 					<div class="switch-holder">
 						<div class="switch-label">
 							<i class="fa-solid fa-lock"></i></i><span>비공개 그룹</span>
@@ -84,23 +91,26 @@
 
 		<div id="private-join-modal" class="modal">
             <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="header-title">
-                        <div class="header-title__row">미공개 그룹 가입</div>
-                    </div>
-                </div>
-                
-				<div class="modal-body-private">
-					<span>가입 코드를 입력하세요</span>
-					<input name="inviteCode" type="text">
+			<form action="joinPrivateGroup.gr" method="POST">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="header-title">
+							<div class="header-title__row">미공개 그룹 가입</div>
+						</div>
+					</div>
+					
+					<div class="modal-body-private">
+						<span>가입 코드를 입력하세요</span>
+						<input name="inviteCode" type="text">
+						<input type="hidden" name="userId" value="${loginUser.userId}">
+					</div>
+		
+					<div class="modal-foot">
+						<button type="button" class="close">취소</button>
+						<button type="submit" class="disabled">가입하기</button>
+					</div>
 				</div>
-
-                <div class="modal-foot">
-                    <button type="button" class="close">취소</button>
-                    <button class="disabled" onclick="join();">가입하기</button>
-                </div>
-            </div>
+			</form>
         </div>
 
 	</section>
@@ -109,6 +119,7 @@
 		<jsp:include page="groupCommunityCommon/community_rightSidebar.jsp" />
 	</div>
 
+	
 	<script>
 		// let togglePrivate = localStorage.getItem('privateMode');
 
@@ -145,16 +156,11 @@
 
 	<script>
 
-		// 클릭된 카테고리 버튼은 색상 변경 / 클릭 X
-		$(function(){
-			$('.category-${cno}').css({'background-color':'var(--toggle-color)', 'cursor' : 'default'}).off('click');
-		})
-        
         // 무한 스크롤 페이징
 	    $(function(){
 
             let categoryNo = "${cno}";         
-            //console.log("카테고리 번호 : " + "${cno}"); // 0, 1, 2, 3, 4
+            // console.log("카테고리 번호 : " + "${cno}"); // 0, 1, 2, 3, 4
 
             let currentPage = ${pi.currentPage};
 
@@ -194,11 +200,18 @@
             });
         });
         
+
+// 클릭된 카테고리 버튼은 색상 변경 / 클릭 X
+		$(function(){
+			$('.category-${cno}').css({'background-color':'var(--toggle-color)', 'cursor' : 'default'}).off('click');
+
+		})
+
         // 그룹 리스트 ajax
         function selectGroupList(currentPage, categoryNo){
             
             // console.log("요청페이지 : " + currentPage);
-            // console.log("카테고리 번호 : " + categoryNo);
+            console.log("카테고리 번호 : " + categoryNo);
             $.ajax({
                 url : 'list.gr',
                 method : 'POST',
@@ -230,6 +243,25 @@
             location.href = "groupRoom.gr?cno=" + cno;
             
         })
+
+		// $('#private').click(function(){
+
+		// 	if($('body').hasClass('privateMode')){
+		// 		$('.group-content').html("비밀글 나올예정");
+				
+		// 		$('.category-list').css({'background-color':'var(--toggle-color)', 'cursor' : 'default'}).off('click');
+		// 	}
+		// 	else{
+		// 		// $('.group-content').html("");
+
+		// 		// $('.category-list').css({'background-color':'white', 'cursor' : 'pointer'});
+
+		// 		// selectGroupList(0, 0);
+
+		// 		location.href = "groupRoom.gr";
+		// 	}
+
+		// })
         
     </script>
 
@@ -405,47 +437,9 @@
 				$('body').css({'overflow':'auto'});	
 			})
 		}	
-
-		function join(){
-			const $invitationCode = $('input[name=inviteCode]').val();
-			const $userId = "${loginUser.userId}";
-
-			$.ajax({
-				url : 'joinPrivateGroup.gr',
-				method : 'POST',
-				data : {
-					userId : $userId,
-					invitationCode : $invitationCode
-				},
-				success : function(result){
-					if(result == "Y"){
-						alert("그룹 가입 성공!");
-						
-						$('#private-join-modal').fadeOut(300);
-						$('body').css({'overflow':'auto'});	
-
-					}
-					else{
-						alert("잘못된 코드이거나 초대받지 않았습니다.");
-					}
-				},
-				error : function(){
-					console.log("통신 실패!");
-				}
-
-			})
-		}
 	</script>
 
 	<script src="resources/js/feed.js"></script>
-
-	<script>
-		$('#private').click(function(){
-			const cno = 5;
-        
-            location.href = "groupRoom.gr?cno=" + cno;
-		})
-	</script>
 
 </body>
 </html>

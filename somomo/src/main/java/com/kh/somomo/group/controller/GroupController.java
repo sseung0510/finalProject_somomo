@@ -62,9 +62,14 @@ public class GroupController {
 	public ModelAndView selectGroupList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
 										@RequestParam(value = "cno", defaultValue = "0") String categoryNo,
 										HttpSession session, ModelAndView mv) throws ParseException {
-		
-		PageInfo pi = Pagination.getPageInfoFeed(groupService.selectGroupListCount(categoryNo), currentPage, 9); // 페이징처리
+
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("categoryNo", categoryNo);
+		
+		PageInfo pi = Pagination.getPageInfoFeed(groupService.selectGroupListCount(map), currentPage, 9); // 페이징처리
 
 		// 카테고리 버튼을 클릭해서 요청이 들어오면 해당 카테고리 번호를 페이지에 포워딩
 		// 카테고리 번호
@@ -79,6 +84,8 @@ public class GroupController {
 		  .addObject("myGroupList", groupService.myGroupList(userId)) // 내가 관리/가입한 그룹 리스트
 		  .setViewName("group/community");			
 		
+		System.out.println(pi);
+		
 		return mv;
 	}
 	
@@ -92,6 +99,8 @@ public class GroupController {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("categoryNo", categoryNo);
+		
+		System.out.println(categoryNo);
 		
 		ArrayList<GroupRoom> gList = groupService.selectGroupList(pi, map); 			
 		model.addAttribute("gList", gList);
@@ -275,7 +284,7 @@ public class GroupController {
 	
 	@ResponseBody
 	@RequestMapping("cancelApply.gr")
-	public String cancelApply(GroupJoinApply applyInfo) {
+	public String cancelApply(GroupMember applyInfo) {
 		return groupService.delteApplyInfo(applyInfo) > 0 ? "success" : "fail";
 	}
 	
@@ -288,7 +297,7 @@ public class GroupController {
 	
 	@ResponseBody
 	@RequestMapping("accept")
-	public String approveJoin(GroupJoinApply applyInfo) {
+	public String approveJoin(GroupMember applyInfo) {
 		
 //			System.out.println(applyInfo.getApplyNo()); // 신청번호
 //			System.out.println(applyInfo.getUserId());  // 회원 아이디
@@ -627,42 +636,28 @@ public class GroupController {
 		
 	}
 	
-	@ResponseBody
 	@RequestMapping(value = "joinPrivateGroup.gr")
-	public String joinPrivateGroup(String invitationCode, String userId) {
-		
-		System.out.println(invitationCode);
-		System.out.println(userId);
+	public String joinPrivateGroup(String inviteCode, String userId, Model model, HttpSession session) {
 		
 		// 코드와 그룹방을 매칭해서 그룹방번호를 반환받음
-		int groupNo = groupService.matchGroup(invitationCode);
+		GroupMember gm = groupService.matchGroup(inviteCode);
 		
-		GroupJoinApply joinInfo = new GroupJoinApply();
-		joinInfo.setGroupNo(groupNo);
-		joinInfo.setUserId(userId);
-		
-		
-		
-		int result = groupService.matchJoinApply(joinInfo);
-		int result2 = 0;
-		int result3 = 0;
-		
-		
-		if(result > 0) {
-			result2 = groupService.delteApplyInfo(joinInfo);
-			
-			GroupMember gm = new GroupMember();
+		if (gm != null) { // 사용자가 입력한 그룹코드와 일치하는 그룹방이 없다면 실패!
 			gm.setUserId(userId);
-			gm.setGroupNo(groupNo);
 			
-			result3 = groupService.insertRoomMember(gm);
+			int result = groupService.matchJoinApply(gm);
+			
+			if(result > 0) {
+				session.setAttribute("alertMsg", "그룹가입 성공!!");
+			} else {
+				System.out.println("셋중 하나 실패했다면...에러");
+				System.out.println("insertRoomMember는 실행 되네");
+			}
+		}else {
+			session.setAttribute("alertMsg", "그룹가입 실패!!");
 		}
 		
-		if(result2 * result3 > 0) {
-			return "Y";
-		} else {
-			return "N";
-		}
+		return "redirect:groupRoom.gr";
 	}
 	
 	//////////////////////////////// 

@@ -21,7 +21,7 @@ public interface GroupService {
 	
 	//------ 그룹방 리스트 조회 + 페이징 처리 ----- //
 	//그룹방 개수 조회
-	int selectGroupListCount(String categoryNo);
+	int selectGroupListCount(HashMap<String, String> map);
 	
 	//지역 카테고리 리스트 조회
 	ArrayList<RegionCategory> selectRegionCategoryList();
@@ -143,7 +143,7 @@ public interface GroupService {
 	int insertRoomMember(GroupMember gm);
 	
 	// 회원에 의한 가입 요청 취소 or 관리자 승인으로 인한 데이터 삭제
-	int delteApplyInfo(GroupJoinApply applyInfo);
+	int delteApplyInfo(GroupMember applyInfo);
 	
 	// 가입신청서리스트 조회
 	ArrayList<GroupJoinApply> getApplicationList(int groupNo);
@@ -152,10 +152,10 @@ public interface GroupService {
 	ArrayList<Member> searchUser(HashMap<String, String> map);
 	
 	// 초대코드와 그룹을 매칭해서 그룹방 번호 반환
-	int matchGroup(String invitationCode);
+	GroupMember matchGroup(String inviteCode);
 	
 	// 그룹조인어플라이 테이블과 매칭후 결과가 있다면 제거
-	int matchJoinApply(GroupJoinApply joinInfo);
+	int matchJoinApply(GroupMember gm);
 
 	
 	
