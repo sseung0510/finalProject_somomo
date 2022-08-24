@@ -64,7 +64,7 @@
         switch(num){
             case 1 : $('#postForm').attr('action', 'detail.gr').submit();
             break;
-            case 2 : alert('사진첩으로 요청');
+            case 2 : $('#postForm').attr('action', 'gallery.gr').submit();
             break
             case 3 : $('#postForm').attr('action', 'calendar.gr').submit();
             break 

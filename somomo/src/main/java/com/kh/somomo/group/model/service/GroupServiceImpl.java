@@ -286,5 +286,10 @@ public class GroupServiceImpl implements GroupService{
 		return 0;
 	}
 
+	@Override
+	public ArrayList<Attachment> groupGalleryAttachmentList(int groupNo) {
+		return groupDao.groupGalleryAttachmentList(sqlSession, groupNo);
+	}
+
 	
 }

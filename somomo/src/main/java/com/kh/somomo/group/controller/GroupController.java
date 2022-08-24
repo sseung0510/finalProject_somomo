@@ -352,7 +352,7 @@ public class GroupController {
 		model.addAttribute("grList", grList)
 			 .addAttribute("atList", atList);
 		
-		System.out.println(grList);
+//		System.out.println(grList);
 		System.out.println(atList);
 		
 		
@@ -542,6 +542,38 @@ public class GroupController {
 		return "redirect:/calendar.gr";
 	}
 	
+
+	
+	// 사진첩
+	
+	@RequestMapping("gallery.gr")
+	public ModelAndView galleryList(@RequestParam("gno") int groupNo, ModelAndView mv) {
+		
+		mv.addObject("g", groupService.selectGroup(groupNo))
+		  .addObject("mList", groupService.selectMemberList(groupNo))
+		  .setViewName("group/groupGallery");
+		return mv;
+	}
+	
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "groupGalleryAttachmentList.gr", produces="application/json; charset=UTF-8")
+	public String groupGalleryAttachmentList(@RequestParam(value = "groupNo") int groupNo) {
+		System.out.println(groupService.groupGalleryAttachmentList(groupNo));
+		return new Gson().toJson(groupService.groupGalleryAttachmentList(groupNo));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "selectCalendarEvents.gr", produces="application/json; charset=UTF-8")
@@ -552,7 +584,7 @@ public class GroupController {
 		
 		List<CalendarPlan> eventList = groupService.selectCalendarEventList(cNo);
 		
-		System.out.println(eventList);
+//		System.out.println(eventList);
 		JSONObject jsonObj = new JSONObject();
         JSONArray jsonArray = new JSONArray();
  

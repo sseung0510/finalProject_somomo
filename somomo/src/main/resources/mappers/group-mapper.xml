@@ -611,6 +611,20 @@
     </select>
     
     
+    <select id="selectGalleryAttachmentList" resultMap="attachmentResultSet">
+		SELECT 
+				A.CHANGE_NAME, 
+				B.GROUP_NO
+  			 FROM 
+  			 	GROUP_ATTACHMENT A 
+    RIGHT JOIN GROUP_BOARD B ON A.BOARD_NO = B.BOARD_NO 
+    			WHERE 
+    			GROUP_NO = #{groupNo}
+    </select>
+    
+    
+    
+    
 	<insert id="insertGroupBoard">
 		INSERT 
 		  INTO

@@ -3,6 +3,7 @@ package com.kh.somomo.group.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gson.JsonElement;
 import com.kh.somomo.common.model.vo.Attachment;
 import com.kh.somomo.common.model.vo.Likes;
 import com.kh.somomo.common.model.vo.PageInfo;
@@ -156,6 +157,10 @@ public interface GroupService {
 	
 	// 그룹조인어플라이 테이블과 매칭후 결과가 있다면 제거
 	int matchJoinApply(GroupMember gm);
+
+	
+	// 그룹별 전체 첨부파일 조회
+	ArrayList<Attachment> groupGalleryAttachmentList(int groupNo);
 
 	
 	
