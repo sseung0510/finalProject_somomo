@@ -99,12 +99,9 @@
 		border-color:rgba(254, 200, 198, .5);
 		outline:3px solid rgba(254, 200, 198, .6);
 	}
-	#checkNick{
-		width:100px;
+	.checkNick{
+		width:500px;
 		height:40px;
-		background-color:#FCD9D7;
-		border:1px solid #FEC8C6;
-		border-radius:5px;
 	}
 	
 	</style>
@@ -163,8 +160,7 @@
 							<td colspan="2" >
 								<span>* 닉네임</span>
 								<span id="nickNameResult" class="colorSubmit" style="font-size:12px">2글자 이상인 닉네임을 입력해주세요</span>
-								<input type="text" class="checkNick" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" style="width:270px;"required>
-								<input type="button" id="checkNick" value="중복확인" onclick="nickCheck();"> <br>
+								<input type="text" class="checkNick" id="nickname" placeholder="Please Enter NickName" name="nickname" value="${loginUser.nickname }" required>
 							</td>
 						</tr>
 						<tr>
@@ -188,7 +184,7 @@
 						</tr>
 						</c:if>
 					</table>
-					<button id="updateBtn" disabled>정보 수정</button>
+					<button type="button" id="updateBtn" onclick="nickCheck()">정보 수정</button>
 				</form>
 	        </div>
         </div>
@@ -233,34 +229,76 @@
 			}
 		}
 		
+		const autoHyphen2 = (target) => {
+			 target.value = target.value
+			   .replace(/[^0-9]/g, '')
+			  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+		
+		function test1(){
+			const $nickNameInput = $('#updateForm input[name=nickname]');
+			
+			if($nickNameInput.val() == "${loginUser.nickname}"){
+				$('#updateBtn').attr('type','submit');
+			}
+			else{
+				// 아작스 통신	
+				$.ajax({
+					url:'nickNameCheck.me',
+					data : {checkNickName:$nickNameInput.val()},
+					async : false,
+					success:function(result){
+						console.log(result);							
+								if(result == 'NNNNN'){ //사용불가능
+									$('#nickNameResult').show();
+									$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
+									$('#updateBtn').attr('type','button');
+								} 
+								else{ // 사용가능
+									$('#nickNameResult').show();
+									$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
+									$('#updateBtn').attr('type','submit');
+								}
+					}, error : function(){
+						console.log("아이디 중복체크용 ajax통신 실패");
+					}
+				});		
+			}
+		}
+		
 		// 닉네임
 		function nickCheck(){
 			const $nickNameInput = $('#updateForm input[name=nickname]');
-			console.log($nickNameInput.val());
-			var O5;
 			
-			$.ajax({
-				url:'nickNameCheck.me',
-				data : {checkNickName:$nickNameInput.val()},
-				async : false,
-				success:function(result){
-					console.log(result);
-					if(result == 'NNNNN'){ //사용불가능
-						$('#nickNameResult').show();
-						$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
+			if($nickNameInput.val() == "${loginUser.nickname}"){
+				$('#updateBtn').attr('type','submit');
+			}
+			else{
+				// 아작스 통신	
+				$.ajax({
+					url:'nickNameCheck.me',
+					data : {checkNickName:$nickNameInput.val()},
+					async : false,
+					success:function(result){
+						console.log(result);							
+								if(result == 'NNNNN'){ //사용불가능
+									$('#nickNameResult').show();
+									$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
+									$('#updateBtn').attr('type','button');
+								} 
+								else{ // 사용가능
+									$('#nickNameResult').show();
+									$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
+									$('#updateBtn').attr('type','submit');
+								}
+					}, error : function(){
+						console.log("아이디 중복체크용 ajax통신 실패");
 					}
-					else{ // 사용가능
-						$('#nickNameResult').show();
-						$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
-						$('#updateBtn').removeAttr("disabled");
-						O5 = result;
-					}
-				}, error : function(){
-					console.log("아이디 중복체크용 ajax통신 실패");
-				}
-			});		
-			return O5;
+				});		
+			}
 		}
+		
+		
 		
 		var msg='${alertMsg}'
 		if(msg==='비밀번호가 틀렸습니다.'){
