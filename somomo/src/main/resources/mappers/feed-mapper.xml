@@ -523,7 +523,7 @@
 		       #{changeName}
 		       )
 	</insert>
-	
+
 	<update id="updateMeetBoard" parameterType="feedBoard">
 		UPDATE 
 		       FEED_BOARD
@@ -532,6 +532,8 @@
 		       BOARD_TITLE = #{boardTitle},
 		       BOARD_CONTENT = #{boardContent},
 		       MEET_PLACE = #{meetPlace},
+		       LONGITUDE = #{longitude},
+		       LATITUDE = #{latitude},
 		       MEET_DATE = #{meetDate},
 		       MEET_TOTAL = #{meetTotal},
 		       MEET_GENDER = #{meetGender},

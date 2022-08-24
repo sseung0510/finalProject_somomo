@@ -99,7 +99,7 @@
 							<tr><td class="fd-board-date"><div class="fd-board-nickname">${fb.boardDate}</div></td></tr>
 						</table>
 						<div class="fd-board-contents fdm">
-							<div class="title">
+							<div>
 								<c:choose>
 									<c:when test="${fb.countMember lt fb.meetTotal}">
 										<b class="gather">모집중&nbsp;</b>
@@ -108,7 +108,7 @@
 										<b>모집마감&nbsp;</b>
 									</c:otherwise>
 								</c:choose>
-								${fb.boardTitle}
+								<span class="title">${fb.boardTitle}</span>
 							</div>
 							<div class="meet-info fdm">
 								📆${fb.meetPlace} | ${fb.meetDate}<br>

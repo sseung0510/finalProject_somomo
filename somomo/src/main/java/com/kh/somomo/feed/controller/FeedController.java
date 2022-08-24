@@ -247,7 +247,6 @@ public class FeedController {
 			map.put("fb", feedService.selectGeneralBoard(boardNo));
 			map.put("fatList", feedService.selectAttachmentList(boardNo));
 			return new Gson().toJson(map);
-			//fb = feedService.selectGeneralBoard(boardNo);
 			
 		// 모임모집글일 경우
 		} else { 
@@ -256,7 +255,6 @@ public class FeedController {
 			return new Gson().toJson(fb);
 		}
 		
-		//return new Gson().toJson(fb);
 	}
 	
 	@ResponseBody
@@ -363,7 +361,6 @@ public class FeedController {
 	@RequestMapping("delete.fd")
 	public String deleteBoard(int boardNo, HttpSession session, Model model) {
 		
-		
 		int result = feedService.deleteBoard(boardNo);
 		
 		// 글 삭제 성공했을 경우
@@ -456,9 +453,7 @@ public class FeedController {
 			int result = feedService.insertChatMember(cm);
 			
 			if(result > 0) {
-				// 채팅 개발 후 경로 설정 필요
-				session.setAttribute("alertMsg", "FeedController(joinChat.fd) : 해당 채팅방으로 경로 설정 필요");
-				return "redirect:main.fd";
+				return "redirect:chat.ch"; // 채팅방 이동
 			} else {
 				model.addAttribute("errorMsg", "모임 참여 실패");
 				return "common/errorPage";

@@ -46,14 +46,16 @@
 					<b>모집마감&nbsp;</b>
 				</c:otherwise>
 			</c:choose>
-			${fb.boardTitle}
+			<span class="title">${fb.boardTitle}</span>
 		</div>
 		<div class="content fdm">
 			<% pageContext.setAttribute("newLine", "\n"); %>
 			<p id="content">${fn:replace(fb.boardContent, newLine, '<br/>')}</p>
 		</div>
 		<div class="meet-info fdm" style="padding:5px;">
-			<div><img src="resources/img/test1.jpg" width="100%"></div>
+			<div class="map-area" style="width:100%; height:400px;">
+				<div id="meetMap" style="width:100%; height:100%"></div>
+			</div>
 			<div class="fdm">
 				 📆 ${fb.meetPlace} | ${fb.meetDate}<br>
 				👉${fb.meetCondition}<br>
@@ -80,3 +82,25 @@
 		</c:choose>
 	</div>
 </div>
+
+
+<script>
+	var markerPosition  = new kakao.maps.LatLng(${fb.longitude}, ${fb.latitude}); 
+	
+	//이미지 지도에 표시할 마커입니다
+	//이미지 지도에 표시할 마커는 Object 형태입니다
+	var marker = {
+	 position: markerPosition,
+	 text: '${fb.meetPlace}'
+	};
+	
+	var meetMapContainer  = document.getElementById('meetMap'), // 이미지 지도를 표시할 div  
+	 meetMapOption = { 
+	     center: markerPosition, // 이미지 지도의 중심좌표
+	     level: 3, // 이미지 지도의 확대 레벨
+	     marker: marker // 이미지 지도에 표시할 마커 
+	 };    
+	
+	//이미지 지도를 생성합니다
+	var meetMap = new kakao.maps.StaticMap(meetMapContainer, meetMapOption);
+</script>

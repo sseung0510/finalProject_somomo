@@ -513,6 +513,9 @@ nav.close ~ .main-content .main-feed{
 	height:50px;
 }
 
+/* 글 제목 */
+.title{font-weight:600;}
+
 /* 글 내용 부분 각 margin*/
 .fdm, .md{margin-top:10px;}
 
@@ -558,6 +561,17 @@ nav.close ~ .main-content .main-feed{
 
 /* ============= 모임모집글 관련  =============*/
 .gather{ color: orange;}
+/*모임모집 모달창 왼쪽(카카오맵) 오른쪽(작성폼)*/
+.md-left{
+	width:48%;
+  	float:left;
+  	box-sizing:border-box;
+}
+.md-right{
+	width:48%;
+  	float:right;
+  	box-sizing:border-box;
+}
 /* ============= 모임모집글 관련 끝 =============*/
 
 
