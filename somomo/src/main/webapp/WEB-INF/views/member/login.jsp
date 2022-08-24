@@ -10,12 +10,77 @@
 	<script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
 <title>로그인</title>
 </head>
+
+
+<style>
+
+		.container {
+		    height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+		}
+		
+		.main-container {
+		    display: flex;
+		    flex-grow: 1;
+		}
+		
+		.main-content {
+		    margin: 32px auto;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    max-width: 935px;
+		    flex-grow: 1;
+		}
+		
+		.slide-container {
+		    height: 570px;
+    		width: 480px;
+		    background-image: url(resources/img/main-frame.png);
+		    background-size: cover;
+		    background-position: center;
+		    
+		}
+		
+		.slide-content {
+		    margin: 99px 0 0 151px;
+		    position: relative;
+		}
+		
+		.slide-content img {
+		    position: absolute;
+		    right: 22px;
+		    top: -68px;
+		    height: 517px;
+		    opacity: 0;
+		    visibility: hidden;
+		    transition: all 0.5s ease-in-out;
+		}
+		
+		.slide-content img.active {
+		    opacity: 1;
+		    visibility: visible;
+		}
+
+
+
+</style>
 <body>
    	<div class="cover">
         <main>
-            <div class="content">
-                <img id="sample" src="https://www.instagram.com/static/images/homepage/screenshots/screenshot1-2x.png/cfd999368de3.png" alt="">
-            </div>
+            <div class="container">
+			        <div class="main-container">
+			            <div class="main-content">
+			                <div class="slide-container" >
+			                    <div class="slide-content" id="slide-content">
+			                        <img src="resources/img/somomo-main.png" alt="slide image" class="active">
+			                        <img src="resources/img/somomo-main2.png" alt="slide image">
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+		    </div>
 
             <div class="content">
                 <div class="content-col">
@@ -150,6 +215,23 @@
 	                setCookie("userId", userId, 7); // 7일동안 보관
 	            }
 	        });
+	        
+	        
+	        
+	        // 모바일 슬라이드 JS
+	        let slide_content = document.querySelector('#slide-content')
+
+			let slide_index = 0
+			
+			slide = () => {
+			    let slide_items = slide_content.querySelectorAll('img')
+			    slide_items.forEach(e => e.classList.remove('active'))
+			    slide_index = slide_index + 1 === slide_items.length ? 0 : slide_index + 1
+			    slide_items[slide_index].classList.add('active')
+			}
+			
+			setInterval(slide, 2000)
+
 
 	</script>
 </body>
