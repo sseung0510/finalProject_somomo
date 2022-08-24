@@ -112,7 +112,7 @@
 				},
 				success : function(data){
 					
-					// 응답된 문자열은 html형식(feed/ajaxFeedList.jsp에 응답내용 있음)
+					// 응답된 문자열은 html형식(group/groupDetailList.jsp에 응답내용 있음)
 					$('.main-middle').append(data);
 					
 					$('.likeBtn').click(function(){	
@@ -139,7 +139,17 @@
 						})
 					});
 					
-					
+					//댓글 열기
+					$('.commentCountBtn').click(function(){
+						let rno = $(this).data('rno');
+						if($(this).children().eq(1).hasClass('uil uil-angle-up')){
+							$(this).children().eq(1).removeClass('uil uil-angle-up').addClass('uil uil-angle-down');
+							selectReplyList(rno);
+						}else{
+							$(this).children().eq(1).removeClass('uil uil-angle-down').addClass('uil uil-angle-up');
+							$('.commnetWrap'+rno).html('');
+						}
+					});
 				}
 			});
 		}
@@ -241,7 +251,7 @@
 			
 			
 			
-			// ajax 댓글 작성
+		// ajax 댓글 작성
 		function insertReply(grReply){
 			let rno = $(grReply).data('rno');
 			console.log(rno);
@@ -340,7 +350,7 @@
         	
         	
 
-       		// 답글버튼(답글달기,답글취소) 클릭 시
+       	// 답글버튼(답글달기,답글취소) 클릭 시
 		$(document).on('click', '.reReplyBtn', function(){
 			let rgroupNo = $(this).data('rgroup');
 			let rboardNo = $(this).data('rboard');

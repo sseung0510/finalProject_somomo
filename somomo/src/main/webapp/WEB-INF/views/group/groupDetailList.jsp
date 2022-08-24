@@ -71,7 +71,7 @@
                             </span>
                             
             
-                            <span class="commentCountBtn">댓글
+                            <span class="commentCountBtn" data-rno="${gr.boardNo}">댓글
                                 <span class="commentCount${gr.boardNo}">${gr.countReply}</span>
                                 <i class="uil uil-angle-up"></i> 
                             </span>
