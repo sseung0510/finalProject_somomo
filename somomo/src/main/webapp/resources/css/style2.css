@@ -177,6 +177,79 @@ body{
   height: 400px;
 }
 
+/* 사진 추가 */
+.grid {
+  margin:10px 34px;
+  display:flex;
+  gap:20px;
+}
+.grid .form-element {
+  width:101px;
+  height:101px;
+  border : 1px solid lightgray;
+ 
+}
+.grid .form-element input {
+  display : none;
+}
+
+.grid .form-element label {
+	height: 100%;
+	width : 100%;
+}
+.grid .form-element img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  cursor : pointer;
+}
+.grid .form-element div {
+  position:relative;
+  height:40px;
+  margin-top:-40px;
+  background:rgba(0,0,0,0.5);
+  text-align:center;
+  line-height:40px;
+  font-size:13px;
+  color:#f5f5f5;
+  font-weight:600;
+}
+
+.form-element:hover {
+	opacity : 0.7;
+	
+}
+
+
+.delete-image {		
+    display: flex;
+    text-align: center;
+    gap: 20px;
+  
+}
+.imageRemoveBtn{
+	display:none;
+	width: 100%;
+    margin: 10px 0;
+    text-align: center;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition : 0.5s
+}
+.imageRemoveBtn.on{
+	display : block;	
+}
+
+.imageRemoveBtn.on i {
+	color : red;
+}
+
+.form-wrap {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* ======================= 메인컨텐츠 중앙 CSS =================== */
 
 .main-middle{

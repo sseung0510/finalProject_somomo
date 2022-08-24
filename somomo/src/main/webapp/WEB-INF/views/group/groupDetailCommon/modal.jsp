@@ -28,12 +28,54 @@
                 <textarea name="boardContent" id="boardContent" style="display: none;"></textarea>
                 
                 
-            <div class="mdm file-area">
-                <input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
-                <input type="file" name="file2" id="file2"><input type="button" value="파일 삭제" onclick="fileReset(2);">
-                <input type="file" name="file3" id="file3"><input type="button" value="파일 삭제" onclick="fileReset(3);">
-                <input type="file" name="file4" id="file4"><input type="button" value="파일 삭제" onclick="fileReset(4);">
-            </div>
+             <div class="grid">
+				<div class="form-wrap">
+					<div class="form-element">
+				      	
+				        <input type="file" name="file1" id="file-1" accept="image/*">
+				        <label for="file-1" id="file-1-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				     </div>
+				     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+				<div class="form-wrap">
+					<div class="form-element">
+				     	
+				        <input type="file" name="file2" id="file-2" accept="image/*">
+				        <label for="file-2" id="file-2-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				    </div>
+				    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+				<div class="form-wrap">
+					<div class="form-element">
+				    	<input type="file" name="file3"  id="file-3" accept="image/*">
+				        <label for="file-3" id="file-3-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				    </div>
+				    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+				<div class="form-wrap">
+					<div class="form-element">
+				    	<input type="file" name="file4" id="file-4" accept="image/*">
+				        <label for="file-4" id="file-4-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				     </div>
+				     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+			    
+			    <!-- 기존 파일 정보 -->
+			    <div class="origin-area" style="display:none;">
+				    <input type="hidden" name="origin" id="origin-1" data-fno="" data-filename="" value="">
+				    <input type="hidden" name="origin" id="origin-2" data-fno="" data-filename="" value="">
+				    <input type="hidden" name="origin" id="origin-3" data-fno="" data-filename="" value="">
+				    <input type="hidden" name="origin" id="origin-4" data-fno="" data-filename="" value="">
+			    </div>
+		    </div>
             
 
             <!--  <ul class="toolbarList" >
@@ -48,7 +90,7 @@
             </ul>
             -->
             <!-- 로그인 유저가 관리자일때 -->
-            <label for="selectNotice"><input type="checkbox" name="selectNotice">공지사항</label></li>
+            <!-- <label for="selectNotice"><input type="checkbox" name="selectNotice">공지사항</label></li> -->
 
             <div class="button">
                 <button id="submit" onclick="getContent();" class="send">게시</button>
@@ -85,13 +127,55 @@
                 <textarea name="boardContent" id="groupBoardContent" style="display: none;"></textarea>
                 
                 
-            <div class="mdm file-area">
-                <input type="file" name="file1" id="file1"><input type="button" value="파일 삭제" onclick="fileReset(1);">
-                <input type="file" name="file2" id="file2"><input type="button" value="파일 삭제" onclick="fileReset(2);">
-                <input type="file" name="file3" id="file3"><input type="button" value="파일 삭제" onclick="fileReset(3);">
-                <input type="file" name="file4" id="file4"><input type="button" value="파일 삭제" onclick="fileReset(4);">
-            </div>
-            
+            <div class="grid">
+				<div class="form-wrap">
+					<div class="form-element">
+				      	
+				        <input type="file" name="file1" id="file-1" accept="image/*">
+				        <label for="file-1" id="file-1-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				     </div>
+				     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+				<div class="form-wrap">
+					<div class="form-element">
+				     	
+				        <input type="file" name="file2" id="file-2" accept="image/*">
+				        <label for="file-2" id="file-2-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				    </div>
+				    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+				<div class="form-wrap">
+					<div class="form-element">
+				    	<input type="file" name="file3"  id="file-3" accept="image/*">
+				        <label for="file-3" id="file-3-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				    </div>
+				    <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+				<div class="form-wrap">
+					<div class="form-element">
+				    	<input type="file" name="file4" id="file-4" accept="image/*">
+				        <label for="file-4" id="file-4-preview">
+				        	<img id="preview" src="resources/img/addImage.png" >
+				        </label>
+				     </div>
+				     <div class="imageRemoveBtn"><i class="uil uil-trash-alt"></i><span>삭제</span></div>
+				</div>
+			    
+			    <!-- 기존 파일 정보 -->
+			    <div class="origin-area" style="display:none;">
+				    <input type="hidden" name="origin" id="origin-1" data-fno="" data-filename="" value="">
+				    <input type="hidden" name="origin" id="origin-2" data-fno="" data-filename="" value="">
+				    <input type="hidden" name="origin" id="origin-3" data-fno="" data-filename="" value="">
+				    <input type="hidden" name="origin" id="origin-4" data-fno="" data-filename="" value="">
+			    </div>
+		    </div>
+
 
             <!--  <ul class="toolbarList" >
                 <li>
@@ -105,7 +189,7 @@
             </ul>
             -->
             <!-- 로그인 유저가 관리자일때 -->
-            <label for="selectNotice"><input type="checkbox" name="selectNotice">공지사항</label></li>
+            <!-- <label for="selectNotice"><input type="checkbox" name="selectNotice">공지사항</label></li> -->
 
             <div class="button">
                 <button type="submit"  class="send">수정</button>
@@ -129,5 +213,31 @@
     function fileReset(num){
         $('#file'+num).val('');
     }
+    
+    
+ // 사진 삭제버튼 Default OFF
+   	var fileInputList = $("input[type=file]");
+   	var imageList = $("img#preview");
+   	var remBtnList = $("div.imageRemoveBtn");
+   	for(let i=0; i<fileInputList.length; i++){
+   		fileInputList.eq(i).on("change", function(e){
+			if(e.target.files.length == 0){
+				return;
+			}
+			let file = e.target.files[0];
+			let url = URL.createObjectURL(file);
+			imageList.eq(i).attr("src", url)
+			
+			
+			// 삭제버튼 ON
+			remBtnList.eq(i).addClass("on")					
+		});
+   		
+   		remBtnList.eq(i).on("click", function(){
+   			remBtnList.eq(i).removeClass("on")
+   			imageList.eq(i)[0].src = 'resources/img/addImage.png';
+   			fileInputList.eq(i).val('');
+   		});
+   	}
 
 </script>

@@ -10,7 +10,7 @@
     
     <!----------- CSS --------------->
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.9">
-    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.4">
+    <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.3">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
     <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.5">
     <!----------- 아이콘 CSS 링크 ------->
