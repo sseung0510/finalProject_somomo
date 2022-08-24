@@ -224,7 +224,7 @@
 	<script>
 
 		/* ---------- 웹소켓 ---------- */
-let socket
+		let socket
 		
 		/* 채팅 내용(DB + WebSocket) 담는 변수 */
 		let chatView = '';
@@ -286,10 +286,12 @@ let socket
 		
 		/* 웹소켓 메시지 수신 */
 		function onMessage(e) {
-		
-			let newChat = e.data.split(",");
 			
-		
+
+			console.log(e);
+
+			let newChat = e.data.split("`");
+			
 			let data = {
 				"chatDate" : newChat[0],
 				"chatWriter" : newChat[1],
@@ -327,7 +329,9 @@ let socket
 						  + '<div class="my-chat-message">' + newChat[4] + '</div></div>'
 			}
 		
-			$('.chat-view').html(chatView);
+			$('.chat-view').append(chatView);
+
+			chatView = '';
 		
 			/* 메시지 표시 영역 최하단으로 스크롤 내리기 */
 			chatViewHeight.scrollTop = chatViewHeight.scrollHeight;
@@ -549,165 +553,175 @@ let socket
 		});
 		
 		/* ---------- 선택한 채팅방의 채팅 내용 불러오기 ---------- */
+
+		let flag = '';
+
 		function selectChatInChatRoom(e) {
-		
-			/* 웹소켓 서버의 채팅방에 들어가기 */
-			let data = {
-				'roomNo' : e.children[1].value,
-				'chatWriter' : '${loginUser.userId}',
-				'chatContent' : 'enterChatRoom220826'
-			};
-		
-			let jsonData = JSON.stringify(data);
-		
-			socket.send(jsonData);
-		
-			/* 모든 채팅방 input checked를 false로 변경 */
-			let chatRoomFlags = document.getElementsByName('chat-room-flag');
 			
-			chatRoomFlags.forEach((crf) => {
-		
-				crf.checked = false;
-		
-				/* 한번이라도 선택됬던 채팅방에 호버 기능 다시 넣어주기 */
-				if (crf.parentNode.style.backgroundColor == 'rgb(255, 224, 217)') {
-		
-					crf.parentNode.style.backgroundColor = 'white';
-		
-					if (crf.parentNode.style.backgroundColor == 'white') {
-						crf.parentNode.addEventListener('mouseover', function() {
-							crf.parentNode.style.backgroundColor = 'rgb(255, 248, 248)';
-						});
-						crf.parentNode.addEventListener('mouseout', function() {
-							crf.parentNode.style.backgroundColor = 'white';
-						});
-					}
-				}
-			});
-		
-			/* 선택한 채팅방만 input checked를 true로 변경 */
-			e.children[0].checked = true;
-		
-			if (e.children[0].checked == true) {
+			if (flag != e.children[1].value) {
+
+				flag = e.children[1].value
+
+				/* 웹소켓 서버의 채팅방에 들어가기 */
+				let data = {
+					'roomNo' : e.children[1].value,
+					'chatWriter' : '${loginUser.userId}',
+					'chatContent' : 'enterChatRoom220826'
+				};
+			
+				let jsonData = JSON.stringify(data);
+			
+				socket.send(jsonData);
+			
+				/* 모든 채팅방 input checked를 false로 변경 */
+				let chatRoomFlags = document.getElementsByName('chat-room-flag');
 				
-				if (e.style.backgroundColor == 'rgb(255, 224, 217)') {
-		
-					e.style.backgroundColor = 'white';
-		
-					if (e.style.backgroundColor == 'white') {
-						e.addEventListener('mouseover', function() {
-							e.style.backgroundColor = 'rgb(255, 248, 248)';
-						})
-		
-						e.addEventListener('mouseout', function() {
-							e.style.backgroundColor = 'white';
-						})
+				chatRoomFlags.forEach((crf) => {
+			
+					crf.checked = false;
+			
+					/* 한번이라도 선택됬던 채팅방에 호버 기능 다시 넣어주기 */
+					if (crf.parentNode.style.backgroundColor == 'rgb(255, 224, 217)') {
+			
+						crf.parentNode.style.backgroundColor = 'white';
+			
+						if (crf.parentNode.style.backgroundColor == 'white') {
+							crf.parentNode.addEventListener('mouseover', function() {
+								crf.parentNode.style.backgroundColor = 'rgb(255, 248, 248)';
+							});
+							crf.parentNode.addEventListener('mouseout', function() {
+								crf.parentNode.style.backgroundColor = 'white';
+							});
+						}
 					}
-				}
-				else {
-		
-					/* 선택한 채팅방 색상 변경 */
-					e.style.backgroundColor = 'rgb(255, 224, 217)';
-		
+				});
+			
+				/* 선택한 채팅방만 input checked를 true로 변경 */
+				e.children[0].checked = true;
+			
+				if (e.children[0].checked == true) {
+					
 					if (e.style.backgroundColor == 'rgb(255, 224, 217)') {
-						e.addEventListener('mouseover', function() {
-							e.style.backgroundColor = 'rgb(255, 224, 217)';
-						})
-						e.addEventListener('mouseout', function() {
-							e.style.backgroundColor = 'rgb(255, 224, 217)';
-						})
+			
+						e.style.backgroundColor = 'white';
+			
+						if (e.style.backgroundColor == 'white') {
+							e.addEventListener('mouseover', function() {
+								e.style.backgroundColor = 'rgb(255, 248, 248)';
+							})
+			
+							e.addEventListener('mouseout', function() {
+								e.style.backgroundColor = 'white';
+							})
+						}
 					}
-		
-					/* 다른 채팅방에서 유저 목록 열어 놨었다면 닫기 */
-					if (chatUserList.style.maxHeight == '800px') {
-						chatUserList.style.maxHeight = '0px';
-						chatUserList.style.transition = 'all .01s';
-						uilAngleDown.style.color = 'rgb(0, 0, 0)';
-					}
-		
-					/* 채팅방 선택하면 유저 목록 영역, 메시지 입력 영역 표시 */
-					let chatUserListAccordion = document.querySelector('.chat-user-list-accordion');
-		
-					chatUserListAccordion.style.display = 'block';
-		
-					let chatInput = '<div class="chat-input">'
-								  + '<input type="text" placeholder="메시지를 입력해주세요..." maxlength="1000" onkeyup="if(window.event.keyCode==13) send(' + e.children[1].value + ');">'
-								  + '<button onclick="send(' + e.children[1].value + ');">전송</button></div>'
-		
-					$('.chat-input-wrap').html(chatInput);
-		
-					/* 선택한 채팅방 메시지 불러오는 AJAX */
-					$.ajax({
-						url : 'selectChatInChatRoom.ch', 
-						data : {
-							roomNo : e.children[1].value, 
-							userId : '${loginUser.userId}'
-						}, success : function(list) { 
-							
-							if (list != '') {
-								for(let i in list){
-		
-									/* 채팅방 날짜 표시 */
-									if (dateGroup != list[i].chatDate) {
-		
-										dateGroup = list[i].chatDate;
-		
-										chatView += '<div class="chat-date-wrap">'
-												  + '<div class="chat-date">' + list[i].chatDate + '</div></div>'
+					else {
+			
+						/* 선택한 채팅방 색상 변경 */
+						e.style.backgroundColor = 'rgb(255, 224, 217)';
+			
+						if (e.style.backgroundColor == 'rgb(255, 224, 217)') {
+							e.addEventListener('mouseover', function() {
+								e.style.backgroundColor = 'rgb(255, 224, 217)';
+							})
+							e.addEventListener('mouseout', function() {
+								e.style.backgroundColor = 'rgb(255, 224, 217)';
+							})
+						}
+			
+						/* 다른 채팅방에서 유저 목록 열어 놨었다면 닫기 */
+						if (chatUserList.style.maxHeight == '800px') {
+							chatUserList.style.maxHeight = '0px';
+							chatUserList.style.transition = 'all .01s';
+							uilAngleDown.style.color = 'rgb(0, 0, 0)';
+						}
+			
+						/* 채팅방 선택하면 유저 목록 영역, 메시지 입력 영역 표시 */
+						let chatUserListAccordion = document.querySelector('.chat-user-list-accordion');
+			
+						chatUserListAccordion.style.display = 'block';
+			
+						let chatInput = '<div class="chat-input">'
+									+ '<input type="text" placeholder="메시지를 입력해주세요..." maxlength="1000" onkeyup="if(window.event.keyCode==13) send(' + e.children[1].value + ');">'
+									+ '<button onclick="send(' + e.children[1].value + ');">전송</button></div>'
+			
+						$('.chat-input-wrap').html(chatInput);
+			
+						/* 선택한 채팅방 메시지 불러오는 AJAX */
+						$.ajax({
+							url : 'selectChatInChatRoom.ch', 
+							data : {
+								roomNo : e.children[1].value, 
+								userId : '${loginUser.userId}'
+							}, success : function(list) { 
+								
+								if (list != '') {
+									for(let i in list){
+			
+										/* 채팅방 날짜 표시 */
+										if (dateGroup != list[i].chatDate) {
+			
+											dateGroup = list[i].chatDate;
+			
+											chatView += '<div class="chat-date-wrap">'
+													+ '<div class="chat-date">' + list[i].chatDate + '</div></div>'
+										}
+			
+										/* 채팅방 상대방 메시지 */
+										if ('${loginUser.userId}' != list[i].chatWriter) {
+											chatView += '<div class="another-user-chat-wrap">'
+													+ '<div class="another-user-picture">'
+													+ '<div><img src="${pageContext.request.contextPath}/' + list[i].profileImg + '"></div></div>'
+													+ '<div class="another-user-message-wrap-1">'
+													+ '<div class="another-user-nickname">' + list[i].nickname + '</div>'
+													+ '<div class="another-user-message-wrap-2">'
+													+ '<div class="another-user-chat-message">' + list[i].chatContent + '</div>'
+													+ '<div class="another-user-chat-message-time">' + list[i].chatTime +'</div></div></div></div>'
+										}
+			
+										/* 채팅방 내 메시지 */
+										if ('${loginUser.userId}' == list[i].chatWriter) {
+											chatView += '<div class="my-chat-wrap">'
+													+ '<div class="my-chat-message-time">' + list[i].chatTime + '</div>'
+													+ '<div class="my-chat-message">' + list[i].chatContent + '</div></div>'
+										}
 									}
-		
-									/* 채팅방 상대방 메시지 */
-									if ('${loginUser.userId}' != list[i].chatWriter) {
-										chatView += '<div class="another-user-chat-wrap">'
-												  + '<div class="another-user-picture">'
-												  + '<div><img src="${pageContext.request.contextPath}/' + list[i].profileImg + '"></div></div>'
-												  + '<div class="another-user-message-wrap-1">'
-												  + '<div class="another-user-nickname">' + list[i].nickname + '</div>'
-												  + '<div class="another-user-message-wrap-2">'
-												  + '<div class="another-user-chat-message">' + list[i].chatContent + '</div>'
-												  + '<div class="another-user-chat-message-time">' + list[i].chatTime +'</div></div></div></div>'
-									}
-		
-									/* 채팅방 내 메시지 */
-									if ('${loginUser.userId}' == list[i].chatWriter) {
-										chatView += '<div class="my-chat-wrap">'
-												  + '<div class="my-chat-message-time">' + list[i].chatTime + '</div>'
-												  + '<div class="my-chat-message">' + list[i].chatContent + '</div></div>'
-									}
+									$('.chat-view').html(chatView);
+
+									chatView = '';
+			
+									/* 메시지 표시 영역 최하단으로 스크롤 내리기 */
+									chatViewHeight.scrollTop = chatViewHeight.scrollHeight;
 								}
-								$('.chat-view').html(chatView);
-		
-								/* 메시지 표시 영역 최하단으로 스크롤 내리기 */
-								chatViewHeight.scrollTop = chatViewHeight.scrollHeight;
+								else {
+									$('.chat-view').html(chatView);
+								}
+							}, error : function() {
+								alert('selectChatInChatRoom error');
 							}
-							else {
-								$('.chat-view').html(chatView);
+						});
+			
+						/* 선택한 채팅방 유저 목록 불러오는 AJAX */
+						$.ajax({
+							url : 'selectUserInChatRoom.ch', 
+							data : {
+								roomNo : e.children[1].value
+							}, success : function(list) { 
+			
+								let value = '';
+			
+								for(let i in list){
+									value += '<div class="chat-user">'
+										+ '<div class="chat-user-picture">'
+										+ '<div><img src="${pageContext.request.contextPath}/' + list[i].profileImg + '"></div></div>'
+										+ '<div class="chat-user-nickname">' + list[i].nickname + '</div></div>'
+								}
+								$('.chat-user-list').html(value);
+							}, error : function() {
+								alert('selectUserInChatRoom error');
 							}
-						}, error : function() {
-							alert('selectChatInChatRoom error');
-						}
-					});
-		
-					/* 선택한 채팅방 유저 목록 불러오는 AJAX */
-					$.ajax({
-						url : 'selectUserInChatRoom.ch', 
-						data : {
-							roomNo : e.children[1].value
-						}, success : function(list) { 
-		
-							let value = '';
-		
-							for(let i in list){
-								value += '<div class="chat-user">'
-									   + '<div class="chat-user-picture">'
-									   + '<div><img src="${pageContext.request.contextPath}/' + list[i].profileImg + '"></div></div>'
-									   + '<div class="chat-user-nickname">' + list[i].nickname + '</div></div>'
-							}
-							$('.chat-user-list').html(value);
-						}, error : function() {
-							alert('selectUserInChatRoom error');
-						}
-					});
+						});
+					}
 				}
 			}
 		};

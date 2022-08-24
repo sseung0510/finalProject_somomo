@@ -83,8 +83,10 @@ public class ChatWebSocketServer extends TextWebSocketHandler {
             sessionList.put(session, roomNoReceived);
             
             System.out.println("[웹소켓 서버에 " + chatRoom.getRoomNo() + "번 채팅방 생성] | [" + session.getId() + "] | [입장]");
-        } else if(chatRoomList.get(roomNoReceived) != null && chatRoom != null && chatReceived.getChatContent().equals("enterChatRoom220826")) {
-        	// 채팅방 목록(chatRoomList)에 채팅방이 있고, DB에 채팅방이 있고, 처음 들어왔을 때(특정 메시지를 수신했을 때)
+            
+        // 채팅방 목록(chatRoomList)에 채팅방이 있고, DB에 채팅방이 있고, 처음 들어왔을 때(특정 메시지를 수신했을 때)
+        } else if(chatRoomList.get(roomNoReceived) != null && chatRoom != null 
+        		&& chatReceived.getChatContent().equals("enterChatRoom220826")) {
         	
             // 채팅방 목록에서 채팅방 번호가 일치하는 채팅방에 session 추가
             chatRoomList.get(roomNoReceived).add(session);
@@ -93,10 +95,9 @@ public class ChatWebSocketServer extends TextWebSocketHandler {
             sessionList.put(session, Integer.toString(chatRoom.getRoomNo()));
             
             System.out.println("[" + roomNoReceived + "번 채팅방] | [" + session.getId() + "] | [입장]");
-        }
-        
+            
         // 채팅 내용 전송, DB 저장
-        if(chatRoomList.get(roomNoReceived) != null && !chatReceived.getChatContent().equals("enterChatRoom220826") && chatRoom != null) {
+        } else if(chatRoomList.get(roomNoReceived) != null && !chatReceived.getChatContent().equals("enterChatRoom220826") && chatRoom != null) {
             
             // DB에 채팅 저장
             int result = chatService.insertChat(chatReceived);
@@ -108,11 +109,11 @@ public class ChatWebSocketServer extends TextWebSocketHandler {
             	
             	// DB에서 가저온 채팅 내용을 담아줌 (사용할 값 : chatDate, chatWriter, profileImg, nickname, chatContent, chatTime)
             	TextMessage newChat = new TextMessage(chat.getChatDate() 
-            			                      + "," + chat.getChatWriter() 
-            			                      + "," + chat.getProfileImg() 
-            			                      + "," + chat.getNickname()
-            			                      + "," + chat.getChatContent()
-            			                      + "," + chat.getChatTime());
+            			                      + "`" + chat.getChatWriter() 
+            			                      + "`" + chat.getProfileImg() 
+            			                      + "`" + chat.getNickname()
+            			                      + "`" + chat.getChatContent()
+            			                      + "`" + chat.getChatTime());
             	
             	// 채팅방에 속한 session들에게 채팅 전송
                 for(WebSocketSession ws : chatRoomList.get(roomNoReceived)) {
