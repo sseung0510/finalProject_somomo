@@ -96,9 +96,7 @@
         	
         	// 채팅방으로 이동
         	function moveChat(){
-        		// 채팅 개발 후 경로 설정 필요
-        		alert('feedMeetDetailView.jsp : 해당 채팅방으로 경로 설정 필요');
-        		location.href = '#';
+        		location.href = 'chat.ch';
         	}
         	
 			// 모임참여 버튼 클릭 시
