@@ -235,36 +235,6 @@
 			  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 		}
 		
-		function test1(){
-			const $nickNameInput = $('#updateForm input[name=nickname]');
-			
-			if($nickNameInput.val() == "${loginUser.nickname}"){
-				$('#updateBtn').attr('type','submit');
-			}
-			else{
-				// 아작스 통신	
-				$.ajax({
-					url:'nickNameCheck.me',
-					data : {checkNickName:$nickNameInput.val()},
-					async : false,
-					success:function(result){
-						console.log(result);							
-								if(result == 'NNNNN'){ //사용불가능
-									$('#nickNameResult').show();
-									$('#nickNameResult').css('color', 'orangered').text('중복된 닉네임이 존재합니다');
-									$('#updateBtn').attr('type','button');
-								} 
-								else{ // 사용가능
-									$('#nickNameResult').show();
-									$('#nickNameResult').css('color', 'yellowgreen').text('사용가능한 닉네임입니다.');
-									$('#updateBtn').attr('type','submit');
-								}
-					}, error : function(){
-						console.log("아이디 중복체크용 ajax통신 실패");
-					}
-				});		
-			}
-		}
 		
 		// 닉네임
 		function nickCheck(){
