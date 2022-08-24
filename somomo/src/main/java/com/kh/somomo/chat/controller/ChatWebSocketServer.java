@@ -33,13 +33,13 @@ public class ChatWebSocketServer extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     	connectedUsers++;
-        System.out.println("[" + session.getId() + "] [웹소켓 서버 연결 성공] | 총 접속 인원 : " + connectedUsers + "명");
+        System.out.println("[웹소켓 서버 연결 성공] | [" + session.getId() + "] | [총 접속 인원 : " + connectedUsers + "명]");
     }
  
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
     	connectedUsers--;
-    	System.out.println("[" + session.getId() + "] [웹소켓 서버 연결 종료] | 총 접속 인원 : " + connectedUsers + "명");
+    	System.out.println("[웹소켓 서버 연결 종료] | [" + session.getId() + "] | [총 접속 인원 : " + connectedUsers + "명]");
         
         // sessionList에 session이 있다면
         if(sessionList.get(session) != null) {
@@ -82,7 +82,7 @@ public class ChatWebSocketServer extends TextWebSocketHandler {
             // session 목록에 session과 현재 속한 채팅방 번호 담음
             sessionList.put(session, roomNoReceived);
             
-            System.out.println("[웹소켓 서버에 " + chatRoom.getRoomNo() + "번 채팅방 생성] | [" + session.getId() + " 입장]");
+            System.out.println("[웹소켓 서버에 " + chatRoom.getRoomNo() + "번 채팅방 생성] | [" + session.getId() + "] | [입장]");
         } else if(chatRoomList.get(roomNoReceived) != null && chatRoom != null && chatReceived.getChatContent().equals("enterChatRoom220826")) {
         	// 채팅방 목록(chatRoomList)에 채팅방이 있고, DB에 채팅방이 있고, 처음 들어왔을 때(특정 메시지를 수신했을 때)
         	
@@ -92,7 +92,7 @@ public class ChatWebSocketServer extends TextWebSocketHandler {
             // session 목록에 session과 현재 속한 채팅방 번호 담음
             sessionList.put(session, Integer.toString(chatRoom.getRoomNo()));
             
-            System.out.println("[" + roomNoReceived + "번 채팅방에 " + session.getId() + " 입장]");
+            System.out.println("[" + roomNoReceived + "번 채팅방] | [" + session.getId() + "] | [입장]");
         }
         
         // 채팅 내용 전송, DB 저장

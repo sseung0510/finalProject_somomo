@@ -92,6 +92,9 @@ public class ChatController {
 					cr.setChatDate(Time.getDiffTime(cr.getChatDate()));
 				}
 			}
+			if (cr.getRoomThumbnail() == null) {
+				cr.setRoomThumbnail("resources/img/web_logo.jpg");
+			}
 		}
 		
 		model.addAttribute("myChatRoomList", myChatRoomList);
