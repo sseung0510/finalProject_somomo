@@ -528,9 +528,9 @@
 							
 							var stDate = new Date(somomo[i][0],somomo[i][1],somomo[i][2]);
 							var endDate = new Date(year, month, day);
-							var btMs =  endDate.getTime() - stDate.getTime();
+							var btMs =  stDate.getTime()-endDate.getTime();
 							var btDay = btMs / (1000*60*60*24); // 차이 일수로 계산
-							if(btDay <= 14) {
+							if(btDay <= 14 && btDay > 0) {
 								
 								/*
 								data[i].title
