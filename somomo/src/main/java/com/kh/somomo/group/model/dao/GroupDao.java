@@ -240,8 +240,8 @@ public class GroupDao {
 		return (ArrayList)sqlSession.selectList("groupMapper.calendarEventListEntire", groupNo);
 	}
 	
-	public int exitGroup(SqlSessionTemplate sqlSession, int groupNo) {
-		return sqlSession.delete("groupMapper.exitGroup", groupNo);
+	public int exitGroup(SqlSessionTemplate sqlSession, GroupMember gm) {
+		return sqlSession.delete("groupMapper.exitGroup", gm);
 	}
 	
 }

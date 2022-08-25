@@ -321,12 +321,11 @@ public class GroupController {
 	
 
 	@RequestMapping("exit.gr")
-	public String exit(int groupNo, Model model) {
-		
-		int result = groupService.exitGroup(groupNo);
-		
+	public String exit(GroupMember gm, Model model) {
+		System.out.println(gm.getUserId());
+		int result = groupService.exitGroup(gm);
 		if(result > 0) {
-			return "redirect:groupRoom.gr"; // 쿼리스트링으로 전달
+			return "redirect:groupRoom.gr";
 		}else { 
 			model.addAttribute("errorMsg","그룹방 추가 실패");
 			return "common/errorPage";

@@ -19,6 +19,7 @@
                 	<c:if test="${loginUser.userId eq m.userId and m.userRank eq '관리자'}"> 
                 		<a onclick="settingForm();"><span class="profile-member-setting">
                                <!-- 방장인경우에만 그룹 설정 버튼 활성화 -->
+                               
                                <i class="uil uil-cog"></i>그룹 설정</span>
                            </a>    
                 	</c:if>
@@ -43,8 +44,9 @@
         <input type="hidden" name="groupNo" value="${g.groupNo}">
     </form>
     
-    <form id="exitForm" method="post">
+    <form id="exitForm" method="get">
         <input type="hidden" name="groupNo" value="${g.groupNo}">
+        <input type="hidden" name="userId" value="${loginUser.userId}">
     </form>
     
     <script>
@@ -52,8 +54,12 @@
             $('#settingForm').attr('action', 'setting.gr').submit();
         }
         
-        
         function exitForm(){
-        	 $('#exitForm').attr('action', 'exit.gr').submit();
+            $('#exitForm').attr('action', 'exit.gr').submit();
         }
+        	
+        
+        
+        
+        
    	</script>

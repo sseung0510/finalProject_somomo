@@ -297,8 +297,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 	
 	@Override
-	public int exitGroup(int groupNo) {
-		return groupDao.exitGroup(sqlSession, groupNo);
+	public int exitGroup(GroupMember gm) {
+		return groupDao.exitGroup(sqlSession, gm);
 	}
 
 	

@@ -58,7 +58,7 @@ public interface GroupService {
 	ArrayList<GroupMember> selectMemberList(int groupNo);
 	
 	//그룹방 탈퇴
-	int exitGroup(int groupNo);
+	int exitGroup(GroupMember gm);
 	
 	// 가입 요청 카운트
 	int countApplication(int groupNo);

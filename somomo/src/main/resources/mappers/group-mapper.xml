@@ -449,12 +449,14 @@
 	</insert>
 	
 	
-	<delete id="exitGroup" parameterType="_int">
+	<delete id="exitGroup" parameterType="groupMember">
 		DELETE
 		 FROM
 		 	  GROUP_MEMBER
 		 WHERE
 		 	  GROUP_NO = #{groupNo}
+		 AND
+		 	  USER_ID = #{userId}
 	
 	</delete>
 	
