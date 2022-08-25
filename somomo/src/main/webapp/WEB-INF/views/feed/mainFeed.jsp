@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <!----------- CSS --------------->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.1.1">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.1.2">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!----------- 아이콘 CSS 링크 version 2------->
@@ -537,7 +537,7 @@
     </div>
     <!-- 오른쪽 사이드 바 끝-->
 	
-	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/feed.js?ver=1.1.0"></script>
 	
 	<!-- 카카오맵 js-->
 	<script>

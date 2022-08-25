@@ -617,7 +617,7 @@
 				B.GROUP_NO
   			 FROM 
   			 	GROUP_ATTACHMENT A 
-    RIGHT JOIN GROUP_BOARD B ON A.BOARD_NO = B.BOARD_NO 
+    LEFT JOIN GROUP_BOARD B ON A.BOARD_NO = B.BOARD_NO 
     			WHERE 
     			GROUP_NO = #{groupNo}
     </select>

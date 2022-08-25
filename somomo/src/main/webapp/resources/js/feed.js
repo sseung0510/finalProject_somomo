@@ -40,6 +40,19 @@ window.addEventListener('click', function(e){
 
 const modeToggle = body.querySelector(".mode-toggle");
 
-modeToggle.addEventListener("click", ()=>{
-     body.classList.toggle("dark");
+
+// 다크모드 클릭한 순간 localStorage에 저장하여  유지되게 하기
+
+modeToggle.addEventListener("click", () =>{
+	body.classList.toggle("dark");
+    if(body.classList.contains("dark")){
+        localStorage.setItem("mode", "dark");
+    }else{
+        localStorage.setItem("mode", "light");
+    }
 });
+
+let getMode = localStorage.getItem("mode");
+if(getMode && getMode ==="dark"){
+    body.classList.toggle("dark");
+}

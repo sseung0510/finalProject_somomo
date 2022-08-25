@@ -841,6 +841,7 @@ nav.close ~ .main-content .main-feed{
     pointer-events: visible;
     top: 100%;
     transition: var( --tran-03);
+    z-index: 100;
 }
 
 .profile .profile-link li{
@@ -988,6 +989,7 @@ body.dark
 
 body.dark .profile .profile-link.show {
 	background : white;
+	z-index: 100;
 }
 
 body.dark .close {
