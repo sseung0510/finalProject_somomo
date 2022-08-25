@@ -438,9 +438,9 @@ public class FeedController {
 			if(m.getAge() < minAge  || maxAge < m.getAge()) isSatisfy = false;
 		}
 		
-		// 모집나이 조건 있는 경우는 바로 전에 걸러졌고, 모집나이+성별 제한 없는 경우도 처음에 걸러졌기 때문에
-		// 모집성별은 A인지 확인할 필요가 없고 F,M만 비교하면 됨
-		if(!m.getGender().equals(fb.getMeetGender())) isSatisfy = false;
+		// 모집성별 조건 있을 경우
+		if(!fb.getMeetGender().equals("A")
+				&&!m.getGender().equals(fb.getMeetGender())) isSatisfy = false;
 		
 		return isSatisfy;
 	}

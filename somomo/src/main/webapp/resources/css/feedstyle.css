@@ -561,6 +561,7 @@ nav.close ~ .main-content .main-feed{
 
 /* ============= 모임모집글 관련  =============*/
 .gather{ color: orange;}
+.gather-close{ color: darkgray;}
 /*모임모집 모달창 왼쪽(카카오맵) 오른쪽(작성폼)*/
 .md-left{
 	width:48%;
@@ -632,7 +633,7 @@ nav.close ~ .main-content .main-feed{
 	text-align: left;
 	overflow: hidden;
 	max-height: 18.59px;
-	font-size: 13px;
+	font-size: 15px;
 	white-space: normal;
 	max-width: 90%;
 	padding-right: 3px;
@@ -646,6 +647,11 @@ nav.close ~ .main-content .main-feed{
 	top: 15px;
 }
 
+.writeInfo-date{
+	margin-left:5px;
+	color:gray;
+	font-size:14px;
+}
 .upProfile {
 	margin-left: -27px;
 }

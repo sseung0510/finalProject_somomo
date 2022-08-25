@@ -105,7 +105,7 @@
 										<b class="gather">모집중&nbsp;</b>
 									</c:when>
 									<c:otherwise>
-										<b>모집마감&nbsp;</b>
+										<b class="gather-close">모집마감&nbsp;</b>
 									</c:otherwise>
 								</c:choose>
 								<span class="title">${fb.boardTitle}</span>

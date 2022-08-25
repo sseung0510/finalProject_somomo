@@ -90,7 +90,7 @@
 </style>
 	
 	<!----------- CSS --------------->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.1.1">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedstyle.css?ver=1.1.4">
 	<!----------- 아이콘 CSS 링크 ------->
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 	<!----------- 아이콘 CSS 링크 version 2------->
@@ -178,7 +178,7 @@
         						result += 	'<div id="replyNo' + list[i].replyNo + '" class="replyWrap re-reply" style="margin-left:35px;">';
         					}
         					// 공통 부분(작성자, 작성일, 프로필사진, 댓글 내용)
-       						result +=			'<div class="writeInfo">' + list[i].nickname + '<span style="margin-left:5px; color:gray;">' + list[i].replyDate + '</span>'
+       						result +=			'<div class="writeInfo">' + list[i].nickname + '<span class="writeInfo-date">' + list[i].replyDate + '</span>'
        						        +				'<a class="upProfile">'
 		                            +					'<span class="upProfileImg">'
 		                            +						'<img src="' + list[i].profileImg + '">'    
