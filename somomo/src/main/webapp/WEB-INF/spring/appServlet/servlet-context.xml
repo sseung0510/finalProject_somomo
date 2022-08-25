@@ -31,4 +31,13 @@
 		<websocket:mapping handler="chatServer" path="cs"/>
 	</websocket:handlers>
 	
+	<!-- 인터셉터 등록 -->
+	<interceptors>
+	  	<interceptor>
+	  		<mapping path="/*.fd" />
+	  		<!-- <mapping /> 추가로 등록 가능-->
+	  		<beans:bean class="com.kh.somomo.common.interceptor.LoginInterceptor" id="loginInterceptor" />
+	  	</interceptor>
+	  </interceptors>
+	
 </beans:beans>
