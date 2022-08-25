@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.9">
     <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.3">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
-    <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.0.5">
+    <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.1.1">
     <!----------- 아이콘 CSS 링크 ------->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <script src="https://kit.fontawesome.com/567fbbaed5.js" crossorigin="anonymous"></script>
@@ -21,6 +21,11 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+     <!-- Moment 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
     <title>소모모 - ${g.groupName}</title> 
 </head>
 <body>
@@ -495,6 +500,78 @@
 	</script>
     
     
+    
+    <script>
+		// 다가오는 일정 목록 JS
+		$(function(){
+			calendarEventList();
+		})
+
+		function calendarEventList(){
+				$.ajax({
+					url:"calendarEventListEntire.gr",
+					data:{
+						groupNo : "${g.groupNo}"
+					}, success: function(data){
+						console.log(data);
+						var result="";
+						var diff =[];
+						var somomo =[];
+						var now = new Date();
+						var year = now.getFullYear(); // 현재연도
+						var month = now.getMonth()+1; // 월
+						var day = now.getDate(); // 일
+						for(var i in data){
+						
+							diff[i] = data[i].startDate.substr(0,10);
+							somomo[i] = diff[i].split('-');
+							
+							var stDate = new Date(somomo[i][0],somomo[i][1],somomo[i][2]);
+							var endDate = new Date(year, month, day);
+							var btMs =  endDate.getTime() - stDate.getTime();
+							var btDay = btMs / (1000*60*60*24); // 차이 일수로 계산
+							if(btDay <= 14) {
+								
+								/*
+								data[i].title
+								var somomoDay = moment(diff[i]).format("Do");
+								var momoDay = moment(diff[i]).format('dddd');
+								*/
+								
+							result += '<ul>'
+								   +  	'<li>'
+								   + 		 '<a>'
+								   +  			'<div class="eventCont">' + moment(diff[i]).format('dddd')
+								   +  			'<span>' + moment(diff[i]).format("Do") + '</span>'
+								   +  			'</div>'
+								   +  			'<div class="cont">'
+								   +  			'<strong>' + data[i].title + '</strong>'
+								   +  			'</div>'
+								   +  		'</a>'
+								   +  	'</li>'
+								   +  '</ul>'
+						
+							
+							}
+							
+						
+							
+						
+						}
+						
+						
+						$('.schedule-body').append(result);
+						
+						
+						
+					}, error:function(){
+						alert("ajax 통신 실패");
+					}
+				})
+			}
+	
+</script>
+	
     
     
 </body>

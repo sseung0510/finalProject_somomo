@@ -2,12 +2,12 @@
 document.addEventListener('DOMContentLoaded', function() {
 		  $(function () {
 		  				
-		  				var CalendarNo = $('input[name=calendarNo').val();
+		  				
 		                var request = $.ajax({
 		                    url: "selectCalendarEvents.gr", 
 		                    data : {
 		                    
-		                    "CalendarNo" : CalendarNo
+		                    calendarNo : ${c.calendarNo}
 		                    
 		                    },
 		                    
@@ -287,115 +287,3 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		
 		
-
-
-		
-		
-		
-		// $(document).ready(function () {
-		
-		//   var i=0;
-		//   $("button").click(function () {
-		
-		//      if(i==0){
-		//          $(this).css("background-color", "#FFF");
-		//          i=1;
-		//      }
-		//      else{
-		//          $(this).css("background-color", "#000"); 
-		//          i=0; 
-		//      }
-		//   });
-		// });
-
-
-  
-
-
-		
-		// $(document).ready(function(){
-		//   $('#calendar').fullCalendar({
-		//     header {
-		//       'left'
-		//     }
-		//   })
-		// });
-		
-
-
-
-
-
-
-
-
-// document.addEventListener('DOMContentLoaded', function() {
-
-
-  // var PlanInsertPopup = function(element){
-  //   this.title = "title";
-  
-  //   this.calendar = undefined;
-  //   this.arg = undefined;
-
-  //   this.show = (cal, arg)=>{
-  //       this.calendar = cal;
-  //       this.arg = arg;
-  //       console.log(JSON.stringify(arg.start))
-  //   }
-
-  //   this.onOk = ()=>{
-  //     console.log(this.calendar);
-  //     this.calendar.addEvent({
-  //             title: this.title,
-  //             start: new Date(2020,8, 11,10,10,10 ),
-  //             end: this.arg.end,
-  //             allDay: this.arg.allDay,
-  //           });
-  //   }
-  // }
-
-  // var calendarEl = document.getElementById('calendar');
-
-  // var insertPopup = new PlanInsertPopup();
-
-
-  // var calendar = new FullCalendar.Calendar(calendarEl, {
-  //   headerToolbar: {
-  //     left: 'prev,next today',
-  //     center: 'title',
-  //     right: 'dayGridMonth'
-  //   },
-  //   locale : 'ko',
-
-  //   navLinks: true, // can click day/week names to navigate views
-  //   selectable: true, // 이건필요함
-  //   selectMirror: false,
-  //   select: function(arg) {
-      // insertPopup.show(calendar, arg);
-      // insertPopup.onOk();
-      // calendar.unselect()
-  //   },
-//     eventClick: function(arg) {
-//     console.log("BBBBB : " + typeof(arg));
-//     console.log(arg);
-//         arg.event.remove()
-//     },
-//     editable: true,
-//     dayMaxEvents: true, // allow "more" link when too many events
-//     events: [      
-//       {
-//         title: 'Birthday Party',
-//         start: '2020-09-13T07:00:00'
-//       },
-//       {
-//         title: 'Click for Google',
-//         url: 'http://google.com/',
-//         start: '2020-09-28'
-//       }
-//     ]
-//   });
-
-//   calendar.render();
-// });
-

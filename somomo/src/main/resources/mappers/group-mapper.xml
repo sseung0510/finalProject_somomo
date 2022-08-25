@@ -93,7 +93,6 @@
 		<result column="COLOR" property="color" />
 		<result column="TEXT_COLOR" property="textColor" />
 		<result column="ALLDAY" property="allDay" />
-		
 	</resultMap>
 	
 	<resultMap id="replyResultSet" type="reply">
@@ -622,6 +621,21 @@
     			GROUP_NO = #{groupNo}
     </select>
     
+    
+    <select id="calendarEventListEntire" resultMap="groupCalendarEventResultSet">
+    
+    SELECT 
+    		A.TITLE, 
+    		A.START_DATE, 
+    		A.CALENDAR_NO
+   	   FROM CALENDAR_PLAN A 
+   LEFT JOIN GROUP_CALENDAR B ON A.CALENDAR_NO = B.GROUP_NO 
+   	 WHERE GROUP_NO = #{groupNo}
+    		 
+    			
+    
+    
+    </select>
     
     
     

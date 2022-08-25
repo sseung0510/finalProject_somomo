@@ -32,6 +32,19 @@
   border-bottom: 1px solid var(--grey-color) ;
 }
 
+.banner .eventtit {
+	
+  height: 34px;
+  padding-right: 14px;
+  line-height: 35px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid var(--grey-color) ;
+	
+}
+
+
 
 .member-profile img {
   width: 30px;
@@ -71,4 +84,51 @@
 
 .member-grade {
   font-size: 12px;
+}
+
+.schedule-body ul{
+	padding : 14px 14px 14px 0;
+}
+
+.schedule-body a {
+	display : flex;
+}
+
+.eventCont {
+	position: relative;
+    display: block;
+    min-width: 18px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 400;
+    color: #333;
+	
+}
+
+.eventCont span{
+	position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fc6342!important;
+}
+
+
+.cont {
+    padding : 3px 0 0 20px;
+    display: block;
+}
+
+.cont strong{
+	margin-bottom: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    display: block;
+    overflow: hidden;
+    max-width: 100%;
 }

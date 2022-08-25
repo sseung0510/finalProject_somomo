@@ -539,9 +539,9 @@ public class GroupController {
 
 		int result = groupService.insertCalendarEvent(gp);
 		redirectAttributes.addAttribute("groupNo", groupNo);
-		return "redirect:/calendar.gr";
+		return "redirect:/calendar.gr?cNo=" + groupNo;
 	}
-	
+//	 "redirect:setting.gr?groupNo=" + g.getGroupNo();
 
 	
 	// 사진첩
@@ -562,7 +562,6 @@ public class GroupController {
 	@ResponseBody
 	@RequestMapping(value = "groupGalleryAttachmentList.gr", produces="application/json; charset=UTF-8")
 	public String groupGalleryAttachmentList(@RequestParam(value = "groupNo") int groupNo) {
-		System.out.println(groupService.groupGalleryAttachmentList(groupNo));
 		return new Gson().toJson(groupService.groupGalleryAttachmentList(groupNo));
 	}
 	
@@ -577,10 +576,10 @@ public class GroupController {
 	
 	@ResponseBody
 	@RequestMapping(value = "selectCalendarEvents.gr", produces="application/json; charset=UTF-8")
-	public List<Map<String, Object>> calendarEventList(@RequestParam(value = "CalendarNo") String CalendarNo) {
+	public List<Map<String, Object>> calendarEventList(@RequestParam(value = "calendarNo") int calendarNo) {
 		
 //		System.out.println(CalendarNo);
-		int cNo = Integer.parseInt(CalendarNo);
+		int cNo = calendarNo;
 		
 		List<CalendarPlan> eventList = groupService.selectCalendarEventList(cNo);
 		
@@ -616,6 +615,21 @@ public class GroupController {
 
         return jsonArray;
 	}
+	
+	
+	
+	// 전체 그룹 일정 불러오기
+	
+	@ResponseBody
+	@RequestMapping(value="calendarEventListEntire.gr", produces="application/json; charset=UTF-8")
+	public String calendarEventListEntire(@RequestParam(value = "groupNo") int groupNo) {
+		System.out.println(groupService.calendarEventListEntire(groupNo));
+		return new Gson().toJson(groupService.calendarEventListEntire(groupNo));
+	}
+	
+	
+	
+	
 	
 	// 그룹방 멤버
 	@RequestMapping("member.gr")

@@ -291,5 +291,10 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.groupGalleryAttachmentList(sqlSession, groupNo);
 	}
 
+	@Override
+	public ArrayList<CalendarPlan> calendarEventListEntire(int groupNo) {
+		return groupDao.calendarEventListEntire(sqlSession, groupNo);
+	}
+
 	
 }

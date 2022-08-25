@@ -50,14 +50,14 @@
                             </i>
                         </div>  -->
                     </div>
-            
+       
             <!-- ------게시물 내용---- -->
                     <div class="feed-content">
                             <p>${gr.boardContent}</p>
                             <c:if test="${not empty atList}">
                                 <c:forEach var="at" items="${atList}">
                                     <c:if test="${at.boardNo eq gr.boardNo}">
-                                        <img src="${at.changeName}" style="width:100%; height:200px;">
+                                        <img src="${at.changeName}" style="width:48%; height:200px; border-radius: 10px; margin: 2px 0;">
                                     </c:if>
                                 </c:forEach>
                             </c:if>

@@ -163,5 +163,10 @@ public interface GroupService {
 	ArrayList<Attachment> groupGalleryAttachmentList(int groupNo);
 
 	
+	// 그룹별 일정 조회
+	ArrayList<CalendarPlan> calendarEventListEntire(int groupNo);
+	
+
+	
 	
 }

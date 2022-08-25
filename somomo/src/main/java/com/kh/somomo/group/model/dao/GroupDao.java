@@ -235,5 +235,9 @@ public class GroupDao {
 	public ArrayList<Attachment> groupGalleryAttachmentList(SqlSessionTemplate sqlSession, int groupNo) {
 		return (ArrayList)sqlSession.selectList("groupMapper.selectGalleryAttachmentList", groupNo);
 	}
+
+	public ArrayList<CalendarPlan> calendarEventListEntire(SqlSessionTemplate sqlSession, int groupNo) {
+		return (ArrayList)sqlSession.selectList("groupMapper.calendarEventListEntire", groupNo);
+	}
 	
 }

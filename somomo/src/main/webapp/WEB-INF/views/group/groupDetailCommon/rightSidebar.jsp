@@ -49,20 +49,18 @@
 		</div>
 		
 		
+		
+		
 		<div class="eventSchedule-wrap">
 			<div class="eventSchedule">
-				<h2 class="tit"></h2>
-				<div class="body">
-					<ul>
-						<li>
-							<a>
-								<div class="eventCont"></div>
-								<div class="cont"></div>
-							</a>
-						</li>
-					</ul>
+				<h2 class="eventtit"><i class="uil uil-schedule"></i>다가오는 일정</h2>
+				<div class="schedule-body">
+					
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+
