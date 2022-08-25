@@ -14,7 +14,7 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <!-- 카카오맵  -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kakaomap.css">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d76ad31ca1bc9ec945f62ad35d36701c&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=자바스크립트키등록필요c&libraries=services"></script>
 	<!-- jquery -->
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
  	

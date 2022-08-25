@@ -20,7 +20,9 @@
 	<nav>
 		<div class="logo-name">
 			<div class="logo-image">
-				<img src="${pageContext.request.contextPath}/resources/img/web_logo.jpg" alt="peach">
+				<a href="main.fd">
+					<img src="${pageContext.request.contextPath}/resources/img/web_logo.jpg" alt="peach">
+				</a>
 			</div>
 			
 			<span class="logo_name">SoMoMo</span>

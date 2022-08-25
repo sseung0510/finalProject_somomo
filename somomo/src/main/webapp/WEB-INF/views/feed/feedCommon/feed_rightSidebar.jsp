@@ -9,8 +9,8 @@
 <style>
 	.search-area{
     	position: relative;
-    	top: 75px;
-    	left: 15%;
+    	top: 35px;
+    	left: 2%;
     	background-color:rgba(248, 230, 226, 0.863);
     	padding : 15px;
     	border-radius: 10px;
@@ -57,6 +57,32 @@
             </i>
         </div>
         
+        <%-- boardType이 존재할 경우, region과 keyword도 존재함 --%>
+		<c:if test="${not empty boardType}">
+			<script>
+				$(function(){
+					// 글 종류 세팅
+					$('.search-boardType input[value=${boardType}]').attr('checked', true);
+					
+					// 검색 지역 세팅
+					let regionNoList = ${regionNoList}; // 선택지역 목록 가져오기
+					
+					for(let i = 0; i < regionNoList.length; i++){
+						$('.regionSelect').each(function(){
+							if(regionNoList[i] == $(this).val()){ // 선택지역의 값과 동일하면
+								$('.regionAll').prop('checked', false); // 전체지역 체크 해제
+								$(this).prop('checked', true); // 선택지역 체크
+							}
+						});
+					}
+
+					// 검색 내용 세팅
+					$('.search-keyword input').val('${keyword}');
+				})
+			</script>
+		</c:if>
+        	
+        
         <div class="search-area">
         	<form action="search.fd" method="get">
 
@@ -72,9 +98,9 @@
 	        	
 	        	<div class="search-region">
 	        		<div ><b>검색 지역</b></div>
-	        		<input type="checkbox" name="regionNo" value="0" checked>전체지역<br>
+	        		<input type="checkbox" class="regionAll" name="regionNo" value="0" checked>전체지역<br>
 	        		<c:forEach var="t" items="${rList}">
-	        			<input type="checkbox" name="regionNo" value="${t.regionNo}">${t.regionName}
+	        			<input type="checkbox"  class="regionSelect" name="regionNo" value="${t.regionNo}">${t.regionName}
 	        		</c:forEach>
 	        	</div>
 	        	
@@ -87,8 +113,30 @@
 		        	<button type="submit" class="searchBtn btnPink-sm" style="text-align:center;">검색</button>
 	        	</div>
         	</form>
-        	
-
         </div>
+        
+        <script>
+        	$(function(){
+        		// 검색지역 > 전체지역 클릭했을 경우
+				$('.regionAll').click(function(){
+					if($('.regionAll').is(':checked')){ // 전체지역 체크했다면
+						$('.regionSelect').prop('checked', false); // 나머지 지역 체크 해제
+					}
+				});
+				
+        		// 검색지역 > 전체지역 외의 지역(선택지역)을 클릭했을 경우
+				$('.regionSelect').click(function(){
+					if($('.regionSelect').is(':checked')){ // 다른 지역 체크했다면
+						$('.regionAll').prop('checked', false); // 전체지역 체크 해제
+					}
+					
+					let checked = $('input[class=regionSelect]:checked').length; // 다른 지역 체크된 개수가
+					if(checked == 0){ // 하나도 없다면
+						$('.regionAll').prop('checked', true); // 전체지역 체크
+					}
+				});
+        	});
+        </script>
+        
 </body>
 </html>
