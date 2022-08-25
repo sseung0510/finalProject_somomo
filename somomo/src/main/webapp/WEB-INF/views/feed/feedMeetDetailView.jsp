@@ -15,7 +15,7 @@
 	<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 	<!-- 카카오맵  -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kakaomap.css">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=앱키등록필요&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=자바스크립트키등록필요&libraries=services"></script>
 	<!-- jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		
@@ -140,7 +140,7 @@
 				$('#updateMeetBoardModal').modal('toggle'); // 수정 모당창 띄우기
 				setTimeout(function(){
 					map.relayout();
-					map.setCenter(new kakao.maps.LatLng(${fb.longitude}, ${fb.latitude}));	
+					map.setCenter(new kakao.maps.LatLng($('#fb-longitude').val(), $('#fb-latitude').val()));	
 				}, 500);
 			});
                		
@@ -272,7 +272,7 @@
     					$('#dateTimeLocal').val(data.meetDate.replace(' ', 'T'));
     					$('#keyword').val(data.meetPlace);
     					$('#mMeetPlace').val(data.meetPlace);
-    					$('#mapx').val(data.logitude);
+    					$('#mapx').val(data.longitude);
     					$('#mapy').val(data.latitude);
     					$('#mMeetTotal').val(data.meetTotal);
     					$('input[name=meetGender][value=' + data.meetGender +']').attr('checked', true);

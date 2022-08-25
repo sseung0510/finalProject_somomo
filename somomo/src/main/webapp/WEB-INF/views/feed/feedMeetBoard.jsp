@@ -83,6 +83,8 @@
 	</div>
 </div>
 
+<input type="hidden" id="fb-longitude" value="${fb.longitude}">
+<input type="hidden" id="fb-latitude" value="${fb.latitude}">
 
 <script>
 	var markerPosition  = new kakao.maps.LatLng(${fb.longitude}, ${fb.latitude}); 
