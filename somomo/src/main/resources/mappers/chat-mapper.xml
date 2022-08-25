@@ -18,6 +18,7 @@
 		<result column="USER_ID" property="userId"/>
 		<result column="USER_RANK" property="userRank"/>
 		<result column="INSERT_DATE" property="insertDate"/>
+		<result column="CHAT_COUNT" property="chatCount"/>
 		<result column="PROFILE_IMG" property="profileImg"/>
 		<result column="NICKNAME" property="nickname"/>
 	</resultMap>
@@ -31,6 +32,7 @@
 		<result column="CHAT_CONTENT" property="chatContent"/>
 		<result column="CHAT_DATE" property="chatDate"/>
 		<result column="INSERT_DATE" property="insertDate"/>
+		<result column="CHAT_COUNT" property="chatCount"/>
 	</resultMap>
 	
 	<insert id="insertMeetBoard" parameterType="feedBoard">
@@ -142,7 +144,8 @@
                ROOM_THUMBNAIL, 
                CHAT_CONTENT, 
                CHAT_DATE, 
-               INSERT_DATE
+               INSERT_DATE, 
+               CHAT_COUNT
 		  FROM
 		       CHAT_ROOM
 		  JOIN 
@@ -168,7 +171,7 @@
 		       USER_ID = #{userId}
          ORDER 
             BY 
-               CHAT_DATE DESC NULLS LAST
+               CHAT_DATE DESC
 	</select>
 	
 	<select id="selectChatInChatRoom" parameterType="chatMember" resultMap="chatResultSet">
@@ -200,6 +203,17 @@
             BY 
                CHAT_NO ASC
 	</select>
+	
+	<update id="clearChatCount" parameterType="chatMember">
+	    UPDATE
+		       CHAT_MEMBER
+	       SET
+		       CHAT_COUNT = 0
+	     WHERE
+		       USER_ID = #{userId}
+		   AND 
+		       ROOM_NO = #{roomNo}
+	</update>
 	
 	<select id="selectUserInChatRoom" parameterType="_int" resultMap="chatMemberResultSet">
 		SELECT 
@@ -252,6 +266,17 @@
 		       )
 	</insert>
 	
+	<update id="insertChatCount" parameterType="chat">
+	    UPDATE
+		       CHAT_MEMBER
+	       SET
+		       CHAT_COUNT = CHAT_COUNT + 1
+	     WHERE
+		       USER_ID != #{chatWriter}
+		   AND 
+		       ROOM_NO = #{roomNo}
+	</update>
+	
 	<select id="selectChat" parameterType="chat" resultMap="chatResultSet">
 		SELECT 
 		       CHAT_NO, 
@@ -288,5 +313,15 @@
 		 WHERE 
 		       ROWNUM = 1
 	</select>
+	
+	<delete id="leaveChatRoom" parameterType="chatMember">
+		DELETE 
+		  FROM 
+		       CHAT_MEMBER
+		 WHERE 
+		       USER_ID = #{userId}
+		   AND 
+		       ROOM_NO = #{roomNo}
+	</delete>
 	
 </mapper>

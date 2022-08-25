@@ -121,4 +121,51 @@ public class ChatController {
 	public String ajaxSelectUserInChatRoom(int roomNo) {
 		return new Gson().toJson(chatService.selectUserInChatRoom(roomNo));
 	}
+	
+	// 채팅방 나가기
+	@ResponseBody
+	@RequestMapping("leaveChatRoom.ch")
+	public String ajaxLeaveChatRoom(int roomNo, String userId) {
+		
+		ChatMember cm = new ChatMember();
+		
+		cm.setRoomNo(roomNo);
+		cm.setUserId(userId);
+		
+		return chatService.leaveChatRoom(cm) > 0 ? "success" : "fail";
+	}
+	
+	// 채팅방 조회 Ajax
+	@ResponseBody
+	@RequestMapping(value = "selectMyChatRoom.ch", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectMyChatRoom(String userId) throws ParseException {
+		
+		ArrayList<ChatRoom> myChatRoomList =  chatService.selectMyChatRoom(userId);
+		
+		for(ChatRoom cr : myChatRoomList) {
+			if (cr.getChatDate() != null) {
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				
+				Date chatDate = sdf.parse(cr.getChatDate());
+				Date insertDate = sdf.parse(cr.getInsertDate());
+				
+				// 사용자가 채팅방에 입장한 일시보다 해당 채팅방의 마지막 메시지가 온 일시가
+				int result = chatDate.compareTo(insertDate);
+				
+				if (result < 0) { // 이전이라면 해당 채팅방의 채팅목록에서 마지막 메시지와 메시지가 온 시간을 보여주지 않음
+					cr.setChatContent(null);
+					cr.setChatDate(null);
+				}
+				if (cr.getChatDate() != null) {
+					cr.setChatDate(Time.getDiffTime(cr.getChatDate()));
+				}
+			}
+			if (cr.getRoomThumbnail() == null) {
+				cr.setRoomThumbnail("resources/img/web_logo.jpg");
+			}
+		}
+		
+		return new Gson().toJson(myChatRoomList);
+	}
 }

@@ -26,4 +26,6 @@ public interface ChatService {
 	int insertChat(Chat c);
 
 	Chat selectChat(Chat c);
+
+	int leaveChatRoom(ChatMember cm);
 }

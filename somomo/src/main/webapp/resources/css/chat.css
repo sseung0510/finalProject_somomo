@@ -495,7 +495,7 @@ body.dark .close {
     max-height: 0;
     overflow: hidden;
     background-color: white;
-    z-index: 1;
+    z-index: 100;
     position: relative;
     border-bottom: 1px solid var(--border-color);
 }
@@ -801,7 +801,7 @@ input[name="chat-room-flag"] {
     border-radius: 10px;
     background-color: white;
     box-shadow: 2px 2px 4px 0 grey;
-    z-index: 2;
+    z-index: 101;
     border: 1px solid var(--border-color);
 }
 .contextmenu {
@@ -822,7 +822,7 @@ input[name="chat-room-flag"] {
     top: 0;
     left: 0;
     display: none;
-    z-index: 3;
+    z-index: 102;
 }
 .modal-wrap {
     width: 330px;

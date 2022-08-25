@@ -24,4 +24,5 @@ public class ChatRoom {
 	
 	// CHAT_MEMBER 테이블 JOIN 시 가져올 값
 	private String insertDate;
+	private int chatCount;
 }

@@ -53,6 +53,9 @@ public class ChatServiceImpl implements ChatService{
 
 	@Override
 	public ArrayList<Chat> selectChatInChatRoom(ChatMember cm) {
+		
+		chatDao.clearChatCount(sqlSession, cm);
+		
 		return chatDao.selectChatInChatRoom(sqlSession, cm);
 	}
 
@@ -67,12 +70,22 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	@Override
+	@Transactional
 	public int insertChat(Chat c) {
-		return chatDao.insertChat(sqlSession, c);
+		
+		int result1 = chatDao.insertChat(sqlSession, c);
+		int result2 = chatDao.insertChatCount(sqlSession, c);
+		
+		return result1 * result2;
 	}
 
 	@Override
 	public Chat selectChat(Chat c) {
 		return chatDao.selectChat(sqlSession, c);
+	}
+
+	@Override
+	public int leaveChatRoom(ChatMember cm) {
+		return chatDao.leaveChatRoom(sqlSession, cm);
 	}
 }
