@@ -255,13 +255,17 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.matchGroup(sqlSession, inviteCode);
 	}
 
-	@Override
-	@Transactional
+
+@Override
 	public int matchJoinApply(GroupMember gm) {
 		
 		int result = groupDao.matchJoinApply(sqlSession, gm);
-		int result2 = groupDao.delteApplyInfo(sqlSession, gm);
-		int result3 = groupDao.insertRoomMember(sqlSession, gm);
+		int result2 = 0;
+		int result3 = 0;
+		if (result > 0) {
+			result2 = groupDao.delteApplyInfo(sqlSession, gm);
+			result3 = groupDao.insertRoomMember(sqlSession, gm);			
+		}
 		
 		return result*result2*result3;
 	}

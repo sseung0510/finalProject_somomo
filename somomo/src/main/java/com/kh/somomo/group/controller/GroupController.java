@@ -707,8 +707,7 @@ public class GroupController {
 			if(result > 0) {
 				session.setAttribute("alertMsg", "그룹가입 성공!!");
 			} else {
-				System.out.println("셋중 하나 실패했다면...에러");
-				System.out.println("insertRoomMember는 실행 되네");
+				session.setAttribute("alertMsg", "그룹가입 실패!!");
 			}
 		}else {
 			session.setAttribute("alertMsg", "그룹가입 실패!!");
@@ -716,6 +715,22 @@ public class GroupController {
 		
 		return "redirect:groupRoom.gr";
 	}
+	
+	@ResponseBody
+	@RequestMapping("reject")
+	public String rejectMember(GroupMember applyInfo) {
+		
+		int result = groupService.delteApplyInfo(applyInfo);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+		
+		
+	}
+
 	
 	//////////////////////////////// 
 	public boolean checkDefaultImg(HttpSession session, String originFile) {

@@ -361,6 +361,36 @@
 				},
 				success : function(result){
 					if(result == "success"){
+						alert('가입 승인')
+						getApplicationList();
+						location.reload();
+					}
+					else{
+						
+					}
+				},
+				error : function(){
+					console.log("통신실패");
+				}
+			})
+		})
+
+		$(document).on('click', '.rejectApply', function(){
+			const $applyNo = $(this).siblings().eq(0).val();
+			const $userId = $(this).siblings().eq(1).val();
+			const $groupNo = $(this).siblings().eq(2).val();
+
+			$.ajax({
+				url : 'reject',
+				method : 'POST',
+				data : {
+					applyNo : $applyNo,
+					userId : $userId,
+					groupNo : $groupNo
+				},
+				success : function(result){
+					if(result == "success"){
+						alert('신청 거절!!');
 						getApplicationList();
 					}
 					else{

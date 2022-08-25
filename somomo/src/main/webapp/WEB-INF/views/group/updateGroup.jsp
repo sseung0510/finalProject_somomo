@@ -152,7 +152,6 @@
                         </div>
     
                         <div class="button-area">
-                            <button type="button" onclick="test();">테스트</button>
                             <button type="reset">취소</button>
                             <button class="" type="submit" onclick="setDefaultImg()">완료</button>
                         </div>

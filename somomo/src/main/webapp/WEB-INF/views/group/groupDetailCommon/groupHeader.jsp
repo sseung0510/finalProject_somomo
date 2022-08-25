@@ -8,7 +8,7 @@
             <div class="web-header">
                 <div class="logo-name">
                     <div class="logo-image">
-                        <a href="main.fd"><img src="resources/img/web_logo.jpg" alt=""></a>
+                        <a href="groupRoom.gr"><img src="resources/img/web_logo.jpg" alt=""></a>
                     </div>
                     <span class="logo_name">SoMoMo</span>
                 </div>

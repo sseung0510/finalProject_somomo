@@ -45,7 +45,7 @@
 					<li class="category-list category-${gc.categoryNo}" value="${gc.categoryNo}">${gc.categoryName}</li>
 					</c:forEach>
 					<li class="category-list category-100" value="100">비공개</li>
-					<div class="switch-holder">
+					<!-- <div class="switch-holder">
 						<div class="switch-label">
 							<i class="fa-solid fa-lock"></i></i><span>비공개 그룹</span>
 						</div>
@@ -53,7 +53,7 @@
 							<input type="checkbox" id="private">
 							<label for="private"></label>
 						</div>
-					</div>
+					</div> -->
 
 				</ul>
 			</div>
