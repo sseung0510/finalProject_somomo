@@ -132,3 +132,7 @@
     overflow: hidden;
     max-width: 100%;
 }
+
+.eventSchedule i {
+	margin-right : 10px;
+}

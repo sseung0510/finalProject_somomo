@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="resources/css/groupHeader.css?ver=1.0.9">
     <link rel="stylesheet" href="resources/css/style2.css?ver=1.1.5">
     <link rel="stylesheet" href="resources/css/groupLeft.css?ver=1.0.5">
-    <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.1.3">
+    <link rel="stylesheet" href="resources/css/groupRight.css?ver=1.1.4">
     <link rel="stylesheet" href="resources/css/calendar.css">
     <link rel="stylesheet" href="resources/css/calendar.main.css">
     <!----------- 아이콘 CSS 링크 ------->
@@ -292,7 +292,7 @@
 							var endDate = new Date(year, month, day);
 							var btMs =  stDate.getTime()-endDate.getTime();
 							var btDay = btMs / (1000*60*60*24); // 차이 일수로 계산
-							if(btDay <= 14 && btDay > 0) {
+							if(btDay <= 14 && btDay >= 0) {
 								
 								/*
 								data[i].title
@@ -462,7 +462,6 @@
     		 // 기본값 세팅
     		  if($('#startDate').val() == '') {
     		    var date = new Date();
-    		     console.log(moment(date).format('YYYY-MM-DD'));
     		    
     		    $("#startDate").attr('value', moment(date).format('YYYY-MM-DD'));
     		  }
@@ -484,6 +483,8 @@
     		
     		        hide();
     		        $('form').each(function(){
+    		        	$('#startTimePicker').val('');
+    		        	$('#endTimePicker').val('');
     		          this.reset();
     		        })
     		
@@ -571,6 +572,24 @@
     		  	$('#memo').focus();
     		  	return false;
     		  }
+    		  
+    		  var date1 = new Date($('#startDate').val());
+    		  var date2 = new Date($('#endDate').val());
+    		  var datesTime = $('#startTimePicker').val().substr(0,2);
+    		  var dateeTime = $('#endTimePicker').val().substr(0,2);
+    		  console.log(datesTime[0]);
+    		  if(date1 > date2) {
+    			  alert('종료시간은 시작시간 이후여야 합니다. 다시 설정해주세요');
+    			  $('#endDate').val($('#startDate').val());
+    			  return false;
+    		  }else if(date1 == date2){
+    			  if(datesTime > dateeTime){
+    				  alert('종료시간은 시작시간 이후여야 합니다. 다시 설정해주세요');
+   					  return false;
+    			  }
+    			  return true;
+    		  }
+    		  
     		  
     		  return true;
     		}
