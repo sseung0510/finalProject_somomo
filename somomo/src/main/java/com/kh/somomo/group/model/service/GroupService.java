@@ -39,6 +39,8 @@ public interface GroupService {
 	//관리 그룹방 리스트
 	ArrayList<GroupRoom> myGroupList(String userId);
 	
+	
+	
 	// ----- 그룹방 만들기 할때 필요한 메소드 ----- //
 	//그룹방 추가
 	int insertGroup(GroupRoom gr, GroupMember gm);
@@ -54,6 +56,9 @@ public interface GroupService {
 	
 	// 그룹방 멤버 리스트
 	ArrayList<GroupMember> selectMemberList(int groupNo);
+	
+	//그룹방 탈퇴
+	int exitGroup(int groupNo);
 	
 	// 가입 요청 카운트
 	int countApplication(int groupNo);

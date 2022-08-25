@@ -352,7 +352,7 @@
 		SELECT 
 			   USER_ID, 
 			   NICKNAME, 
-			   DECODE(USER_RANK, 'A', '관리자', '일반회원') AS "USER_RANK",
+			   DECODE(USER_RANK, 'A', '관리자', 'M', '일반회원') AS "USER_RANK",
 			   PROFILE_IMG
   		  FROM 
   		  	   GROUP_MEMBER
@@ -447,6 +447,16 @@
 		       #{userId}
 		       )
 	</insert>
+	
+	
+	<delete id="exitGroup" parameterType="_int">
+		DELETE
+		 FROM
+		 	  GROUP_MEMBER
+		 WHERE
+		 	  GROUP_NO = #{groupNo}
+	
+	</delete>
 	
 	<select id="countApplication" parameterType="_int" resultType="_int">
 		SELECT

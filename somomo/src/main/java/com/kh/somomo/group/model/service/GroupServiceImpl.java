@@ -295,6 +295,11 @@ public class GroupServiceImpl implements GroupService{
 	public ArrayList<CalendarPlan> calendarEventListEntire(int groupNo) {
 		return groupDao.calendarEventListEntire(sqlSession, groupNo);
 	}
+	
+	@Override
+	public int exitGroup(int groupNo) {
+		return groupDao.exitGroup(sqlSession, groupNo);
+	}
 
 	
 }

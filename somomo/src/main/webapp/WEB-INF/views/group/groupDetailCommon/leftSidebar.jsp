@@ -16,14 +16,17 @@
                 <span class="profile-member-number">멤버: ${g.memberCount}명</span>
                 
                 <c:forEach var="m" items="${mList}">
-                    <c:if test="${m.userRank eq '관리자'}">
-                        <c:if test="${loginUser.userId eq m.userId}">
-                            <a onclick="settingForm();"><span class="profile-member-setting">
-                                <!-- 방장인경우에만 그룹 설정 버튼 활성화 -->
-                                <i class="uil uil-cog"></i>그룹 설정</span>
-                            </a>                    	
-                        </c:if>
-                    </c:if>
+                	<c:if test="${loginUser.userId eq m.userId and m.userRank eq '관리자'}"> 
+                		<a onclick="settingForm();"><span class="profile-member-setting">
+                               <!-- 방장인경우에만 그룹 설정 버튼 활성화 -->
+                               <i class="uil uil-cog"></i>그룹 설정</span>
+                           </a>    
+                	</c:if>
+                	<c:if test="${loginUser.userId eq m.userId and m.userRank eq '일반회원'}">
+                		<a onclick="exitForm();"><span class="profile-member-setting">
+                			<i class="fa-solid fa-door-closed">그룹 탈퇴</i></span>
+                		</a>
+                	</c:if>
                 </c:forEach>
             </div>
             <div class="profile-button">
@@ -33,8 +36,14 @@
         </div>
     </div>
 
-    <!-- 세팅페이지로 넘어감 : 그룹방 번호 숨겨주기 위해 post로 보냈습니다.-->
+
+
+   <!-- 세팅페이지로 넘어감 : 그룹방 번호 숨겨주기 위해 post로 보냈습니다.-->
     <form id="settingForm" method="post">
+        <input type="hidden" name="groupNo" value="${g.groupNo}">
+    </form>
+    
+    <form id="exitForm" method="post">
         <input type="hidden" name="groupNo" value="${g.groupNo}">
     </form>
     
@@ -42,4 +51,9 @@
         function settingForm(){
             $('#settingForm').attr('action', 'setting.gr').submit();
         }
-    </script>
+        
+        
+        function exitForm(){
+        	 $('#exitForm').attr('action', 'exit.gr').submit();
+        }
+   	</script>
