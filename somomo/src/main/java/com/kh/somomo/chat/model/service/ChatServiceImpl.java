@@ -73,10 +73,10 @@ public class ChatServiceImpl implements ChatService{
 	@Transactional
 	public int insertChat(Chat c) {
 		
-		int result1 = chatDao.insertChat(sqlSession, c);
-		int result2 = chatDao.insertChatCount(sqlSession, c);
+		int result = chatDao.insertChat(sqlSession, c);
+		chatDao.insertChatCount(sqlSession, c);
 		
-		return result1 * result2;
+		return result;
 	}
 
 	@Override
